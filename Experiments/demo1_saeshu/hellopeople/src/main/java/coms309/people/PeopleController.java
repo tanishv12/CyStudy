@@ -15,7 +15,7 @@ import java.util.HashMap;
 /**
  * Controller used to showcase Create and Read from a LIST
  *
- * @author Vivek Bengre
+ * @author Saeshu Karthika
  */
 
 @RestController
@@ -63,6 +63,32 @@ public class PeopleController {
         return p;
     }
 
+    //THIS IS THE READ OPERATION
+    //Only to get email
+    @GetMapping("/people/{firstName}/email")
+    public String getEmail(@PathVariable String firstName) {
+        Person p = peopleList.get(firstName);
+        return p.getEmail();
+    }
+
+    @PutMapping("/people/{firstName}/email")
+    public Person updateEmail(@PathVariable String firstName, @RequestBody String email) {
+        peopleList.get(firstName).setEmail(email);
+        return peopleList.get(firstName);
+    }
+
+    @GetMapping("/people/{firstName}/role")
+    public Role getRole(@PathVariable String firstName) {
+        Person p = peopleList.get(firstName);
+        return p.getRole();
+    }
+
+    @PutMapping("/people/{firstName}/role")
+    public Person updateRole(@PathVariable String firstName, @RequestBody Role role) {
+        peopleList.get(firstName).setRole(role);
+        return peopleList.get(firstName);
+    }
+
     // THIS IS THE UPDATE OPERATION
     // We extract the person from the HashMap and modify it.
     // Springboot automatically converts the Person to JSON format
@@ -81,7 +107,6 @@ public class PeopleController {
     // We return the entire list -- converted to JSON
     // in this case because of @ResponseBody
     // Note: To DELETE we use delete method
-    
     @DeleteMapping("/people/{firstName}")
     public HashMap<String, Person> deletePerson(@PathVariable String firstName) {
         peopleList.remove(firstName);
