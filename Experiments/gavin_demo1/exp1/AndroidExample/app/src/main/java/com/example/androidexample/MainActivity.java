@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.graphics.Color;
 
 import org.w3c.dom.Text;
 
@@ -20,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);             // link to Main activity XML
 
         /* initialize UI elements */
-        messageText = findViewById(R.id.main_msg_txt);      // link to message textview in the Main activity XML
-        messageText.setText("Hello World");
+        messageText = findViewById(R.id.main_msg_txt);// link to message textview in the Main activity XM
+        messageText.setTextColor(Color.RED);
+        messageText.setText("Gavin McClure 309 Exp 1");
+
     }
 }
