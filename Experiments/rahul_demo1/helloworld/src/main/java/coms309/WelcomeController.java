@@ -14,6 +14,13 @@ class WelcomeController {
 
     @GetMapping("/{name}")
     public String welcome(@PathVariable String name) {
+
         return "Hello and welcome to COMS 309: " + name;
+    }
+
+    @GetMapping("/idea")
+    public String idea()
+    {
+        return "Welcome to cystudy, our very own app that will help you find study resources and study groups for any course taken at Iowa State ";
     }
 }

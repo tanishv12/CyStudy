@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * PetClinic Spring Boot Application.
  * 
- * @author Vivek Bengre
+ * @author Rahul Sudev
  */
 
 @SpringBootApplication
