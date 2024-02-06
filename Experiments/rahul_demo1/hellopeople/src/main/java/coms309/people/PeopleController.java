@@ -16,6 +16,7 @@ import java.util.HashMap;
  * Controller used to showcase Create and Read from a LIST
  *
  * @author Vivek Bengre
+ * @author Rahul Sudev
  */
 
 @RestController
@@ -64,6 +65,33 @@ public class PeopleController {
         return p;
     }
 
+
+    @GetMapping("/people/{firstName}/email")
+    public String getEmail(@PathVariable String firstName){
+        Person p = peopleList.get(firstName);
+        return p.getEmail();
+    }
+
+    @GetMapping("people/{firstName}/address")
+    public String getAddress(@PathVariable String firstName){
+        Person p = peopleList.get(firstName);
+        return p.getAddress();
+    }
+
+    @GetMapping("people/{firstName}/telephone")
+    public String getTelephone(@PathVariable String firstName){
+        Person p = peopleList.get(firstName);
+        return p.getTelephone();
+    }
+    @GetMapping("people/{firstName}/lastName")
+    public String getLastName(@PathVariable String firstName){
+        Person p = peopleList.get(firstName);
+        return p.getLastName();
+    }
+
+
+
+
     // THIS IS THE UPDATE OPERATION
     // We extract the person from the HashMap and modify it.
     // Springboot automatically converts the Person to JSON format
@@ -72,17 +100,50 @@ public class PeopleController {
     // in this case because of @ResponseBody
     // Note: To UPDATE we use PUT method
     @PutMapping("/people/{firstName}")
-    public Person updatePerson(@PathVariable String firstName, Person p) {
+    public Person updatePerson(@PathVariable String firstName,@RequestBody Person p) {
         peopleList.replace(firstName, p);
         return peopleList.get(firstName);
     }
+    @PutMapping("/people/{firstName}/email")
+    public Person updateEmail(@PathVariable String firstName,@RequestBody String email) {
+        peopleList.get(firstName).setEmail(email);
+        return peopleList.get(firstName);
+    }
+
+    @PutMapping("/people/{firstName}/address")
+    public Person updateAddress(@PathVariable String firstName,@RequestBody String address) {
+        peopleList.get(firstName).setAddress(address);
+        return peopleList.get(firstName);
+    }
+
+    @PutMapping("/people/{firstName}/telephone")
+    public Person updateTelephone(@PathVariable String firstName,@RequestBody String telephone) {
+        peopleList.get(firstName).setTelephone(telephone);
+        return peopleList.get(firstName);
+    }
+
+    @PutMapping("/people/{firstName}/lastName")
+    public Person updateLastName(@PathVariable String firstName,@RequestBody String lastName) {
+        peopleList.get(firstName).setLastName(lastName);
+        return peopleList.get(firstName);
+    }
+
+    @PutMapping("/people/{firstName}/userType")
+    public Person updateUserType(@PathVariable String firstName,@RequestBody userType userType) {
+        peopleList.get(firstName).setUserType(userType);
+        return peopleList.get(firstName);
+    }
+
+
+
+
 
     // THIS IS THE DELETE OPERATION
     // Springboot gets the PATHVARIABLE from the URL
     // We return the entire list -- converted to JSON
     // in this case because of @ResponseBody
     // Note: To DELETE we use delete method
-    
+
     @DeleteMapping("/people/{firstName}")
     public HashMap<String, Person> deletePerson(@PathVariable String firstName) {
         peopleList.remove(firstName);
