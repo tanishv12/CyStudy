@@ -19,7 +19,7 @@ public class ImageReqActivity extends AppCompatActivity {
     private Button btnImageReq;
     private ImageView imageView;
 
-    public static final String URL_IMAGE = "http://sharding.org/outgoing/temp/testimg3.jpg";
+    public static final String URL_IMAGE = "https://car-images.bauersecure.com/wp-images/4427/porsche_911.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
