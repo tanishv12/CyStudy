@@ -1,0 +1,141 @@
+[33mcommit a311a8670b309863498f584f15948a785d3e9d74[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Merge: 42c95d2 59d6188
+Author: Gavin_McClure <grm04@iastate.edu>
+Date:   Mon Feb 5 13:53:45 2024 -0600
+
+    Merge branch 'main' of https://git.las.iastate.edu/cs309/2024spr/mk1_1
+
+[33mcommit 42c95d209c0f254b537e32cb1e55c87f2c688641[m
+Author: Gavin_McClure <grm04@iastate.edu>
+Date:   Mon Feb 5 13:53:24 2024 -0600
+
+    experiment 3
+
+[33mcommit 59d6188bb3f787e07876542c87aeebbc1729c0b4[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Gavin McClure <grm04@iastate.edu>
+Date:   Mon Feb 5 19:51:05 2024 +0000
+
+    Update 43 files
+    
+    - /Experiments/gavin_demo1/AndroidExample/.idea/.gitignore
+    - /Experiments/gavin_demo1/AndroidExample/.idea/compiler.xml
+    - /Experiments/gavin_demo1/AndroidExample/.idea/deploymentTargetDropDown.xml
+    - /Experiments/gavin_demo1/AndroidExample/.idea/gradle.xml
+    - /Experiments/gavin_demo1/AndroidExample/.idea/migrations.xml
+    - /Experiments/gavin_demo1/AndroidExample/.idea/misc.xml
+    - /Experiments/gavin_demo1/AndroidExample/.idea/vcs.xml
+    - /Experiments/gavin_demo1/AndroidExample/gradle/wrapper/gradle-wrapper.jar
+    - /Experiments/gavin_demo1/AndroidExample/gradle/wrapper/gradle-wrapper.properties
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/drawable/ic_launcher_background.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/drawable/ic_launcher_foreground.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/layout/activity_main.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-hdpi/ic_launcher.webp
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-mdpi/ic_launcher.webp
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-xhdpi/ic_launcher.webp
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/values-night/themes.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/values/colors.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/values/strings.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/values/themes.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/xml/backup_rules.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/res/xml/data_extraction_rules.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/src/androidTest/java/com/example/androidexample/ExampleInstrumentedTest.java
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/java/com/example/androidexample/MainActivity.java
+    - /Experiments/gavin_demo1/AndroidExample/app/src/test/java/com/example/androidexample/ExampleUnitTest.java
+    - /Experiments/gavin_demo1/AndroidExample/app/src/main/AndroidManifest.xml
+    - /Experiments/gavin_demo1/AndroidExample/app/.gitignore
+    - /Experiments/gavin_demo1/AndroidExample/app/build.gradle
+    - /Experiments/gavin_demo1/AndroidExample/app/proguard-rules.pro
+    - /Experiments/gavin_demo1/AndroidExample/.gitignore
+    - /Experiments/gavin_demo1/AndroidExample/build.gradle
+    - /Experiments/gavin_demo1/AndroidExample/gradle.properties
+    - /Experiments/gavin_demo1/AndroidExample/gradlew
+    - /Experiments/gavin_demo1/AndroidExample/gradlew.bat
+    - /Experiments/gavin_demo1/AndroidExample/settings.gradle
+
+[33mcommit eff25f12ee97717489eaecf7f13d8a9c054f15be[m
+Author: Gavin_McClure <grm04@iastate.edu>
+Date:   Mon Feb 5 13:49:05 2024 -0600
+
+    experiment 2
+
+[33mcommit 9c56303b4bbd631718a73227278398cf116835c4[m
+Author: Gavin_McClure <grm04@iastate.edu>
+Date:   Mon Feb 5 13:46:52 2024 -0600
+
+    moved to exp1
+
+[33mcommit 3de0d7a1bc6c4cef41b3f3167e0414feb25653c0[m
+Author: Gavin_McClure <grm04@iastate.edu>
+Date:   Mon Feb 5 13:34:19 2024 -0600
+
+    test
+
+[33mcommit a2e15be77d3adfb845fafac643dd7a33d877f30a[m
+Author: saeshukarthika <saeshukarthika@gmail.com>
+Date:   Sun Feb 4 18:11:37 2024 -0600
+
+    Update hellopeople
+
+[33mcommit 970ff218131d3eb1bf045650dc6f6f9b7c552852[m
+Author: Rahul Sudev <rahul03@iastate.edu>
+Date:   Fri Feb 2 17:12:47 2024 -0600
+
+    Experiment 2
+
+[33mcommit bf592e5591c68a58a209eef9d8a92f1b1aa61a56[m
+Merge: c5d7889 b32bdec
+Author: saeshukarthika <saeshukarthika@gmail.com>
+Date:   Fri Feb 2 11:44:04 2024 -0600
+
+    Merge branch 'main' of https://git.las.iastate.edu/cs309/2024spr/mk1_1
+
+[33mcommit c5d7889fc8b0ebbd03bfd6b31f74bd1453c1c4dc[m
+Author: saeshukarthika <saeshukarthika@gmail.com>
+Date:   Fri Feb 2 11:43:35 2024 -0600
+
+    Update helloworld
+
+[33mcommit b32bdec173877bedd3708fe8dc9051ec5d586709[m
+Author: Rahul Sudev <rahul03@iastate.edu>
+Date:   Wed Jan 31 21:30:49 2024 -0600
+
+    Add experiment1
+
+[33mcommit 928005e697d9ee835c5d68f9910ebb06825eac11[m
+Author: Md Muzakker Hossain <muzakker@iastate.edu>
+Date:   Tue Jan 23 19:10:04 2024 +0000
+
+    Add new directory
+
+[33mcommit a64235b11284823f88e8b02655798bffb3ed2f96[m
+Author: Md Muzakker Hossain <muzakker@iastate.edu>
+Date:   Tue Jan 23 19:09:50 2024 +0000
+
+    Add new directory
+
+[33mcommit 4f6d655917c476ee323618b2c8db3427e34db7b1[m
+Author: Md Muzakker Hossain <muzakker@iastate.edu>
+Date:   Tue Jan 23 19:09:35 2024 +0000
+
+    Add new directory
+
+[33mcommit 4087e6c5a5bc0e0a588de7b74795c6506a0cc4bb[m
+Author: Md Muzakker Hossain <muzakker@iastate.edu>
+Date:   Tue Jan 23 19:09:20 2024 +0000
+
+    Add new directory
+
+[33mcommit 68708ead15a110f107a37c052fd50fa9fd26efbe[m
+Author: Md Muzakker Hossain <muzakker@iastate.edu>
+Date:   Tue Jan 23 18:26:46 2024 +0000
+
+    Initial commit
