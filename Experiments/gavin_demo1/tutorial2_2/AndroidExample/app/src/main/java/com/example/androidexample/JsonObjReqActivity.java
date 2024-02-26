@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -23,9 +24,9 @@ import java.util.Map;
 public class JsonObjReqActivity extends AppCompatActivity {
 
     private Button btnJsonObjReq;
-    private TextView msgResponse;
+    private TextView tvName, tvEmail, tvPhone;
 
-    private static final String URL_JSON_OBJECT = "https://b2463b0b-41a7-4d8b-89c9-da387fe69c74.mock.pstmn.io";
+    private static final String URL_JSON_OBJECT = "https://b2463b0b-41a7-4d8b-89c9-da387fe69c74.mock.pstmn.io/Object/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,9 @@ public class JsonObjReqActivity extends AppCompatActivity {
         setContentView(R.layout.activity_json_obj_req);
 
         btnJsonObjReq = findViewById(R.id.btnJsonObj);
-        msgResponse = findViewById(R.id.msgResponse);
+        tvName = findViewById(R.id.nameTv);
+        tvEmail = findViewById(R.id.emailTv);
+        tvPhone = findViewById(R.id.phoneTv);
 
         btnJsonObjReq.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +58,20 @@ public class JsonObjReqActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("Volley Response", response.toString());
-                        msgResponse.setText(response.toString());
+                        try {
+                            // Parse JSON object data
+                            String name = response.getString("name");
+                            String email = response.getString("email");
+                            String phone = response.getString("phone");
+
+                            // Populate text views with the parsed data
+                            tvName.setText(name);
+                            tvEmail.setText(email);
+                            tvPhone.setText(phone);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
