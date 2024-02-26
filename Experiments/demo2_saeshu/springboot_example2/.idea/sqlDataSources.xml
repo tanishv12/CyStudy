@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="67ef2cdb-d161-462e-a6d4-8410122e002a" name="DB309@coms-309-016.class.las.iastate.edu Mapping">
+      <data-sources db="7c2fb60e-9ef5-4c2b-ae22-4e891fce112e" />
+      <scope>
+        <node kind="database" negative="1" />
+      </scope>
+    </mapping>
+  </component>
+</project>
