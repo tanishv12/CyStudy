@@ -1,4 +1,4 @@
-package onetoone.Laptops;
+package onetoone.Courses;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +16,7 @@ import onetoone.Users.User;
  */ 
 
 @Entity
-public class Laptop {
+public class Course {
     
     /* 
      * The annotation @ID marks the field below as the primary key for the table created by springboot
@@ -39,7 +39,7 @@ public class Laptop {
     @JsonIgnore
     private User user;
 
-    public Laptop( double cpuClock, int cpuCores, int ram, String manufacturer, int cost) {
+    public Course(double cpuClock, int cpuCores, int ram, String manufacturer, int cost) {
         this.cpuClock = cpuClock;
         this.cpuCores = cpuCores;
         this.ram = ram;
@@ -47,7 +47,7 @@ public class Laptop {
         this.cost = cost;
     }
 
-    public Laptop() {
+    public Course() {
     }
 
     // =============================== Getters and Setters for each field ================================== //

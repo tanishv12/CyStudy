@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
-import onetoone.Laptops.Laptop;
+import onetoone.Courses.Course;
 
 /**
  * 
@@ -38,7 +38,7 @@ public class User {
      */
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "laptop_id")
-    private Laptop laptop;
+    private Course course;
 
     public User(String name, String emailId) {
         this.name = name;
@@ -83,12 +83,12 @@ public class User {
         this.ifActive = ifActive;
     }
 
-    public Laptop getLaptop(){
-        return laptop;
+    public Course getLaptop(){
+        return course;
     }
 
-    public void setLaptop(Laptop laptop){
-        this.laptop = laptop;
+    public void setLaptop(Course course){
+        this.course = course;
     }
     
 }

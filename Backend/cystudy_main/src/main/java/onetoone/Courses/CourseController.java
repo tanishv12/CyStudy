@@ -1,9 +1,8 @@
-package onetoone.Laptops;
+package onetoone.Courses;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,10 +21,10 @@ import onetoone.Users.UserRepository;
  */ 
 
 @RestController
-public class LaptopController {
+public class CourseController {
 
     @Autowired
-    LaptopRepository laptopRepository;
+    CourseRepository courseRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -34,30 +33,30 @@ public class LaptopController {
     private String failure = "{\"message\":\"failure\"}";
 
     @GetMapping(path = "/laptops")
-    List<Laptop> getAllLaptops(){
-        return laptopRepository.findAll();
+    List<Course> getAllLaptops(){
+        return courseRepository.findAll();
     }
 
     @GetMapping(path = "/laptops/{id}")
-    Laptop getLaptopById(@PathVariable int id){
-        return laptopRepository.findById(id);
+    Course getLaptopById(@PathVariable int id){
+        return courseRepository.findById(id);
     }
 
     @PostMapping(path = "/laptops")
-    String createLaptop(Laptop Laptop){
-        if (Laptop == null)
+    String createLaptop(Course Course){
+        if (Course == null)
             return failure;
-        laptopRepository.save(Laptop);
+        courseRepository.save(Course);
         return success;
     }
 
     @PutMapping(path = "/laptops/{id}")
-    Laptop updateLaptop(@PathVariable int id, @RequestBody Laptop request){
-        Laptop laptop = laptopRepository.findById(id);
-        if(laptop == null)
+    Course updateLaptop(@PathVariable int id, @RequestBody Course request){
+        Course course = courseRepository.findById(id);
+        if(course == null)
             return null;
-        laptopRepository.save(request);
-        return laptopRepository.findById(id);
+        courseRepository.save(request);
+        return courseRepository.findById(id);
     }
 
     @DeleteMapping(path = "/laptops/{id}")
@@ -69,7 +68,7 @@ public class LaptopController {
         userRepository.save(user);
 
         // delete the laptop if the changes have not been reflected by the above statement
-        laptopRepository.deleteById(id);
+        courseRepository.deleteById(id);
         return success;
     }
 }
