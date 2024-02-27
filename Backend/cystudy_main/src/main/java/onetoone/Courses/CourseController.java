@@ -16,7 +16,7 @@ import onetoone.Users.UserRepository;
 
 /**
  * 
- * @author Vivek Bengre
+ * @author Rahul Sudev
  * 
  */ 
 
@@ -32,26 +32,26 @@ public class CourseController {
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
 
-    @GetMapping(path = "/laptops")
+    @GetMapping(path = "/courses")
     List<Course> getAllLaptops(){
         return courseRepository.findAll();
     }
 
-    @GetMapping(path = "/laptops/{id}")
-    Course getLaptopById(@PathVariable int id){
+    @GetMapping(path = "/courses/{id}")
+    Course getLaptopById(@PathVariable long id){
         return courseRepository.findById(id);
     }
 
-    @PostMapping(path = "/laptops")
-    String createLaptop(Course Course){
-        if (Course == null)
+    @PostMapping(path = "/courses")
+    String createLaptop(Course course){
+        if (course == null)
             return failure;
-        courseRepository.save(Course);
+        courseRepository.save(course);
         return success;
     }
 
-    @PutMapping(path = "/laptops/{id}")
-    Course updateLaptop(@PathVariable int id, @RequestBody Course request){
+    @PutMapping(path = "/courses/{id}")
+    Course updateLaptop(@PathVariable long id, @RequestBody Course request){
         Course course = courseRepository.findById(id);
         if(course == null)
             return null;
@@ -59,12 +59,12 @@ public class CourseController {
         return courseRepository.findById(id);
     }
 
-    @DeleteMapping(path = "/laptops/{id}")
-    String deleteLaptop(@PathVariable int id){
+    @DeleteMapping(path = "/courses/{id}")
+    String deleteLaptop(@PathVariable long id){
 
         // Check if there is an object depending on user and then remove the dependency
-        User user = userRepository.findByLaptop_Id(id);
-        user.setLaptop(null);
+        User user = userRepository.findByCourse_Id(id);
+        user.setCourse(null);
         userRepository.save(user);
 
         // delete the laptop if the changes have not been reflected by the above statement

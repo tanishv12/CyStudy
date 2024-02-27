@@ -5,13 +5,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
- * @author Vivek Bengre
+ * @author Rahul Sudev
  * 
  */ 
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
-    Course findById(int id);
+    Course findById(long id);
 
     @Transactional
-    void deleteById(int id);
+    void deleteById(long id);
 }

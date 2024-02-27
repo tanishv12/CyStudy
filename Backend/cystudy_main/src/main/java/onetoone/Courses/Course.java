@@ -12,7 +12,7 @@ import onetoone.Users.User;
 
 /**
  * 
- * @author Vivek Bengre
+ * @author Rahul Sudev
  */ 
 
 @Entity
@@ -24,12 +24,13 @@ public class Course {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private double cpuClock;
-    private int cpuCores;
-    private int ram;
-    private String manufacturer;
-    private int cost;
+    private long courseId;
+    private int courseCode;
+    private String courseName;
+    private String courseDepartment;
+
+
+
 
     /*
      * @OneToOne creates a relation between the current entity/table(Laptop) with the entity/table defined below it(User)
@@ -39,12 +40,10 @@ public class Course {
     @JsonIgnore
     private User user;
 
-    public Course(double cpuClock, int cpuCores, int ram, String manufacturer, int cost) {
-        this.cpuClock = cpuClock;
-        this.cpuCores = cpuCores;
-        this.ram = ram;
-        this.manufacturer = manufacturer;
-        this.cost = cost;
+    public Course(String courseName, String courseDepartment,int courseCode) {
+        this.courseName = courseName;
+        this.courseDepartment = courseDepartment;
+        this.courseCode = courseCode;
     }
 
     public Course() {
@@ -52,60 +51,44 @@ public class Course {
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public int getId(){
-        return id;
+
+    public long getCourseIdId() {
+        return courseId;
     }
 
-    public void setId(int id){
-        this.id = id;
+    public void setCourseCodeId(long courseId) {
+        this.courseId = courseId;
     }
 
-    public double getCpuClock(){
-        return cpuClock;
+    public int getCourseCode() {
+        return courseCode;
     }
 
-    public void setCpuClock(double cpuClock){
-        this.cpuClock = cpuClock;
+    public void setCourseId(long courseId) {
+        this.courseId = courseId;
     }
 
-    public int getCpuCores(){
-        return cpuCores;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setCpuCores(int cpuCores){
-        this.cpuCores = cpuCores;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
-    public String getManufacturer(){
-        return manufacturer;
+    public String getCourseDepartment() {
+        return courseDepartment;
     }
 
-    public void setManufacturer(String manufacturer){
-        this.manufacturer = manufacturer;
+    public void setCourseDepartment(String courseDepartment) {
+        this.courseDepartment = courseDepartment;
     }
 
-    public int getCost(){
-        return cost;
-    }
-
-    public void setCost(int cost){
-        this.cost = cost;
-    }
-
-    public User getUser(){
+    public User getUser() {
         return user;
     }
 
-    public void setUser(User user){
+    public void setUser(User user) {
         this.user = user;
     }
-
-    public int getRam(){
-        return ram;
-    }
-
-    public void setRam(int ram){
-        this.ram = ram;
-    }
-
 }

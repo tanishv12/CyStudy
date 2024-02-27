@@ -12,7 +12,7 @@ import onetoone.Courses.Course;
 
 /**
  * 
- * @author Vivek Bengre
+ * @author Rahul Sudev
  * 
  */ 
 
@@ -25,7 +25,7 @@ public class User {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String name;
     private String emailId;
     private boolean ifActive;
@@ -37,7 +37,7 @@ public class User {
      * @JoinColumn defines the ownership of the foreign key i.e. the user table will have a field called laptop_id
      */
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "laptop_id")
+    @JoinColumn(name = "course_id")
     private Course course;
 
     public User(String name, String emailId) {
@@ -51,11 +51,11 @@ public class User {
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public int getId(){
+    public long getId(){
         return id;
     }
 
-    public void setId(int id){
+    public void setId(long id){
         this.id = id;
     }
 
@@ -83,11 +83,11 @@ public class User {
         this.ifActive = ifActive;
     }
 
-    public Course getLaptop(){
+    public Course getCourse(){
         return course;
     }
 
-    public void setLaptop(Course course){
+    public void setCourse(Course course){
         this.course = course;
     }
     

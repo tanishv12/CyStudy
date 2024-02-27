@@ -5,15 +5,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
- * @author Vivek Bengre
+ * @author Rahul Sudev
  * 
  */ 
 
 public interface UserRepository extends JpaRepository<User, Long> {
     
-    User findById(int id);
+    User findById(long id);
 
-    void deleteById(int id);
+    void deleteById(long id);
 
-    User findByLaptop_Id(int id);
+    User findByCourse_Id(long id);
 }

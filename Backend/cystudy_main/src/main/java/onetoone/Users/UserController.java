@@ -16,7 +16,7 @@ import onetoone.Courses.CourseRepository;
 
 /**
  * 
- * @author Vivek Bengre
+ * @author Rahul Sudev
  * 
  */ 
 
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/users/{id}")
-    User getUserById( @PathVariable int id){
+    User getUserById( @PathVariable long id){
         return userRepository.findById(id);
     }
 
@@ -61,7 +61,7 @@ public class UserController {
 //    }
 
     @PutMapping("/users/{id}")
-    User updateUser(@PathVariable int id, @RequestBody User request){
+    User updateUser(@PathVariable long id, @RequestBody User request){
         User user = userRepository.findById(id);
 
         if(user == null) {
@@ -75,20 +75,20 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @PutMapping("/users/{userId}/laptops/{laptopId}")
-    String assignLaptopToUser(@PathVariable int userId,@PathVariable int laptopId){
+    @PutMapping("/users/{userId}/courses/{courseId}")
+    String assignLaptopToUser(@PathVariable long userId,@PathVariable long courseId){
         User user = userRepository.findById(userId);
-        Course course = courseRepository.findById(laptopId);
+        Course course = courseRepository.findById(courseId);
         if(user == null || course == null)
             return failure;
         course.setUser(user);
-        user.setLaptop(course);
+        user.setCourse(course);
         userRepository.save(user);
         return success;
     }
 
     @DeleteMapping(path = "/users/{id}")
-    String deleteUser(@PathVariable int id){
+    String deleteUser(@PathVariable long id){
         userRepository.deleteById(id);
         return success;
     }

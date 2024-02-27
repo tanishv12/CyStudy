@@ -37,12 +37,12 @@ class Main {
             User user1 = new User("John", "john@somemail.com");
             User user2 = new User("Jane", "jane@somemail.com");
             User user3 = new User("Justin", "justin@somemail.com");
-            Course course1 = new Course( 2.5, 4, 8, "Lenovo", 300);
-            Course course2 = new Course( 4.1, 8, 16, "Hp", 800);
-            Course course3 = new Course( 3.5, 32, 32, "Dell", 2300);
-            user1.setLaptop(course1);
-            user2.setLaptop(course2);
-            user3.setLaptop(course3);
+            Course course1 = new Course( "Calculus 1","MATH",166);
+            Course course2 = new Course( "Intro to Object Oriented Programming","COM S", 227);
+            Course course3 = new Course( "Written,oral,Visual, and Electronic compostition","ENG",250);
+            user1.setCourse(course1);
+            user2.setCourse(course2);
+            user3.setCourse(course3);
             userRepository.save(user1);
             userRepository.save(user2);
             userRepository.save(user3);
