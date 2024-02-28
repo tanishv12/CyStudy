@@ -3,6 +3,8 @@ package onetoone.Courses;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 /**
  * 
  * @author Rahul Sudev
@@ -10,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
  */ 
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
+
+    List<Course> findCourseByCourseDepartment(String courseDepartment);
     Course findById(long id);
 
     @Transactional

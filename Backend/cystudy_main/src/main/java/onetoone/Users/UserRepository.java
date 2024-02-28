@@ -3,6 +3,8 @@ package onetoone.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 /**
  * 
  * @author Rahul Sudev
@@ -11,9 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     
+    List<User> findByNameContaining(String name);
     User findById(long id);
 
     void deleteById(long id);
 
-    User findByCourse_Id(long id);
+
 }

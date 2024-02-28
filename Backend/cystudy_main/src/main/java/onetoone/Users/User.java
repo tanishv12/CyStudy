@@ -1,14 +1,11 @@
 package onetoone.Users;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -17,6 +14,7 @@ import onetoone.Courses.Course;
  */ 
 
 @Entity
+@Table(name = "USER")
 public class User {
 
      /* 
@@ -36,9 +34,10 @@ public class User {
      * in the database (more info : https://www.baeldung.com/jpa-cascade-types)
      * @JoinColumn defines the ownership of the foreign key i.e. the user table will have a field called laptop_id
      */
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name ="USER_COURSE", joinColumns = {@JoinColumn(name = "student_id",referencedColumnName = "id")},
+    inverseJoinColumns = {@JoinColumn(name = "course_id",referencedColumnName ="id")})
+    private Set<Course> courses;
 
     public User(String name, String emailId) {
         this.name = name;
@@ -83,12 +82,20 @@ public class User {
         this.ifActive = ifActive;
     }
 
-    public Course getCourse(){
-        return course;
+    public Set<Course> getCourses() {
+        return courses;
     }
 
-    public void setCourse(Course course){
-        this.course = course;
+    //Method to add course to hashset
+    public void addCourse(Course course) {
+        if (courses == null) {
+            courses = new HashSet<Course>();
+        }
+        courses.add(course);
     }
-    
+
+    //Method to remove course from hashset
+    public void removeCourse(Course course){
+        courses.remove(course);
+    }
 }

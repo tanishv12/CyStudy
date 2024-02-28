@@ -67,7 +67,7 @@ public class UserController {
         if(user == null) {
             throw new RuntimeException("user id does not exist");
         }
-        else if (user.getId() != id){
+        else if (request.getId() != id){
             throw new RuntimeException("path variable id does not match User request id");
         }
 
@@ -75,20 +75,25 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @PutMapping("/users/{userId}/courses/{courseId}")
-    String assignLaptopToUser(@PathVariable long userId,@PathVariable long courseId){
+    @PostMapping("/users/{userId}/courses/{courseId}")
+    String addCourseToUser(@PathVariable long userId,@PathVariable long courseId){
         User user = userRepository.findById(userId);
         Course course = courseRepository.findById(courseId);
         if(user == null || course == null)
             return failure;
-        course.setUser(user);
-        user.setCourse(course);
+        course.addUser(user);
+        user.addCourse(course);
         userRepository.save(user);
+        courseRepository.save(course);
         return success;
     }
 
     @DeleteMapping(path = "/users/{id}")
     String deleteUser(@PathVariable long id){
+       User user = userRepository.findById(id);
+       if(user == null){
+           return failure;
+       }
         userRepository.deleteById(id);
         return success;
     }

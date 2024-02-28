@@ -33,17 +33,17 @@ public class CourseController {
     private String failure = "{\"message\":\"failure\"}";
 
     @GetMapping(path = "/courses")
-    List<Course> getAllLaptops(){
+    List<Course> getAllCourses(){
         return courseRepository.findAll();
     }
 
     @GetMapping(path = "/courses/{id}")
-    Course getLaptopById(@PathVariable long id){
+    Course getCourseById(@PathVariable long id){
         return courseRepository.findById(id);
     }
 
     @PostMapping(path = "/courses")
-    String createLaptop(Course course){
+    String createCaptop(Course course){
         if (course == null)
             return failure;
         courseRepository.save(course);
@@ -51,24 +51,28 @@ public class CourseController {
     }
 
     @PutMapping(path = "/courses/{id}")
-    Course updateLaptop(@PathVariable long id, @RequestBody Course request){
+    Course updateCaptop(@PathVariable long id, @RequestBody Course request){
         Course course = courseRepository.findById(id);
         if(course == null)
-            return null;
+            throw new RuntimeException("User id does not exist");
+        else if(request.getId()!=id){
+            throw new RuntimeException("Path variable Id does not match with request Id");
+        }
         courseRepository.save(request);
         return courseRepository.findById(id);
     }
 
-    @DeleteMapping(path = "/courses/{id}")
-    String deleteLaptop(@PathVariable long id){
+    @DeleteMapping(path = "/courses/{user_id}/{course_id}")
+    String deleteCourse(@PathVariable long user_id, @PathVariable long course_id){
 
         // Check if there is an object depending on user and then remove the dependency
-        User user = userRepository.findByCourse_Id(id);
-        user.setCourse(null);
+        User user = userRepository.findById(user_id);
+        Course course = courseRepository.findById(course_id);
+        user.removeCourse(course);
         userRepository.save(user);
 
         // delete the laptop if the changes have not been reflected by the above statement
-        courseRepository.deleteById(id);
+        courseRepository.deleteById(course_id);
         return success;
     }
 }

@@ -1,14 +1,12 @@
 package onetoone.Courses;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import onetoone.Users.User;
+
+import java.util.Set;
 
 /**
  * 
@@ -16,6 +14,7 @@ import onetoone.Users.User;
  */ 
 
 @Entity
+@Table(name = "COURSE")
 public class Course {
     
     /* 
@@ -24,7 +23,7 @@ public class Course {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long courseId;
+    private long id;
     private int courseCode;
     private String courseName;
     private String courseDepartment;
@@ -36,9 +35,8 @@ public class Course {
      * @OneToOne creates a relation between the current entity/table(Laptop) with the entity/table defined below it(User)
      * @JsonIgnore is to assure that there is no infinite loop while returning either user/laptop objects (laptop->user->laptop->...)
      */
-    @OneToOne
-    @JsonIgnore
-    private User user;
+    @ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
+    private Set<User> users;
 
     public Course(String courseName, String courseDepartment,int courseCode) {
         this.courseName = courseName;
@@ -52,20 +50,20 @@ public class Course {
     // =============================== Getters and Setters for each field ================================== //
 
 
-    public long getCourseIdId() {
-        return courseId;
+    public long getId() {
+        return id;
     }
 
-    public void setCourseCodeId(long courseId) {
-        this.courseId = courseId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getCourseCode() {
         return courseCode;
     }
 
-    public void setCourseId(long courseId) {
-        this.courseId = courseId;
+    public void setCourseCode(int courseCode) {
+        this.courseCode = courseCode;
     }
 
     public String getCourseName() {
@@ -84,11 +82,11 @@ public class Course {
         this.courseDepartment = courseDepartment;
     }
 
-    public User getUser() {
-        return user;
+    public Set<User> getStudents() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void addUser(User user) {
+        users.add(user);
     }
 }
