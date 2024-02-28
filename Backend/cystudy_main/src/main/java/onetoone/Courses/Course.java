@@ -36,6 +36,7 @@ public class Course {
      * @JsonIgnore is to assure that there is no infinite loop while returning either user/laptop objects (laptop->user->laptop->...)
      */
     @ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<User> users;
 
     public Course(String courseName, String courseDepartment,int courseCode) {

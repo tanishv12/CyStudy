@@ -1,5 +1,6 @@
 package onetoone.Users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
@@ -25,6 +26,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    private String password;
     private String emailId;
     private boolean ifActive;
 
@@ -37,10 +39,12 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name ="USER_COURSE", joinColumns = {@JoinColumn(name = "student_id",referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name = "course_id",referencedColumnName ="id")})
+    @JsonIgnore
     private Set<Course> courses;
 
-    public User(String name, String emailId) {
+    public User(String name, String emailId, String password) {
         this.name = name;
+        this.password = password;
         this.emailId = emailId;
         this.ifActive = true;
     }
@@ -64,6 +68,14 @@ public class User {
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmailId(){

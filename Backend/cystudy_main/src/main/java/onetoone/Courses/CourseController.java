@@ -1,7 +1,6 @@
 package onetoone.Courses;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +31,8 @@ public class CourseController {
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
 
+
+
     @GetMapping(path = "/courses")
     List<Course> getAllCourses(){
         return courseRepository.findAll();
@@ -43,15 +44,16 @@ public class CourseController {
     }
 
     @PostMapping(path = "/courses")
-    String createCaptop(Course course){
+    String createCourse(Course course){
         if (course == null)
             return failure;
         courseRepository.save(course);
         return success;
     }
 
+
     @PutMapping(path = "/courses/{id}")
-    Course updateCaptop(@PathVariable long id, @RequestBody Course request){
+    Course updateCourse(@PathVariable long id, @RequestBody Course request){
         Course course = courseRepository.findById(id);
         if(course == null)
             throw new RuntimeException("User id does not exist");

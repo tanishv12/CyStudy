@@ -1,7 +1,8 @@
 package onetoone.Users;
 
 import java.util.List;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,8 @@ public class UserController {
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
+    private String loginSuccess = "{\"message\":\"Login Successful\"}";
+    private String loginFailure = "{\"message\":\"Login failed\"}";
 
     @GetMapping(path = "/users")
     List<User> getAllUsers(){
@@ -43,11 +46,27 @@ public class UserController {
     }
 
     @PostMapping(path = "/users")
-    String createUser(User user){
+    String createUser(@RequestBody User user){
         if (user == null)
             return failure;
         userRepository.save(user);
+        System.out.println(user.getId());
         return success;
+    }
+    @PostMapping(path = "/users/login")
+    ResponseEntity<String> LogUserIn(@RequestBody User user){
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");
+        }
+        User storedUser = userRepository.findById(user.getId());
+        if(storedUser == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+        }
+        if (user.getPassword().equals(storedUser.getPassword()) && user.getName().equals(storedUser.getName())) {
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
+        }
     }
 
     /* not safe to update */

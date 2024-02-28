@@ -38,9 +38,9 @@ class Main {
     @Bean
     CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository) {
         return args -> {
-            User user1 = new User("John", "john@somemail.com");
-            User user2 = new User("Jane", "jane@somemail.com");
-            User user3 = new User("Justin", "justin@somemail.com");
+            User user1 = new User("John", "john@somemail.com","lol");
+            User user2 = new User("Jane", "jane@somemail.com","lol");
+            User user3 = new User("Justin", "justin@somemail.com","lol");
             Course course1 = new Course( "Calculus 1","MATH",166);
             Course course2 = new Course( "Intro to Object Oriented Programming","COM S", 227);
             Course course3 = new Course( "Written,oral,Visual, and Electronic compostition","ENG",250);
