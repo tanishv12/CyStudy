@@ -1,5 +1,6 @@
 package onetoone;
 
+import onetoone.Messages.Message;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -46,6 +47,7 @@ class Main {
             userRepository.save(user1);
             userRepository.save(user2);
             userRepository.save(user3);
+//            Message message1 = new Message("How are you?", "2024-27-2 ")
 
         };
     }
