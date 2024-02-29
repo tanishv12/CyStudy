@@ -2,6 +2,7 @@ package onetoone.Messages;
 
 import jakarta.persistence.*;
 import onetoone.Users.User;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
@@ -21,15 +22,16 @@ public class Message {
     @Column(nullable = false)
     private String messageContent;
     @Column(nullable = false)
+    @CreationTimestamp
     private Timestamp timestamp;
 
-    public Message(String messageContent, Timestamp timestamp) {
+    public Message(String messageContent) {
         this.messageContent = messageContent;
-        this.timestamp = timestamp;
     }
 
     public Message() {
     }
+
 
     public int getId() {
         return id;

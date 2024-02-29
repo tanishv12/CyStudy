@@ -47,7 +47,7 @@ class Main {
             userRepository.save(user1);
             userRepository.save(user2);
             userRepository.save(user3);
-//            Message message1 = new Message("How are you?", "2024-27-2 ")
+            Message message1 = new Message("How are you");
 
         };
     }

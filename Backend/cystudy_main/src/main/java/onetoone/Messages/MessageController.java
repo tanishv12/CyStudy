@@ -34,6 +34,7 @@ public class MessageController {
         return success;
     }
 
+
     @GetMapping(path = "/messages/{id}")
     Message getMessageById(@PathVariable int id){
         return messageRepository.findById(id);
