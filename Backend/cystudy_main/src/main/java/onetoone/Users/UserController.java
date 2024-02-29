@@ -35,6 +35,7 @@ public class UserController {
     private String loginSuccess = "{\"message\":\"Login Successful\"}";
     private String loginFailure = "{\"message\":\"Login failed\"}";
 
+
     @GetMapping(path = "/users")
     List<User> getAllUsers(){
         return userRepository.findAll();
@@ -45,15 +46,20 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @PostMapping(path = "/users")
-    String createUser(@RequestBody User user){
+    @PostMapping(path = "/users/post")
+    ResponseEntity<String> createUser(@RequestBody User user){
         if (user == null)
-            return failure;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");;
+        for(User prevUser: this.getAllUsers()){
+            if(user.getEmailId().equals(prevUser.getEmailId())){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");
+            }
+        }
         userRepository.save(user);
         System.out.println(user.getId());
-        return success;
+        return ResponseEntity.ok("User created successfully");
     }
-    @PostMapping(path = "/users/login")
+    @GetMapping(path = "/users/login")
     ResponseEntity<String> LogUserIn(@RequestBody User user){
         if(user == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");
@@ -63,6 +69,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
         }
         if (user.getPassword().equals(storedUser.getPassword()) && user.getName().equals(storedUser.getName())) {
+            user.setIfActive(true);
             return ResponseEntity.ok("Login successful");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
