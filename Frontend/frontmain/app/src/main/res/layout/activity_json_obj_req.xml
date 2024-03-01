@@ -27,12 +27,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="name: "
-            android:textSize="20sp">
-        </TextView>
+            android:text="username: "
+            android:textSize="20sp"></TextView>
         <TextView
             android:id="@+id/nameTv"
             android:layout_width="wrap_content"
@@ -47,12 +47,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="email: "
-            android:textSize="20sp">
-        </TextView>
+            android:text="password: "
+            android:textSize="20sp"></TextView>
         <TextView
             android:id="@+id/emailTv"
             android:layout_width="wrap_content"
@@ -63,23 +63,5 @@
     </LinearLayout>
 
 <!--    phone-->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="phone: "
-            android:textSize="20sp">
-        </TextView>
-        <TextView
-            android:id="@+id/phoneTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="null"
-            android:textSize="20sp">
-        </TextView>
-    </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

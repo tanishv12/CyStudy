@@ -24,9 +24,9 @@ import java.util.Map;
 public class JsonObjReqActivity extends AppCompatActivity {
 
     private Button btnJsonObjReq;
-    private TextView tvName, tvEmail, tvPhone;
+    private TextView tvUsername, tvPassword;
 
-    private static final String URL_JSON_OBJECT = "https://b2ec6e0f-3855-4955-a042-4fe7b2c3ff65.mock.pstmn.io/Object/";
+    private static final String URL_JSON_OBJECT = "http://coms-309-016.class.las.iastate.edu:8080/users/4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +34,8 @@ public class JsonObjReqActivity extends AppCompatActivity {
         setContentView(R.layout.activity_json_obj_req);
 
         btnJsonObjReq = findViewById(R.id.btnJsonObj);
-        tvName = findViewById(R.id.nameTv);
-        tvEmail = findViewById(R.id.emailTv);
-        tvPhone = findViewById(R.id.phoneTv);
+        tvUsername = findViewById(R.id.nameTv);
+        tvPassword = findViewById(R.id.emailTv);
 
         btnJsonObjReq.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,14 +59,12 @@ public class JsonObjReqActivity extends AppCompatActivity {
                         Log.d("Volley Response", response.toString());
                         try {
                             // Parse JSON object data
-                            String name = response.getString("name");
-                            String email = response.getString("email");
-                            String phone = response.getString("phone");
+                            String username = response.getString("name");
+                            String password = response.getString("password");
 
                             // Populate text views with the parsed data
-                            tvName.setText(name);
-                            tvEmail.setText(email);
-                            tvPhone.setText(phone);
+                            tvUsername.setText(username);
+                            tvPassword.setText(password);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
