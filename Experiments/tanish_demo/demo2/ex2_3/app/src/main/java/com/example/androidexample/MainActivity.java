@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String url = "https://b7a75b77-b576-4ce0-81aa-7b54e5532e7b.mock.pstmn.io";
+    private String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post";
 
     private Spinner spMethod;
     private EditText etUrl;
