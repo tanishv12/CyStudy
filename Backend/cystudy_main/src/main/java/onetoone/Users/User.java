@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
+import onetoone.Messages.Message;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,6 +43,10 @@ public class User {
     inverseJoinColumns = {@JoinColumn(name = "course_id",referencedColumnName ="id")})
     @JsonIgnore
     private Set<Course> courses;
+
+    @OneToMany(targetEntity = Message.class,cascade = CascadeType.ALL)
+    @JoinColumn(name="userMessage_fk",referencedColumnName ="id" )
+    private Set<Message> messages;
 
     public User(String name, String emailId, String password) {
         this.name = name;
