@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.button.MaterialButton;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button strBtn, jsonObjBtn, jsonArrBtn, imgBtn;
@@ -22,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         /* button click listeners */
         jsonObjBtn.setOnClickListener(this);
-
     }
 
     @Override
@@ -30,6 +31,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         int id = v.getId();
         startActivity(new Intent(MainActivity.this, JsonObjReqActivity.class));
-
     }
 }

@@ -15,16 +15,7 @@
         android:theme="@style/Theme.AndroidExample"
         tools:targetApi="31">
         <activity
-            android:name=".JsonArrReqActivity"
-            android:exported="false" />
-        <activity
             android:name=".JsonObjReqActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ImageReqActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StringReqActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".MainActivity"
@@ -23,6 +23,13 @@
         android:layout_marginBottom="20dp"
         android:layout_gravity="center"
         android:text="JSON Object Request" />
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".PageTwoActivity">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
