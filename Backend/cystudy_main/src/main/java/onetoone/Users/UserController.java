@@ -1,9 +1,9 @@
 package onetoone.Users;
 
 import java.util.List;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import onetoone.Laptops.Laptop;
-import onetoone.Laptops.LaptopRepository;
+import onetoone.Courses.Course;
+import onetoone.Courses.CourseRepository;
 
 /**
  * 
- * @author Vivek Bengre
+ * @author Rahul Sudev
  * 
  */ 
 
@@ -28,10 +28,13 @@ public class UserController {
     UserRepository userRepository;
 
     @Autowired
-    LaptopRepository laptopRepository;
+    CourseRepository courseRepository;
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
+    private String loginSuccess = "{\"message\":\"Login Successful\"}";
+    private String loginFailure = "{\"message\":\"Login failed\"}";
+
 
     @GetMapping(path = "/users")
     List<User> getAllUsers(){
@@ -39,16 +42,38 @@ public class UserController {
     }
 
     @GetMapping(path = "/users/{id}")
-    User getUserById( @PathVariable int id){
+    User getUserById( @PathVariable long id){
         return userRepository.findById(id);
     }
 
-    @PostMapping(path = "/users")
-    String createUser(User user){
+    @PostMapping(path = "/users/post")
+    ResponseEntity<String> createUser(@RequestBody User user){
         if (user == null)
-            return failure;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");;
+        for(User prevUser: this.getAllUsers()){
+            if(user.getEmailId().equals(prevUser.getEmailId())){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");
+            }
+        }
         userRepository.save(user);
-        return success;
+        System.out.println(user.getId());
+        return ResponseEntity.ok("User created successfully");
+    }
+    @GetMapping(path = "/users/login")
+    ResponseEntity<String> logUserIn(@RequestBody User user){
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");
+        }
+        User storedUser = userRepository.findById(user.getId());
+        if(storedUser == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+        }
+        if (user.getPassword().equals(storedUser.getPassword()) && user.getName().equals(storedUser.getName())) {
+            user.setIfActive(true);
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
+        }
     }
 
     /* not safe to update */
@@ -62,13 +87,13 @@ public class UserController {
 //    }
 
     @PutMapping("/users/{id}")
-    User updateUser(@PathVariable int id, @RequestBody User request){
+    User updateUser(@PathVariable long id, @RequestBody User request){
         User user = userRepository.findById(id);
 
         if(user == null) {
             throw new RuntimeException("user id does not exist");
         }
-        else if (user.getId() != id){
+        else if (request.getId() != id){
             throw new RuntimeException("path variable id does not match User request id");
         }
 
@@ -76,20 +101,25 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @PutMapping("/users/{userId}/laptops/{laptopId}")
-    String assignLaptopToUser(@PathVariable int userId,@PathVariable int laptopId){
+    @PostMapping("/users/{userId}/courses/{courseId}")
+    String addCourseToUser(@PathVariable long userId,@PathVariable long courseId){
         User user = userRepository.findById(userId);
-        Laptop laptop = laptopRepository.findById(laptopId);
-        if(user == null || laptop == null)
+        Course course = courseRepository.findById(courseId);
+        if(user == null || course == null)
             return failure;
-        laptop.setUser(user);
-        user.setLaptop(laptop);
+        course.addUser(user);
+        user.addCourse(course);
         userRepository.save(user);
+        courseRepository.save(course);
         return success;
     }
 
     @DeleteMapping(path = "/users/{id}")
-    String deleteUser(@PathVariable int id){
+    String deleteUser(@PathVariable long id){
+       User user = userRepository.findById(id);
+       if(user == null){
+           return failure;
+       }
         userRepository.deleteById(id);
         return success;
     }
