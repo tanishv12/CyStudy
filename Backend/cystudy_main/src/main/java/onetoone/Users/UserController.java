@@ -60,7 +60,7 @@ public class UserController {
         return ResponseEntity.ok("User created successfully");
     }
     @GetMapping(path = "/users/login")
-    ResponseEntity<String> LogUserIn(@RequestBody User user){
+    ResponseEntity<String> logUserIn(@RequestBody User user){
         if(user == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");
         }
