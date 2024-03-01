@@ -123,4 +123,9 @@ public class UserController {
         userRepository.deleteById(id);
         return success;
     }
+    @DeleteMapping(path = "/users/deleteAll")
+    String deleteAllUsers(){
+        userRepository.deleteAll();
+        return success;
+    }
 }
