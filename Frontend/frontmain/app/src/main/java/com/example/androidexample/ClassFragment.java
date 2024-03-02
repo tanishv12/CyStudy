@@ -18,7 +18,7 @@ import android.widget.Button;
  */
 
 
-public class ClassFragment extends Fragment{
+public class ClassFragment extends AppCompatActivity{
     Button b1;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -43,28 +43,32 @@ public class ClassFragment extends Fragment{
      * @return A new instance of fragment ClassFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ClassFragment newInstance(String param1, String param2) {
+    public static ClassFragment newInstance(String param1, String param2)
+    {
         ClassFragment fragment = new ClassFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+//        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        setContentView(R.layout.fragment_class);
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_class, container, false);
-    }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
 }
+
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//        return inflater.inflate(R.layout.fragment_class, container, false);
+//    }
+//}

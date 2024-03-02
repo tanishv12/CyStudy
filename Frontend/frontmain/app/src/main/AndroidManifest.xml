@@ -25,6 +25,9 @@
             android:name=".HomeFragment"
             android:exported="false" />
         <activity
+            android:name=".StudyGroupFragment"
+            android:exported="false" />
+        <activity
             android:name=".SignupActivity"
             android:exported="true">
             <intent-filter>
