@@ -32,7 +32,7 @@ public class StudyGroup {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(mappedBy = "studyGroup")
+    @OneToMany(mappedBy = "studyGroup",cascade = CascadeType.ALL)
     private Set<Message> messages;
 
     @ManyToMany(mappedBy = "studyGroups",fetch = FetchType.LAZY)
@@ -41,8 +41,9 @@ public class StudyGroup {
 
     public StudyGroup(){}
 
-    public StudyGroup(String groupName) {
+    public StudyGroup(String groupName, List<User> users) {
         this.groupName = groupName;
+        this.users = users;
     }
 
     public Course getCourse() {

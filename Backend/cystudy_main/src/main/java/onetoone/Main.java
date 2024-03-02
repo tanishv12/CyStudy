@@ -61,11 +61,11 @@ class Main {
             message1.setSender(user1);
             messageRepository.save(message1);
 
-            StudyGroup group1 = new StudyGroup("Group 1");
-            group1.addUser(user1);
-            group1.addUser(user2);
-            group1.addUser(user3);
-            studyGroupRepository.save(group1);
+//            StudyGroup group1 = new StudyGroup("Group 1");
+//            group1.addUser(user1);
+//            group1.addUser(user2);
+//            group1.addUser(user3);
+//            studyGroupRepository.save(group1);
 
 
         };

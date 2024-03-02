@@ -44,8 +44,8 @@ public class User {
     private Set<Course> courses;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_GROUP", joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "group_id",referencedColumnName = "id")})
+//    @JoinTable(name = "USER_GROUP", joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
+//    inverseJoinColumns = {@JoinColumn(name = "group_id",referencedColumnName = "id")})
     @JsonIgnore
     private Set<StudyGroup> studyGroups;
 
