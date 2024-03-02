@@ -1,23 +1,26 @@
 package com.example.androidexample;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.androidexample.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity{
-
+public class MainActivity extends AppCompatActivity
+{
     ActivityMainBinding binding;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity{
             return true;
         });
     }
-
     private void replaceFragment(Fragment fragment)
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -49,4 +51,5 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
+
 }
