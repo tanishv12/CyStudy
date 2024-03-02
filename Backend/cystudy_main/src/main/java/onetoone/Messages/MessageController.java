@@ -48,11 +48,20 @@ public class MessageController {
 
     @PutMapping("/messages/{id}")
     Message updateMessage(@PathVariable int messageId, @RequestBody Message updatedMessage) {
-        Message message = messageRepository.findById(messageId);
-        if(message == null)
-            return null;
-        messageRepository.save(updatedMessage);
-        return messageRepository.findById(messageId);
+        Message existingMessage = messageRepository.findById(messageId);
+        if (existingMessage == null) {
+            return null; // or throw an exception
+        }
+
+        // Update the existing message with the data from updatedMessage
+        existingMessage.setMessageContent(updatedMessage.getMessageContent());
+        // Update other fields as needed
+
+        // Save the updated message
+        messageRepository.save(existingMessage);
+
+        // Return the updated message
+        return existingMessage;
     }
 
     @DeleteMapping(path = "/messages/{id}")

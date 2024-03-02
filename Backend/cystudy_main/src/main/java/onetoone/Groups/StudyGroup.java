@@ -41,9 +41,8 @@ public class StudyGroup {
 
     public StudyGroup(){}
 
-    public StudyGroup(String groupName, List<User> users) {
+    public StudyGroup(String groupName) {
         this.groupName = groupName;
-        this.users = users;
     }
 
     public Course getCourse() {

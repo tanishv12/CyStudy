@@ -1,7 +1,11 @@
 package onetoone.Courses;
 
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,12 +47,32 @@ public class CourseController {
         return courseRepository.findById(id);
     }
 
-    @PostMapping(path = "/courses")
-    String createCourse(Course course){
+    @GetMapping(path = "/courses/users/{id}")
+    Set<User> getAllUsers(@PathVariable long id){
+        Course course = getCourseById(id);
+        return course.getStudents();
+    }
+
+//    @PostMapping(path = "/courses")
+//    String createCourse(Course course){
+//        if (course == null)
+//            return failure;
+//        courseRepository.save(course);
+//        return success;
+//    }
+
+    @PostMapping(path = "/courses/post")
+    ResponseEntity<String> createCourse(@RequestBody Course course){
         if (course == null)
-            return failure;
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid course credentials");;
+        for(Course prevCourse: this.getAllCourses()){
+            if(course.getCourseCode() == prevCourse.getCourseCode()){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course already exists");
+            }
+        }
         courseRepository.save(course);
-        return success;
+        System.out.println(course.getId());
+        return ResponseEntity.ok("Courses created successfully");
     }
 
 

@@ -43,10 +43,11 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private Set<StudyGroup> studyGroups;
 
-    public Course(String courseName, String courseDepartment,int courseCode) {
+    public Course(String courseName, String courseDepartment,int courseCode, Set<User> users) {
         this.courseName = courseName;
         this.courseDepartment = courseDepartment;
         this.courseCode = courseCode;
+        this.users = users;
     }
 
     public Course() {
