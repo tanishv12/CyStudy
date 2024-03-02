@@ -1,6 +1,7 @@
 package onetoone.Messages;
 
 import onetoone.Users.UserRepository;
+import onetoone.Groups.StudyGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +13,8 @@ public class MessageController {
     @Autowired
     MessageRepository messageRepository;
 
-//    @Autowired
-//    GroupRespository groupRespository;
+    @Autowired
+    StudyGroupRepository studyGroupRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -26,6 +27,12 @@ public class MessageController {
         return messageRepository.findAll();
     }
 
+//    @GetMapping(path="/messages/{group_id}")
+//    List<Message> getAllMessagesByGroup(@PathVariable int id){
+//        StudyGroup group = studyGroupRepository.findById(id);
+//        return group.
+//    }
+
     @PostMapping(path = "/messages/post")
     String createMessage(@RequestBody Message message){
         if(message == null)
@@ -33,7 +40,6 @@ public class MessageController {
         messageRepository.save(message);
         return success;
     }
-
 
     @GetMapping(path = "/messages/{id}")
     Message getMessageById(@PathVariable int id){
@@ -54,6 +60,7 @@ public class MessageController {
         messageRepository.deleteById(id);
         return success;
     }
+
 
 
 

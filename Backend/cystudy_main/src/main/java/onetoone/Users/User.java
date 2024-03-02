@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
+import onetoone.Groups.StudyGroup;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +42,12 @@ public class User {
     inverseJoinColumns = {@JoinColumn(name = "course_id",referencedColumnName ="id")})
     @JsonIgnore
     private Set<Course> courses;
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_GROUP", joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
+    inverseJoinColumns = {@JoinColumn(name = "group_id",referencedColumnName = "id")})
+    @JsonIgnore
+    private Set<StudyGroup> studyGroups;
 
     public User(String name, String emailId, String password) {
         this.name = name;
