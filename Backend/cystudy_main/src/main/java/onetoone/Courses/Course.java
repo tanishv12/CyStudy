@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import onetoone.Groups.StudyGroup;
 import onetoone.Users.User;
 
 import java.util.Set;
@@ -38,6 +39,9 @@ public class Course {
     @ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users;
+
+    @OneToMany(mappedBy = "course")
+    private Set<StudyGroup> studyGroups;
 
     public Course(String courseName, String courseDepartment,int courseCode) {
         this.courseName = courseName;
