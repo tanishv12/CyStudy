@@ -28,9 +28,10 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!validateUsername() | !validatePassword())
+                if(validateUsername() | validatePassword())
                 {
-
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
                 else
                 {
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
     {
         String userUsername = loginUsername.getText().toString().trim();
         String userPassword = loginPassword.getText().toString().trim();
+
     }
 
 
