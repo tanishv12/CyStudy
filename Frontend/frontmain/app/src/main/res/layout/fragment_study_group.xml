@@ -15,5 +15,4 @@
         android:text="Study Group Fragment"
         android:textColor="#ffffff"
         android:textSize="40dp" />
-
 </FrameLayout>
