@@ -19,7 +19,6 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/math166"
                 android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="1.15in"
@@ -45,16 +44,25 @@
                     android:background="#ffffff"
                     android:textColor="@color/black"
                     android:fontFamily="@font/gidugu"
-                    android:text="MATH 166">
+                    android:text="MATH 166"
+                    android:layout_marginStart="20dp">
                 </TextView>
+
+                <Button
+                    android:id="@+id/math166"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="70dp"
+                    android:text="Enter"
+                    android:clickable="true"
+                    android:focusable="true">
+                </Button>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
-                android:id="@+id/coms309"
-                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="1.15in"
-                android:layout_margin="10dp"
-                android:focusable="true">
+                android:layout_margin="10dp">
 
                 <ImageView
                     android:layout_width="0.9in"
@@ -74,8 +82,19 @@
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:fontFamily="@font/gidugu"
-                    android:text="COM S 309">
+                    android:text="COM S 309"
+                    android:layout_marginStart="20dp">
                 </TextView>
+
+                <Button
+                    android:id="@+id/coms309"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="70dp"
+                    android:text="Enter">
+                </Button>
+
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -100,8 +119,18 @@
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:fontFamily="@font/gidugu"
-                    android:text="PHY 102">
+                    android:text="PHY 102"
+                    android:layout_marginStart="20dp">
                 </TextView>
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="70dp"
+                    android:text="Enter">
+                </Button>
+
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -126,8 +155,17 @@
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:fontFamily="@font/gidugu"
-                    android:text="COM S 228">
+                    android:text="COM S 228"
+                    android:layout_marginStart="20dp">
                 </TextView>
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="70dp"
+                    android:text="Enter">
+                </Button>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -152,8 +190,17 @@
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:fontFamily="@font/gidugu"
-                    android:text="CHEM 100">
+                    android:text="CHEM 100"
+                    android:layout_marginStart="20dp">
                 </TextView>
+
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="70dp"
+                    android:text="Enter">
+                </Button>
             </androidx.cardview.widget.CardView>
 
 

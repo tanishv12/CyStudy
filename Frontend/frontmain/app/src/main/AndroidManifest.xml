@@ -22,7 +22,10 @@
             android:name=".Math166"
             android:exported="false" />
         <activity
-            android:name=".JsonObjReqActivity"
+            android:name=".ClassFragment"
+            android:exported="false" />
+        <activity
+            android:name=".HomeFragment"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

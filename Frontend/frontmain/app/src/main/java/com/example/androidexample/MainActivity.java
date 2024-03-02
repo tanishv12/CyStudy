@@ -13,21 +13,28 @@ import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.androidexample.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+//import com.example.androidexample.databinding.ActivityMainBinding;
+
 
 public class MainActivity extends AppCompatActivity
 {
-    ActivityMainBinding binding;
+    private Button b1;
+//    ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        replaceFragment(new HomeFragment());
+//        binding = ActivityMainBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_main);
+//        replaceFragment(new HomeFragment());
 
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.Home);
 
+        bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.Classes)
             {
@@ -43,6 +50,11 @@ public class MainActivity extends AppCompatActivity
             }
             return true;
         });
+
+//        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+
+
+
     }
     private void replaceFragment(Fragment fragment)
     {
@@ -51,5 +63,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
+
+
 
 }
