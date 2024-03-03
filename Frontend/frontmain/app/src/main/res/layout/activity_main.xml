@@ -23,6 +23,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
+
+
+
+            <Button
+                android:id="@+id/classes_button"
+                android:layout_width="150dp"
+                android:layout_height="89dp"
+                android:layout_marginTop="30dp"
+                android:text="Show classes"
+                android:textAlignment="center"
+                android:textSize="18dp"
+                app:cornerRadius="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/classesText"
+                android:text="Classes will display here"
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:layout_marginTop="30dp"
+                android:textSize="18dp"
+                android:textColor="@color/lavender"/>
         </FrameLayout>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

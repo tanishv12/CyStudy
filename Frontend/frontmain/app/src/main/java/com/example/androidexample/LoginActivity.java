@@ -52,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         signupRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(intent);
+                getRequest();
+
             }
         });
     }
@@ -120,11 +120,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -148,6 +150,51 @@ public class LoginActivity extends AppCompatActivity {
 
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+    private void getRequest() {
+
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/courses";
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        // Display the first 500 characters of the response string.
+                        // String response can be converted to JSONObject via
+                        // JSONObject object = new JSONObject(response);
+                        signupRedirectText.setText(response.toString());
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
 
