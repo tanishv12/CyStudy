@@ -36,14 +36,6 @@ public class MainActivity extends AppCompatActivity
         Button toStudyGroups = (Button) findViewById(R.id.button13);
         Button toClasses = (Button) findViewById(R.id.button11);
 
-
-
-
-
-
-
-
-
         toHome.setOnClickListener(new View.OnClickListener()
         {
             @Override
