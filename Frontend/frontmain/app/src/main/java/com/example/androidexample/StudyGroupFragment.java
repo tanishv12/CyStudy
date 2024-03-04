@@ -2,12 +2,36 @@ package com.example.androidexample;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +39,10 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class StudyGroupFragment extends AppCompatActivity {
+
+    private String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all";
+
+    //group_id   course_id
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,6 +80,32 @@ public class StudyGroupFragment extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_study_group);
+
+        Button studyGroupsToClasses = (Button) findViewById(R.id.backbtn2);
+        studyGroupsToClasses.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(StudyGroupFragment.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
+//        etUrl = findViewById(R.id.etUrl);
+//        etRequest = findViewById(R.id.etRequest);
+//        tvResponse = findViewById(R.id.tvResponse);
+//        btnSend = findViewById(R.id.sendBtn);
+
+    }
+
+
+
 //        if (getArguments() != null) {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
@@ -66,4 +120,3 @@ public class StudyGroupFragment extends AppCompatActivity {
 //        // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_study_group, container, false);
 //    }
-}

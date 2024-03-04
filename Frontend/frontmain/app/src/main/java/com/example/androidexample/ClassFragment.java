@@ -58,6 +58,21 @@ public class ClassFragment extends AppCompatActivity{
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_class);
+
+        Button classesTohome = (Button) findViewById(R.id.backbtn);
+        classesTohome.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(ClassFragment.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
     }
 //        if (getArguments() != null) {
 //            mParam1 = getArguments().getString(ARG_PARAM1);

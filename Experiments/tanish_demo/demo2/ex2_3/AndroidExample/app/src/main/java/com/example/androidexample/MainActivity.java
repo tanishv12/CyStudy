@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post";
+    private String url = "https://jsonplaceholder.typicode.com/users/1";
 
     private Spinner spMethod;
     private EditText etUrl;

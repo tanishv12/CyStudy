@@ -36,6 +36,14 @@ public class MainActivity extends AppCompatActivity
         Button toStudyGroups = (Button) findViewById(R.id.button13);
         Button toClasses = (Button) findViewById(R.id.button11);
 
+
+
+
+
+
+
+
+
         toHome.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -65,6 +73,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent3);
             }
         });
+
+
 
 
 //        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
