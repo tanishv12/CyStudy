@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
         toStudyGroups.setOnClickListener(new View.OnClickListener()
         {
             @Override

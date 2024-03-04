@@ -3,11 +3,13 @@ package com.example.androidexample;
 import android.os.Bundle;
 
 
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,7 +49,14 @@ public class StudyGroupFragment extends AppCompatActivity
 
     private TextView gresponse;
     private Button getButton;
+    private Button postButton;
     private Button studyGroupsToClasses;
+
+    private Button studyGroupsToMessages;
+
+    private EditText GroupText;
+
+//    private EditText GroupText;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -56,9 +65,11 @@ public class StudyGroupFragment extends AppCompatActivity
         setContentView(R.layout.fragment_study_group);
 
         studyGroupsToClasses = findViewById(R.id.backbtn2);
+        studyGroupsToMessages = findViewById(R.id.toMessages);
         getButton = findViewById(R.id.getBUTTON);
         gresponse = findViewById(R.id.getresponse);
-
+        postButton = findViewById(R.id.postButton);
+        GroupText = findViewById(R.id.groupText);
 
         getButton.setOnClickListener(new View.OnClickListener()
         {
@@ -69,11 +80,31 @@ public class StudyGroupFragment extends AppCompatActivity
             }
         });
 
+        postButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                postRequest();
+            }
+        });
+
+
+
         studyGroupsToClasses.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StudyGroupFragment.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        studyGroupsToMessages.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
                 startActivity(intent);
             }
         });
@@ -133,4 +164,77 @@ public class StudyGroupFragment extends AppCompatActivity
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
+    private void postRequest()
+    {
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/group/post";
+        // Convert input to JSONObject
+        JSONObject postBody = null;
+
+        try
+        {
+            Log.e("Try Entered","oisafuhgiureshg");
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+            postBody = new JSONObject();
+            Log.e("JSON Created","Json was created bla bla");
+            postBody.put("studyGroup", GroupText.getText().toString());
+            url += "/" + GroupText.getText().toString();
+////                    + "/" + loginPassword.getText().toString();
+        }
+        catch (Exception e)
+        {
+            Log.e("Catch Entered","wkerufhieuwhf");
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                postBody,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        Log.e("Response Entered",response.toString());
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+
+
+
+
 }

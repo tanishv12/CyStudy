@@ -45,7 +45,7 @@ public class StringReqActivity extends AppCompatActivity {
 
     /** Uncomment to use: if sending a [POST] StringRequest */
     /** Use backend: https://git.las.iastate.edu/cs309/tutorials/-/tree/springboot_unit2_1_onetoone */
-    public static final String URL_STRING_REQ = "http://10.0.2.2:8080/users";
+    public static final String URL_STRING_REQ = "https://b2ec6e0f-3855-4955-a042-4fe7b2c3ff65.mock.pstmn.io/Object/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
