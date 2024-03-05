@@ -138,10 +138,10 @@ public class MessageActivity extends AppCompatActivity
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
             putBody = new JSONObject();
-            putBody.put("updatedMessage", UPDATEtext.getText().toString());
+            putBody.put("messageContent", UPDATEtext.getText().toString());
             Log.e("what is putbody",putBody.toString());
             Log.e("Try BLAH","oisafuhgiureshg");
-            url += "/" + "4";
+            url += "/" + "16";
             Log.e("What is url",url.toString());
 ////                    + "/" + loginPassword.getText().toString();
         }
@@ -215,7 +215,7 @@ public class MessageActivity extends AppCompatActivity
 //            deleteBody.put("group_id", updateGrp.getText().toString());
             Log.e("what is putbody",deleteBody.toString());
             Log.e("Try BLAH","oisafuhgiureshg");
-            url += "/" + "5";
+            url += "/" + "8";
             Log.e("What is url",url.toString());
 ////                    + "/" + loginPassword.getText().toString();
         }

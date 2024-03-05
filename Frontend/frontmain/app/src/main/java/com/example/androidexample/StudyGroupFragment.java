@@ -229,7 +229,7 @@ public class StudyGroupFragment extends AppCompatActivity
             putBody.put("groupName", updateGrp.getText().toString());
             Log.e("what is putbody",putBody.toString());
             Log.e("Try BLAH","oisafuhgiureshg");
-            url += "/" + "4";
+            url += "/" + "8";
             Log.e("What is url",url.toString());
 ////                    + "/" + loginPassword.getText().toString();
         }
