@@ -32,7 +32,6 @@ public class CourseController {
     private String failure = "{\"message\":\"failure\"}";
 
 
-
     @GetMapping(path = "/courses")
     List<Course> getAllCourses(){
         return courseRepository.findAll();
@@ -43,7 +42,7 @@ public class CourseController {
         return courseRepository.findById(id);
     }
 
-    @PostMapping(path = "/courses")
+    @PostMapping(path = "/courses/post")
     String createCourse(Course course){
         if (course == null)
             return failure;

@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * @author Saeshu Karthika
+ */
 @Entity
 @Table(name = "STUDYGROUP")
 public class StudyGroup {
@@ -21,33 +23,58 @@ public class StudyGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String groupName;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     @CreationTimestamp
     private Timestamp creationTime;
-
-    @ManyToOne
+    
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(mappedBy = "studyGroup",cascade = CascadeType.ALL)
-    private Set<Message> messages;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "studyGroup",cascade = CascadeType.ALL)
+    private Set<Message> messageSet;
 
-    @ManyToMany(mappedBy = "studyGroups",fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<User> users;
+//    @ManyToMany(mappedBy = "studyGroups",fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private List<User> users;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+    @JoinTable(name = "USER_STUDYGROUP", joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> userList;
+
+
+    // =============================== Constructors ================================== //
 
     public StudyGroup(){}
 
-    public StudyGroup(String groupName, List<User> users) {
+    public StudyGroup(String groupName) {
         this.groupName = groupName;
-        this.users = users;
     }
+
+    // =============================== Getters and Setters for each field ================================== //
 
     public Course getCourse() {
         return course;
+    }
+
+    public Set<Message> getMessageSet() {
+        return messageSet;
+    }
+
+    public void setMessageSet(Set<Message> messageSet) {
+        this.messageSet = messageSet;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 
     public void setCourse(Course course) {
@@ -55,18 +82,18 @@ public class StudyGroup {
     }
 
     public List<User> getUsers() {
-        return users;
+        return userList;
     }
 
     public void setUsers(List<User> users) {
-        this.users = users;
+        this.userList = users;
     }
 
     public void addUser(User user){
-        if(this.users == null){
-            this.users = new ArrayList<>();
+        if(this.userList == null){
+            this.userList = new ArrayList<>();
         }
-        this.users.add(user);
+        this.userList.add(user);
     }
 
 

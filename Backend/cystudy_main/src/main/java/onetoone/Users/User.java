@@ -1,12 +1,13 @@
 package onetoone.Users;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
 import onetoone.Groups.StudyGroup;
+import onetoone.Messages.Message;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,10 +20,6 @@ import java.util.Set;
 @Table(name = "USER")
 public class User {
 
-     /* 
-     * The annotation @ID marks the field below as the primary key for the table created by springboot
-     * The @GeneratedValue generates a value if not already present, The strategy in this case is to start from 1 and increment for each table
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -31,23 +28,33 @@ public class User {
     private String emailId;
     private boolean ifActive;
 
-    /*
-     * @OneToOne creates a relation between the current entity/table(Laptop) with the entity/table defined below it(User)
-     * cascade is responsible propagating all changes, even to children of the class Eg: changes made to laptop within a user object will be reflected
-     * in the database (more info : https://www.baeldung.com/jpa-cascade-types)
-     * @JoinColumn defines the ownership of the foreign key i.e. the user table will have a field called laptop_id
-     */
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinTable(name ="USER_COURSE", joinColumns = {@JoinColumn(name = "student_id",referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "course_id",referencedColumnName ="id")})
-    @JsonIgnore
-    private Set<Course> courses;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    @JoinTable(name ="USER_COURSE", joinColumns = {@JoinColumn(name = "student_id",referencedColumnName = "id")},
+//    inverseJoinColumns = {@JoinColumn(name = "course_id",referencedColumnName ="id")})
+//    @JsonIgnore
+//    private Set<Course> courses;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+    @JoinTable(name = "USER_COURSE", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courseSet;
+
+//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 //    @JoinTable(name = "USER_GROUP", joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
 //    inverseJoinColumns = {@JoinColumn(name = "group_id",referencedColumnName = "id")})
-    @JsonIgnore
-    private Set<StudyGroup> studyGroups;
+//    @JsonIgnore
+//    private Set<StudyGroup> studyGroups;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+    @JoinTable(name = "USER_STUDYGROUP", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<StudyGroup> studyGroupList;
+
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<Message> messageList;
+
+    // =============================== Constructors ================================== //
 
     public User(String name, String emailId, String password) {
         this.name = name;
@@ -102,19 +109,18 @@ public class User {
     }
 
     public Set<Course> getCourses() {
-        return courses;
+        return courseSet;
     }
 
     //Method to add course to hashset
     public void addCourse(Course course) {
-        if (courses == null) {
-            courses = new HashSet<Course>();
+        if (courseSet == null) {
+            courseSet = new HashSet<Course>();
         }
-        courses.add(course);
+        courseSet.add(course);
     }
 
     //Method to remove course from hashset
-    public void removeCourse(Course course){
-        courses.remove(course);
+    public void removeCourse(Course course){courseSet.remove(course);
     }
 }

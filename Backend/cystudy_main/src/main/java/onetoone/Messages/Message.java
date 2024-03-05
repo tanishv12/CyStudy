@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import onetoone.Groups.StudyGroup;
 import onetoone.Users.User;
 import org.hibernate.annotations.CreationTimestamp;
-
 import java.sql.Timestamp;
+
+/**
+ * @author Saeshu Karthika
+ */
 
 @Entity
 public class Message {
@@ -14,15 +17,6 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne // many messages can belong to one studyGroup
-    @JoinColumn(name="group_id")
-    private StudyGroup studyGroup;
-
-    @ManyToOne// many messages can belong to one user
-    @JoinColumn(name="user_id")
-    private User sender;
-
-
     @Column(nullable = false)
     private String messageContent;
 
@@ -30,7 +24,16 @@ public class Message {
     @CreationTimestamp
     private Timestamp timestamp;
 
+    @ManyToOne(cascade = CascadeType.ALL)// many messages can belong to one studyGroup
+    @JoinColumn(name="group_id")
+    private StudyGroup studyGroup;
 
+    @ManyToOne(cascade = CascadeType.ALL)// many messages can belong to one user
+    @JoinColumn(name="user_id")
+    private User sender;
+
+
+    // =============================== Constructors ================================== //
 
     public Message(String messageContent) {
         this.messageContent = messageContent;
@@ -38,6 +41,8 @@ public class Message {
 
     public Message() {
     }
+
+    // =============================== Getters and Setters for each field ================================== //
 
     public int getId() {
         return id;
