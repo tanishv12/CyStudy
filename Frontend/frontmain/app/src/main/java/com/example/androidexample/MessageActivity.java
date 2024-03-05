@@ -1,84 +1,62 @@
 package com.example.androidexample;
 
-import android.os.Bundle;
-
-
-import androidx.constraintlayout.widget.Group;
-import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class StudyGroupFragment extends AppCompatActivity
+public class MessageActivity extends AppCompatActivity
 {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private TextView gresponse;
-    private Button getButton;
-    private Button postButton;
-    private Button studyGroupsToClasses;
-
-    private Button updateButton;
-    private EditText updateGrp;
-
-    private Button studyGroupsToMessages;
-
-    private Button deleteBTN;
-
-
-    private EditText GroupText;
+    private static EditText MessageTextSend;
+    private static Button msgButton;
+    private static TextView sentVeri;
+    private static Button getMESSAGES;
+    private static TextView AllMessages;
+    private static Button DeleteBUTTON;
+    private static EditText UPDATEtext;
+    private  static Button UPDATEmsgBtn;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_study_group);
+        setContentView(R.layout.activity_message);
 
-        studyGroupsToClasses = findViewById(R.id.backbtn2);
-        studyGroupsToMessages = findViewById(R.id.toMessages);
-        getButton = findViewById(R.id.getBUTTON);
-        gresponse = findViewById(R.id.getresponse);
-        postButton = findViewById(R.id.postButton);
-        updateButton = findViewById(R.id.putButton);
-        updateGrp = findViewById(R.id.updateGroup);
-        GroupText = findViewById(R.id.groupText);
-        deleteBTN = findViewById(R.id.deleteGrpButton);
+        MessageTextSend = findViewById(R.id.MessageText);
+        msgButton = findViewById(R.id.sendBUTTON);
+        getMESSAGES = findViewById(R.id.getMessageButton);
+        AllMessages = findViewById(R.id.allMessages);
+        DeleteBUTTON = findViewById(R.id.deleteMessage);
+        UPDATEtext = findViewById(R.id.updateMsgText);
+        UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
 
-        getButton.setOnClickListener(new View.OnClickListener()
+
+        UPDATEmsgBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                putRequest();
+            }
+        });
+        getMESSAGES.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -87,7 +65,7 @@ public class StudyGroupFragment extends AppCompatActivity
             }
         });
 
-        deleteBTN.setOnClickListener(new View.OnClickListener()
+        DeleteBUTTON.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -96,7 +74,8 @@ public class StudyGroupFragment extends AppCompatActivity
             }
         });
 
-        postButton.setOnClickListener(new View.OnClickListener()
+
+        msgButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -104,92 +83,30 @@ public class StudyGroupFragment extends AppCompatActivity
                 postRequest();
             }
         });
-
-        updateButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                putRequest();
-            }
-        });
-
-        studyGroupsToClasses.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StudyGroupFragment.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        studyGroupsToMessages.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
-                startActivity(intent);
-            }
-        });
     }
-
-    //group_id   course_id
-    public StudyGroupFragment()
+    private void getRequest()
     {
-        // Required empty public constructor
-    }
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/all";
 
-    private void deleteRequest()
-    {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete";
-        // Convert input to JSONObject
-        JSONObject deleteBody = null;
-
-        try
-        {
-            Log.e("Try Entered","oisafuhgiureshg");
-            // etRequest should contain a JSON object string as your POST body
-            // similar to what you would have in POSTMAN-body field
-            // and the fields should match with the object structure of @RequestBody on sb
-            deleteBody = new JSONObject();
-//            deleteBody.put("group_id", updateGrp.getText().toString());
-            Log.e("what is putbody",deleteBody.toString());
-            Log.e("Try BLAH","oisafuhgiureshg");
-            url += "/" + "5";
-            Log.e("What is url",url.toString());
-////                    + "/" + loginPassword.getText().toString();
-        }
-        catch (Exception e)
-        {
-            Log.e("Catch Entered","wkerufhieuwhf");
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.DELETE,
-                url,
-                deleteBody,
-                new Response.Listener<JSONObject>()
-                {
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
+                    public void onResponse(String response) {
 
-                        Log.e("Response Entered",response.toString());
-
+                        // Display the first 500 characters of the response string.
+                        // String response can be converted to JSONObject via
+                        // JSONObject object = new JSONObject(response);
+                        AllMessages.setText(response);
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Log.e("Error Response", error.toString());
-//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    public void onErrorResponse(VolleyError error) {
 
                     }
-                }
-        ){
+                }) {
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -206,16 +123,11 @@ public class StudyGroupFragment extends AppCompatActivity
                 return params;
             }
         };
-
-        // Adding request to request queue
-        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
-
-
-
     private void putRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/update";
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/update";
         // Convert input to JSONObject
         JSONObject putBody = null;
 
@@ -226,10 +138,10 @@ public class StudyGroupFragment extends AppCompatActivity
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
             putBody = new JSONObject();
-            putBody.put("groupName", updateGrp.getText().toString());
+            putBody.put("messageContent", UPDATEtext.getText().toString());
             Log.e("what is putbody",putBody.toString());
             Log.e("Try BLAH","oisafuhgiureshg");
-            url += "/" + "8";
+            url += "/" + "16";
             Log.e("What is url",url.toString());
 ////                    + "/" + loginPassword.getText().toString();
         }
@@ -287,55 +199,11 @@ public class StudyGroupFragment extends AppCompatActivity
 
 
 
-    private void getRequest()
+    private void deleteRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all";
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        // Display the first 500 characters of the response string.
-                        // String response can be converted to JSONObject via
-                        // JSONObject object = new JSONObject(response);
-                        gresponse.setText(response);
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                }){
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
-                //                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                //                params.put("param1", "value1");
-                //                params.put("param2", "value2");
-                return params;
-            }
-        };
-
-        // Adding request to request queue
-        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
-    }
-    private void postRequest()
-    {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/post";
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/delete";
         // Convert input to JSONObject
-        JSONObject postBody = null;
+        JSONObject deleteBody = null;
 
         try
         {
@@ -343,10 +211,12 @@ public class StudyGroupFragment extends AppCompatActivity
             // etRequest should contain a JSON object string as your POST body
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
-            postBody = new JSONObject();
-            Log.e("JSON Created","Json was created bla bla");
-            postBody.put("studyGroup", GroupText.getText().toString());
-            url += "/" + GroupText.getText().toString();
+            deleteBody = new JSONObject();
+//            deleteBody.put("group_id", updateGrp.getText().toString());
+            Log.e("what is putbody",deleteBody.toString());
+            Log.e("Try BLAH","oisafuhgiureshg");
+            url += "/" + "8";
+            Log.e("What is url",url.toString());
 ////                    + "/" + loginPassword.getText().toString();
         }
         catch (Exception e)
@@ -356,14 +226,15 @@ public class StudyGroupFragment extends AppCompatActivity
         }
 
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
+                Request.Method.DELETE,
                 url,
-                postBody,
+                deleteBody,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response)
                     {
+
                         Log.e("Response Entered",response.toString());
 
                     }
@@ -395,13 +266,78 @@ public class StudyGroupFragment extends AppCompatActivity
                 return params;
             }
         };
-
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
 
+    private void postRequest()
+    {
+        sentVeri = findViewById(R.id.sentVerify);
 
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/post";
+        // Convert input to JSONObject
+        JSONObject postBody = null;
+        try
+        {
+            Log.e("Try Entered","oisafuhgiureshg");
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+            postBody = new JSONObject();
+            Log.e("JSON Created","Json was created bla bla");
+            postBody.put("messageContent", MessageTextSend.getText().toString());
+//            url += "/" + MessageTextSend.getText().toString();
+////                    + "/" + loginPassword.getText().toString();
+        }
+        catch (Exception e)
+        {
+            Log.e("Catch Entered","wkerufhieuwhf");
+            e.printStackTrace();
+        }
 
+        JSONObject finalPostBody = postBody;
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                postBody,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        Log.e("Response Entered",response.toString());
+                        sentVeri.setText("Response is: "+ response.toString());
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
 
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
 }
