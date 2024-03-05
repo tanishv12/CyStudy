@@ -14,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
@@ -26,24 +27,122 @@ public class MessageActivity extends AppCompatActivity
     private static EditText MessageTextSend;
     private static Button msgButton;
     private static TextView sentVeri;
+    private static Button getMESSAGES;
+    private static TextView AllMessages;
+    private static Button DeleteBUTTON;
+    private static EditText UPDATEtext;
+    private  static Button UPDATEmsgBtn;
 
-    private void postRequest()
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
     {
-        sentVeri = findViewById(R.id.sentVerify);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_message);
 
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/post";
+        MessageTextSend = findViewById(R.id.MessageText);
+        msgButton = findViewById(R.id.sendBUTTON);
+        getMESSAGES = findViewById(R.id.getMessageButton);
+        AllMessages = findViewById(R.id.allMessages);
+        DeleteBUTTON = findViewById(R.id.deleteMessage);
+        UPDATEtext = findViewById(R.id.updateMsgText);
+        UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
+
+
+        UPDATEmsgBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                putRequest();
+            }
+        });
+        getMESSAGES.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                getRequest();
+            }
+        });
+
+        DeleteBUTTON.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                deleteRequest();
+            }
+        });
+
+
+        msgButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                postRequest();
+            }
+        });
+    }
+    private void getRequest()
+    {
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/all";
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        // Display the first 500 characters of the response string.
+                        // String response can be converted to JSONObject via
+                        // JSONObject object = new JSONObject(response);
+                        AllMessages.setText(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+    private void putRequest()
+    {
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/update";
         // Convert input to JSONObject
-        JSONObject postBody = null;
+        JSONObject putBody = null;
+
         try
         {
             Log.e("Try Entered","oisafuhgiureshg");
             // etRequest should contain a JSON object string as your POST body
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
-            postBody = new JSONObject();
-            Log.e("JSON Created","Json was created bla bla");
-            postBody.put("messageContent", MessageTextSend.getText().toString());
-//            url += "/" + MessageTextSend.getText().toString();
+            putBody = new JSONObject();
+            putBody.put("updatedMessage", UPDATEtext.getText().toString());
+            Log.e("what is putbody",putBody.toString());
+            Log.e("Try BLAH","oisafuhgiureshg");
+            url += "/" + "4";
+            Log.e("What is url",url.toString());
 ////                    + "/" + loginPassword.getText().toString();
         }
         catch (Exception e)
@@ -53,16 +152,17 @@ public class MessageActivity extends AppCompatActivity
         }
 
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
+                Request.Method.PUT,
                 url,
-                postBody,
+                putBody,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response)
                     {
+
                         Log.e("Response Entered",response.toString());
-                        sentVeri.setText("Response is: "+ response.toString());
+
                     }
                 },
                 new Response.ErrorListener()
@@ -97,23 +197,147 @@ public class MessageActivity extends AppCompatActivity
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+
+
+    private void deleteRequest()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message);
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/delete";
+        // Convert input to JSONObject
+        JSONObject deleteBody = null;
 
-        MessageTextSend = findViewById(R.id.MessageText);
-        msgButton = findViewById(R.id.sendBUTTON);
-
-
-        msgButton.setOnClickListener(new View.OnClickListener()
+        try
         {
+            Log.e("Try Entered","oisafuhgiureshg");
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+            deleteBody = new JSONObject();
+//            deleteBody.put("group_id", updateGrp.getText().toString());
+            Log.e("what is putbody",deleteBody.toString());
+            Log.e("Try BLAH","oisafuhgiureshg");
+            url += "/" + "5";
+            Log.e("What is url",url.toString());
+////                    + "/" + loginPassword.getText().toString();
+        }
+        catch (Exception e)
+        {
+            Log.e("Catch Entered","wkerufhieuwhf");
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                deleteBody,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+
+                        Log.e("Response Entered",response.toString());
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
             @Override
-            public void onClick(View view)
-            {
-                postRequest();
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
             }
-        });
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+
+    private void postRequest()
+    {
+        sentVeri = findViewById(R.id.sentVerify);
+
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/post";
+        // Convert input to JSONObject
+        JSONObject postBody = null;
+        try
+        {
+            Log.e("Try Entered","oisafuhgiureshg");
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+            postBody = new JSONObject();
+            Log.e("JSON Created","Json was created bla bla");
+            postBody.put("messageContent", MessageTextSend.getText().toString());
+//            url += "/" + MessageTextSend.getText().toString();
+////                    + "/" + loginPassword.getText().toString();
+        }
+        catch (Exception e)
+        {
+            Log.e("Catch Entered","wkerufhieuwhf");
+            e.printStackTrace();
+        }
+
+        JSONObject finalPostBody = postBody;
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                postBody,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        Log.e("Response Entered",response.toString());
+                        sentVeri.setText("Response is: "+ response.toString());
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 }
