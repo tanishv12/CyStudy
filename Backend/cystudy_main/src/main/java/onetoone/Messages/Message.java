@@ -35,8 +35,10 @@ public class Message {
 
     // =============================== Constructors ================================== //
 
-    public Message(String messageContent) {
+    public Message(String messageContent, User user) {
         this.messageContent = messageContent;
+        this.sender = user;
+
     }
 
     public Message() {

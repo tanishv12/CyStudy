@@ -48,10 +48,11 @@ public class Course {
 
     // =============================== Constructors ================================== //
 
-    public Course(String courseName, String courseDepartment,int courseCode) {
+    public Course(String courseName, String courseDepartment,int courseCode, Set<User> userSet) {
         this.courseName = courseName;
         this.courseDepartment = courseDepartment;
         this.courseCode = courseCode;
+        this.userSet = userSet;
     }
 
     public Course() {

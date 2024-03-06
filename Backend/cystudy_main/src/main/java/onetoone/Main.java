@@ -45,6 +45,7 @@ class Main {
     @Bean
     CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository) {
         return args -> {
+
 //            User user1 = new User("John", "john@somemail.com","lol");
 //            User user2 = new User("Jane", "jane@somemail.com","lol");
 //            User user3 = new User("Justin", "justin@somemail.com","lol");
