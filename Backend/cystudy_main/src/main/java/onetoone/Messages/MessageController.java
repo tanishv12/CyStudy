@@ -59,14 +59,13 @@ public class MessageController {
         return success;
     }
 
-
-
     @PutMapping("/messages/update/{message_id}")
     Message updateMessage(@PathVariable int message_id, @RequestBody Message updatedMessage) {
         Message message = messageRepository.findById(message_id);
         if (message == null)
             return null;
-        messageRepository.save(updatedMessage);
+        message.setMessageContent(updatedMessage.getMessageContent();
+//        messageRepository.save(message);
         return messageRepository.findById(message_id);
     }
 //    @PutMapping("/messages/{id}")
