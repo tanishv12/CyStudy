@@ -59,16 +59,50 @@ public class UserController {
         System.out.println(user.getId());
         return ResponseEntity.ok("User created successfully");
     }
-    @GetMapping(path = "/users/login")
-    ResponseEntity<String> logUserIn(@RequestBody User user){
+//    @GetMapping(path = "/users/login")
+//    ResponseEntity<String> logUserIn(@RequestBody User user){
+//        if(user == null){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");
+//        }
+//        User storedUser = userRepository.findById(user.getId());
+//        if(storedUser == null){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+//        }
+//        if (user.getPassword().equals(storedUser.getPassword()) && user.getName().equals(storedUser.getName())) {
+//            user.setIfActive(true);
+//            return ResponseEntity.ok("Login successful");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
+//        }
+//    }
+
+//    @PostMapping(path = "/users/post/{id}")
+//    ResponseEntity<String> logUserIn(@PathVariable long id, @RequestBody User user){
+//        if(user == null){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");
+//        }
+//        User storedUser = userRepository.findById(id);
+//        if(storedUser == null){
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+//        }
+//        if (user.getPassword().equals(storedUser.getPassword()) && user.getName().equals(storedUser.getName())) {
+//            user.setIfActive(true);
+//            return ResponseEntity.ok("Login successful");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
+//        }
+//    }
+
+    @PostMapping(path = "/users/post/{id}/{userName}/{password}")
+    ResponseEntity<String> logUserIn(@PathVariable long id, @PathVariable String userName, @PathVariable String password, @RequestBody User user){
         if(user == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");
         }
-        User storedUser = userRepository.findById(user.getId());
+        User storedUser = userRepository.findById(id);
         if(storedUser == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
         }
-        if (user.getPassword().equals(storedUser.getPassword()) && user.getName().equals(storedUser.getName())) {
+        if (password.equals(storedUser.getPassword()) && userName.equals(storedUser.getName())) {
             user.setIfActive(true);
             return ResponseEntity.ok("Login successful");
         } else {

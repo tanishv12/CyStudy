@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import onetoone.Groups.StudyGroup;
 import onetoone.Users.User;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,11 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "COURSE")
 public class Course {
-    
-    /* 
-     * The annotation @ID marks the field below as the primary key for the table created by springboot
-     * The @GeneratedValue generates a value if not already present, The strategy in this case is to start from 1 and increment for each table
-     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -30,23 +27,32 @@ public class Course {
     private String courseDepartment;
 
 
-
-
     /*
      * @OneToOne creates a relation between the current entity/table(Laptop) with the entity/table defined below it(User)
      * @JsonIgnore is to assure that there is no infinite loop while returning either user/laptop objects (laptop->user->laptop->...)
      */
-    @ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Set<User> users;
+//    @ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private Set<User> users;
 
-    @OneToMany(mappedBy = "course")
-    private Set<StudyGroup> studyGroups;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+    @JoinTable(name = "USER_COURSE", joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> userSet;
 
-    public Course(String courseName, String courseDepartment,int courseCode) {
+//    @OneToMany(mappedBy = "course")
+//    private Set<StudyGroup> studyGroups;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
+    private List<StudyGroup> studyGroupList;
+
+    // =============================== Constructors ================================== //
+
+    public Course(String courseName, String courseDepartment,int courseCode, Set<User> userSet) {
         this.courseName = courseName;
         this.courseDepartment = courseDepartment;
         this.courseCode = courseCode;
+        this.userSet = userSet;
     }
 
     public Course() {
@@ -88,10 +94,10 @@ public class Course {
     }
 
     public Set<User> getStudents() {
-        return users;
+        return userSet;
     }
 
     public void addUser(User user) {
-        users.add(user);
+        userSet.add(user);
     }
 }
