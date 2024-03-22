@@ -382,7 +382,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         runOnUiThread(() ->
         {
             String s = MessageTextSend.getText().toString();
-            MessageTextSend.setText(s + "\n"+message);
+            AllMessages.setText(s + "\n"+message);
         });
     }
 
@@ -392,7 +392,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         String closedBy = remote ? "server" : "local";
         runOnUiThread(() -> {
             String s = MessageTextSend.getText().toString();
-            MessageTextSend.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
+            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
         });
     }
 
