@@ -2,6 +2,7 @@ package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,10 +21,10 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.java_websocket.handshake.ServerHandshake;
 
 
-public class MessageActivity extends AppCompatActivity
-{
+public class MessageActivity extends AppCompatActivity implements WebSocketListener {
     private static EditText MessageTextSend;
     private static Button msgButton;
     private static TextView sentVeri;
@@ -33,11 +34,15 @@ public class MessageActivity extends AppCompatActivity
     private static EditText UPDATEtext;
     private  static Button UPDATEmsgBtn;
 
+    private static Button connectBtn;
+    private static String serverURL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+        WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
 
         MessageTextSend = findViewById(R.id.MessageText);
         msgButton = findViewById(R.id.sendBUTTON);
@@ -46,6 +51,22 @@ public class MessageActivity extends AppCompatActivity
         DeleteBUTTON = findViewById(R.id.deleteMessage);
         UPDATEtext = findViewById(R.id.updateMsgText);
         UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
+        connectBtn = findViewById(R.id.connectbutton);
+
+        connectBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String username = "tanish";
+                serverURL = "ws://10.0.2.2:8080/chat/"+username;
+
+                // Establish WebSocket connection and set listener
+                WebSocketManager.getInstance().connectWebSocket(serverURL);
+                WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
+
+            }
+        });
 
 
         UPDATEmsgBtn.setOnClickListener(new View.OnClickListener()
@@ -81,6 +102,15 @@ public class MessageActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 postRequest();
+                try
+                {
+                    // send message
+                    WebSocketManager.getInstance().sendMessage(MessageTextSend.getText().toString());
+                }
+                catch (Exception e)
+                {
+                    Log.d("ExceptionSendMessage:", e.getMessage().toString());
+                }
             }
         });
     }
@@ -339,5 +369,35 @@ public class MessageActivity extends AppCompatActivity
 
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+    @Override
+    public void onWebSocketOpen(ServerHandshake handshakedata) {
+
+    }
+
+    @Override
+    public void onWebSocketMessage(String message)
+    {
+        runOnUiThread(() ->
+        {
+            String s = MessageTextSend.getText().toString();
+            MessageTextSend.setText(s + "\n"+message);
+        });
+    }
+
+    @Override
+    public void onWebSocketClose(int code, String reason, boolean remote)
+    {
+        String closedBy = remote ? "server" : "local";
+        runOnUiThread(() -> {
+            String s = MessageTextSend.getText().toString();
+            MessageTextSend.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
+        });
+    }
+
+    @Override
+    public void onWebSocketError(Exception ex) {
+
     }
 }

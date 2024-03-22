@@ -13,6 +13,7 @@ import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import org.java_websocket.handshake.ServerHandshake;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
