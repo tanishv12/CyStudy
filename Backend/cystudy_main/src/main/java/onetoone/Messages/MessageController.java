@@ -64,7 +64,7 @@ public class MessageController {
         Message message = messageRepository.findById(message_id);
         if (message == null)
             return null;
-        message.setMessageContent(updatedMessage.getMessageContent();
+        message.setMessageContent(updatedMessage.getMessageContent());
 //        messageRepository.save(message);
         return messageRepository.findById(message_id);
     }

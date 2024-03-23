@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 /**
  * @author Saeshu Karthika
+ * @author Rahul Sudev
  */
 
 @Entity
