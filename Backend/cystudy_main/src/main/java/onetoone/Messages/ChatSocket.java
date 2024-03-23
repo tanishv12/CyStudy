@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller      // this is needed for this to be an endpoint to springboot
-@ServerEndpoint(value = "/chat/{username}")  // this is Websocket url
+@ServerEndpoint(value = "/chat/{id}")  // this is Websocket url
 public class ChatSocket {
 
 	// cannot autowire static directly (instead we do it by the below
@@ -50,11 +50,11 @@ public class ChatSocket {
 	private final Logger logger = LoggerFactory.getLogger(ChatSocket.class);
 
 	@OnOpen
-	public void onOpen(Session session, @PathParam("username") User username)
+	public void onOpen(Session session,  @PathParam("id") String id)
 			throws IOException {
 
 		logger.info("Entered into Open");
-
+		User username = userRepo.findById(Long.parseLong(id));
 		// store connecting user information
 		sessionUsernameMap.put(session, username);
 		usernameSessionMap.put(username, session);
