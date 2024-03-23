@@ -59,7 +59,9 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             public void onClick(View view)
             {
                 String username = "tanish";
+
                 serverURL = "ws://10.0.2.2:8080/chat/"+username;
+//                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
 
                 // Establish WebSocket connection and set listener
                 WebSocketManager.getInstance().connectWebSocket(serverURL);
@@ -381,7 +383,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
         runOnUiThread(() ->
         {
-            String s = MessageTextSend.getText().toString();
+            String s = AllMessages.getText().toString();
             AllMessages.setText(s + "\n"+message);
         });
     }
