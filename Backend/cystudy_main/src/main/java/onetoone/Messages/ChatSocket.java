@@ -13,7 +13,6 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 
-import onetoone.Users.User;
 import onetoone.Users.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller      // this is needed for this to be an endpoint to springboot
-@ServerEndpoint(value = "/chat/{id}")  // this is Websocket url
+@ServerEndpoint(value = "/chat/{username}")  // this is Websocket url
 public class ChatSocket {
 
 	// cannot autowire static directly (instead we do it by the below
 	// method
 	private static MessageRepository msgRepo;
+
 	private static UserRepository userRepo;
 
 	/*
@@ -40,21 +40,21 @@ public class ChatSocket {
 	public void setMessageRepository(MessageRepository repo) {
 		msgRepo = repo;  // we are setting the static variable
 	}
-	@Autowired
-	public void setUserRepo(UserRepository repo){userRepo = repo;}// we are setting the static variable
+	 @Autowired
+	 public void setUserRepository(UserRepository repo){userRepo = repo;}
 
 	// Store all socket session and their corresponding username.
-	private static Map<Session, User> sessionUsernameMap = new Hashtable<>();
-	private static Map<User, Session> usernameSessionMap = new Hashtable<>();
+	private static Map<Session, String> sessionUsernameMap = new Hashtable<>();
+	private static Map<String, Session> usernameSessionMap = new Hashtable<>();
 
 	private final Logger logger = LoggerFactory.getLogger(ChatSocket.class);
 
 	@OnOpen
-	public void onOpen(Session session,  @PathParam("id") String id)
+	public void onOpen(Session session, @PathParam("username") String username)
 			throws IOException {
 
 		logger.info("Entered into Open");
-		User username = userRepo.findById(Long.parseLong(id));
+
 		// store connecting user information
 		sessionUsernameMap.put(session, username);
 		usernameSessionMap.put(username, session);
@@ -73,11 +73,11 @@ public class ChatSocket {
 
 		// Handle new messages
 		logger.info("Entered into Message: Got Message:" + message);
-		User username = sessionUsernameMap.get(session);
+		String username = sessionUsernameMap.get(session);
 
 		// Direct message to a user using the format "@username <message>"
 		if (message.startsWith("@")) {
-			User destUsername = userRepo.findByUsername(message.split(" ")[0].substring(1));
+			String destUsername = message.split(" ")[0].substring(1);
 
 			// send the message to the sender and receiver
 			sendMessageToPArticularUser(destUsername, "[DM] " + username + ": " + message);
@@ -89,7 +89,7 @@ public class ChatSocket {
 		}
 
 		// Saving chat history to repository
-		msgRepo.save(new Message( message,username));
+		msgRepo.save(new Message(message,userRepo.findByUsername(username)));
 	}
 
 
@@ -98,7 +98,7 @@ public class ChatSocket {
 		logger.info("Entered into Close");
 
 		// remove the user connection information
-		User username = sessionUsernameMap.get(session);
+		String username = sessionUsernameMap.get(session);
 		sessionUsernameMap.remove(session);
 		usernameSessionMap.remove(username);
 
@@ -116,7 +116,7 @@ public class ChatSocket {
 	}
 
 
-	private void sendMessageToPArticularUser(User username, String message) {
+	private void sendMessageToPArticularUser(String username, String message) {
 		try {
 			usernameSessionMap.get(username).getBasicRemote().sendText(message);
 		}
@@ -156,5 +156,5 @@ public class ChatSocket {
 		return sb.toString();
 	}
 
-}
+} // end of Class
 
