@@ -13,6 +13,7 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 
+import onetoone.Users.User;
 import onetoone.Users.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,17 +55,23 @@ public class ChatSocket {
 			throws IOException {
 
 		logger.info("Entered into Open");
+		if (usernameSessionMap.containsKey(username)) {
+			session.getBasicRemote().sendText("Student already exists in group");
+			session.close();}
 
-		// store connecting user information
-		sessionUsernameMap.put(session, username);
-		usernameSessionMap.put(username, session);
 
-		//Send chat history to the newly connected user
-		sendMessageToPArticularUser(username, getChatHistory());
+		else {
+			// store connecting user information
+			sessionUsernameMap.put(session, username);
+			usernameSessionMap.put(username, session);
 
-		// broadcast that new user joined
-		String message = "User:" + username + " has Joined the Chat";
-		broadcast(message);
+			//Send chat history to the newly connected user
+			sendMessageToPArticularUser(username,"Welcome to study group1!" +username);
+
+			// broadcast that new user joined
+			String message = "Student:" + username + " has Joined the group1";
+			broadcast(message);
+		}
 	}
 
 
@@ -74,9 +81,8 @@ public class ChatSocket {
 		// Handle new messages
 		logger.info("Entered into Message: Got Message:" + message);
 		String username = sessionUsernameMap.get(session);
-
 		// Direct message to a user using the format "@username <message>"
-		if (message.startsWith("@")) {
+		 if (message.startsWith("@")) {
 			String destUsername = message.split(" ")[0].substring(1);
 
 			// send the message to the sender and receiver
@@ -103,7 +109,7 @@ public class ChatSocket {
 		usernameSessionMap.remove(username);
 
 		// broadcase that the user disconnected
-		String message = username + " disconnected";
+		String message = username + " exited group1";
 		broadcast(message);
 	}
 
