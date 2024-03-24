@@ -37,13 +37,8 @@ public class StudyGroup {
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "studyGroup",cascade = CascadeType.ALL)
     private Set<Message> messageSet;
 
-//    @ManyToMany(mappedBy = "studyGroups",fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private List<User> users;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "studyGroupList")
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-    @JoinTable(name = "USER_STUDYGROUP", joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> userList;
 
 

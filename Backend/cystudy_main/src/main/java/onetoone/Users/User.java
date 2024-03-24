@@ -28,22 +28,10 @@ public class User {
     private String emailId;
     private boolean ifActive;
 
-
-//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    @JoinTable(name ="USER_COURSE", joinColumns = {@JoinColumn(name = "student_id",referencedColumnName = "id")},
-//    inverseJoinColumns = {@JoinColumn(name = "course_id",referencedColumnName ="id")})
-//    @JsonIgnore
-//    private Set<Course> courses;
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
     @JoinTable(name = "USER_COURSE", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private Set<Course> courseSet;
-
-//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    @JoinTable(name = "USER_GROUP", joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
-//    inverseJoinColumns = {@JoinColumn(name = "group_id",referencedColumnName = "id")})
-//    @JsonIgnore
-//    private Set<StudyGroup> studyGroups;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
     @JoinTable(name = "USER_STUDYGROUP", joinColumns = @JoinColumn(name = "user_id"),

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import onetoone.Groups.StudyGroup;
 import onetoone.Users.User;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,21 +28,8 @@ public class Course {
     private String courseDepartment;
 
 
-    /*
-     * @OneToOne creates a relation between the current entity/table(Laptop) with the entity/table defined below it(User)
-     * @JsonIgnore is to assure that there is no infinite loop while returning either user/laptop objects (laptop->user->laptop->...)
-     */
-//    @ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private Set<User> users;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-    @JoinTable(name = "USER_COURSE", joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "courseSet", cascade = CascadeType.ALL)
     private Set<User> userSet;
-
-//    @OneToMany(mappedBy = "course")
-//    private Set<StudyGroup> studyGroups;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudyGroup> studyGroupList;
@@ -98,6 +86,9 @@ public class Course {
     }
 
     public void addUser(User user) {
+        if(userSet == null){
+            userSet = new HashSet<>();
+        }
         userSet.add(user);
     }
 }

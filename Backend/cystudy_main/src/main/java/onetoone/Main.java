@@ -46,26 +46,48 @@ class Main {
     CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository) {
         return args -> {
 
+//            userRepository.deleteAll();
+//            courseRepository.deleteAll();
+//            messageRepository.deleteAll();
+//            studyGroupRepository.deleteAll();
+
+//
 //            User user1 = new User("John", "john@somemail.com","lol");
 //            User user2 = new User("Jane", "jane@somemail.com","lol");
 //            User user3 = new User("Justin", "justin@somemail.com","lol");
-//            Course course1 = new Course( "Calculus 1","MATH",166);
-//            Course course2 = new Course( "Intro to Object Oriented Programming","COM S", 227);
-//            Course course3 = new Course( "Written,oral,Visual, and Electronic compostition","ENG",250);
+
+
+//            Set<User> userSet = new HashSet<>();
+//            userSet.add(user1);
+//            userSet.add(user2);
+//            userSet.add(user3);
+
+//            Course course1 = new Course( "Calculus 1","MATH",166, null);
+//            courseRepository.save(course1);
+//
 //            user1.addCourse(course1);
-//            user2.addCourse(course2);
-//            user3.addCourse(course3);
+//            course1.addUser(user1);
+//            userRepository.save(user1);
+//            user2.addCourse(course1);
+//            user3.addCourse(course1);
 //            userRepository.save(user1);
 //            userRepository.save(user2);
 //            userRepository.save(user3);
-
-
-
-//            Message message1 = new Message("How are you");
-//            message1.setSender(user1);
-//            messageRepository.save(message1);
 //
-//            StudyGroup group1 = new StudyGroup("Group 1");
+//
+//            course1.addUser(user1);
+//            course1.addUser(user2);
+//            course1.addUser(user3);
+//            courseRepository.save(course1);
+
+//
+//
+//
+////            Message message1 = new Message("How are you");
+////            message1.setSender(user1);
+////            messageRepository.save(message1);
+////
+//            StudyGroup group1 = new StudyGroup("Group Calc");
 //            group1.addUser(user1);
 //            group1.addUser(user2);
 //            group1.addUser(user3);
