@@ -51,10 +51,10 @@ class Main {
 //            messageRepository.deleteAll();
 //            studyGroupRepository.deleteAll();
 
-//
-//            User user1 = new User("John", "john@somemail.com","lol");
-//            User user2 = new User("Jane", "jane@somemail.com","lol");
-//            User user3 = new User("Justin", "justin@somemail.com","lol");
+
+            User user1 = new User("John", "john@somemail.com","lol");
+            User user2 = new User("Jane", "jane@somemail.com","lol");
+            User user3 = new User("Justin", "justin@somemail.com","lol");
 
 
 //            Set<User> userSet = new HashSet<>();
@@ -62,18 +62,20 @@ class Main {
 //            userSet.add(user2);
 //            userSet.add(user3);
 
-//            Course course1 = new Course( "Calculus 1","MATH",166, null);
-//            courseRepository.save(course1);
-//
-//            user1.addCourse(course1);
-//            course1.addUser(user1);
-//            userRepository.save(user1);
-//            user2.addCourse(course1);
-//            user3.addCourse(course1);
-//            userRepository.save(user1);
-//            userRepository.save(user2);
-//            userRepository.save(user3);
-//
+            Course course1 = new Course( "Calculus 1","MATH",166, null);
+            courseRepository.save(course1);
+
+            user1.addCourse(course1);
+            course1.addUser(user1);
+            userRepository.save(user1);
+
+
+            user2.addCourse(course1);
+            user3.addCourse(course1);
+            userRepository.save(user1);
+            userRepository.save(user2);
+            userRepository.save(user3);
+
 //
 //            course1.addUser(user1);
 //            course1.addUser(user2);

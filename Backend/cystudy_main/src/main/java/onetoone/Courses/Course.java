@@ -28,7 +28,11 @@ public class Course {
     private String courseDepartment;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "courseSet", cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }, mappedBy = "courseSet")
     private Set<User> userSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
