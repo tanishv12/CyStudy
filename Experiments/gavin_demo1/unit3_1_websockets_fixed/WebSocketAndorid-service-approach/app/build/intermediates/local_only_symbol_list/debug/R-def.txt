@@ -1,0 +1,31 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color white
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+id backBtn
+id backBtn2
+id backMainBtn
+id connectBtn
+id connectBtn2
+id msgEdt
+id msgEdt2
+id sendBtn
+id sendBtn2
+id serverEdt
+id serverEdt2
+id tx1
+id tx2
+id unameEdt
+id unameEdt2
+layout activity_chat1
+layout activity_chat2
+layout activity_main
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style Base.Theme.AndroidExample
+style Theme.AndroidExample
+xml backup_rules
+xml data_extraction_rules

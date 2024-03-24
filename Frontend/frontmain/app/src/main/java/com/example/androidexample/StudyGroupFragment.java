@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
@@ -36,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class StudyGroupFragment extends AppCompatActivity
+public class StudyGroupFragment extends AppCompatActivity implements WebSocketListener
 {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,14 +60,19 @@ public class StudyGroupFragment extends AppCompatActivity
 
     private Button deleteBTN;
 
+    private Button connectButton;
 
     private EditText GroupText;
+
+    private static String serverURL;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_study_group);
+
+        WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
 
         studyGroupsToClasses = findViewById(R.id.backbtn2);
         studyGroupsToMessages = findViewById(R.id.toMessages);
@@ -77,6 +83,19 @@ public class StudyGroupFragment extends AppCompatActivity
         updateGrp = findViewById(R.id.updateGroup);
         GroupText = findViewById(R.id.groupText);
         deleteBTN = findViewById(R.id.deleteGrpButton);
+        connectButton = findViewById(R.id.userConnectButton);
+//
+//        connectButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                String user = UsernameSingleton.getInstance().getUserName();
+//                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/user/"+user;
+//
+//                WebSocketManager.getInstance().connectWebSocket(serverURL);
+//                WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
+//            }
+//        });
 
         getButton.setOnClickListener(new View.OnClickListener()
         {
@@ -401,7 +420,28 @@ public class StudyGroupFragment extends AppCompatActivity
     }
 
 
+    @Override
+    public void onWebSocketOpen(ServerHandshake handshakedata) {
 
+    }
 
+    @Override
+    public void onWebSocketMessage(String message) {
+        runOnUiThread(() ->
+        {
+            String s = gresponse.getText().toString();
+            gresponse.setText(s + "\n"+message);
+        });
 
+    }
+
+    @Override
+    public void onWebSocketClose(int code, String reason, boolean remote) {
+
+    }
+
+    @Override
+    public void onWebSocketError(Exception ex) {
+
+    }
 }

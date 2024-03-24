@@ -53,14 +53,14 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
         connectBtn = findViewById(R.id.connectbutton);
 
+        String username = UsernameSingleton.getInstance().getUserName();
+
         connectBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                String username = "tanish";
-
-                serverURL = "ws://10.0.2.2:8080/chat/"+username;
+                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
 //                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
 
                 // Establish WebSocket connection and set listener
