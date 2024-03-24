@@ -54,30 +54,16 @@ public class PushNotificationServer {
         broadcast(message);
     }
 
-//    @OnMessage
-//    public void onMessage(Session session, String message) throws IOException {
-//
-//        // Handle new messages
-//        logger.info("Entered into Message: Got Message:" + message);
-//        String username = sessionUsernameMap.get(session);
-//
-//        // Direct message to a user using the format "@username <message>"
-//        if (message.startsWith("@")) {
-//            String destUsername = message.split(" ")[0].substring(1);
-//
-//            // send the message to the sender and receiver
-//            sendMessageToPArticularUser(destUsername, "[DM] " + username + ": " + message);
-//            sendMessageToPArticularUser(username, "[DM] " + username + ": " + message);
-//            msgRepo.save(new Message(username, message));
-//        }
-//        else { // broadcast
-//            broadcast(username + ": " + message);
-//            commonMsgRepo.save(new Message(username, message));
-//        }
-//
-//        // Saving chat history to repository
-////		msgRepo.save(new Message(username, message));
-//    }
+    @OnMessage
+    public void onMessage(Session session, String message) throws IOException {
+
+        // Handle new messages
+        logger.info("Entered into Group");
+        User user = sessionUsernameMap.get(session);
+
+        userRepo.findAll().forEach(User -> System.out.println(user.getName() + " has joined the group"));
+
+    }
 
 
     @OnClose
@@ -103,16 +89,6 @@ public class PushNotificationServer {
     }
 
 
-    private void sendMessageToPArticularUser(String username, String message) {
-        try {
-            usernameSessionMap.get(username).getBasicRemote().sendText(message);
-        }
-        catch (IOException e) {
-            logger.info("Exception: " + e.getMessage().toString());
-            e.printStackTrace();
-        }
-    }
-
 
     private void broadcast(String message) {
         sessionUsernameMap.forEach((session, username) -> {
@@ -127,51 +103,6 @@ public class PushNotificationServer {
         });
 
     }
-
-
-    // Gets the Chat history from the repository
-//    private String getChatHistory() {
-//        List<Message> messages = msgRepo.findAll();
-//
-//        // convert the list to a string
-//        StringBuilder sb = new StringBuilder();
-//        if(messages != null && messages.size() != 0) {
-//            for (Message message : messages) {
-//                sb.append(message.getUserName() + ": " + message.getContent() + "\n");
-//            }
-//        }
-//        return sb.toString();
-//    }
-
-	/*
-		private String getChatHistory(String username) {
-		Long id = User.getId(username);
-		List<Message> messages = msgRepo.findAllById();
-
-    // convert the list to a string
-		StringBuilder sb = new StringBuilder();
-		if(messages != null && messages.size() != 0) {
-			for (Message message : messages) {
-				sb.append(message.getUserName() + ": " + message.getContent() + "\n");
-			}
-		}
-		return sb.toString();
-	}
-	 */
-
-//    private String getCommonChatHistory(){
-//        List<Message> messages = commonMsgRepo.findAll();
-//
-//        // convert the list to a string
-//        StringBuilder sb = new StringBuilder();
-//        if(messages != null && messages.size() != 0) {
-//            for (Message message : messages) {
-//                sb.append(message.getUserName() + ": " + message.getContent() + "\n");
-//            }
-//        }
-//        return sb.toString();
-//    }
-
 
 } // end of Class
 
