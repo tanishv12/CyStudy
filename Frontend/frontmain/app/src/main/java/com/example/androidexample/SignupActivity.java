@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class SignupActivity extends AppCompatActivity {
 
     EditText signupName, signupEmail, signupUsername, signupPassword;
@@ -39,6 +40,7 @@ public class SignupActivity extends AppCompatActivity {
     private String method;
 
     String[] methods = new String[]{"GET", "POST"};
+
 
 
 
@@ -68,6 +70,8 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
+
+                UsernameSingleton.getInstance().setUserName(name);
 
 
 
@@ -143,5 +147,7 @@ public class SignupActivity extends AppCompatActivity {
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
+
+
 
 }
