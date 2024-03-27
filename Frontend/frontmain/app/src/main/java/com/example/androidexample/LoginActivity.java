@@ -22,6 +22,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * LoginActivity instance used for the user to login
+ *
+ * This instance assures that the user's information is in
+ * the database and correct in order to access the application.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     EditText loginUsername, loginPassword;
@@ -29,7 +35,10 @@ public class LoginActivity extends AppCompatActivity {
     TextView signupRedirectText;
 
 
-
+    /**
+     * Creates login page user interface
+     * @param savedInstanceState Stores information needed to reload UI on system crashes
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +67,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Makes sure username field is not empty
+     * @return True if not empty, false otherwise
+     */
     public Boolean validateUsername()
     {
         String val = loginUsername.getText().toString();
@@ -73,6 +86,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Makes sure password field is not empty
+     * @return True if not empty, false otherwise
+     */
     public Boolean validatePassword()
     {
         String val = loginPassword.getText().toString();
@@ -88,6 +105,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Used to compare username and password to database
+     */
     public void checkUser()
     {
         String userUsername = loginUsername.getText().toString().trim();
@@ -95,6 +115,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Posts username and password to database as a pair
+     */
     private void postRequest() {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post/4/";
         // Convert input to JSONObject
@@ -149,8 +172,4 @@ public class LoginActivity extends AppCompatActivity {
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
-
-
-
-
 }
