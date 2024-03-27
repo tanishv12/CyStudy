@@ -52,6 +52,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         UPDATEtext = findViewById(R.id.updateMsgText);
         UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
         connectBtn = findViewById(R.id.connectbutton);
+        HelperClass name = new HelperClass();
+        SignupActivity name1 = new SignupActivity();
 
         String username = UsernameSingleton.getInstance().getUserName();
 
@@ -61,7 +63,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             public void onClick(View view)
             {
                 serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
-//                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
+//                serverURL = "ws://10.0.2.2:9090/chat/" + username;
 
                 // Establish WebSocket connection and set listener
                 WebSocketManager.getInstance().connectWebSocket(serverURL);
