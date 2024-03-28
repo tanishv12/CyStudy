@@ -9,6 +9,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
+/**
+ * This class works to add different CRUD requests to the database.
+ */
 public class VolleySingleton {
 
     private static VolleySingleton instance;
@@ -44,6 +47,11 @@ public class VolleySingleton {
         return instance;
     }
 
+
+    /**
+     * This is the main class that adds Volley and CRUD requests to queue.
+     * @return
+     */
     public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the

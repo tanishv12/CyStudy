@@ -1,5 +1,9 @@
 package com.example.androidexample;
 
+/**
+ * This class is a Helper Class that allows the Signup Page to store information
+ * of the user and send to the backend.
+ */
 public class HelperClass {
     String name, email, username, password;
 
@@ -36,6 +40,13 @@ public class HelperClass {
         this.password = password;
     }
 
+    /**
+     * Getting and setting the values of major user information.
+     * @param name
+     * @param email
+     * @param username
+     * @param password
+     */
     public HelperClass(String name, String email, String username, String password)
     {
         this.name = name;
