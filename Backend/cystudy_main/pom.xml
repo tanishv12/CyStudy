@@ -60,11 +60,20 @@
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
 
+
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
       <version>2.4.0</version>
     </dependency>
+
+    <!-- Web Socket dependancy -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
+
+
 
   </dependencies>
 
