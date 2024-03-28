@@ -23,7 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import org.java_websocket.handshake.ServerHandshake;
 
-
+/**
+ * This class manages the messages' page for different study groups.
+ */
 public class MessageActivity extends AppCompatActivity implements WebSocketListener {
     private static EditText MessageTextSend;
     private static Button msgButton;
@@ -37,6 +39,11 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     private static Button connectBtn;
     private static String serverURL;
 
+    /**
+     * This class creates and maps instances to different features in the messages
+     * UI screen.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,6 +64,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 
         String username = UsernameSingleton.getInstance().getUserName();
 
+        /**
+         * This function works on click of the connect button that connects the
+         * application to the remote server.
+         */
         connectBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -72,7 +83,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             }
         });
 
-
+        /**
+         * This function works on click of the update button that allows user to
+         * update messages to what is sent by the user in the updated text field.
+         */
         UPDATEmsgBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -81,6 +95,11 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
                 putRequest();
             }
         });
+
+        /**
+         * This function works on click of the get messages button that shows
+         * all the messages sent in the group chat.
+         */
         getMESSAGES.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -90,6 +109,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             }
         });
 
+        /**
+         * This function works on click of the delete button that deletes
+         * certain messages from the database.
+         */
         DeleteBUTTON.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -99,7 +122,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             }
         });
 
-
+        /**
+         * This function works on click of the message button that allows user to
+         * send messages that is sent in the given text field.
+         */
         msgButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -118,6 +144,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             }
         });
     }
+    /**
+     * This function works as a GET request communicating with the backend to show
+     * all the messages sent.
+     */
     private void getRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/all";
@@ -159,6 +189,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         };
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
+    /**
+     * This function works as a PUT request communicating with the backend to update
+     * messages sent.
+     */
     private void putRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/update";
@@ -232,7 +266,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     }
 
 
-
+    /**
+     * This function works as a DELETE request communicating with the backend to delete
+     * messages sent.
+     */
     private void deleteRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/delete";
@@ -304,7 +341,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
-
+    /**
+     * This function works as a POST request communicating with the backend to send
+     * to the database.
+     */
     private void postRequest()
     {
         sentVeri = findViewById(R.id.sentVerify);

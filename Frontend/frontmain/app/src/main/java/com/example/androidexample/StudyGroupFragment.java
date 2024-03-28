@@ -36,7 +36,13 @@ import org.w3c.dom.Text;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * StudyGroupFragment instance used for group members to see
+ * who is joining and leaving the study group.
+ *
+ * Utilizes websockets to a live notification display
+ * as well as CRUDL operations for study groups
+ */
 public class StudyGroupFragment extends AppCompatActivity implements WebSocketListener
 {
     // TODO: Rename parameter arguments, choose names that match
@@ -66,6 +72,10 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     private static String serverURL;
 
+    /**
+     * Creates a study group user interface
+     * @param savedInstanceState Stores information needed to reload UI on system crashes
+     */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -84,19 +94,25 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         GroupText = findViewById(R.id.groupText);
         deleteBTN = findViewById(R.id.deleteGrpButton);
         connectButton = findViewById(R.id.userConnectButton);
-//
-//        connectButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                String user = UsernameSingleton.getInstance().getUserName();
-//                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/user/"+user;
-//
-//                WebSocketManager.getInstance().connectWebSocket(serverURL);
-//                WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
-//            }
-//        });
 
+        /**
+         * Connects user to chat server using websockets
+         */
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                String user = UsernameSingleton.getInstance().getUserName();
+                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/user/"+user;
+
+                WebSocketManager.getInstance().connectWebSocket(serverURL);
+                WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
+            }
+        });
+
+        /**
+         * Gets study group name
+         */
         getButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -106,6 +122,9 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             }
         });
 
+        /**
+         * Deletes study group
+         */
         deleteBTN.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -115,6 +134,9 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             }
         });
 
+        /**
+         * Creates study group
+         */
         postButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -124,6 +146,9 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             }
         });
 
+        /**
+         * Updates study group name
+         */
         updateButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -133,6 +158,10 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             }
         });
 
+
+        /**
+         * Redirects user to main activity
+         */
         studyGroupsToClasses.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -142,6 +171,10 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             }
         });
 
+
+        /**
+         * Redirects user to groupchat activity
+         */
         studyGroupsToMessages.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -158,6 +191,9 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         // Required empty public constructor
     }
 
+    /**
+     * Deletes study group that the user is currently in
+     */
     private void deleteRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete";
@@ -231,7 +267,9 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     }
 
 
-
+    /**
+     * Updates study group name that the user is in
+     */
     private void putRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/update";
@@ -305,7 +343,9 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     }
 
 
-
+    /**
+     * Retrieves study group that the user is in
+     */
     private void getRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all";
@@ -350,6 +390,10 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
+
+    /**
+     * Creates new study group which will contain the user
+     */
     private void postRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/post";
@@ -425,6 +469,10 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     }
 
+    /**
+     * Gets websocket message
+     * @param message The received WebSocket message.
+     */
     @Override
     public void onWebSocketMessage(String message) {
         runOnUiThread(() ->
@@ -435,11 +483,21 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     }
 
+    /**
+     * Runs on websocket closure
+     * @param code   The status code indicating the reason for closure.
+     * @param reason A human-readable explanation for the closure.
+     * @param remote Indicates whether the closure was initiated by the remote endpoint.
+     */
     @Override
     public void onWebSocketClose(int code, String reason, boolean remote) {
 
     }
 
+    /**
+     * Runs when websocket encounters an error
+     * @param ex The exception that describes the error.
+     */
     @Override
     public void onWebSocketError(Exception ex) {
 

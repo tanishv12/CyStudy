@@ -19,11 +19,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 //import com.example.androidexample.databinding.ActivityMainBinding;
 
-
+/**
+ * Home page for study group application.
+ *
+ * Redirects user to classes page, study group page, or back to homepage.
+ */
 public class MainActivity extends AppCompatActivity
 {
     private Button b1;
 //    ActivityMainBinding binding;
+
+    /**
+     * Creates home page UI
+     * @param savedInstanceState Stores information needed to reload UI on system crashes
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -37,6 +46,9 @@ public class MainActivity extends AppCompatActivity
         Button toStudyGroups = (Button) findViewById(R.id.button13);
         Button toClasses = (Button) findViewById(R.id.button11);
 
+        /**
+         * Redirects to homepage
+         */
         toHome.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -48,6 +60,9 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+        /**
+         * Redirects to study group page
+         */
         toStudyGroups.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -58,6 +73,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        /**
+         * Redirects to classes pge
+         */
         toClasses.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -103,7 +121,4 @@ public class MainActivity extends AppCompatActivity
 //        fragmentTransaction.replace(R.id.frame_layout, fragment);
 //        fragmentTransaction.commit();
 //    }
-
-
-
 }

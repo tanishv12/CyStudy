@@ -22,6 +22,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * SignupActivity Class is used for creating users on the application and manage
+ * getting the information from the users.
+ *
+ * The Class also makes use of different CRUD operations to move information
+ * to the database and communicate with the remote server.
+ */
 public class SignupActivity extends AppCompatActivity {
 
     EditText signupName, signupEmail, signupUsername, signupPassword;
@@ -41,7 +49,11 @@ public class SignupActivity extends AppCompatActivity {
     String[] methods = new String[]{"GET", "POST"};
 
 
-
+    /**
+     * This class calls and correctly maps the different variables and initializes the ids from the application
+     * layout files.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +65,10 @@ public class SignupActivity extends AppCompatActivity {
         signupButton = findViewById(R.id.signup_button);
         loginRedirectText = findViewById(R.id.loginRedirectText);
 
-
+        /**
+         * This is the on click function for the sign up button creates the user in
+         * the application after they enters their information and click the button.
+         */
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,7 +88,10 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
-
+        /**
+         * This function is involved in redirecting users who already have accounts so they
+         * don't have to sign up again on the registration page on clicking the "Not yet registered? Sign Up".
+         */
         loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +101,10 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This class is involved in posting the users to the database, and save the information
+     * of the users.
+     */
     private void postRequest() {
 
         // Convert input to JSONObject

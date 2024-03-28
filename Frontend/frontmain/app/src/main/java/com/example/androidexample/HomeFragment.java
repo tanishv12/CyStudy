@@ -49,6 +49,10 @@ public class HomeFragment extends AppCompatActivity {
         // Required empty public constructor
     }
 
+    /**
+     * Redirects to homepage
+     * @param savedInstanceState Stores information needed to reload UI on system crashes
+     */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
