@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import onetoone.Courses.Course;
 import onetoone.Messages.Message;
+import onetoone.Resources.StudyResources;
 import onetoone.Users.User;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -36,6 +37,7 @@ public class StudyGroup {
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "studyGroup",cascade = CascadeType.ALL)
     private Set<Message> messageSet;
+
 
 //    @ManyToMany(mappedBy = "studyGroups",fetch = FetchType.LAZY)
 //    @JsonIgnore

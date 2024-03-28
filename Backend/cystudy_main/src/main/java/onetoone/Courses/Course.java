@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import onetoone.Groups.StudyGroup;
+import onetoone.Resources.StudyResources;
 import onetoone.Users.User;
 
 import java.util.List;
@@ -45,6 +46,9 @@ public class Course {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudyGroup> studyGroupList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "courses", cascade = CascadeType.ALL)
+    private List<StudyResources> studyResourceList;
 
     // =============================== Constructors ================================== //
 
