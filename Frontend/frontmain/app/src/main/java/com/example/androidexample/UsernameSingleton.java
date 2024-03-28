@@ -1,5 +1,10 @@
 package com.example.androidexample;
 
+/**
+ * This class is used to create a singleton that allows the username
+ * to be accessed from the registration page to anywhere in the
+ * application.
+ */
 public class UsernameSingleton {
     private static UsernameSingleton instance;
     private String userName;
