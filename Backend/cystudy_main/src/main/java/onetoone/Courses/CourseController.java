@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import onetoone.Users.User;
 import onetoone.Users.UserRepository;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 /**
  * 
  * @author Rahul Sudev
  * 
- */ 
+ */
 
+
+@Tag(name = "Course", description = "Course management APIs")
 @RestController
 public class CourseController {
 
