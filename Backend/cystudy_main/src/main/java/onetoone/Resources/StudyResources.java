@@ -1,14 +1,7 @@
 package onetoone.Resources;
 import jakarta.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import onetoone.Courses.Course;
-import onetoone.Groups.StudyGroup;
-import onetoone.Users.User;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -29,7 +22,7 @@ public class StudyResources {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
-    private Course courses;
+    private Course course;
 
     public StudyResources() {
     }
@@ -38,7 +31,7 @@ public class StudyResources {
         this.id = id;
         this.resourceName = resourceName;
         this.resourceCategory = resourceCategory;
-        this.courses = course;
+        this.course = course;
     }
 
     public long getId() {
@@ -66,10 +59,10 @@ public class StudyResources {
     }
 
     public Course getCourse() {
-        return courses;
+        return course;
     }
 
     public void setCourse(Course course) {
-        this.courses = course;
+        this.course = course;
     }
 }

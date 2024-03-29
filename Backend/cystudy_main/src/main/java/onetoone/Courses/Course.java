@@ -47,7 +47,7 @@ public class Course {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudyGroup> studyGroupList;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "courses", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudyResources> studyResourceList;
 
     // =============================== Constructors ================================== //
