@@ -78,9 +78,9 @@ public class SignupActivity extends AppCompatActivity {
                 String username = signupUsername.getText().toString();
                 String password = signupPassword.getText().toString();
 
-                HelperClass helperClass = new HelperClass(name, email, username, password);
+
                 postRequest();
-                Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
                 UsernameSingleton.getInstance().setUserName(name);
@@ -130,13 +130,13 @@ public class SignupActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
+                        Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(SignupActivity.this, "Sign Up Failed: " + error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
         ){

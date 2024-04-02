@@ -59,7 +59,6 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         UPDATEtext = findViewById(R.id.updateMsgText);
         UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
         connectBtn = findViewById(R.id.connectbutton);
-        HelperClass name = new HelperClass();
         SignupActivity name1 = new SignupActivity();
 
         String username = UsernameSingleton.getInstance().getUserName();
