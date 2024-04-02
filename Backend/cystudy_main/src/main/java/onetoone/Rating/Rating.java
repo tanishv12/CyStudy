@@ -9,7 +9,7 @@ import onetoone.Users.User;
 
 @Entity
 @Data
-@Table()
+@Table(name = "group_rating")
 public class Rating {
 
     @EmbeddedId

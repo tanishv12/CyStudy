@@ -58,6 +58,9 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Rating> ratingList;
 
+
+
+
     // =============================== Constructors ================================== //
 
     public User(String name, String emailId, String password) {
