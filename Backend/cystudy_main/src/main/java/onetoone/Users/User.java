@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import onetoone.Courses.Course;
 import onetoone.Groups.StudyGroup;
 import onetoone.Messages.Message;
+import onetoone.Rating.Rating;
 
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +32,7 @@ public class User {
 
 //    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 //    @JoinTable(name ="USER_COURSE", joinColumns = {@JoinColumn(name = "student_id",referencedColumnName = "id")},
-//    inverseJoinColumns = {@JoinColumn(name = "course_id",referencedColumnName ="id")})
+//    inverseJoinColumns = {@JoinColustudygroupsmn(name = "course_id",referencedColumnName ="id")})
 //    @JsonIgnore
 //    private Set<Course> courses;
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
@@ -53,6 +54,9 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
     private List<Message> messageList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Rating> ratingList;
 
     // =============================== Constructors ================================== //
 
