@@ -29,10 +29,7 @@ public class Course {
 
 
     @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }, mappedBy = "courseSet")
+            cascade = {CascadeType.MERGE}, mappedBy = "courseSet")
     private Set<User> userSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
