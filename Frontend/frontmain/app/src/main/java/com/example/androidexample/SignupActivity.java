@@ -78,9 +78,9 @@ public class SignupActivity extends AppCompatActivity {
                 String username = signupUsername.getText().toString();
                 String password = signupPassword.getText().toString();
 
-
                 postRequest();
 
+                //Move all to Post Request on Response
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
                 UsernameSingleton.getInstance().setUserName(name);

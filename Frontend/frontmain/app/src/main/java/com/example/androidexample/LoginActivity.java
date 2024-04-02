@@ -119,9 +119,21 @@ public class LoginActivity extends AppCompatActivity {
      * Posts username and password to database as a pair
      */
     private void postRequest() {
+        //Change the url from using a specific user ID to a table of all users
         String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post/4/";
         // Convert input to JSONObject
         JSONObject postBody = null;
+
+        if(validateUsername() != true && validatePassword() != true)
+        {
+            Toast.makeText(LoginActivity.this, "Username and password cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (validatePassword() != true) {
+            Toast.makeText(LoginActivity.this, loginPassword.getError().toString(), Toast.LENGTH_SHORT).show();
+            return;
+        } else if (validateUsername() != true) {
+            Toast.makeText(LoginActivity.this, loginUsername.getError().toString(), Toast.LENGTH_SHORT).show();
+        }
 
         try{
             // etRequest should contain a JSON object string as your POST body
