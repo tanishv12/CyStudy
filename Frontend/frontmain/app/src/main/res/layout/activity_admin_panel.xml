@@ -60,16 +60,25 @@
                 android:textSize="18dp"
                 app:cornerRadius="20dp" />
 
-            <TextView
-                android:id="@+id/signupRedirectText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:text="Not yet registered? Sign Up"
-                android:textColor="@color/lavender"
-                android:textSize="18dp" />
+            <Button
+                android:id="@+id/add_resources"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:text="Add Resources"
+                android:textSize="18dp"
+                app:cornerRadius="20dp" />
+
+            <Button
+                android:id="@+id/return_home"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:text="Return Home"
+                android:textSize="18dp"
+                app:cornerRadius="20dp" />
+
+
 
 
         </LinearLayout>
