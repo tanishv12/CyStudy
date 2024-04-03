@@ -1,5 +1,9 @@
 package onetoone.Users;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
@@ -29,34 +33,9 @@ public class User {
     private String emailId;
     private boolean ifActive;
 
-
-//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    @JoinTable(name ="USER_COURSE", joinColumns = {@JoinColumn(name = "student_id",referencedColumnName = "id")},
-//    inverseJoinColumns = {@JoinColustudygroupsmn(name = "course_id",referencedColumnName ="id")})
-//    @JsonIgnore
-//    private Set<Course> courses;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-    @JoinTable(name = "USER_COURSE", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
+    @JsonBackReference
     private Set<Course> courseSet;
-
-//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    @JoinTable(name = "USER_GROUP", joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
-//    inverseJoinColumns = {@JoinColumn(name = "group_id",referencedColumnName = "id")})
-//    @JsonIgnore
-//    private Set<StudyGroup> studyGroups;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-    @JoinTable(name = "USER_STUDYGROUP", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private Set<StudyGroup> studyGroupList;
-
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
-    private List<Message> messageList;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Rating> ratingList;
 
 
 
@@ -68,6 +47,7 @@ public class User {
         this.password = password;
         this.emailId = emailId;
         this.ifActive = true;
+        this.courseSet = new HashSet<Course>();
     }
 
     public User() {
