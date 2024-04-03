@@ -30,9 +30,11 @@ public class Course {
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE}, mappedBy = "courseSet")
+    @JsonIgnore
     private Set<User> userSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<StudyGroup> studyGroupList;
 
     // =============================== Constructors ================================== //

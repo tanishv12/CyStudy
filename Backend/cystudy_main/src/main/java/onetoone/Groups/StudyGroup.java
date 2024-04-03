@@ -32,13 +32,15 @@ public class StudyGroup {
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "studyGroup",cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Message> messageSet;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "studyGroupList")
-
+    @JsonIgnore
     private List<User> userList;
 
 
