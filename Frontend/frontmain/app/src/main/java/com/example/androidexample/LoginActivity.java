@@ -106,16 +106,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Used to compare username and password to database
-     */
-    public void checkUser()
-    {
-        String userUsername = loginUsername.getText().toString().trim();
-        String userPassword = loginPassword.getText().toString().trim();
-
-    }
-
-    /**
      * Posts username and password to database as a pair
      */
     private void postRequest() {
@@ -133,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         } else if (validateUsername() != true) {
             Toast.makeText(LoginActivity.this, loginUsername.getError().toString(), Toast.LENGTH_SHORT).show();
+            return;
         }
 
         try{
