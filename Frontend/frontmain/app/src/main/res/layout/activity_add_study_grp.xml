@@ -38,20 +38,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.064">
-    </AutoCompleteTextView>
+        app:layout_constraintVertical_bias="0.042"></AutoCompleteTextView>
 
     <View
         android:id="@+id/view"
-        android:layout_width="365dp"
-        android:layout_height="326dp"
+        android:layout_width="373dp"
+        android:layout_height="369dp"
         android:background="@drawable/whitebox"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.675">
-    </View>
+        app:layout_constraintVertical_bias="0.675"></View>
 
     <EditText
         android:id="@+id/groupName"
@@ -81,28 +79,32 @@
     </EditText>
 
     <ImageButton
-        android:id="@+id/increaseCount"
+        android:id="@+id/decreaseCount"
         android:layout_width="50dp"
         android:layout_height="37dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.734"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.504"
-        app:srcCompat="@drawable/baseline_expand_more" />
+        android:src="@drawable/baseline_expand_more" />
 
     <ImageButton
-        android:id="@+id/reduceCount"
+        android:id="@+id/increaseCount"
         android:layout_width="50dp"
         android:layout_height="37dp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.897"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.503"
-        app:srcCompat="@drawable/baseline_expand_less" />
+        android:src="@drawable/baseline_expand_less" />
 
     <EditText
         android:id="@+id/grpDescription"
@@ -127,6 +129,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.926" />
+        app:layout_constraintVertical_bias="0.941" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
