@@ -27,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.java_websocket.handshake.ServerHandshake;
@@ -79,8 +80,24 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_study_group);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
+        bottomNavigationView.setSelectedItemId(R.id.StudyGroups);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.StudyGroups) {
+                return true;
+            } if (item.getItemId() == R.id.Home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                return true;
+            } if (item.getItemId() == R.id.Classes) {
+                startActivity(new Intent(getApplicationContext(), ClassFragment.class));
+                return true;
+            }
+            return false;
+        });
+
+        super.onCreate(savedInstanceState);
 
         WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
 

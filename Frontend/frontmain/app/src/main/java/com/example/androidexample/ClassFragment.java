@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ClassFragment#newInstance} factory method to
@@ -18,7 +20,7 @@ import android.widget.Button;
  */
 
 
-public class ClassFragment extends AppCompatActivity{
+public class ClassFragment extends AppCompatActivity {
     Button b1;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -43,8 +45,7 @@ public class ClassFragment extends AppCompatActivity{
      * @return A new instance of fragment ClassFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ClassFragment newInstance(String param1, String param2)
-    {
+    public static ClassFragment newInstance(String param1, String param2) {
         ClassFragment fragment = new ClassFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -54,36 +55,24 @@ public class ClassFragment extends AppCompatActivity{
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_class);
 
-        Button classesTohome = (Button) findViewById(R.id.backbtn);
-        classesTohome.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(ClassFragment.this, MainActivity.class);
-                startActivity(intent);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
+        bottomNavigationView.setSelectedItemId(R.id.Classes);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.Classes) {
+                return true;
+            } if (item.getItemId() == R.id.Home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                return true;
+            } if (item.getItemId() == R.id.StudyGroups) {
+                startActivity(new Intent(getApplicationContext(), StudyGroupFragment.class));
+                return true;
             }
+            return false;
         });
-
-
-
-
     }
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
 }
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_class, container, false);
-//    }
-//}
