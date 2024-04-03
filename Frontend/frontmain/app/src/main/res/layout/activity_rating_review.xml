@@ -9,6 +9,7 @@
 
 
     <TextView
+        android:id="@+id/textView4"
         android:layout_width="390dp"
         android:layout_height="90dp"
         android:fontFamily="@font/gidugu"
@@ -33,36 +34,35 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.222">
+        app:layout_constraintVertical_bias="0.26">
     </RatingBar>
 
     <EditText
-        android:id="@+id/editText"
-        android:layout_width="405dp"
-        android:layout_height="244dp"
+        android:id="@+id/ReviewText"
+        android:layout_width="396dp"
+        android:layout_height="232dp"
         android:background="@color/white"
         android:gravity="top"
         android:hint="Write a review..."
-        android:textColorHint="#404040"
         android:textSize="23dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBar"
-        app:layout_constraintVertical_bias="0.11">
+        app:layout_constraintVertical_bias="0.194">
     </EditText>
 
     <Button
+        android:id="@+id/submitRate"
         android:layout_width="195dp"
         android:layout_height="65dp"
         android:text="Submit"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:layout_constraintVertical_bias="0.161" />
-    
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.856" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
