@@ -25,7 +25,7 @@
     </TextView>
 
     <AutoCompleteTextView
-        android:id="@+id/coursesFill"
+        android:id="@+id/courseName"
         android:layout_width="325dp"
         android:layout_height="49dp"
         android:background="@color/white"

@@ -12,6 +12,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class AddStudyGrp extends AppCompatActivity {
 
@@ -21,6 +22,7 @@ public class AddStudyGrp extends AppCompatActivity {
     private ImageButton increaseUser;
     private ImageButton decreaseUser;
 
+    private AutoCompleteTextView cName;
     private Button createGrp;
 
     private EditText groupText;
@@ -39,13 +41,14 @@ public class AddStudyGrp extends AppCompatActivity {
         decreaseUser = findViewById(R.id.decreaseCount);
         numUsers = findViewById(R.id.numberofmembers);
         createGrp = findViewById(R.id.createGroup);
+        cName = findViewById(R.id.courseName);
 
         groupText = findViewById(R.id.groupName);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, COURSES);
         AutoCompleteTextView textView = (AutoCompleteTextView)
-                findViewById(R.id.coursesFill);
+                cName;
         textView.setAdapter(adapter);
 
 
@@ -56,11 +59,30 @@ public class AddStudyGrp extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("groupName", groupText.getText().toString());//Essentially should be what the user gives
-                setResult(Activity.RESULT_OK, returnIntent);
-                Log.e("groupName", "group: " + groupText.getText().toString());
-                finish();
+                String courseName = cName.getText().toString();
+                String gName = groupText.getText().toString();
+                String userCount = numUsers.getText().toString();
+                if (courseName.isEmpty())
+                {
+                    Toast.makeText(AddStudyGrp.this, "Course Name cannot be left empty", Toast.LENGTH_SHORT).show();
+                }
+                else if (userCount.isEmpty())
+                {
+                    Toast.makeText(AddStudyGrp.this, "Number of Users cannot be left empty", Toast.LENGTH_SHORT).show();
+                }
+                else if (gName.isEmpty())
+                {
+                    // If groupText field is empty, display a Toast message indicating the error
+                    Toast.makeText(AddStudyGrp.this, "Group Name cannot be left empty", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("groupName", gName);//Essentially should be what the user gives
+                    setResult(Activity.RESULT_OK, returnIntent);
+                    Log.e("groupName", "group: " + gName);
+                    finish();
+                }
             }
         });
 

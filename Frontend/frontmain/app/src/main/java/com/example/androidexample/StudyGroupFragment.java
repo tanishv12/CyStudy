@@ -2,6 +2,7 @@ package com.example.androidexample;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 
@@ -9,6 +10,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.Group;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +19,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -119,6 +123,14 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                 0);
 
         TextView textView = new TextView(this);
+
+        Typeface typeface = ResourcesCompat.getFont(this, R.font.gidugu);
+        textView.setTypeface(typeface);
+        textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
+        textView.setPadding(350, 0, 0, 0);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER); // Set text alignment
+        textView.setTextColor(ContextCompat.getColor(this, R.color.black));
         textView.setText(groupName); // Set the text to the groupName passed to this method
         textView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
