@@ -46,9 +46,9 @@ class Main {
     CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository) {
         return args -> {
 
-//            User user1 = new User("John", "john@somemail.com","lol");
-//            User user2 = new User("Jane", "jane@somemail.com","lol");
-//            User user3 = new User("Justin", "justin@somemail.com","lol");
+            User user1 = new User("John", "john@somemail.com","lol");
+            User user2 = new User("Jane", "jane@somemail.com","lol");
+           User user3 = new User("Justin", "justin@somemail.com","lol");
 //            Course course1 = new Course( "Calculus 1","MATH",166);
 //            Course course2 = new Course( "Intro to Object Oriented Programming","COM S", 227);
 //            Course course3 = new Course( "Written,oral,Visual, and Electronic compostition","ENG",250);
@@ -65,11 +65,11 @@ class Main {
 //            message1.setSender(user1);
 //            messageRepository.save(message1);
 //
-//            StudyGroup group1 = new StudyGroup("Group 1");
-//            group1.addUser(user1);
-//            group1.addUser(user2);
-//            group1.addUser(user3);
-//            studyGroupRepository.save(group1);
+            StudyGroup group1 = new StudyGroup("Group 1");
+            group1.addUser(user1);
+            group1.addUser(user2);
+           group1.addUser(user3);
+           studyGroupRepository.save(group1);
 
 
         };
