@@ -1,6 +1,7 @@
 package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +38,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     private static EditText UPDATEtext;
     private  static Button UPDATEmsgBtn;
 
+    private static AppCompatImageView backButton;
+
     private static Button connectBtn;
     private static String serverURL;
 
@@ -67,6 +70,17 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 //        });
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
 
+
+        backButton = findViewById(R.id.imageBack);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(MessageActivity.this, StudyGroupFragment.class);
+                startActivity(intent);
+            }
+        });
 //        MessageTextSend = findViewById(R.id.MessageText);
 //        msgButton = findViewById(R.id.sendBUTTON);
 //        getMESSAGES = findViewById(R.id.getMessageButton);
