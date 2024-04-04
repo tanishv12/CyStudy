@@ -1,6 +1,7 @@
 package com.example.androidexample;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -93,6 +95,44 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
 
 
+    public int convertDpToPixels(float dp, Context context)
+    {
+        return (int) (dp * getResources().getDisplayMetrics().density);
+    }
+
+    private void AddCardView(String groupName)
+    {
+
+        cardsContainer = findViewById(R.id.cardsContainer);
+        if (cardsContainer == null) {
+            cardsContainer = findViewById(R.id.cardsContainer);
+        }
+
+        CardView cardView = new CardView(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                convertDpToPixels(174, this)); // Use 'this' for the context
+        layoutParams.setMargins(
+                convertDpToPixels(10, this),
+                convertDpToPixels(10, this),
+                convertDpToPixels(10, this),
+                0);
+
+        TextView textView = new TextView(this);
+        textView.setText(groupName); // Set the text to the groupName passed to this method
+        textView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+
+
+        cardView.addView(textView);
+        cardView.setLayoutParams(layoutParams);
+        // Optionally add content to your CardView here, like a TextView
+        cardsContainer.addView(cardView);
+    }
+
+
     /**
      * Creates a study group user interface
      * @param savedInstanceState Stores information needed to reload UI on system crashes
@@ -100,7 +140,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-
+        setContentView(R.layout.fragment_study_group);
         ActivityResultLauncher<Intent> mCreateGroupResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -109,15 +149,12 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                         // Retrieve the group information
                         studyGrpHead = findViewById(R.id.studyHead);
                         String groupName = result.getData().getStringExtra("groupName");
-                        Log.e("group", "group name: " + groupName);
-                        studyGrpHead.setText(groupName);
+                        Log.e("group", "group name: " + groupName); //Learn how to completely transfer data this is temporary.
+                        AddCardView(groupName);
                     }
                 }
         );
 
-
-
-        setContentView(R.layout.fragment_study_group);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
         bottomNavigationView.setSelectedItemId(R.id.StudyGroups);
 
