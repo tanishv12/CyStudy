@@ -42,9 +42,13 @@ public class SignupActivity extends AppCompatActivity {
 
     JSONObject postBody;
 
+
+
     private String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post";
 
     private String method;
+
+    String errorUrl;
 
     String[] methods = new String[]{"GET", "POST"};
 
@@ -78,11 +82,9 @@ public class SignupActivity extends AppCompatActivity {
                 String username = signupUsername.getText().toString();
                 String password = signupPassword.getText().toString();
 
-                HelperClass helperClass = new HelperClass(name, email, username, password);
                 postRequest();
-                Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(intent);
+
+                //Move all to Post Request on Response
                 UsernameSingleton.getInstance().setUserName(name);
 
 
@@ -102,6 +104,63 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     /**
+     * Sets all signup information errors if any are empty.
+     */
+    public Boolean validateCredentials()
+    {
+        Boolean returnValue = true;
+        //Sets signupName error if empty
+        String val = signupName.getText().toString();
+        if(val.isEmpty())
+        {
+            signupName.setError("Name cannot be empty");
+            returnValue = false;
+        }
+        else
+        {
+            signupName.setError(null);
+        }
+
+        //Sets signupUsername error if empty
+        val = signupUsername.getText().toString();
+        if(val.isEmpty())
+        {
+            signupUsername.setError("Username cannot be empty");
+            returnValue = false;
+        }
+        else
+        {
+            signupUsername.setError(null);
+        }
+
+        //Sets signupEmail error if empty
+        val = signupEmail.getText().toString();
+        if(val.isEmpty())
+        {
+            signupEmail.setError("Email cannot be empty");
+            returnValue = false;
+        }
+        else
+        {
+            signupEmail.setError(null);
+        }
+
+        //Sets signupPassword error if empty
+        val = signupPassword.getText().toString();
+        if(val.isEmpty())
+        {
+            signupPassword.setError("Password cannot be empty");
+            returnValue = false;
+        }
+        else
+        {
+            signupPassword.setError(null);
+        }
+
+        return returnValue;
+    }
+
+    /**
      * This class is involved in posting the users to the database, and save the information
      * of the users.
      */
@@ -109,6 +168,12 @@ public class SignupActivity extends AppCompatActivity {
 
         // Convert input to JSONObject
         JSONObject postBody = null;
+
+        if(validateCredentials() != true)
+        {
+            Toast.makeText(SignupActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         try{
             // etRequest should contain a JSON object string as your POST body
@@ -130,13 +195,15 @@ public class SignupActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
+                        Toast.makeText(SignupActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
