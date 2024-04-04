@@ -53,14 +53,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 postRequest();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
             }
         });
         signupRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                //Change MainActivity.class to SignupActivity.class when done testing
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -108,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
      * Posts username and password to database as a pair
      */
     private void postRequest() {
-        //Change the url from using a specific user ID to a table of all users
+        //Change the url from using a specific user ID to the username & pass
         String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post/4/";
         // Convert input to JSONObject
         JSONObject postBody = null;
@@ -116,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         if(validateUsername() != true && validatePassword() != true)
         {
             Toast.makeText(LoginActivity.this, "Username and password cannot be empty", Toast.LENGTH_SHORT).show();
-            //return;
+            return;
         } else if (validatePassword() != true) {
             Toast.makeText(LoginActivity.this, loginPassword.getError().toString(), Toast.LENGTH_SHORT).show();
             return;
@@ -145,6 +144,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }
                 },
                 new Response.ErrorListener() {

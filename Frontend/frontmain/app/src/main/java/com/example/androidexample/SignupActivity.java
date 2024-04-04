@@ -85,8 +85,6 @@ public class SignupActivity extends AppCompatActivity {
                 postRequest();
 
                 //Move all to Post Request on Response
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(intent);
                 UsernameSingleton.getInstance().setUserName(name);
 
 
@@ -198,6 +196,8 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(SignupActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 },
                 new Response.ErrorListener() {
