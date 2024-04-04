@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 import onetoone.Courses.Course;
 import onetoone.Groups.StudyGroup;
 import onetoone.Messages.Message;
-import onetoone.Rating.Rating;
+//import onetoone.Rating.Rating;
 
 import java.util.HashSet;
 import java.util.List;
@@ -33,8 +33,9 @@ public class User {
     private String emailId;
     private boolean ifActive;
 
+    //@JsonBackReference
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
-    @JsonBackReference
     private Set<Course> courseSet;
 
 
@@ -95,6 +96,7 @@ public class User {
         this.ifActive = ifActive;
     }
 
+    @JsonIgnore
     public Set<Course> getCourses() {
         return courseSet;
     }

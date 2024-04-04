@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import onetoone.Courses.Course;
 import onetoone.Messages.Message;
-import onetoone.Rating.Rating;
+//import onetoone.Rating.Rating;
 import onetoone.Users.User;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -47,8 +47,8 @@ public class StudyGroup {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> userList;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
-    private List<Rating> ratingList;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
+//    private List<Rating> ratingList;
 
 
     // =============================== Constructors ================================== //

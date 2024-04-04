@@ -30,10 +30,12 @@ public class Course {
     private String courseName;
     private String courseDepartment;
 
+
+    //@JsonManagedReference
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="user_course", joinColumns = {@JoinColumn(name="course_id", referencedColumnName = "id")},
+    @JoinTable(name="course_user", joinColumns = {@JoinColumn(name="course_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name="user_id", referencedColumnName = "id")})
-    @JsonManagedReference
     private Set<User> userSet = new HashSet<>();
     // =============================== Constructors ================================== //
 

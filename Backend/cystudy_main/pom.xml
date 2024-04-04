@@ -12,7 +12,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.4</version>
+    <version>3.2.3</version>
   </parent>
 
   <name>one-to-one</name>
@@ -24,12 +24,12 @@
 
 
     <!-- Generic properties -->
-<!--  <properties>-->
+<properties>
 <!--    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
 <!--    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>-->
-<!--    <java.version>1.8</java.version>-->
+ <java.version>17</java.version>
 
-<!--  </properties>-->
+</properties>
 
   <dependencies>
 
@@ -51,7 +51,6 @@
     <dependency>
       <groupId>com.mysql</groupId>
       <artifactId>mysql-connector-j</artifactId>
-      <scope>runtime</scope>
     </dependency>
 
     <!-- The ORM JPA specs/hibernate impl -->
