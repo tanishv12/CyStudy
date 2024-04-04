@@ -48,6 +48,18 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:id="@+id/signup_email"
+                android:background="@drawable/lavender_border"
+                android:layout_marginTop="10dp"
+                android:padding="8dp"
+                android:hint="Email"
+                android:drawableLeft="@drawable/baseline_attach_email_24"
+                android:drawablePadding="8dp"
+                android:textColor="@color/black"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:id="@+id/signup_username"
                 android:background="@drawable/lavender_border"
                 android:layout_marginTop="10dp"
@@ -70,17 +82,6 @@
                 android:drawablePadding="8dp"
                 android:textColor="@color/black"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/signup_email"
-                android:background="@drawable/lavender_border"
-                android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:hint="Email"
-                android:drawableLeft="@drawable/baseline_attach_email_24"
-                android:drawablePadding="8dp"
-                android:textColor="@color/black"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

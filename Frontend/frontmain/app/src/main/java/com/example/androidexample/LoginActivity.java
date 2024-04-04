@@ -53,9 +53,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 postRequest();
-                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                //startActivity(intent);
             }
         });
         signupRedirectText.setOnClickListener(new View.OnClickListener() {
