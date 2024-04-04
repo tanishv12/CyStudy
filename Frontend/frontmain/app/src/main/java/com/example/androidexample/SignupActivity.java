@@ -197,13 +197,13 @@ public class SignupActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SignupActivity.this, "Sign Up Failed: " + error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
