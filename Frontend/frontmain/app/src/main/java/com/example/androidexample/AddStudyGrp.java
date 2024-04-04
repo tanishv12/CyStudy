@@ -64,16 +64,16 @@ public class AddStudyGrp extends AppCompatActivity {
                 String userCount = numUsers.getText().toString();
                 if (courseName.isEmpty())
                 {
-                    Toast.makeText(AddStudyGrp.this, "Course Name cannot be left empty", Toast.LENGTH_SHORT).show();
-                }
-                else if (userCount.isEmpty())
-                {
-                    Toast.makeText(AddStudyGrp.this, "Number of Users cannot be left empty", Toast.LENGTH_SHORT).show();
+                    cName.setError("Course Name cannot be empty");
                 }
                 else if (gName.isEmpty())
                 {
-                    // If groupText field is empty, display a Toast message indicating the error
-                    Toast.makeText(AddStudyGrp.this, "Group Name cannot be left empty", Toast.LENGTH_SHORT).show();
+                    // If groupText field is empty, display a Error message indicating the error
+                    groupText.setError("Group Name cannot be left empty");
+                }
+                else if (userCount.isEmpty())
+                {
+                    numUsers.setError("Number of Users cannot be left empty");
                 }
                 else
                 {
