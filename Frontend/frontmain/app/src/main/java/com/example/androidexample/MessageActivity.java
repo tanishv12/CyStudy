@@ -50,31 +50,31 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
-        bottomNavigationView.setSelectedItemId(R.id.StudyGroups);
-
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.StudyGroups) {
-                return true;
-            } if (item.getItemId() == R.id.Home) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                return true;
-            } if (item.getItemId() == R.id.Classes) {
-                startActivity(new Intent(getApplicationContext(), ClassFragment.class));
-                return true;
-            }
-            return false;
-        });
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
+//        bottomNavigationView.setSelectedItemId(R.id.StudyGroups);
+//
+//        bottomNavigationView.setOnItemSelectedListener(item -> {
+//            if (item.getItemId() == R.id.StudyGroups) {
+//                return true;
+//            } if (item.getItemId() == R.id.Home) {
+//                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//                return true;
+//            } if (item.getItemId() == R.id.Classes) {
+//                startActivity(new Intent(getApplicationContext(), ClassFragment.class));
+//                return true;
+//            }
+//            return false;
+//        });
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
 
-        MessageTextSend = findViewById(R.id.MessageText);
-        msgButton = findViewById(R.id.sendBUTTON);
-        getMESSAGES = findViewById(R.id.getMessageButton);
-        AllMessages = findViewById(R.id.allMessages);
-        DeleteBUTTON = findViewById(R.id.deleteMessage);
-        UPDATEtext = findViewById(R.id.updateMsgText);
-        UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
-        connectBtn = findViewById(R.id.connectbutton);
+//        MessageTextSend = findViewById(R.id.MessageText);
+//        msgButton = findViewById(R.id.sendBUTTON);
+//        getMESSAGES = findViewById(R.id.getMessageButton);
+//        AllMessages = findViewById(R.id.allMessages);
+//        DeleteBUTTON = findViewById(R.id.deleteMessage);
+//        UPDATEtext = findViewById(R.id.updateMsgText);
+//        UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
+//        connectBtn = findViewById(R.id.connectbutton);
 
         String username = UsernameSingleton.getInstance().getUserName();
 
@@ -82,81 +82,81 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
          * This function works on click of the connect button that connects the
          * application to the remote server.
          */
-        connectBtn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
-//                serverURL = "ws://10.0.2.2:9090/chat/" + username;
-
-                // Establish WebSocket connection and set listener
-                WebSocketManager.getInstance().connectWebSocket(serverURL);
-                WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
-
-            }
-        });
+//        connectBtn.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
+////                serverURL = "ws://10.0.2.2:9090/chat/" + username;
+//
+//                // Establish WebSocket connection and set listener
+//                WebSocketManager.getInstance().connectWebSocket(serverURL);
+//                WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
+//
+//            }
+//        });
 
         /**
          * This function works on click of the update button that allows user to
          * update messages to what is sent by the user in the updated text field.
          */
-        UPDATEmsgBtn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                putRequest();
-            }
-        });
+//        UPDATEmsgBtn.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                putRequest();
+//            }
+//        });
 
         /**
          * This function works on click of the get messages button that shows
          * all the messages sent in the group chat.
          */
-        getMESSAGES.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                getRequest();
-            }
-        });
+//        getMESSAGES.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                getRequest();
+//            }
+//        });
 
         /**
          * This function works on click of the delete button that deletes
          * certain messages from the database.
          */
-        DeleteBUTTON.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                deleteRequest();
-            }
-        });
+//        DeleteBUTTON.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                deleteRequest();
+//            }
+//        });
 
         /**
          * This function works on click of the message button that allows user to
          * send messages that is sent in the given text field.
          */
-        msgButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                postRequest();
-                try
-                {
-                    // send message
-                    WebSocketManager.getInstance().sendMessage(MessageTextSend.getText().toString());
-                }
-                catch (Exception e)
-                {
-                    Log.d("ExceptionSendMessage:", e.getMessage().toString());
-                }
-            }
-        });
+//        msgButton.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                postRequest();
+//                try
+//                {
+//                    // send message
+//                    WebSocketManager.getInstance().sendMessage(MessageTextSend.getText().toString());
+//                }
+//                catch (Exception e)
+//                {
+//                    Log.d("ExceptionSendMessage:", e.getMessage().toString());
+//                }
+//            }
+//        });
     }
     /**
      * This function works as a GET request communicating with the backend to show
@@ -361,7 +361,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
      */
     private void postRequest()
     {
-        sentVeri = findViewById(R.id.sentVerify);
+//        sentVeri = findViewById(R.id.sentVerify);
 
         String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/post";
         // Convert input to JSONObject
