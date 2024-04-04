@@ -86,8 +86,8 @@ public class SignupActivity extends AppCompatActivity {
 
                 //Move all to Post Request on Response
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                //startActivity(intent);
-                //UsernameSingleton.getInstance().setUserName(name);
+                startActivity(intent);
+                UsernameSingleton.getInstance().setUserName(name);
 
 
             }

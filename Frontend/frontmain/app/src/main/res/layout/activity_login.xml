@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/android_background"
+    android:background="@color/olive"
     tools:context=".LoginActivity">
 
     <androidx.cardview.widget.CardView
@@ -31,7 +31,7 @@
                 android:textSize="36dp"
                 android:textAlignment="center"
                 android:textStyle="bold"
-                android:textColor="@color/lavender"/>
+                android:textColor="@color/red"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -75,7 +75,7 @@
                 android:padding="8dp"
                 android:layout_marginTop="10dp"
                 android:textSize="18dp"
-                android:textColor="@color/lavender"/>
+                android:textColor="@color/red"/>
 
 
 

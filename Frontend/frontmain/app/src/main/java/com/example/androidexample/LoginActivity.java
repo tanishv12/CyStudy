@@ -53,9 +53,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 postRequest();
-                //Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                //startActivity(intent);
+                startActivity(intent);
             }
         });
         signupRedirectText.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         if(validateUsername() != true && validatePassword() != true)
         {
             Toast.makeText(LoginActivity.this, "Username and password cannot be empty", Toast.LENGTH_SHORT).show();
-            return;
+            //return;
         } else if (validatePassword() != true) {
             Toast.makeText(LoginActivity.this, loginPassword.getError().toString(), Toast.LENGTH_SHORT).show();
             return;
@@ -145,13 +144,13 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
+                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
         ){
