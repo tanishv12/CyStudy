@@ -101,92 +101,81 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
         WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
 
-        studyGroupsToClasses = findViewById(R.id.backbtn2);
         studyGroupsToMessages = findViewById(R.id.toMessages);
-        getButton = findViewById(R.id.getBUTTON);
-        gresponse = findViewById(R.id.getresponse);
-        postButton = findViewById(R.id.postButton);
-        updateButton = findViewById(R.id.putButton);
-        updateGrp = findViewById(R.id.updateGroup);
-        GroupText = findViewById(R.id.groupText);
-        deleteBTN = findViewById(R.id.deleteGrpButton);
-        connectButton = findViewById(R.id.userConnectButton);
+//        getButton = findViewById(R.id.getBUTTON);
+//        gresponse = findViewById(R.id.getresponse);
+//        postButton = findViewById(R.id.postButton);
+//        updateButton = findViewById(R.id.putButton);
+//        updateGrp = findViewById(R.id.updateGroup);
+//        GroupText = findViewById(R.id.groupText);
+//        deleteBTN = findViewById(R.id.deleteGrpButton);
+//        connectButton = findViewById(R.id.userConnectButton);
 
         /**
          * Connects user to chat server using websockets
          */
-        connectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                String user = UsernameSingleton.getInstance().getUserName();
-                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/user/"+user;
-
-                WebSocketManager.getInstance().connectWebSocket(serverURL);
-                WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
-            }
-        });
+//        connectButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                String user = UsernameSingleton.getInstance().getUserName();
+//                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/user/"+user;
+//
+//                WebSocketManager.getInstance().connectWebSocket(serverURL);
+//                WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
+//            }
+//        });
 
         /**
          * Gets study group name
          */
-        getButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                getRequest();
-            }
-        });
+//        getButton.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                getRequest();
+//            }
+//        });
 
         /**
          * Deletes study group
          */
-        deleteBTN.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                deleteRequest();
-            }
-        });
+//        deleteBTN.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                deleteRequest();
+//            }
+//        });
 
         /**
          * Creates study group
          */
-        postButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                postRequest();
-            }
-        });
+//        postButton.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                postRequest();
+//            }
+//        });
 
         /**
          * Updates study group name
          */
-        updateButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                putRequest();
-            }
-        });
+//        updateButton.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                putRequest();
+//            }
+//        });
 
 
-        /**
-         * Redirects user to main activity
-         */
-        studyGroupsToClasses.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StudyGroupFragment.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
 
         /**
