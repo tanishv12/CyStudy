@@ -26,6 +26,7 @@
 
 
     <LinearLayout
+        android:id="@+id/cardsContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -48,7 +49,7 @@
 <!--            app:layout_constraintTop_toBottomOf="@+id/textView3"-->
 <!--            app:layout_constraintVertical_bias="0.0"></TextView>-->
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/studyHead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

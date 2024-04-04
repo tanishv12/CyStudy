@@ -25,14 +25,14 @@
     </TextView>
 
     <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView"
+        android:id="@+id/coursesFill"
         android:layout_width="325dp"
         android:layout_height="49dp"
         android:background="@color/white"
-        android:completionThreshold="4"
+        android:completionThreshold="2"
         android:dropDownWidth="match_parent"
         android:dropDownHeight="wrap_content"
-        android:hint="Search..."
+        android:hint="Search Course..."
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,19 +51,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.675"></View>
 
-    <EditText
-        android:id="@+id/groupName"
-        android:layout_width="213dp"
-        android:layout_height="41dp"
-        android:background="#D3D3D3"
-        android:hint="Enter Group Name..."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.176"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.404">
-    </EditText>
+        <EditText
+            android:id="@+id/groupName"
+            android:layout_width="213dp"
+            android:layout_height="41dp"
+            android:background="#D3D3D3"
+            android:hint="Enter Group Name..."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.176"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.404">
+        </EditText>
 
     <EditText
         android:id="@+id/numberofmembers"

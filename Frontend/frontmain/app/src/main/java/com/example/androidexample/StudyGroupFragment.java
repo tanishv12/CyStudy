@@ -1,8 +1,12 @@
 package com.example.androidexample;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,11 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,9 +77,21 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     private Button connectButton;
 
+    private static final int CREATE_GROUP_REQUEST_CODE = 1;
+
     private EditText GroupText;
 
     private static String serverURL;
+
+    private TextView studyGrpHead;
+
+    private LinearLayout cardsContainer;
+
+    private ActivityResultLauncher<Intent> mCreateGroupResultLauncher;
+
+
+
+
 
     /**
      * Creates a study group user interface
@@ -82,6 +100,23 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+
+        ActivityResultLauncher<Intent> mCreateGroupResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+
+                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                        // Retrieve the group information
+                        studyGrpHead = findViewById(R.id.studyHead);
+                        String groupName = result.getData().getStringExtra("groupName");
+                        Log.e("group", "group name: " + groupName);
+                        studyGrpHead.setText(groupName);
+                    }
+                }
+        );
+
+
+
         setContentView(R.layout.fragment_study_group);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
         bottomNavigationView.setSelectedItemId(R.id.StudyGroups);
@@ -120,7 +155,11 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             public void onClick(View view)
             {
                 Intent intent = new Intent(StudyGroupFragment.this, AddStudyGrp.class);
-                startActivity(intent);
+                mCreateGroupResultLauncher.launch(intent);
+
+//                Intent intent = new Intent(StudyGroupFragment.this, AddStudyGrp.class);
+//                startActivity(intent);
+//                activityResultLauncher.launch(intent);
             }
         });
 
