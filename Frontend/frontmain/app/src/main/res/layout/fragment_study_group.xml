@@ -7,6 +7,17 @@
     android:background="#404040"
     tools:context=".StudyGroupFragment">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center|right"
+        android:layout_marginBottom="85dp"
+        android:layout_marginRight="30dp"
+        android:clickable="true"
+        android:backgroundTint="@color/red"
+        android:src="@android:drawable/ic_input_add" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -285,8 +296,6 @@
 
         </androidx.cardview.widget.CardView>
 
-
-
     </LinearLayout>
 
 
@@ -314,7 +323,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        >
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        />
 
 </FrameLayout>

@@ -16,6 +16,8 @@ public class AddStudyGrp extends AppCompatActivity {
     private ImageButton increaseUser;
     private ImageButton decreaseUser;
 
+    private Button createGrp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -26,7 +28,16 @@ public class AddStudyGrp extends AppCompatActivity {
         increaseUser = findViewById(R.id.increaseCount);
         decreaseUser = findViewById(R.id.decreaseCount);
         numUsers = findViewById(R.id.numberofmembers);
+        createGrp = findViewById(R.id.createGroup);
 
+
+        createGrp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                finish();
+            }
+        });
 
         increaseUser.setOnClickListener(new View.OnClickListener() {
             @Override

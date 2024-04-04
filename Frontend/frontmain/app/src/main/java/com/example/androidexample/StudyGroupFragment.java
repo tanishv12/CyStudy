@@ -65,6 +65,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     private Button studyGroupsToMessages;
 
+    private FloatingActionButton addGrp;
+
     private Button deleteBTN;
 
     private Button connectButton;
@@ -101,6 +103,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
         WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
 
+        addGrp = findViewById(R.id.addGroup);
         studyGroupsToMessages = findViewById(R.id.toMessages);
 //        getButton = findViewById(R.id.getBUTTON);
 //        gresponse = findViewById(R.id.getresponse);
@@ -110,6 +113,16 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //        GroupText = findViewById(R.id.groupText);
 //        deleteBTN = findViewById(R.id.deleteGrpButton);
 //        connectButton = findViewById(R.id.userConnectButton);
+
+
+        addGrp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(StudyGroupFragment.this, AddStudyGrp.class);
+                startActivity(intent);
+            }
+        });
 
         /**
          * Connects user to chat server using websockets
