@@ -34,91 +34,31 @@ public class MainActivity extends AppCompatActivity
      * @param savedInstanceState Stores information needed to reload UI on system crashes
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-//        binding = ActivityMainBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
+    protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
-//        replaceFragment(new HomeFragment());
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
+        bottomNavigationView.setSelectedItemId(R.id.Home);
 
-        Button toHome = (Button) findViewById(R.id.button12);
-        Button toStudyGroups = (Button) findViewById(R.id.button13);
-        Button toClasses = (Button) findViewById(R.id.button11);
-
-        /**
-         * Redirects to homepage
-         */
-        toHome.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if(item.getItemId() == R.id.Home)
             {
-                Intent intent1 = new Intent(MainActivity.this, HomeFragment.class);
-                startActivity(intent1);
+                return true;
             }
-        });
-
-
-        /**
-         * Redirects to study group page
-         */
-        toStudyGroups.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
+            if(item.getItemId() == R.id.Classes)
             {
-                Intent intent2 = new Intent(MainActivity.this, StudyGroupFragment.class);
-                startActivity(intent2);
+                startActivity(new Intent(getApplicationContext(), ClassFragment.class));
+                return true;
             }
-        });
-
-        /**
-         * Redirects to classes pge
-         */
-        toClasses.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
+            if(item.getItemId() == R.id.StudyGroups)
             {
-                Intent intent3 = new Intent(MainActivity.this, ClassFragment.class);
-                startActivity(intent3);
+                startActivity(new Intent(getApplicationContext(), StudyGroupFragment.class));
+                return true;
             }
+            return false;
         });
+        super.onCreate(savedInstanceState);
 
 
-
-
-//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-//        bottomNavigationView.setSelectedItemId(R.id.Home);
-//
-//        bottomNavigationView.setOnItemSelectedListener(item -> {
-//            int itemId = item.getItemId();
-//            if (itemId == R.id.Classes)
-//            {
-//                replaceFragment(new ClassFragment());
-//            }
-//            else if (itemId == R.id.Home)
-//            {
-//                replaceFragment(new HomeFragment());
-//            }
-//            else if (itemId == R.id.StudyGroups)
-//            {
-//                replaceFragment(new StudyGroupFragment());
-//            }
-//            return true;
-//        });
-
-
-
-//        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
     }
-//    private void replaceFragment(Fragment fragment)
-//    {
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.frame_layout, fragment);
-//        fragmentTransaction.commit();
-//    }
 }

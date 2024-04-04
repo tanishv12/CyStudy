@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONObject;
 
@@ -49,6 +50,21 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
+        bottomNavigationView.setSelectedItemId(R.id.StudyGroups);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.StudyGroups) {
+                return true;
+            } if (item.getItemId() == R.id.Home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                return true;
+            } if (item.getItemId() == R.id.Classes) {
+                startActivity(new Intent(getApplicationContext(), ClassFragment.class));
+                return true;
+            }
+            return false;
+        });
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
 
         MessageTextSend = findViewById(R.id.MessageText);
@@ -59,8 +75,6 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         UPDATEtext = findViewById(R.id.updateMsgText);
         UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
         connectBtn = findViewById(R.id.connectbutton);
-        HelperClass name = new HelperClass();
-        SignupActivity name1 = new SignupActivity();
 
         String username = UsernameSingleton.getInstance().getUserName();
 
