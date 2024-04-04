@@ -33,7 +33,7 @@ public class Course {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="user_course", joinColumns = {@JoinColumn(name="course_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name="user_id", referencedColumnName = "id")})
-    @JsonManagedReference
+    @JsonIgnore
     private Set<User> userSet = new HashSet<>();
     // =============================== Constructors ================================== //
 

@@ -1,6 +1,8 @@
 package onetoone.Users;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +111,27 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
         }
     }
+
+//    @PostMapping(path = "/users/login")
+//    String authenticateUser(@RequestBody User user) {
+//
+//        if (user == null) {
+//            return ("Invalid user credentials");
+//        }
+//        Optional<User> optUser = Optional.ofNullable(userRepository.findByUsername(user.getUserName()));
+//        if (optUser.isPresent()) {
+//            User dbUser = optUser.get();
+//            if (!(user.getUserName().equals(dbUser.getUserName()))) {
+//                return ("Incorrect Username");
+//            }
+//            if (!(user.getPassword().equals(dbUser.getPassword()))) {
+//                return ("Incorrect Password");
+//            }
+//            user.setIfActive(true);
+//            return ("Login Successful");
+//        }
+//        return ("No user found");
+//    }
 
     /* not safe to update */
 //    @PutMapping("/users/{id}")

@@ -29,15 +29,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    private String userName;
     private String password;
     private String emailId;
+
     private boolean ifActive;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
-    @JsonBackReference
+    @JsonIgnore
     private Set<Course> courseSet;
-
-
 
 
     // =============================== Constructors ================================== //
@@ -46,6 +46,7 @@ public class User {
         this.name = name;
         this.password = password;
         this.emailId = emailId;
+//        this.userName = createUserName(emailId);
         this.ifActive = true;
         this.courseSet = new HashSet<Course>();
     }
@@ -55,12 +56,24 @@ public class User {
 
     // =============================== Getters and Setters for each field ================================== //
 
+    public String createUserName(String emailId) {
+        int atIndex = emailId.indexOf("@");
+        return emailId.substring(0,atIndex);
+    }
     public long getId(){
         return id;
     }
 
     public void setId(long id){
         this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getName(){
@@ -70,6 +83,8 @@ public class User {
     public void setName(String name){
         this.name = name;
     }
+
+
 
     public String getPassword() {
         return password;
