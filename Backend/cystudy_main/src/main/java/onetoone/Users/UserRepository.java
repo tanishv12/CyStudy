@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     void deleteById(long id);
 
-    @Query("SELECT u FROM User u WHERE u.name = :username")
+    @Query("SELECT u FROM User u WHERE u.userName = :username")
     User findByUsername(@Param("username") String username);
 
 }

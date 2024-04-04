@@ -48,13 +48,13 @@ class Main {
 
 
 //
-//            User user1 = new User("John", "john@somemail.com", "lol");
+            User user1 = new User("John", "john@somemail.com", "lol");
 //            User user2 = new User("Jane", "jane@somemail.com", "lol");
 //            User user3 = new User("Justin", "justin@somemail.com", "lol");
 //
             Course course1 = new Course("Calculus 1", "MATH", 166);
 //
-//            userRepository.save(user1);
+            userRepository.save(user1);
 //            userRepository.save(user2);
 //            userRepository.save(user3);
 //
