@@ -1,11 +1,18 @@
 package onetoone.Users;
+<<<<<<< HEAD
 
+=======
+>>>>>>> create-rating-table
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
 import onetoone.Groups.StudyGroup;
 import onetoone.Messages.Message;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+//import onetoone.Rating.Rating;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +21,7 @@ import java.util.Set;
 /**
  * 
  * @author Rahul Sudev
+ * @author Saeshu Karthika
  * 
  */ 
 
@@ -26,9 +34,11 @@ public class User {
     private long id;
     private String name;
     private String password;
+    private String userName;
     private String emailId;
     private boolean ifActive;
 
+<<<<<<< HEAD
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name ="USER_COURSE", joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")},
@@ -52,23 +62,39 @@ public class User {
 //            inverseJoinColumns = @JoinColumn(name = "group_id"))
 //    private Set<StudyGroup> studyGroupList;
 
+=======
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
+    private Set<Course> courseSet;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
+    private Set<StudyGroup> groupSet;
+>>>>>>> create-rating-table
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
-    private List<Message> messageList;
+    private Set<Message> messageSet;
+
 
     // =============================== Constructors ================================== //
 
-    public User(String name, String emailId, String password) {
+    public User(String name, String userName, String emailId, String password) {
         this.name = name;
-        this.password = password;
+        this.password = savePassword(password);
+        this.userName = userName;
         this.emailId = emailId;
         this.ifActive = true;
+        this.courseSet = new HashSet<Course>();
+        this.groupSet = new HashSet<StudyGroup>();
+        this.messageSet = new HashSet<Message>();
     }
 
     public User() {
     }
 
     // =============================== Getters and Setters for each field ================================== //
+
+    public String savePassword(String password){
+        return encoder().encode(password);
+    }
 
     public long getId(){
         return id;
@@ -102,7 +128,7 @@ public class User {
         this.emailId = emailId;
     }
 
-    public boolean getIsActive(){
+    public boolean isIfActive() {
         return ifActive;
     }
 
@@ -110,9 +136,39 @@ public class User {
         this.ifActive = ifActive;
     }
 
-    public Set<Course> getCourses() {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
+    public Set<Course> getCourseSet() {
         return courseSet;
     }
+
+    public void setCourseSet(Set<Course> courseSet) {
+        this.courseSet = courseSet;
+    }
+
+    public Set<StudyGroup> getGroupSet() {
+        return groupSet;
+    }
+
+    public void setGroupSet(Set<StudyGroup> groupSet) {
+        this.groupSet = groupSet;
+    }
+
+    public Set<Message> getMessageSet() {
+        return messageSet;
+    }
+
+    public void setMessageSet(Set<Message> messageSet) {
+        this.messageSet = messageSet;
+    }
+
 
     //Method to add course to hashset
     public void addCourse(Course course) {
@@ -125,4 +181,12 @@ public class User {
     //Method to remove course from hashset
     public void removeCourse(Course course){courseSet.remove(course);
     }
+
+    @Bean
+    public PasswordEncoder encoder(){
+
+        return new BCryptPasswordEncoder();
+    }
+
+
 }

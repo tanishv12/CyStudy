@@ -33,7 +33,6 @@ public class Message {
     @JoinColumn(name="user_id")
     private User sender;
 
-
     // =============================== Constructors ================================== //
 
     public Message(String messageContent, User user) {
@@ -85,5 +84,13 @@ public class Message {
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public StudyGroup getStudyGroup() {
+        return studyGroup;
+    }
+
+    public void setStudyGroup(StudyGroup studyGroup) {
+        this.studyGroup = studyGroup;
     }
 }

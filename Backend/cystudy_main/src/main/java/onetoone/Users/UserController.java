@@ -1,6 +1,8 @@
 package onetoone.Users;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import onetoone.Courses.Course;
 import onetoone.Courses.CourseRepository;
@@ -18,6 +21,7 @@ import onetoone.Courses.CourseRepository;
 /**
  * 
  * @author Rahul Sudev
+ * @author Saeshu Karthika
  * 
  */ 
 
@@ -30,13 +34,20 @@ public class UserController {
     @Autowired
     CourseRepository courseRepository;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
     private String loginSuccess = "{\"message\":\"Login Successful\"}";
     private String loginFailure = "{\"message\":\"Login failed\"}";
 
 
-    @GetMapping(path = "/users")
+    @GetMapping(path = "/users/all")
     List<User> getAllUsers(){
         return userRepository.findAll();
     }
@@ -46,38 +57,32 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @PostMapping(path = "/users/post")
+    @PostMapping(path = "/users/register")
     ResponseEntity<String> createUser(@RequestBody User user){
         if (user == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");;
         for(User prevUser: this.getAllUsers()){
             if(user.getEmailId().equals(prevUser.getEmailId())){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email address already exists");
+            }
+            if((user.getUserName()).equals(prevUser.getUserName())){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("UserName already exists");
             }
         }
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userRepository.save(user);
-        System.out.println(user.getId());
+        // Generate session token (JWT) containing user ID
+//        String token = generateToken(user.getId());
+//
+//        // Return the token to the client
+//        return ResponseEntity.ok(token);
         return ResponseEntity.ok("User created successfully");
     }
-//    @GetMapping(path = "/users/login")
-//    ResponseEntity<String> logUserIn(@RequestBody User user){
-//        if(user == null){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");
-//        }
-//        User storedUser = userRepository.findById(user.getId());
-//        if(storedUser == null){
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
-//        }
-//        if (user.getPassword().equals(storedUser.getPassword()) && user.getName().equals(storedUser.getName())) {
-//            user.setIfActive(true);
-//            return ResponseEntity.ok("Login successful");
-//        } else {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
-//        }
-//    }
 
-//    @PostMapping(path = "/users/post/{id}")
-//    ResponseEntity<String> logUserIn(@PathVariable long id, @RequestBody User user){
+
+//    @PostMapping(path = "/users/post/{id}/{userName}/{password}")
+//    ResponseEntity<String> logUserIn(@PathVariable long id, @PathVariable String userName, @PathVariable String password, @RequestBody User user){
 //        if(user == null){
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");
 //        }
@@ -85,7 +90,7 @@ public class UserController {
 //        if(storedUser == null){
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
 //        }
-//        if (user.getPassword().equals(storedUser.getPassword()) && user.getName().equals(storedUser.getName())) {
+//        if (password.equals(storedUser.getPassword()) && userName.equals(storedUser.getName())) {
 //            user.setIfActive(true);
 //            return ResponseEntity.ok("Login successful");
 //        } else {
@@ -93,21 +98,22 @@ public class UserController {
 //        }
 //    }
 
-    @PostMapping(path = "/users/post/{id}/{userName}/{password}")
-    ResponseEntity<String> logUserIn(@PathVariable long id, @PathVariable String userName, @PathVariable String password, @RequestBody User user){
-        if(user == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");
-        }
-        User storedUser = userRepository.findById(id);
-        if(storedUser == null){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
-        }
-        if (password.equals(storedUser.getPassword()) && userName.equals(storedUser.getName())) {
-            user.setIfActive(true);
+    @PostMapping(path = "/users/login/{userName}/{password}")
+    ResponseEntity<String> authenticateUser(@PathVariable String userName, @PathVariable String password) {
+
+        Optional<User> optUser = Optional.ofNullable(userRepository.findByUsername(userName));
+        if (optUser.isPresent()) {
+            User dbUser = optUser.get();
+            if (!(userName.equals(dbUser.getUserName()))) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid username credentials");
+            }
+            if (!(passwordEncoder.matches(password, dbUser.getPassword()))) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password credentials");
+            }
+            dbUser.setIfActive(true);
             return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
         }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found");
     }
 
     /* not safe to update */
@@ -135,6 +141,16 @@ public class UserController {
         return userRepository.findById(id);
     }
 
+    @DeleteMapping(path = "/users/{id}")
+    String deleteUser(@PathVariable long id){
+        User user = userRepository.findById(id);
+        if(user == null){
+            return failure;
+        }
+        userRepository.deleteById(id);
+        return success;
+    }
+
     @PostMapping("/users/{userId}/courses/{courseId}")
     String addCourseToUser(@PathVariable long userId,@PathVariable long courseId){
         User user = userRepository.findById(userId);
@@ -148,13 +164,18 @@ public class UserController {
         return success;
     }
 
-    @DeleteMapping(path = "/users/{id}")
-    String deleteUser(@PathVariable long id){
-       User user = userRepository.findById(id);
-       if(user == null){
-           return failure;
-       }
-        userRepository.deleteById(id);
-        return success;
-    }
+//    @PostMapping("/users/addCourse/{id}")
+//    String addCourse(@RequestBody Course course){
+//        User user = userRepository.findById(id);
+//        if(user == null || course == null)
+//            return failure;
+//        course.addUser(user);
+//        user.addCourse(course);
+//        userRepository.save(user);
+//        courseRepository.save(course);
+//        return success;
+//    }
+
+
+
 }

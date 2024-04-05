@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import onetoone.Courses.Course;
 import onetoone.Messages.Message;
 import onetoone.Resources.StudyResources;
+//import onetoone.Rating.Rating;
 import onetoone.Users.User;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -30,28 +31,29 @@ public class StudyGroup {
     @Column(nullable = false)
     @CreationTimestamp
     private Timestamp creationTime;
-    
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "studyGroup",cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
     private Set<Message> messageSet;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "group_user", joinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
+    private Set<User> userSet;
 
-//    @ManyToMany(mappedBy = "studyGroups",fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private List<User> users;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-    @JoinTable(name = "USER_STUDYGROUP", joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> userList;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
+//    private List<Rating> ratingList;
 
 
     // =============================== Constructors ================================== //
 
-    public StudyGroup(){}
+    public StudyGroup() {
+    }
 
     public StudyGroup(String groupName) {
         this.groupName = groupName;
@@ -59,51 +61,11 @@ public class StudyGroup {
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public Course getCourse() {
-        return course;
-    }
-
-    public Set<Message> getMessageSet() {
-        return messageSet;
-    }
-
-    public void setMessageSet(Set<Message> messageSet) {
-        this.messageSet = messageSet;
-    }
-
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    public List<User> getUsers() {
-        return userList;
-    }
-
-    public void setUsers(List<User> users) {
-        this.userList = users;
-    }
-
-    public void addUser(User user){
-        if(this.userList == null){
-            this.userList = new ArrayList<>();
-        }
-        this.userList.add(user);
-    }
-
-
     public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -122,4 +84,33 @@ public class StudyGroup {
     public void setCreationTime(Timestamp creationTime) {
         this.creationTime = creationTime;
     }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Set<Message> getMessageSet() {
+        return messageSet;
+    }
+
+    public void setMessageSet(Set<Message> messageSet) {
+        this.messageSet = messageSet;
+    }
+
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
+    }
+
+    public void addUser(User user){
+        userSet.add(user);
+    }
+
 }

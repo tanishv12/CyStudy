@@ -29,12 +29,12 @@ public class StudyGroupController {
     List<StudyGroup> getAllGroups(){return studyGroupRepository.findAll();}
 
     @GetMapping(path = "/groups/all/users/{group_id}")
-    List<User> getAllUsersInGroup (@PathVariable int group_id) {
+    Set<User> getAllUsersInGroup (@PathVariable int group_id) {
         StudyGroup studyGroup = studyGroupRepository.findById(group_id);
         if (studyGroup == null) {
             return null;
         }
-        return studyGroup.getUsers();
+        return studyGroup.getUserSet();
     }
 
     @GetMapping(path="/groups/{group_id}")
@@ -50,13 +50,10 @@ public class StudyGroupController {
             if (group.getGroupName().equals(group_name)){
                 return "Group name already exists";
             }
-            else{
-                StudyGroup studyGroup = new StudyGroup(group_name);
-                studyGroupRepository.save(studyGroup);
-                return "Group created successfully!";
-            }
         }
-        return success;
+        StudyGroup studyGroup = new StudyGroup(group_name);
+        studyGroupRepository.save(studyGroup);
+        return "Group created successfully!";
     }
 
     @PutMapping(path="/groups/update/{group_id}")

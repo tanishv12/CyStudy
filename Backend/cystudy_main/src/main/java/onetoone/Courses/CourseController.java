@@ -52,7 +52,7 @@ public class CourseController {
     @GetMapping(path = "/courses/users/{id}")
     Set<User> getAllUsers(@PathVariable long id){
         Course course = getCourseById(id);
-        return course.getStudents();
+        return course.getUserSet();
     }
 
 //    @PostMapping(path = "/courses")

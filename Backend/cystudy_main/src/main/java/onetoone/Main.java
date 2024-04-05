@@ -46,6 +46,7 @@ class Main {
     CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository) {
         return args -> {
 
+<<<<<<< HEAD
             User user1 = new User("John", "john@somemail.com","lol");
             User user2 = new User("Jane", "jane@somemail.com","lol");
            User user3 = new User("Justin", "justin@somemail.com","lol");
@@ -56,8 +57,27 @@ class Main {
 //            user2.addCourse(course2);
 //            user3.addCourse(course3);
 //            userRepository.save(user1);
+=======
+
+//
+            User user1 = new User("John", "john123","john@somemail.com", "lol");
+
+//            User user2 = new User("Jane", "jane@somemail.com", "lol");
+//            User user3 = new User("Justin", "justin@somemail.com", "lol");
+//
+            Course course1 = new Course("Calculus 1", "MATH", 166);
+//
+            userRepository.save(user1);
+>>>>>>> create-rating-table
 //            userRepository.save(user2);
 //            userRepository.save(user3);
+//
+//            course1.addUser(user1);
+//            course1.addUser(user2);
+//            course1.addUser(user3);
+//
+            courseRepository.save(course1);
+
 
 
 
