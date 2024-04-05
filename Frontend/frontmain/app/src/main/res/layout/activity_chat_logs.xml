@@ -17,7 +17,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="440dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/lavender_border"
             android:orientation="vertical"
@@ -25,49 +25,6 @@
 
 
 
-            <Button
-                android:id="@+id/chat_logs"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:text="Chat Logs"
-                android:textSize="18dp"
-                app:cornerRadius="20dp" />
-
-            <Button
-                android:id="@+id/group_management"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:text="Group Management"
-                android:textSize="18dp"
-                app:cornerRadius="20dp" />
-
-            <Button
-                android:id="@+id/user_management"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:text="User Management"
-                android:textSize="18dp"
-                app:cornerRadius="20dp" />
-
-            <Button
-                android:id="@+id/add_resources"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:text="Add Resources"
-                android:textSize="18dp"
-                app:cornerRadius="20dp" />
-
-            <Button
-                android:id="@+id/return_home"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:text="Return Home"
-                android:textSize="18dp"
-                app:cornerRadius="20dp" />
 
         </LinearLayout>
 
@@ -83,7 +40,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="160dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/lavender_border"
             android:orientation="vertical"
@@ -100,7 +57,8 @@
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
             <EditText
                 android:id="@+id/chatlogs_group"
@@ -115,6 +73,21 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/lavender_border"
+                android:text="Login"
+                android:textSize="18dp"
+                app:cornerRadius="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
