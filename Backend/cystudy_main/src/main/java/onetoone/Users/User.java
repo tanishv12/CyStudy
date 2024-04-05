@@ -1,9 +1,5 @@
 package onetoone.Users;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
@@ -45,9 +41,10 @@ public class User {
 
     // =============================== Constructors ================================== //
 
-    public User(String name, String emailId, String password, String userName) {
+    public User(String name, String userName, String emailId, String password) {
         this.name = name;
         this.password = password;
+        this.userName = userName;
         this.emailId = emailId;
         this.ifActive = true;
         this.courseSet = new HashSet<Course>();
@@ -90,7 +87,7 @@ public class User {
         this.emailId = emailId;
     }
 
-    public boolean getIsActive(){
+    public boolean isIfActive() {
         return ifActive;
     }
 
@@ -98,10 +95,24 @@ public class User {
         this.ifActive = ifActive;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
     @JsonIgnore
-    public Set<Course> getCourses() {
+    public Set<Course> getCourseSet() {
         return courseSet;
     }
+
+    public void setCourseSet(Set<Course> courseSet) {
+        this.courseSet = courseSet;
+    }
+
 
     //Method to add course to hashset
     public void addCourse(Course course) {
