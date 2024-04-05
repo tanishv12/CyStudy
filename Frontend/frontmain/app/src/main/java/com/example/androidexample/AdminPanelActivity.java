@@ -30,6 +30,14 @@ public class AdminPanelActivity extends AppCompatActivity {
             }
         });
 
+        groupManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminPanelActivity.this, GroupManagementActivity.class);
+                startActivity(intent);
+            }
+        });
+
         returnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

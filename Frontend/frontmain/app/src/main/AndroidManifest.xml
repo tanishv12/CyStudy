@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".GroupManagementActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChatLogsActivity"
             android:exported="false" />
         <activity
