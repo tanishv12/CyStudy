@@ -30,18 +30,17 @@ public class StudyGroup {
     @Column(nullable = false)
     @CreationTimestamp
     private Timestamp creationTime;
-    
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "studyGroup",cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
     private Set<Message> messageSet;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="group_user", joinColumns = {@JoinColumn(name="group_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name="user_id", referencedColumnName = "id")})
+    @JoinTable(name = "group_user", joinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
     private Set<User> userSet;
 
 //    @ManyToMany(mappedBy = "studyGroups",fetch = FetchType.LAZY)
@@ -55,7 +54,8 @@ public class StudyGroup {
 
     // =============================== Constructors ================================== //
 
-    public StudyGroup(){}
+    public StudyGroup() {
+    }
 
     public StudyGroup(String groupName) {
         this.groupName = groupName;
@@ -63,45 +63,11 @@ public class StudyGroup {
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public Course getCourse() {
-        return course;
-    }
-
-    public Set<Message> getMessageSet() {
-        return messageSet;
-    }
-
-    public void setMessageSet(Set<Message> messageSet) {
-        this.messageSet = messageSet;
-    }
-
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-
-
-    public void addUser(User user){
-        if(this.userSet == null){
-            this.userSet = new HashSet<>();
-        }
-        this.userSet.add(user);
-    }
-
-
     public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -120,4 +86,33 @@ public class StudyGroup {
     public void setCreationTime(Timestamp creationTime) {
         this.creationTime = creationTime;
     }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Set<Message> getMessageSet() {
+        return messageSet;
+    }
+
+    public void setMessageSet(Set<Message> messageSet) {
+        this.messageSet = messageSet;
+    }
+
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
+    }
+
+    public void addUser(User user){
+        userSet.add(user);
+    }
+
 }

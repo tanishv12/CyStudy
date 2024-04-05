@@ -1,10 +1,5 @@
 package onetoone.Courses;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import onetoone.Groups.StudyGroup;
@@ -85,9 +80,14 @@ public class Course {
         this.courseDepartment = courseDepartment;
     }
 
-    public Set<User> getStudents() {
+    public Set<User> getUserSet() {
         return userSet;
     }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
+    }
+
 
     public void addUser(User user) {
         userSet.add(user);
