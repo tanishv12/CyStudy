@@ -5,10 +5,12 @@ import jakarta.persistence.*;
 import onetoone.Courses.Course;
 import onetoone.Groups.StudyGroup;
 import onetoone.Messages.Message;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 //import onetoone.Rating.Rating;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,7 +28,6 @@ public class User {
     private long id;
     private String name;
     private String password;
-
     private String userName;
     private String emailId;
     private boolean ifActive;
@@ -41,22 +42,26 @@ public class User {
 
 
 
-
     // =============================== Constructors ================================== //
 
     public User(String name, String userName, String emailId, String password) {
         this.name = name;
-        this.password = password;
+        this.password = savePassword(password);
         this.userName = userName;
         this.emailId = emailId;
         this.ifActive = true;
         this.courseSet = new HashSet<Course>();
+        this.groupSet = new HashSet<>();
     }
 
     public User() {
     }
 
     // =============================== Getters and Setters for each field ================================== //
+
+    public String savePassword(String password){
+        return encoder().encode(password);
+    }
 
     public long getId(){
         return id;
@@ -107,7 +112,6 @@ public class User {
     }
 
 
-    @JsonIgnore
     public Set<Course> getCourseSet() {
         return courseSet;
     }
@@ -127,5 +131,11 @@ public class User {
 
     //Method to remove course from hashset
     public void removeCourse(Course course){courseSet.remove(course);
+    }
+
+    @Bean
+    public PasswordEncoder encoder(){
+
+        return new BCryptPasswordEncoder();
     }
 }
