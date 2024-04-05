@@ -21,14 +21,14 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long course_id;
     private int courseCode;
     private String courseName;
     private String courseDepartment;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="course_user", joinColumns = {@JoinColumn(name="course_id", referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name="user_id", referencedColumnName = "id")})
+    @JoinTable(name="course_user", joinColumns = {@JoinColumn(name="course_id", referencedColumnName = "course_id")},
+    inverseJoinColumns = {@JoinColumn(name="user_id", referencedColumnName = "user_id")})
     @JsonIgnore
     private Set<User> userSet;
 
@@ -37,7 +37,6 @@ public class Course {
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
 //    private Set<StudyResources> studyResourcesSet;
-
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
@@ -58,12 +57,12 @@ public class Course {
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public long getId() {
-        return id;
+    public long getCourse_id() {
+        return course_id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setCourse_id(long id) {
+        this.course_id = id;
     }
 
     public int getCourseCode() {

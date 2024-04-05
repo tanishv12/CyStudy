@@ -1,10 +1,9 @@
 package onetoone.Groups;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import onetoone.Courses.Course;
 import onetoone.Messages.Message;
-import onetoone.Resources.StudyResources;
+import onetoone.Rating.Rating;
 //import onetoone.Rating.Rating;
 import onetoone.Users.User;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,7 +22,7 @@ public class StudyGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long group_id;
 
     @Column(nullable = false)
     private String groupName;
@@ -40,14 +39,12 @@ public class StudyGroup {
     private Set<Message> messageSet;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "group_user", joinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
+    @JoinTable(name = "group_user", joinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "group_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")})
     private Set<User> userSet;
 
-
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
-//    private List<Rating> ratingList;
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
+   private List<Rating> ratingList;
 
 
     // =============================== Constructors ================================== //
@@ -57,16 +54,19 @@ public class StudyGroup {
 
     public StudyGroup(String groupName) {
         this.groupName = groupName;
+        this.userSet = new HashSet<User>();
+        this.messageSet = new HashSet<Message>();
+        this.ratingList = new ArrayList<Rating>();
     }
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public long getId() {
-        return id;
+    public long getGroup_id() {
+        return group_id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setGroup_id(long id) {
+        this.group_id = id;
     }
 
     public String getGroupName() {
@@ -113,4 +113,11 @@ public class StudyGroup {
         userSet.add(user);
     }
 
+    public List<Rating> getRatingList() {
+        return ratingList;
+    }
+
+    public void setRatingList(List<Rating> ratingList) {
+        this.ratingList = ratingList;
+    }
 }

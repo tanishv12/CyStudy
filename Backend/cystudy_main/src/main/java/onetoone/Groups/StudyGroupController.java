@@ -1,6 +1,7 @@
 package onetoone.Groups;
 
 import onetoone.Courses.CourseRepository;
+import onetoone.Rating.Rating;
 import onetoone.Users.User;
 import onetoone.Users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,8 @@ public class StudyGroupController {
         studyGroupRepository.deleteById(group_id);
         return success;
     }
+
+
 
 
 

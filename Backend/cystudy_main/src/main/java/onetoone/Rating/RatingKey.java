@@ -6,6 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 
+@Embeddable
 public class RatingKey implements Serializable {
 
     @Column(name = "user_id")

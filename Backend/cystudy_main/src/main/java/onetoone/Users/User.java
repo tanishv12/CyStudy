@@ -1,21 +1,17 @@
 package onetoone.Users;
-<<<<<<< HEAD
 
-=======
->>>>>>> create-rating-table
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
 import onetoone.Groups.StudyGroup;
 import onetoone.Messages.Message;
+import onetoone.Rating.Rating;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 //import onetoone.Rating.Rating;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,47 +27,24 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long user_id;
     private String name;
     private String password;
     private String userName;
     private String emailId;
     private boolean ifActive;
 
-<<<<<<< HEAD
-
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinTable(name ="USER_COURSE", joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "course_id",referencedColumnName ="id")})
-    @JsonIgnore
-    private Set<Course> courseSet;
-
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-//    @JoinTable(name = "USER_COURSE", joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "course_id"))
-//    private Set<Course> courseSet;
-
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_GROUP", joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "group_id",referencedColumnName = "id")})
-    @JsonIgnore
-    private Set<StudyGroup> studyGroups;
-
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-//    @JoinTable(name = "USER_STUDYGROUP", joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "group_id"))
-//    private Set<StudyGroup> studyGroupList;
-
-=======
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
     private Set<Course> courseSet;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
     private Set<StudyGroup> groupSet;
->>>>>>> create-rating-table
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
     private Set<Message> messageSet;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Rating> ratingSet;
 
 
     // =============================== Constructors ================================== //
@@ -96,12 +69,12 @@ public class User {
         return encoder().encode(password);
     }
 
-    public long getId(){
-        return id;
+    public long getUser_id(){
+        return user_id;
     }
 
-    public void setId(long id){
-        this.id = id;
+    public void setUser_id(long id){
+        this.user_id = id;
     }
 
     public String getName(){

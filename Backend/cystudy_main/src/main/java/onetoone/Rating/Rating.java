@@ -16,13 +16,11 @@ public class Rating {
     private RatingKey id;
 
     @ManyToOne
-    @MapsId("user_id")
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false) // Use referencedColumnName to specify the column name in RatingKey
     private User user;
 
     @ManyToOne
-    @MapsId("group_id")
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "group_id", referencedColumnName = "group_id", insertable = false, updatable = false) // Use referencedColumnName to specify the column name in RatingKey
     private StudyGroup studyGroup;
 
     @Column(name = "rating")

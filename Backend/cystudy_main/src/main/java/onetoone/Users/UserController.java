@@ -133,7 +133,7 @@ public class UserController {
         if(user == null) {
             throw new RuntimeException("user id does not exist");
         }
-        else if (request.getId() != id){
+        else if (request.getUser_id() != id){
             throw new RuntimeException("path variable id does not match User request id");
         }
 
