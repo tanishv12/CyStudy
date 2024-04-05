@@ -11,11 +11,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //import onetoone.Rating.Rating;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * 
  * @author Rahul Sudev
+ * @author Saeshu Karthika
  * 
  */ 
 
@@ -32,14 +34,14 @@ public class User {
     private String emailId;
     private boolean ifActive;
 
-    //@JsonBackReference
-
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
     private Set<Course> courseSet;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
     private Set<StudyGroup> groupSet;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
+    private Set<Message> messageSet;
 
 
     // =============================== Constructors ================================== //
@@ -51,7 +53,8 @@ public class User {
         this.emailId = emailId;
         this.ifActive = true;
         this.courseSet = new HashSet<Course>();
-        this.groupSet = new HashSet<>();
+        this.groupSet = new HashSet<StudyGroup>();
+        this.messageSet = new HashSet<Message>();
     }
 
     public User() {
@@ -120,6 +123,22 @@ public class User {
         this.courseSet = courseSet;
     }
 
+    public Set<StudyGroup> getGroupSet() {
+        return groupSet;
+    }
+
+    public void setGroupSet(Set<StudyGroup> groupSet) {
+        this.groupSet = groupSet;
+    }
+
+    public Set<Message> getMessageSet() {
+        return messageSet;
+    }
+
+    public void setMessageSet(Set<Message> messageSet) {
+        this.messageSet = messageSet;
+    }
+
 
     //Method to add course to hashset
     public void addCourse(Course course) {
@@ -138,4 +157,6 @@ public class User {
 
         return new BCryptPasswordEncoder();
     }
+
+
 }

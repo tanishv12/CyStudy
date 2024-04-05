@@ -43,9 +43,6 @@ public class StudyGroup {
             inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
     private Set<User> userSet;
 
-//    @ManyToMany(mappedBy = "studyGroups",fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private List<User> users;
 
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)

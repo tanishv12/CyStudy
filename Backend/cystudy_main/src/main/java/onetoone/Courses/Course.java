@@ -25,22 +25,28 @@ public class Course {
     private String courseName;
     private String courseDepartment;
 
-
-    //@JsonManagedReference
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="course_user", joinColumns = {@JoinColumn(name="course_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name="user_id", referencedColumnName = "id")})
+    @JsonIgnore
     private Set<User> userSet;
 
-    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<StudyGroup> groupSet;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
+//    private Set<StudyResources> studyResourcesSet;
+
+
+
     // =============================== Constructors ================================== //
 
     public Course(String courseName, String courseDepartment,int courseCode) {
         this.courseName = courseName;
         this.courseDepartment = courseDepartment;
         this.courseCode = courseCode;
-        this.userSet = new HashSet<>();
+        this.userSet = new HashSet<User>();
+        this.groupSet = new HashSet<StudyGroup>();
     }
 
     public Course() {
@@ -88,8 +94,15 @@ public class Course {
         this.userSet = userSet;
     }
 
-
     public void addUser(User user) {
         userSet.add(user);
+    }
+
+    public Set<StudyGroup> getGroupSet() {
+        return groupSet;
+    }
+
+    public void setGroupSet(Set<StudyGroup> groupSet) {
+        this.groupSet = groupSet;
     }
 }
