@@ -17,11 +17,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.androidexample.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -43,6 +45,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     private static Button connectBtn;
     private static String serverURL;
 
+//    private  ActivityChatBinding binding;
+    private List<ChatMessage> chatMessages;
+
+
     /**
      * This class creates and maps instances to different features in the messages
      * UI screen.
@@ -52,6 +58,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+//        binding = ActivityChatBinding.inflate(getLayoutInflater());
+
         setContentView(R.layout.activity_message);
 //        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
 //        bottomNavigationView.setSelectedItemId(R.id.StudyGroups);
