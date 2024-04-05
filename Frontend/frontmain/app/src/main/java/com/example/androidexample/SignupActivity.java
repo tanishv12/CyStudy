@@ -44,7 +44,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
 
-    private String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post";
+    private String url = "http://coms-309-016.class.las.iastate.edu:8080/users/signUp";
 
     private String method;
 
@@ -180,7 +180,8 @@ public class SignupActivity extends AppCompatActivity {
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
             postBody = new JSONObject();
-            postBody.put("name", signupUsername.getText().toString());
+            postBody.put("name", signupName.getText().toString());
+            postBody.put("username", signupUsername.getText().toString());
             postBody.put("emailId",signupEmail.getText().toString());
             postBody.put("password", signupPassword.getText().toString());
             postBody.put("ifActive", "true");
