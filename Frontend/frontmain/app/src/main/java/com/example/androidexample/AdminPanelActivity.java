@@ -25,7 +25,8 @@ public class AdminPanelActivity extends AppCompatActivity {
         chatLogs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                Intent intent = new Intent(AdminPanelActivity.this, ChatLogsActivity.class);
+                startActivity(intent);
             }
         });
 
