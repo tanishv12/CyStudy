@@ -95,7 +95,7 @@
             android:layout_marginLeft="2dp"
             android:padding="8dp"
             android:src="@drawable/sendbuttonimage"
-            app:tint="@color/white">
+            app:tint="@color/red">
         </androidx.appcompat.widget.AppCompatImageView>
 
     </FrameLayout>
@@ -113,7 +113,7 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:textAlignment="viewStart"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textColorHint="#404040"
 
         app:layout_constraintBottom_toBottomOf="parent"
