@@ -44,6 +44,7 @@ public class ChatLogsActivity extends AppCompatActivity {
     }
 
     private void postRequest() {
+        //Change the URL to whatever they say the endpoint is
         String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post/4/";
         // Convert input to JSONObject
         JSONObject postBody = null;
@@ -67,7 +68,7 @@ public class ChatLogsActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
+                        txtMessages.setText(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
