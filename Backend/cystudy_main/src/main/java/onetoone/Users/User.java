@@ -30,6 +30,8 @@ public class User {
     private long id;
     private String name;
     private String password;
+
+    private String userName;
     private String emailId;
     private boolean ifActive;
 
@@ -43,7 +45,7 @@ public class User {
 
     // =============================== Constructors ================================== //
 
-    public User(String name, String emailId, String password) {
+    public User(String name, String emailId, String password, String userName) {
         this.name = name;
         this.password = password;
         this.emailId = emailId;
