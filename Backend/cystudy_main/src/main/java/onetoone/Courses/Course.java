@@ -36,20 +36,22 @@ public class Course {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="course_user", joinColumns = {@JoinColumn(name="course_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name="user_id", referencedColumnName = "id")})
-    private Set<User> userSet = new HashSet<>();
+    private Set<User> userSet;
+
+    
     // =============================== Constructors ================================== //
 
     public Course(String courseName, String courseDepartment,int courseCode) {
         this.courseName = courseName;
         this.courseDepartment = courseDepartment;
         this.courseCode = courseCode;
+        this.userSet = new HashSet<>();
     }
 
     public Course() {
     }
 
     // =============================== Getters and Setters for each field ================================== //
-
 
     public long getId() {
         return id;

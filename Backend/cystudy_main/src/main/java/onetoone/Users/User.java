@@ -36,6 +36,9 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
     private Set<Course> courseSet;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
+    private Set<StudyGroup> groupSet;
+
 
 
 

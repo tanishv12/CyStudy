@@ -38,14 +38,16 @@ public class StudyGroup {
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "studyGroup",cascade = CascadeType.ALL)
     private Set<Message> messageSet;
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="group_user", joinColumns = {@JoinColumn(name="group_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name="user_id", referencedColumnName = "id")})
+    private Set<User> userSet;
+
 //    @ManyToMany(mappedBy = "studyGroups",fetch = FetchType.LAZY)
 //    @JsonIgnore
 //    private List<User> users;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_STUDYGROUP", joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> userList;
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
 //    private List<Rating> ratingList;
@@ -73,31 +75,25 @@ public class StudyGroup {
         this.messageSet = messageSet;
     }
 
-    public List<User> getUserList() {
-        return userList;
+    public Set<User> getUserSet() {
+        return userSet;
     }
 
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
     }
 
     public void setCourse(Course course) {
         this.course = course;
     }
 
-    public List<User> getUsers() {
-        return userList;
-    }
 
-    public void setUsers(List<User> users) {
-        this.userList = users;
-    }
 
     public void addUser(User user){
-        if(this.userList == null){
-            this.userList = new ArrayList<>();
+        if(this.userSet == null){
+            this.userSet = new HashSet<>();
         }
-        this.userList.add(user);
+        this.userSet.add(user);
     }
 
 
