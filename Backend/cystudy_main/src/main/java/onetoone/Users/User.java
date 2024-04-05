@@ -26,20 +26,14 @@ public class User {
     private long id;
     private String name;
     private String password;
+    private String userName;
     private String emailId;
     private boolean ifActive;
 
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinTable(name ="USER_COURSE", joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "course_id",referencedColumnName ="id")})
-    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
     private Set<Course> courseSet;
 
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-//    @JoinTable(name = "USER_COURSE", joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "course_id"))
-//    private Set<Course> courseSet;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "USER_GROUP", joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
@@ -47,20 +41,16 @@ public class User {
     @JsonIgnore
     private Set<StudyGroup> studyGroups;
 
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-//    @JoinTable(name = "USER_STUDYGROUP", joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "group_id"))
-//    private Set<StudyGroup> studyGroupList;
-
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
     private List<Message> messageList;
 
     // =============================== Constructors ================================== //
 
-    public User(String name, String emailId, String password) {
+    public User(String name, String userName, String emailId, String password) {
         this.name = name;
         this.password = password;
+        this.userName = userName;
         this.emailId = emailId;
         this.ifActive = true;
     }
@@ -69,6 +59,42 @@ public class User {
     }
 
     // =============================== Getters and Setters for each field ================================== //
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public boolean isIfActive() {
+        return ifActive;
+    }
+
+    public Set<Course> getCourseSet() {
+        return courseSet;
+    }
+
+    public void setCourseSet(Set<Course> courseSet) {
+        this.courseSet = courseSet;
+    }
+
+    public Set<StudyGroup> getStudyGroups() {
+        return studyGroups;
+    }
+
+    public void setStudyGroups(Set<StudyGroup> studyGroups) {
+        this.studyGroups = studyGroups;
+    }
+
+    public List<Message> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
+    }
 
     public long getId(){
         return id;
@@ -110,6 +136,7 @@ public class User {
         this.ifActive = ifActive;
     }
 
+    @JsonIgnore
     public Set<Course> getCourses() {
         return courseSet;
     }
