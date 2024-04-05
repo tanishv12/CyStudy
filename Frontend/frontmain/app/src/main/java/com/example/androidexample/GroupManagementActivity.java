@@ -3,6 +3,7 @@ package com.example.androidexample;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -22,6 +23,12 @@ public class GroupManagementActivity extends AppCompatActivity {
         updateGroup = findViewById(R.id.update_group);
         deleteGroup = findViewById(R.id.delete_group);
 
+        createGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
+        //Most of the methods are in StudyGroupFragment. Copy over from there.
     }
 }
