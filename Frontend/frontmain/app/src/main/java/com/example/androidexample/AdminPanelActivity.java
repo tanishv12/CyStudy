@@ -14,12 +14,11 @@ public class AdminPanelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_panel);
 
-        Button chatLogs, groupManagement, userManagement, addResources, returnHome;
+        Button chatLogs, groupManagement, userManagement, returnHome;
 
         chatLogs = findViewById(R.id.chat_logs);
         groupManagement = findViewById(R.id.group_management);
         userManagement = findViewById(R.id.user_management);
-        addResources = findViewById(R.id.add_resources);
         returnHome = findViewById(R.id.return_home);
 
         chatLogs.setOnClickListener(new View.OnClickListener() {

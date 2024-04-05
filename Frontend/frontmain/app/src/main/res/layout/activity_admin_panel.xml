@@ -61,15 +61,6 @@
                 app:cornerRadius="20dp" />
 
             <Button
-                android:id="@+id/add_resources"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="30dp"
-                android:text="Add Resources"
-                android:textSize="18dp"
-                app:cornerRadius="20dp" />
-
-            <Button
                 android:id="@+id/return_home"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -77,9 +68,6 @@
                 android:text="Return Home"
                 android:textSize="18dp"
                 app:cornerRadius="20dp" />
-
-
-
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
