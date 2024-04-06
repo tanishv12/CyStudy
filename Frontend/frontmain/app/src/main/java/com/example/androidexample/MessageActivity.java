@@ -369,6 +369,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             postBody = new JSONObject();
             Log.e("JSON Created","Json was created bla bla");
             postBody.put("messageContent", MessageTextSend.getText().toString());
+//            String s = AllMessages.getText().toString();
+
 //            url += "/" + MessageTextSend.getText().toString();
 ////                    + "/" + loginPassword.getText().toString();
         }
@@ -389,7 +391,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
                     public void onResponse(JSONObject response)
                     {
                         Log.e("Response Entered",response.toString());
-                        sentVeri.setText("Response is: "+ response.toString());
+//                        sentVeri.setText("Response is: "+ response.toString());
                     }
                 },
                 new Response.ErrorListener()
