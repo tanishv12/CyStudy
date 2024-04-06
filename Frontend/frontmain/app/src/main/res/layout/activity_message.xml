@@ -14,7 +14,8 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/background_messagetop"
         app:layout_constraintBottom_toTopOf="@id/layoutSend"
-        app:layout_constraintTop_toTopOf="parent"></View>
+        app:layout_constraintTop_toTopOf="parent">
+    </View>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageBack"
@@ -24,7 +25,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:src="@drawable/backarrow"
-        app:tint="@color/white"
+        app:tint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </androidx.appcompat.widget.AppCompatImageView>
@@ -38,7 +39,7 @@
         android:layout_marginRight="16dp"
         android:padding="4dp"
         android:src="@drawable/baseline_grade"
-        app:tint="@color/white"
+        app:tint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </androidx.appcompat.widget.AppCompatImageView>
@@ -68,33 +69,47 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageBack">
     </View>
-    
-    <View
-        android:id="@+id/headerBackground"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#404040"
-        app:layout_constraintBottom_toTopOf="@id/viewSupporter"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-    </View>
+
+
+    <!--    <View-->
+<!--        android:id="@+id/headerBackground"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:background="#404040"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/viewSupporter"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        >-->
+<!--    </View>-->
     
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:id="@+id/chatRecyclerView"
-        android:orientation="vertical"
-        android:overScrollMode="never"
-        android:padding="20dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="@id/viewBack"
-        app:layout_constraintTop_toBottomOf="@id/viewSupporter"
-        android:visibility="gone">
-    </androidx.recyclerview.widget.RecyclerView>
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:id="@+id/chatRecyclerView"-->
+<!--        android:orientation="vertical"-->
+<!--        android:overScrollMode="never"-->
+<!--        android:padding="20dp"-->
+<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/viewBack"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/viewSupporter"-->
+<!--        android:visibility="gone">-->
+<!--    </androidx.recyclerview.widget.RecyclerView>-->
 
+
+    <TextView
+        android:id="@+id/allMessages"
+        android:layout_width="414dp"
+        android:layout_height="583dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="1.0">
+    </TextView>
 
     <FrameLayout
         android:id="@+id/layoutSend"
@@ -109,6 +124,7 @@
         app:layout_constraintStart_toEndOf="@id/MessageText">
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/sendBUTTON"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
@@ -140,7 +156,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent">
-
     </EditText>
 
 

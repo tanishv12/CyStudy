@@ -32,7 +32,8 @@ import org.java_websocket.handshake.ServerHandshake;
  */
 public class MessageActivity extends AppCompatActivity implements WebSocketListener {
     private static EditText MessageTextSend;
-    private static Button msgButton;
+
+    private static AppCompatImageView msgButton;
     private static TextView sentVeri;
     private static Button getMESSAGES;
     private static TextView AllMessages;
@@ -40,13 +41,14 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     private static EditText UPDATEtext;
     private  static Button UPDATEmsgBtn;
 
+    private String username;
+
     private static AppCompatImageView backButton;
 
     private static Button connectBtn;
     private static String serverURL;
 
-//    private  ActivityChatBinding binding;
-    private List<ChatMessage> chatMessages;
+
 
 
     /**
@@ -60,23 +62,13 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         super.onCreate(savedInstanceState);
 //        binding = ActivityChatBinding.inflate(getLayoutInflater());
 
+
+        Log.e("Try Entered","oisafuhgiureshg");
         setContentView(R.layout.activity_message);
-//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
-//        bottomNavigationView.setSelectedItemId(R.id.StudyGroups);
-//
-//        bottomNavigationView.setOnItemSelectedListener(item -> {
-//            if (item.getItemId() == R.id.StudyGroups) {
-//                return true;
-//            } if (item.getItemId() == R.id.Home) {
-//                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-//                return true;
-//            } if (item.getItemId() == R.id.Classes) {
-//                startActivity(new Intent(getApplicationContext(), ClassFragment.class));
-//                return true;
-//            }
-//            return false;
-//        });
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
+        username = UsernameSingleton.getInstance().getUserName();
+        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
+        WebSocketManager.getInstance().connectWebSocket(serverURL);
 
 
         backButton = findViewById(R.id.imageBack);
@@ -89,35 +81,15 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
                 startActivity(intent);
             }
         });
-//        MessageTextSend = findViewById(R.id.MessageText);
-//        msgButton = findViewById(R.id.sendBUTTON);
+        MessageTextSend = findViewById(R.id.MessageText);
+        msgButton = findViewById(R.id.sendBUTTON);
 //        getMESSAGES = findViewById(R.id.getMessageButton);
-//        AllMessages = findViewById(R.id.allMessages);
+        AllMessages = findViewById(R.id.allMessages);
 //        DeleteBUTTON = findViewById(R.id.deleteMessage);
 //        UPDATEtext = findViewById(R.id.updateMsgText);
 //        UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
 //        connectBtn = findViewById(R.id.connectbutton);
 
-        String username = UsernameSingleton.getInstance().getUserName();
-
-        /**
-         * This function works on click of the connect button that connects the
-         * application to the remote server.
-         */
-//        connectBtn.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
-////                serverURL = "ws://10.0.2.2:9090/chat/" + username;
-//
-//                // Establish WebSocket connection and set listener
-//                WebSocketManager.getInstance().connectWebSocket(serverURL);
-//                WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
-//
-//            }
-//        });
 
         /**
          * This function works on click of the update button that allows user to
@@ -162,23 +134,23 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
          * This function works on click of the message button that allows user to
          * send messages that is sent in the given text field.
          */
-//        msgButton.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                postRequest();
-//                try
-//                {
-//                    // send message
-//                    WebSocketManager.getInstance().sendMessage(MessageTextSend.getText().toString());
-//                }
-//                catch (Exception e)
-//                {
-//                    Log.d("ExceptionSendMessage:", e.getMessage().toString());
-//                }
-//            }
-//        });
+        msgButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                postRequest();
+                try
+                {
+                    // send message
+                    WebSocketManager.getInstance().sendMessage(MessageTextSend.getText().toString());
+                }
+                catch (Exception e)
+                {
+                    Log.d("ExceptionSendMessage:", e.getMessage().toString());
+                }
+            }
+        });
     }
     /**
      * This function works as a GET request communicating with the backend to show
@@ -472,7 +444,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         String closedBy = remote ? "server" : "local";
         runOnUiThread(() -> {
             String s = MessageTextSend.getText().toString();
-            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
+//            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
         });
     }
 
