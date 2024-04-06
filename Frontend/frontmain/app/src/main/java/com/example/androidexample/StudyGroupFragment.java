@@ -166,7 +166,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StudyGroupFragment.this, MainActivity.class);
+                Intent intent = new Intent(StudyGroupFragment.this, RatingReview.class);
                 startActivity(intent);
             }
         });
