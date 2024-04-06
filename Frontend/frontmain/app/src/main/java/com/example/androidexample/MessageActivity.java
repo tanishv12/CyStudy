@@ -1,6 +1,7 @@
 package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,11 +17,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.androidexample.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -29,7 +32,8 @@ import org.java_websocket.handshake.ServerHandshake;
  */
 public class MessageActivity extends AppCompatActivity implements WebSocketListener {
     private static EditText MessageTextSend;
-    private static Button msgButton;
+
+    private static AppCompatImageView msgButton;
     private static TextView sentVeri;
     private static Button getMESSAGES;
     private static TextView AllMessages;
@@ -37,8 +41,15 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     private static EditText UPDATEtext;
     private  static Button UPDATEmsgBtn;
 
+    private String username;
+
+    private static AppCompatImageView backButton;
+
     private static Button connectBtn;
     private static String serverURL;
+
+
+
 
     /**
      * This class creates and maps instances to different features in the messages
@@ -49,92 +60,75 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+//        binding = ActivityChatBinding.inflate(getLayoutInflater());
+
+
+        Log.e("Try Entered","oisafuhgiureshg");
         setContentView(R.layout.activity_message);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
-        bottomNavigationView.setSelectedItemId(R.id.StudyGroups);
-
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.StudyGroups) {
-                return true;
-            } if (item.getItemId() == R.id.Home) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                return true;
-            } if (item.getItemId() == R.id.Classes) {
-                startActivity(new Intent(getApplicationContext(), ClassFragment.class));
-                return true;
-            }
-            return false;
-        });
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
+        username = UsernameSingleton.getInstance().getUserName();
+        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
+        WebSocketManager.getInstance().connectWebSocket(serverURL);
 
-        MessageTextSend = findViewById(R.id.MessageText);
-        msgButton = findViewById(R.id.sendBUTTON);
-        getMESSAGES = findViewById(R.id.getMessageButton);
-        AllMessages = findViewById(R.id.allMessages);
-        DeleteBUTTON = findViewById(R.id.deleteMessage);
-        UPDATEtext = findViewById(R.id.updateMsgText);
-        UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
-        connectBtn = findViewById(R.id.connectbutton);
 
-        String username = UsernameSingleton.getInstance().getUserName();
+        backButton = findViewById(R.id.imageBack);
 
-        /**
-         * This function works on click of the connect button that connects the
-         * application to the remote server.
-         */
-        connectBtn.setOnClickListener(new View.OnClickListener()
-        {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
-//                serverURL = "ws://10.0.2.2:9090/chat/" + username;
-
-                // Establish WebSocket connection and set listener
-                WebSocketManager.getInstance().connectWebSocket(serverURL);
-                WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
-
+                Intent intent = new Intent(MessageActivity.this, StudyGroupFragment.class);
+                startActivity(intent);
             }
         });
+        MessageTextSend = findViewById(R.id.MessageText);
+        msgButton = findViewById(R.id.sendBUTTON);
+//        getMESSAGES = findViewById(R.id.getMessageButton);
+        AllMessages = findViewById(R.id.allMessages);
+//        DeleteBUTTON = findViewById(R.id.deleteMessage);
+//        UPDATEtext = findViewById(R.id.updateMsgText);
+//        UPDATEmsgBtn = findViewById(R.id.updateMsgButton);
+//        connectBtn = findViewById(R.id.connectbutton);
+
 
         /**
          * This function works on click of the update button that allows user to
          * update messages to what is sent by the user in the updated text field.
          */
-        UPDATEmsgBtn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                putRequest();
-            }
-        });
+//        UPDATEmsgBtn.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                putRequest();
+//            }
+//        });
 
         /**
          * This function works on click of the get messages button that shows
          * all the messages sent in the group chat.
          */
-        getMESSAGES.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                getRequest();
-            }
-        });
+//        getMESSAGES.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                getRequest();
+//            }
+//        });
 
         /**
          * This function works on click of the delete button that deletes
          * certain messages from the database.
          */
-        DeleteBUTTON.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                deleteRequest();
-            }
-        });
+//        DeleteBUTTON.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                deleteRequest();
+//            }
+//        });
 
         /**
          * This function works on click of the message button that allows user to
@@ -361,7 +355,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
      */
     private void postRequest()
     {
-        sentVeri = findViewById(R.id.sentVerify);
+//        sentVeri = findViewById(R.id.sentVerify);
 
         String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/post";
         // Convert input to JSONObject
@@ -450,7 +444,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         String closedBy = remote ? "server" : "local";
         runOnUiThread(() -> {
             String s = MessageTextSend.getText().toString();
-            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
+//            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
         });
     }
 
