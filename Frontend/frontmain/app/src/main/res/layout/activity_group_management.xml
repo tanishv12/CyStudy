@@ -26,7 +26,7 @@
             android:padding="24dp">
 
             <TextView
-                android:id="@+id/all_chatlogs"
+                android:id="@+id/all_chat"
                 android:layout_width="340dp"
                 android:layout_height="340dp"
                 android:text="Messages will show up here"
@@ -62,7 +62,7 @@
             android:padding="24dp">
 
             <Button
-                android:id="@+id/update_group"
+                android:id="@+id/updateGroup"
                 android:layout_width="160dp"
                 android:layout_height="50dp"
                 android:background="@drawable/lavender_border"
@@ -74,7 +74,7 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <Button
-                android:id="@+id/delete_group"
+                android:id="@+id/deleteGroup"
                 android:layout_width="160dp"
                 android:layout_height="50dp"
                 android:background="@drawable/lavender_border"
@@ -88,35 +88,35 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <Button
-                android:id="@+id/read_group"
+                android:id="@+id/readGroup"
                 android:layout_width="160dp"
                 android:layout_height="50dp"
                 android:background="@drawable/lavender_border"
                 android:text="Read Group"
                 app:cornerRadius="20dp"
-                app:layout_constraintBottom_toTopOf="@id/delete_group"
+                app:layout_constraintBottom_toTopOf="@id/deleteGroup"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/group_name"
+                app:layout_constraintTop_toBottomOf="@id/groupName"
                 app:layout_constraintVertical_bias="0.5"
                 />
 
             <Button
-                android:id="@+id/create_group"
+                android:id="@+id/createGroup"
                 android:layout_width="160dp"
                 android:layout_height="50dp"
                 android:background="@drawable/lavender_border"
                 android:text="Create Group"
                 app:cornerRadius="20dp"
-                app:layout_constraintBottom_toTopOf="@id/update_group"
+                app:layout_constraintBottom_toTopOf="@id/updateGroup"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/group_name"
+                app:layout_constraintTop_toBottomOf="@id/groupName"
                 app:layout_constraintVertical_bias="0.5"
                 />
 
             <EditText
-                android:id="@+id/group_name"
+                android:id="@+id/groupName"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/lavender_border"
