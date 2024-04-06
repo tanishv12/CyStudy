@@ -24,7 +24,8 @@ import java.util.Map;
 
 public class GroupManagementActivity extends AppCompatActivity {
 
-    private EditText groupName;
+    String deleteUrl;
+    private EditText group_name;
     private TextView chat;
     private Button create_group, read_group, update_group, delete_group;
 
@@ -34,7 +35,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_management);
 
         chat = findViewById(R.id.all_chat);
-        groupName = findViewById(R.id.groupName);
+        group_name = findViewById(R.id.groupName);
         create_group = findViewById(R.id.createGroup);
         read_group = findViewById(R.id.readGroup);
         update_group = findViewById(R.id.updateGroup);
@@ -43,6 +44,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         create_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                chat.setText("hi");
                 //Map to create group screen (?)
             }
         });
@@ -50,6 +52,8 @@ public class GroupManagementActivity extends AppCompatActivity {
         delete_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                String temp = group_name.toString();
                 deleteRequest();
             }
         });
@@ -77,7 +81,7 @@ public class GroupManagementActivity extends AppCompatActivity {
      */
     private void deleteRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete";
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/";
         // Convert input to JSONObject
         JSONObject deleteBody = null;
 
@@ -170,7 +174,7 @@ public class GroupManagementActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(GroupManagementActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }){
 
@@ -211,7 +215,7 @@ public class GroupManagementActivity extends AppCompatActivity {
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
             putBody = new JSONObject();
-            putBody.put("groupName", groupName.getText().toString());
+            putBody.put("groupName", group_name.getText().toString());
             Log.e("what is putbody",putBody.toString());
             Log.e("Try BLAH","oisafuhgiureshg");
             url += "/" + "8";
