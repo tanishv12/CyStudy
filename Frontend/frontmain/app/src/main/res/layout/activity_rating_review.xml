@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RatingReview"
-    android:background="#404040">
+    android:background="@color/olive">
 
 
     <TextView
@@ -28,7 +28,7 @@
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/olive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -39,8 +39,8 @@
 
     <EditText
         android:id="@+id/ReviewText"
-        android:layout_width="396dp"
-        android:layout_height="232dp"
+        android:layout_width="377dp"
+        android:layout_height="245dp"
         android:background="@color/white"
         android:gravity="top"
         android:hint="Write a review..."
