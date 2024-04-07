@@ -25,6 +25,7 @@ import java.util.Map;
 public class GroupManagementActivity extends AppCompatActivity {
 
     String deleteUrl;
+    boolean isFirstClick;
     private EditText group_name;
     private TextView chat;
     private Button create_group, read_group, update_group, delete_group;
@@ -33,7 +34,7 @@ public class GroupManagementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_management);
-
+        isFirstClick = true;
         chat = findViewById(R.id.all_chat);
         group_name = findViewById(R.id.groupName);
         create_group = findViewById(R.id.createGroup);
@@ -52,9 +53,23 @@ public class GroupManagementActivity extends AppCompatActivity {
         delete_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String temp = group_name.toString();
-                deleteRequest();
+                if(isFirstClick)
+                {
+                    Toast.makeText(GroupManagementActivity.this, "Click again to delete group, enter user name and click to remove user", Toast.LENGTH_SHORT);
+                    isFirstClick = false;
+                }
+                else {
+                    if(temp == "")
+                    {
+                        Toast.makeText(GroupManagementActivity.this, temp, Toast.LENGTH_SHORT);
+                    }
+                    else {
+                        Toast.makeText(GroupManagementActivity.this, "No text entered", Toast.LENGTH_SHORT);
+                    }
+                    isFirstClick = true;
+                }
+                //deleteRequest();
             }
         });
 
