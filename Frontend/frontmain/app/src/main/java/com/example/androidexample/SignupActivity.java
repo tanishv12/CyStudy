@@ -97,7 +97,7 @@ public class SignupActivity extends AppCompatActivity {
         loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                Intent intent = new Intent(SignupActivity.this, AdminPanelActivity.class);
                 startActivity(intent);
             }
         });
