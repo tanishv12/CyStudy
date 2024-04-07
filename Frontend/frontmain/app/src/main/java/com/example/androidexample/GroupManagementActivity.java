@@ -24,8 +24,8 @@ import java.util.Map;
 
 public class GroupManagementActivity extends AppCompatActivity {
 
-    String deleteUrl;
-    boolean isFirstClick;
+    String deleteUrl, updateUrl;
+    boolean isFirstClick, isFirstClickUpdate;
     private EditText group_name;
     private TextView chat;
     private Button create_group, read_group, update_group, delete_group;
@@ -35,7 +35,9 @@ public class GroupManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_management);
         isFirstClick = true;
+        isFirstClickUpdate = true;
         deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/";
+        updateUrl = "http://coms-309-016.class.las.iastate.edu:8080/groups/update/";
         chat = findViewById(R.id.all_chat);
         group_name = findViewById(R.id.groupName);
         create_group = findViewById(R.id.createGroup);
@@ -76,6 +78,7 @@ public class GroupManagementActivity extends AppCompatActivity {
                     isFirstClick = true;
                     deleteRequest();
                     deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/";
+                    group_name.setText("");
                 }
             }
         });
@@ -90,7 +93,22 @@ public class GroupManagementActivity extends AppCompatActivity {
         update_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                putRequest();
+                String temp = group_name.getText().toString();
+                if(isFirstClickUpdate)
+                {
+                    Toast.makeText(GroupManagementActivity.this, "Enter new group name and click update", Toast.LENGTH_SHORT).show();
+                    isFirstClickUpdate = false;
+                    updateUrl += temp + "/";
+                    group_name.setText("");
+                }
+                else {
+                    updateUrl += temp;
+                    isFirstClickUpdate = true;
+                    putRequest();
+                    updateUrl = "http://coms-309-016.class.las.iastate.edu:8080/groups/update/";
+                    group_name.setText("");
+                }
+
             }
         });
         //Most of the methods are in StudyGroupFragment. Copy over from there.
@@ -178,8 +196,8 @@ public class GroupManagementActivity extends AppCompatActivity {
      */
     private void getRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all/";
-        url += group_name.getText().toString();
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all";
+        url += "/" + group_name.getText().toString();
 
         chat.setText(url);
 
@@ -279,7 +297,7 @@ public class GroupManagementActivity extends AppCompatActivity {
      */
     private void putRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/update";
+        String url = updateUrl;
         // Convert input to JSONObject
         JSONObject putBody = null;
 
@@ -289,11 +307,6 @@ public class GroupManagementActivity extends AppCompatActivity {
             // etRequest should contain a JSON object string as your POST body
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
-            putBody = new JSONObject();
-            putBody.put("groupName", group_name.getText().toString());
-            Log.e("what is putbody",putBody.toString());
-            Log.e("Try BLAH","oisafuhgiureshg");
-            url += "/" + "8";
             Log.e("What is url",url.toString());
 ////                    + "/" + loginPassword.getText().toString();
         }

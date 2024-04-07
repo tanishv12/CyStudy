@@ -28,7 +28,6 @@ public class ChatLogsActivity extends AppCompatActivity {
 
     String url = "http://coms-309-016.class.las.iastate.edu:8080";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +49,7 @@ public class ChatLogsActivity extends AppCompatActivity {
                 }
                 else {
                     url += "/messages/all/user/" + user;
+                    postRequest();
                 }
 
             }
