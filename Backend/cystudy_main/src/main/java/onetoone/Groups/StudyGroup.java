@@ -1,5 +1,6 @@
 package onetoone.Groups;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import onetoone.Courses.Course;
 import onetoone.Messages.Message;
@@ -22,7 +23,7 @@ public class StudyGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long group_id;
+    private long id;
 
     @Column(nullable = false)
     private String groupName;
@@ -39,8 +40,8 @@ public class StudyGroup {
     private Set<Message> messageSet;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "group_user", joinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "group_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")})
+    @JoinTable(name = "group_user", joinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
     private Set<User> userSet;
 
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
@@ -61,12 +62,12 @@ public class StudyGroup {
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public long getGroup_id() {
-        return group_id;
+    public long getid() {
+        return id;
     }
 
-    public void setGroup_id(long id) {
-        this.group_id = id;
+    public void setid(long id) {
+        this.id = id;
     }
 
     public String getGroupName() {
@@ -100,6 +101,7 @@ public class StudyGroup {
     public void setMessageSet(Set<Message> messageSet) {
         this.messageSet = messageSet;
     }
+
 
     public Set<User> getUserSet() {
         return userSet;

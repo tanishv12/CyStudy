@@ -1,5 +1,7 @@
 package onetoone.Users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
@@ -27,7 +29,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long user_id;
+    private long id;
     private String name;
     private String password;
     private String userName;
@@ -38,6 +40,7 @@ public class User {
     private Set<Course> courseSet;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
+    @JsonIgnore
     private Set<StudyGroup> groupSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
@@ -69,12 +72,12 @@ public class User {
         return encoder().encode(password);
     }
 
-    public long getUser_id(){
-        return user_id;
+    public long getid(){
+        return id;
     }
 
-    public void setUser_id(long id){
-        this.user_id = id;
+    public void setid(long id){
+        this.id = id;
     }
 
     public String getName(){
@@ -126,6 +129,7 @@ public class User {
         this.courseSet = courseSet;
     }
 
+
     public Set<StudyGroup> getGroupSet() {
         return groupSet;
     }
@@ -142,6 +146,13 @@ public class User {
         this.messageSet = messageSet;
     }
 
+    public Set<Rating> getRatingSet() {
+        return ratingSet;
+    }
+
+    public void setRatingSet(Set<Rating> ratingSet) {
+        this.ratingSet = ratingSet;
+    }
 
     //Method to add course to hashset
     public void addCourse(Course course) {

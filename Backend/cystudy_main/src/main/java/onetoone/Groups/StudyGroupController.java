@@ -41,6 +41,12 @@ public class StudyGroupController {
     @GetMapping(path="/groups/{group_id}")
     StudyGroup getAllGroupsById(@PathVariable int group_id){return studyGroupRepository.findById(group_id);}
 
+    @GetMapping(path = "/groups/all/{username}")
+    Set<StudyGroup> getUserGroups(@PathVariable String username){
+        User user = userRepository.findByUsername(username);
+        return user.getGroupSet();
+    }
+
 
     @PostMapping(path = "/groups/post/{group_name}")
     String createGroup(@PathVariable String group_name) {
@@ -84,6 +90,15 @@ public class StudyGroupController {
         studyGroupRepository.deleteById(group_id);
         return success;
     }
+
+//@DeleteMapping(path = "/group/delete/{group_name}")
+//String deleteGroup(@PathVariable String group_name){
+//    StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(group_name);
+//    if(studyGroup == null)
+//        return failure;
+//    studyGroupRepository.deleteById(studyGroup.getid());
+//    return success;
+//}
 
 
 

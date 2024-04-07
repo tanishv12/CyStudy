@@ -1,5 +1,6 @@
 package onetoone.Rating;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -12,22 +13,39 @@ import onetoone.Users.User;
 @Table(name = "group_rating")
 public class Rating {
 
-    @EmbeddedId
-    private RatingKey id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
+
+//    @EmbeddedId
+//    private RatingKey id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false) // Use referencedColumnName to specify the column name in RatingKey
+    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonIgnore
+    // Use referencedColumnName to specify the column name in RatingKey
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "group_id", referencedColumnName = "group_id", insertable = false, updatable = false) // Use referencedColumnName to specify the column name in RatingKey
+    @JoinColumn(name = "group_id", referencedColumnName = "id", insertable = false, updatable = false)
+    // Use referencedColumnName to specify the column name in RatingKey
     private StudyGroup studyGroup;
 
     @Column(name = "rating")
-    private int rating;
+    private double rating;
 
-    public Rating(RatingKey id, User user, StudyGroup studyGroup, int rating) {
-        this.id = id;
+//    @Column(name = "review")
+//        private String review;
+
+//    public String getReview() {
+//        return review;
+//    }
+//
+//    public void setReview(String review) {
+//        this.review = review;
+//    }
+
+    public Rating(User user, StudyGroup studyGroup, int rating) {
         this.user = user;
         this.studyGroup = studyGroup;
         this.rating = rating;
@@ -36,36 +54,46 @@ public class Rating {
     public Rating() {
     }
 
-    public RatingKey getId() {
-        return id;
-    }
-
-    public void setId(RatingKey id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public StudyGroup getStudyGroup() {
-        return studyGroup;
-    }
-
-    public void setStudyGroup(StudyGroup studyGroup) {
-        this.studyGroup = studyGroup;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
 }
 
+//    public RatingKey getId() {
+//        return id;
+//    }
+
+//    public void setId(RatingKey id) {
+//        this.id = id;
+//    }
+
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
+//
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+//
+//    public StudyGroup getStudyGroup() {
+//        return studyGroup;
+//    }
+//
+//    public void setStudyGroup(StudyGroup studyGroup) {
+//        this.studyGroup = studyGroup;
+//    }
+//
+//    public double getRating() {
+//        return rating;
+//    }
+//
+//    public void setRating(double rating) {
+//        this.rating = rating;
+//    }
+//}
+//
