@@ -44,5 +44,13 @@ public class AdminPanelActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        userManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminPanelActivity.this, UserManagementActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
