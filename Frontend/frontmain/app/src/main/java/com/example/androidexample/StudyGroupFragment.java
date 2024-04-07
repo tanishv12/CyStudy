@@ -15,6 +15,10 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,6 +49,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONString;
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
@@ -67,6 +72,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private StringBuilder names = new StringBuilder();
 
     private String user;
 
@@ -454,6 +461,28 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     }
 
 
+
+
+    public static JSONObject JsonConverter(String jsonString) {
+        try {
+            return new JSONObject(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null; // Or handle the error as appropriate for your application
+        }
+    }
+
+    public static JSONArray stringToJsonArray(String jsonString) {
+        try {
+            return new JSONArray(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null; // Or handle the error as appropriate for your application
+        }
+    }
+
+
+
     /**
      * Retrieves study group that the user is in
      */
@@ -463,6 +492,9 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all" + "/" + user;
 
 
+
+
+
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -470,12 +502,29 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                     public void onResponse(String response){
 
 
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for(int i = 0; i < jsonArray.length(); i++) {
+                                // Get each JSONObject within the array
+                                JSONObject jsonObj = jsonArray.getJSONObject(i);
+
+                                // Access the value associated with the key "name"
+                                String name = jsonObj.getString("groupName");
+                                names.append(name).append("\n");
+                            }
+                            gresponse.setText(names);
+                        }
+                        catch (JSONException err)
+                        {
+                            Log.d("Error", err.toString());
+                        }
+
+
+
+
                         // Display the first 500 characters of the response string.
                         // String response can be converted to JSONObject via
                         // JSONObject object = new JSONObject(response);
-
-
-                        gresponse.setText(response);
 
                     }
                 },
