@@ -67,6 +67,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     private String mParam1;
     private String mParam2;
 
+    private String user;
+
     private TextView gresponse;
     private Button getButton;
     private Button postButton;
@@ -153,10 +155,11 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     public void onCreate(Bundle savedInstanceState)
     {
         setContentView(R.layout.fragment_study_group);
+        user = UsernameSingleton.getInstance().getUserName();
+        getRequest();
         ActivityResultLauncher<Intent> mCreateGroupResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         // Retrieve the group information
                         studyGrpHead = findViewById(R.id.studyHead);
@@ -190,7 +193,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         addGrp = findViewById(R.id.addGroup);
         studyGroupsToMessages = findViewById(R.id.toMessages);
 //        getButton = findViewById(R.id.getBUTTON);
-//        gresponse = findViewById(R.id.getresponse);
+        gresponse = findViewById(R.id.getresponse);
 //        postButton = findViewById(R.id.postButton);
 //        updateButton = findViewById(R.id.putButton);
 //        updateGrp = findViewById(R.id.updateGroup);
@@ -219,7 +222,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //            @Override
 //            public void onClick(View view)
 //            {
-//                String user = UsernameSingleton.getInstance().getUserName();
+//                user = UsernameSingleton.getInstance().getUserName();
 //                serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/user/"+user;
 //
 //                WebSocketManager.getInstance().connectWebSocket(serverURL);
@@ -456,6 +459,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     private void getRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all";
+        url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all" + "/" + 1;
+
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
