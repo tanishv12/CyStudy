@@ -46,33 +46,37 @@ public class GroupManagementActivity extends AppCompatActivity {
         create_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chat.setText("hi");
-                //Map to create group screen (?)
+                chat.setText("make this method map to the create group screen");
+                //Map to create group screen
             }
         });
 
         delete_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/";
                 String temp = group_name.getText().toString();
                 if(isFirstClick)
                 {
                     Toast.makeText(GroupManagementActivity.this, "Click again to delete group, enter user name and click to remove user", Toast.LENGTH_SHORT).show();
+                    deleteUrl += temp;
+                    getUsersRequest();
                     isFirstClick = false;
+                    group_name.setText("");
+
                 }
                 else {
                     if(!temp.isEmpty())
                     {
-                        deleteUrl += temp + "/";
+                        deleteUrl += "/" + temp;
                         Toast.makeText(GroupManagementActivity.this, deleteUrl, Toast.LENGTH_SHORT).show();
                     }
                     else {
                         Toast.makeText(GroupManagementActivity.this, deleteUrl, Toast.LENGTH_SHORT).show();
                     }
                     isFirstClick = true;
+                    deleteRequest();
+                    deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/";
                 }
-                //deleteRequest();
             }
         });
 
@@ -170,11 +174,64 @@ public class GroupManagementActivity extends AppCompatActivity {
     }
 
     /**
-     * Retrieves study group that the user is in
+     * Retrieves all study groups that the user is in given user name
      */
     private void getRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all";
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all/";
+        url += group_name.getText().toString();
+
+        chat.setText(url);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        // Display the first 500 characters of the response string.
+                        // String response can be converted to JSONObject via
+                        // JSONObject object = new JSONObject(response);
+                        chat.setText(response);
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(GroupManagementActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    /**
+     * Retrieves all users in study group
+     */
+    private void getUsersRequest()
+    {
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all/users/";
+        url += group_name.getText().toString();
+        //CHANGE TO USERS IN GROUP
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
