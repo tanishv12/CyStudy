@@ -26,6 +26,9 @@ public class ChatLogsActivity extends AppCompatActivity {
     EditText editUser, editGroupName;
     TextView txtMessages;
 
+    String url = "http://coms-309-016.class.las.iastate.edu:8080";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,15 @@ public class ChatLogsActivity extends AppCompatActivity {
         btnCheckMessages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String group = editGroupName.getText().toString();
+                String user = editUser.getText().toString();
+                if(user.isEmpty())
+                {
+                    url += "/messages/all/group/" + group;
+                }
+                else {
+                    url += "/messages/all/user/" + user;
+                }
 
             }
         });
@@ -46,7 +58,6 @@ public class ChatLogsActivity extends AppCompatActivity {
 
     private void postRequest() {
         //Change the URL to whatever they say the endpoint is
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post/4/";
         // Convert input to JSONObject
         JSONObject postBody = null;
 

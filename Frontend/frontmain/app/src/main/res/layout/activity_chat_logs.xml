@@ -63,13 +63,13 @@
             android:padding="24dp">
 
             <EditText
-                android:id="@+id/chatlogs_username"
+                android:id="@+id/chatlogs_group"
                 android:layout_width="160dp"
                 android:layout_height="50dp"
                 android:background="@drawable/lavender_border"
                 android:drawablePadding="8dp"
                 android:gravity="center"
-                android:hint="Username"
+                android:hint="Group name"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -78,13 +78,13 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <EditText
-                android:id="@+id/chatlogs_group"
+                android:id="@+id/chatlogs_username"
                 android:layout_width="160dp"
                 android:layout_height="50dp"
                 android:background="@drawable/lavender_border"
                 android:drawablePadding="8dp"
                 android:gravity="center"
-                android:hint="Group name"
+                android:hint="Username"
                 android:padding="8dp"
                 android:paddingLeft="30dp"
                 android:textColor="@color/black"
