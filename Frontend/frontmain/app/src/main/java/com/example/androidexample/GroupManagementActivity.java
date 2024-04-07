@@ -35,6 +35,7 @@ public class GroupManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_management);
         isFirstClick = true;
+        deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/";
         chat = findViewById(R.id.all_chat);
         group_name = findViewById(R.id.groupName);
         create_group = findViewById(R.id.createGroup);
@@ -53,19 +54,21 @@ public class GroupManagementActivity extends AppCompatActivity {
         delete_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String temp = group_name.toString();
+                deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/";
+                String temp = group_name.getText().toString();
                 if(isFirstClick)
                 {
-                    Toast.makeText(GroupManagementActivity.this, "Click again to delete group, enter user name and click to remove user", Toast.LENGTH_SHORT);
+                    Toast.makeText(GroupManagementActivity.this, "Click again to delete group, enter user name and click to remove user", Toast.LENGTH_SHORT).show();
                     isFirstClick = false;
                 }
                 else {
-                    if(temp == "")
+                    if(!temp.isEmpty())
                     {
-                        Toast.makeText(GroupManagementActivity.this, temp, Toast.LENGTH_SHORT);
+                        deleteUrl += temp + "/";
+                        Toast.makeText(GroupManagementActivity.this, deleteUrl, Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Toast.makeText(GroupManagementActivity.this, "No text entered", Toast.LENGTH_SHORT);
+                        Toast.makeText(GroupManagementActivity.this, deleteUrl, Toast.LENGTH_SHORT).show();
                     }
                     isFirstClick = true;
                 }
@@ -96,7 +99,7 @@ public class GroupManagementActivity extends AppCompatActivity {
      */
     private void deleteRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/";
+        String url = deleteUrl;
         // Convert input to JSONObject
         JSONObject deleteBody = null;
 
