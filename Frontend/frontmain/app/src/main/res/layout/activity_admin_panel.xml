@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/olive"
     android:gravity="center"
     tools:context=".AdminPanelActivity">
 
@@ -29,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="Admin Panel"
                 android:textAlignment="center"
-                android:textColor="@color/lavender"
+                android:textColor="@color/red"
                 android:textSize="36dp"
                 android:textStyle="bold" />
 
