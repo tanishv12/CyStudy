@@ -51,10 +51,6 @@ public class AddStudyGrp extends AppCompatActivity {
                 cName;
         textView.setAdapter(adapter);
 
-
-
-
-
         createGrp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)

@@ -62,6 +62,7 @@
         android:layout_height="486dp"
         android:layout_marginTop="1dp"
         android:textColor="@color/white"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="@+id/bottomnavbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"

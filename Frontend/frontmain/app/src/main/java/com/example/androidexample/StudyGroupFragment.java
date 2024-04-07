@@ -114,47 +114,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
-    private void AddCardView(String groupName)
-    {
-
-        cardsContainer = findViewById(R.id.cardsContainer);
-        if (cardsContainer == null) {
-            cardsContainer = findViewById(R.id.cardsContainer);
-        }
-
-        CardView cardView = new CardView(this);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                convertDpToPixels(174, this)); // Use 'this' for the context
-        layoutParams.setMargins(
-                convertDpToPixels(10, this),
-                convertDpToPixels(10, this),
-                convertDpToPixels(10, this),
-                0);
-
-        TextView textView = new TextView(this);
-
-        Typeface typeface = ResourcesCompat.getFont(this, R.font.gidugu);
-        textView.setTypeface(typeface);
-        textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
-        textView.setPadding(350, 0, 0, 0);
-        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER); // Set text alignment
-        textView.setTextColor(ContextCompat.getColor(this, R.color.black));
-        textView.setText(groupName); // Set the text to the groupName passed to this method
-        textView.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        ));
-
-
-        cardView.addView(textView);
-        cardView.setLayoutParams(layoutParams);
-        // Optionally add content to your CardView here, like a TextView
-        cardsContainer.addView(cardView);
-    }
-
-
     /**
      * Creates a study group user interface
      * @param savedInstanceState Stores information needed to reload UI on system crashes
@@ -173,7 +132,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                         studyGrpHead = findViewById(R.id.studyHead);
                         String groupName = result.getData().getStringExtra("groupName");
                         Log.e("group", "group name: " + groupName); //Learn how to completely transfer data this is temporary.
-                        AddCardView(groupName);
+                        names.append(groupName).append("\n");
+                        gresponse.setText(names);
                     }
                 }
         );
