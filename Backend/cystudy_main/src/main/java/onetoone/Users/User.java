@@ -161,6 +161,13 @@ public class User {
         }
         courseSet.add(course);
     }
+    //Method to add studyGroup to user
+    public void addStudyGroup(StudyGroup studyGroup){
+        if(groupSet == null){
+            groupSet = new HashSet<StudyGroup>();
+        }
+        groupSet.add(studyGroup);
+    }
 
     //Method to remove course from hashset
     public void removeCourse(Course course){courseSet.remove(course);

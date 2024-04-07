@@ -101,7 +101,7 @@ public class UserController {
     @PostMapping(path = "/users/login/{userName}/{password}")
     ResponseEntity<String> authenticateUser(@PathVariable String userName, @PathVariable String password) {
 
-        Optional<User> optUser = Optional.ofNullable(userRepository.findByUsername(userName));
+        Optional<User> optUser = Optional.ofNullable(userRepository.findByUserName(userName));
         if (optUser.isPresent()) {
             User dbUser = optUser.get();
             if (!(userName.equals(dbUser.getUserName()))) {
@@ -141,13 +141,13 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @DeleteMapping(path = "/users/{id}")
-    String deleteUser(@PathVariable long id){
-        User user = userRepository.findById(id);
+    @DeleteMapping(path = "/users/{user_id}")
+    String deleteUser(@PathVariable int user_id){
+        User user = userRepository.findById(user_id);
         if(user == null){
             return failure;
         }
-        userRepository.deleteById(id);
+        userRepository.deleteById(user_id);
         return success;
     }
 

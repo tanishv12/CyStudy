@@ -29,9 +29,9 @@ public class StudyGroupController {
     @GetMapping(path="/groups/all")
     List<StudyGroup> getAllGroups(){return studyGroupRepository.findAll();}
 
-    @GetMapping(path = "/groups/all/users/{group_id}")
-    Set<User> getAllUsersInGroup (@PathVariable int group_id) {
-        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
+    @GetMapping(path = "/groups/all/users/{group_name}")
+    Set<User> getAllUsersInGroup (@PathVariable String group_name) {
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(group_name);
         if (studyGroup == null) {
             return null;
         }
@@ -43,8 +43,19 @@ public class StudyGroupController {
 
     @GetMapping(path = "/groups/all/{username}")
     Set<StudyGroup> getUserGroups(@PathVariable String username){
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUserName(username);
         return user.getGroupSet();
+    }
+
+    @PutMapping(path = "/groups/update/{groupname}/{updatedGroupName}")
+    StudyGroup updateGroup(@PathVariable String groupname, @PathVariable String updatedGroupName){
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        if(studyGroup == null){
+            return null;
+        }
+        studyGroup.setGroupName(updatedGroupName);
+        studyGroupRepository.save(studyGroup);
+        return studyGroup;
     }
 
 
@@ -63,14 +74,14 @@ public class StudyGroupController {
         return "Group created successfully!";
     }
 
-    @PutMapping(path="/groups/update/{group_id}")
-    StudyGroup updateGroup(@PathVariable int group_id, @RequestBody StudyGroup updatedGroup) {
-        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
-        if(studyGroup == null)
-            return null;
-        studyGroup.setGroupName(updatedGroup.getGroupName());
-        return studyGroupRepository.findById(group_id);
-    }
+//    @PutMapping(path="/groups/update/{group_id}")
+//    StudyGroup updateGroup(@PathVariable int group_id, @RequestBody StudyGroup updatedGroup) {
+//        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
+//        if(studyGroup == null)
+//            return null;
+//        studyGroup.setGroupName(updatedGroup.getGroupName());
+//        return studyGroupRepository.findById(group_id);
+//    }
 
     @PutMapping(path="/groups/update/addUser/{group_id}")
     StudyGroup addUserToGroup(@PathVariable int group_id, @RequestBody User user){
@@ -78,7 +89,20 @@ public class StudyGroupController {
         if(studyGroup == null)
             return null;
         studyGroup.addUser(user);
+        user.addStudyGroup(studyGroup);
+        studyGroupRepository.save(studyGroup);
+        userRepository.save(user);
         return studyGroupRepository.findById(group_id);
+    }
+
+    @DeleteMapping(path ="/group/delete/{groupname}/{username}")
+    String deleteUserFromGroup(@PathVariable String username, @PathVariable String groupname){
+        User user = userRepository.findByUserName(username);
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        if (user == null || studyGroup == null)
+            return failure;
+        studyGroup.removeUser(user);
+        return success;
     }
 
 
@@ -90,6 +114,10 @@ public class StudyGroupController {
         studyGroupRepository.deleteById(group_id);
         return success;
     }
+
+
+
+
 
 //@DeleteMapping(path = "/group/delete/{group_name}")
 //String deleteGroup(@PathVariable String group_name){

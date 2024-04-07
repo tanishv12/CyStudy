@@ -115,6 +115,8 @@ public class StudyGroup {
         userSet.add(user);
     }
 
+    public void removeUser(User user){ userSet.remove(user);}
+
     public List<Rating> getRatingList() {
         return ratingList;
     }

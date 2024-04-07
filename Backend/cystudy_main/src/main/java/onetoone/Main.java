@@ -75,10 +75,13 @@ class Main {
 //            messageRepository.save(message1);
 //
             StudyGroup group1 = new StudyGroup("Group 1");
+            StudyGroup group2 = new StudyGroup("Group2");
             group1.addUser(user1);
+            group2.addUser(user1);
 //            group1.addUser(user2);
 //           group1.addUser(user3);
            studyGroupRepository.save(group1);
+           studyGroupRepository.save(group2);
 
 
         };
