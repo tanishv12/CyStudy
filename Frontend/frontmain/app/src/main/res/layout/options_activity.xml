@@ -9,15 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter Group Name" />
+    <EditText
+        android:id="@+id/updatedGroupName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Updated Group Name" />
 
     <Button
-        android:id="@+id/buttonUpdate"
+        android:id="@+id/buttonDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete Group" />
 
     <Button
-        android:id="@+id/buttonDelete"
+        android:id="@+id/buttonUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Update Group Name" />

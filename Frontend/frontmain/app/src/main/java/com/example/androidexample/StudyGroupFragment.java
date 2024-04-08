@@ -83,12 +83,14 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
 
     private TextView gresponse;
-    private Button getButton;
-    private Button postButton;
-    private Button studyGroupsToClasses;
+//    private Button getButton;
+//    private Button postButton;
+//    private Button studyGroupsToClasses;
 
-    private Button updateButton;
-    private EditText updateGrp;
+//    private Button updateButton;
+//    private EditText updateGrp;
+
+    private EditText updateGrpText;
 
     private Button studyGroupsToMessages;
 
@@ -102,6 +104,14 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     private static final int CREATE_GROUP_REQUEST_CODE = 1;
 
+
+    private String optionGroupName;
+    private String optionUpdateGroupName;
+    private EditText updateGrpName;
+    private EditText groupEditText;
+    private Button buttonUpd;
+
+    private Button buttonDel;
     private EditText GroupText;
 
     private static String serverURL;
@@ -113,27 +123,33 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     private ActivityResultLauncher<Intent> mCreateGroupResultLauncher;
 
 
-
-
     private void showForgotDialog(Context c)
     {
         LayoutInflater inflater = LayoutInflater.from(c);
         View dialogView = inflater.inflate(R.layout.options_activity, null);
-        EditText taskEditText = dialogView.findViewById(R.id.editGroup);
         AlertDialog dialog = new AlertDialog.Builder(c)
                 .setTitle("Group Options")
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
                 .create();
 
-        Button buttonUpd = dialogView.findViewById(R.id.buttonUpdate);
-        Button buttonDel = dialogView.findViewById(R.id.buttonDelete);
+        groupEditText = dialogView.findViewById(R.id.editGroup);
+        buttonUpd = dialogView.findViewById(R.id.buttonUpdate);
+        buttonDel = dialogView.findViewById(R.id.buttonDelete);
+        updateGrpName = dialogView.findViewById(R.id.updatedGroupName);
 
+
+
+        Log.d("DialogSetup", "Setting up buttonUpd listener");
         buttonUpd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                optionGroupName = groupEditText.getText().toString();
+                optionUpdateGroupName = updateGrpName.getText().toString();
+                Log.d("DialogSetup", optionGroupName);
+                Log.d("DialogSetup", optionUpdateGroupName);
+                Log.d("Dialog", "Function called");
                 // Handle button click
-                String task = String.valueOf(taskEditText.getText());
                 putRequest();
                 // Do something with the input
                 dialog.dismiss(); // Close the dialog if needed
@@ -143,8 +159,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         buttonDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                optionGroupName = groupEditText.getText().toString();
                 // Handle button click
-                String task = String.valueOf(taskEditText.getText());
                 deleteRequest();
                 // Do something with the input
                 dialog.dismiss(); // Close the dialog if needed
@@ -152,6 +168,80 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         });
 
         dialog.show();
+    }
+
+    /**
+     * Updates study group name that the user is in
+     */
+    private void putRequest()
+    {
+        Log.d("DialogActions", "putRequest method called");
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/update";
+        // Convert input to JSONObject
+        JSONObject putBody = null;
+
+        try
+        {
+            Log.e("name","optionGroupName");
+            Log.e("name","optionUpdateGroupName");
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+            putBody = new JSONObject();
+            putBody.put("groupName", optionUpdateGroupName);
+
+            url += "/" + optionGroupName + "/" + optionUpdateGroupName;
+        }
+        catch (Exception e)
+        {
+            Log.e("Catch Entered","wkerufhieuwhf");
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                putBody,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+
+                        Log.e("Response Entered",response.toString());
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
 
@@ -203,6 +293,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         super.onCreate(savedInstanceState);
 
         WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
+
 
 
         addGrp = findViewById(R.id.addGroup);
@@ -336,15 +427,14 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
         try
         {
-            Log.e("Try Entered","oisafuhgiureshg");
             // etRequest should contain a JSON object string as your POST body
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
             deleteBody = new JSONObject();
-//            deleteBody.put("group_id", updateGrp.getText().toString());
+            deleteBody.put("group_id", optionGroupName);
             Log.e("what is putbody",deleteBody.toString());
             Log.e("Try BLAH","oisafuhgiureshg");
-            url += "/" + "5";
+            url += "/" + optionGroupName + "/" + user;
             Log.e("What is url",url.toString());
 ////                    + "/" + loginPassword.getText().toString();
         }
@@ -400,81 +490,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
-
-    /**
-     * Updates study group name that the user is in
-     */
-    private void putRequest()
-    {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/update";
-        // Convert input to JSONObject
-        JSONObject putBody = null;
-
-        try
-        {
-            Log.e("Try Entered","oisafuhgiureshg");
-            // etRequest should contain a JSON object string as your POST body
-            // similar to what you would have in POSTMAN-body field
-            // and the fields should match with the object structure of @RequestBody on sb
-            putBody = new JSONObject();
-            putBody.put("groupName", updateGrp.getText().toString());
-            Log.e("what is putbody",putBody.toString());
-            Log.e("Try BLAH","oisafuhgiureshg");
-            url += "/" + "8";
-            Log.e("What is url",url.toString());
-////                    + "/" + loginPassword.getText().toString();
-        }
-        catch (Exception e)
-        {
-            Log.e("Catch Entered","wkerufhieuwhf");
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.PUT,
-                url,
-                putBody,
-                new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response)
-                    {
-
-                        Log.e("Response Entered",response.toString());
-
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Log.e("Error Response", error.toString());
-//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-        ){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
-                //                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                //                params.put("param1", "value1");
-                //                params.put("param2", "value2");
-                return params;
-            }
-        };
-
-        // Adding request to request queue
-        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
-    }
 
 
 

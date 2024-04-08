@@ -140,7 +140,7 @@ public class AddStudyGrp extends AppCompatActivity {
             postBody = new JSONObject();
             Log.e("JSON Created","Json was created bla bla");
             postBody.put("studyGroup", groupText.getText().toString());
-            url += "/" + user + "groupText.getText().toString()";
+            url += "/" + groupText.getText().toString() +  "/" + user;
 ////                    + "/" + loginPassword.getText().toString();
         }
         catch (Exception e)
