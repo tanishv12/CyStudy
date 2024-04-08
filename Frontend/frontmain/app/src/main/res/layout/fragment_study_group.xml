@@ -58,8 +58,8 @@
 
     <TextView
         android:id="@+id/getresponse"
-        android:layout_width="390dp"
-        android:layout_height="486dp"
+        android:layout_width="383dp"
+        android:layout_height="329dp"
         android:layout_marginTop="1dp"
         android:textColor="@color/white"
         android:textSize="25dp"
@@ -74,10 +74,21 @@
         android:id="@+id/toMessages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Messages"
-        app:layout_constraintStart_toEndOf="@+id/studyHead"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/optionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Options"
+        app:layout_constraintBottom_toTopOf="@+id/bottomnavbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/getresponse"
+        app:layout_constraintVertical_bias="0.123" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

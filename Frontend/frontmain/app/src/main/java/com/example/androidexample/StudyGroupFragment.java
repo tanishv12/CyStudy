@@ -1,7 +1,9 @@
 package com.example.androidexample;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -24,6 +26,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -77,6 +80,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     private String user;
 
+
+
     private TextView gresponse;
     private Button getButton;
     private Button postButton;
@@ -86,6 +91,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     private EditText updateGrp;
 
     private Button studyGroupsToMessages;
+
+    private Button optionBtn;
 
     private FloatingActionButton addGrp;
 
@@ -107,6 +114,45 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
 
 
+
+    private void showForgotDialog(Context c)
+    {
+        LayoutInflater inflater = LayoutInflater.from(c);
+        View dialogView = inflater.inflate(R.layout.options_activity, null);
+        EditText taskEditText = dialogView.findViewById(R.id.editGroup);
+        AlertDialog dialog = new AlertDialog.Builder(c)
+                .setTitle("Group Options")
+                .setView(dialogView)
+                .setNegativeButton("Cancel", null)
+                .create();
+
+        Button buttonUpd = dialogView.findViewById(R.id.buttonUpdate);
+        Button buttonDel = dialogView.findViewById(R.id.buttonDelete);
+
+        buttonUpd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle button click
+                String task = String.valueOf(taskEditText.getText());
+                putRequest();
+                // Do something with the input
+                dialog.dismiss(); // Close the dialog if needed
+            }
+        });
+
+        buttonDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Handle button click
+                String task = String.valueOf(taskEditText.getText());
+                deleteRequest();
+                // Do something with the input
+                dialog.dismiss(); // Close the dialog if needed
+            }
+        });
+
+        dialog.show();
+    }
 
 
     public int convertDpToPixels(float dp, Context context)
@@ -158,8 +204,10 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
         WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
 
+
         addGrp = findViewById(R.id.addGroup);
         studyGroupsToMessages = findViewById(R.id.toMessages);
+        optionBtn = findViewById(R.id.optionButton);
 //        getButton = findViewById(R.id.getBUTTON);
         gresponse = findViewById(R.id.getresponse);
 //        postButton = findViewById(R.id.postButton);
@@ -169,6 +217,14 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //        deleteBTN = findViewById(R.id.deleteGrpButton);
 //        connectButton = findViewById(R.id.userConnectButton);
 
+
+        optionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                showForgotDialog(StudyGroupFragment.this);
+            }
+        });
 
         addGrp.setOnClickListener(new View.OnClickListener() {
             @Override
