@@ -432,11 +432,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             // and the fields should match with the object structure of @RequestBody on sb
             deleteBody = new JSONObject();
             deleteBody.put("group_id", optionGroupName);
-            Log.e("what is putbody",deleteBody.toString());
-            Log.e("Try BLAH","oisafuhgiureshg");
             url += "/" + optionGroupName + "/" + user;
-            Log.e("What is url",url.toString());
-////                    + "/" + loginPassword.getText().toString();
         }
         catch (Exception e)
         {
