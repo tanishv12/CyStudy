@@ -92,7 +92,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     private Button studyGroupsToMessages;
 
-    private Button optionBtn;
+    private FloatingActionButton optionBtn;
 
     private FloatingActionButton addGrp;
 

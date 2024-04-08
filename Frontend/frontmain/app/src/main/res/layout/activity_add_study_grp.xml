@@ -46,7 +46,7 @@
         android:layout_width="341dp"
         android:layout_height="53dp"
         android:background="#D3D3D3"
-        android:completionThreshold="2"
+        android:completionThreshold="1"
         android:dropDownWidth="match_parent"
         android:dropDownHeight="wrap_content"
         android:hint="Search Course..."
