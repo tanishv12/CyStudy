@@ -100,23 +100,24 @@ public class StudyGroupController {
         return studyGroupRepository.findById(group_id);
     }
 
-    @DeleteMapping(path ="/group/delete/{groupname}/{username}")
+    @DeleteMapping(path ="/groups/delete/{groupname}/{username}")
     String deleteUserFromGroup(@PathVariable String username, @PathVariable String groupname){
         User user = userRepository.findByUserName(username);
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
         if (user == null || studyGroup == null)
             return failure;
         studyGroup.removeUser(user);
+        studyGroupRepository.save(studyGroup);
         return success;
     }
 
 
-    @DeleteMapping(path = "/group/delete/{group_id}")
-    String deleteGroup(@PathVariable int group_id){
-        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
+    @DeleteMapping(path = "/group/delete/{groupname}")
+    String deleteGroup(@PathVariable String groupname){
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
         if(studyGroup == null)
             return failure;
-        studyGroupRepository.deleteById(group_id);
+        studyGroupRepository.deleteStudyGroupByGroupName(groupname);
         return success;
     }
 

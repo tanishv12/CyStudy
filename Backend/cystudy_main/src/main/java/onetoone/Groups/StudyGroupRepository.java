@@ -11,5 +11,7 @@ public interface StudyGroupRepository extends JpaRepository<StudyGroup, Integer>
 
     void deleteById(long id);
 
+    void deleteStudyGroupByGroupName(String name);
+
 
 }

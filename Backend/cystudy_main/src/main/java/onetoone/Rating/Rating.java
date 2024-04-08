@@ -9,7 +9,6 @@ import onetoone.Groups.StudyGroup;
 import onetoone.Users.User;
 
 @Entity
-@Data
 @Table(name = "group_rating")
 public class Rating {
 
@@ -21,14 +20,13 @@ public class Rating {
 //    private RatingKey id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
     @JsonIgnore
-    // Use referencedColumnName to specify the column name in RatingKey
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "group_id", referencedColumnName = "id", insertable = false, updatable = false)
-    // Use referencedColumnName to specify the column name in RatingKey
+    @JoinColumn(name = "group_id")
+    @JsonIgnore
     private StudyGroup studyGroup;
 
     @Column(name = "rating")
@@ -45,7 +43,7 @@ public class Rating {
 //        this.review = review;
 //    }
 
-    public Rating(User user, StudyGroup studyGroup, int rating) {
+    public Rating(User user, StudyGroup studyGroup, double rating) {
         this.user = user;
         this.studyGroup = studyGroup;
         this.rating = rating;
@@ -54,46 +52,46 @@ public class Rating {
     public Rating() {
     }
 
-}
+
 
 //    public RatingKey getId() {
 //        return id;
 //    }
-
+//
 //    public void setId(RatingKey id) {
 //        this.id = id;
 //    }
 
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
-//
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
-//
-//    public StudyGroup getStudyGroup() {
-//        return studyGroup;
-//    }
-//
-//    public void setStudyGroup(StudyGroup studyGroup) {
-//        this.studyGroup = studyGroup;
-//    }
-//
-//    public double getRating() {
-//        return rating;
-//    }
-//
-//    public void setRating(double rating) {
-//        this.rating = rating;
-//    }
-//}
-//
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public StudyGroup getStudyGroup() {
+        return studyGroup;
+    }
+
+    public void setStudyGroup(StudyGroup studyGroup) {
+        this.studyGroup = studyGroup;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+         }
+    }
+

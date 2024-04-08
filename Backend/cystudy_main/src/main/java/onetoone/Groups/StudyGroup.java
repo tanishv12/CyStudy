@@ -1,6 +1,7 @@
 package onetoone.Groups;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import onetoone.Courses.Course;
 import onetoone.Messages.Message;
@@ -119,6 +120,10 @@ public class StudyGroup {
 
     public List<Rating> getRatingList() {
         return ratingList;
+    }
+
+    public void addRating(Rating rating){
+        ratingList.add(rating);
     }
 
     public void setRatingList(List<Rating> ratingList) {

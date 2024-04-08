@@ -3,6 +3,8 @@ package onetoone;
 import onetoone.Groups.StudyGroup;
 import onetoone.Groups.StudyGroupRepository;
 import onetoone.Messages.Message;
+import onetoone.Rating.Rating;
+import onetoone.Rating.RatingRepository;
 import org.antlr.v4.runtime.misc.LogManager;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -43,7 +45,7 @@ class Main {
      * As mentioned in User.java just associating the Laptop object with the User will save it into the database because of the CascadeType
      */
     @Bean
-    CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository) {
+    CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository, RatingRepository ratingRepository) {
         return args -> {
 
 
@@ -76,12 +78,18 @@ class Main {
 //
             StudyGroup group1 = new StudyGroup("Group 1");
             StudyGroup group2 = new StudyGroup("Group2");
+
+            Rating rating1 = new Rating(user1,group1,4);
+            group1.addRating(rating1);
+            user1.addRating(rating1);
             group1.addUser(user1);
             group2.addUser(user1);
 //            group1.addUser(user2);
 //           group1.addUser(user3);
            studyGroupRepository.save(group1);
            studyGroupRepository.save(group2);
+           userRepository.save(user1);
+           ratingRepository.save(rating1);
 
 
         };

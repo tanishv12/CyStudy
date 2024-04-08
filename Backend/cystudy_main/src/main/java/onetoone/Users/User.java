@@ -61,6 +61,7 @@ public class User {
         this.courseSet = new HashSet<Course>();
         this.groupSet = new HashSet<StudyGroup>();
         this.messageSet = new HashSet<Message>();
+        this.ratingSet = new HashSet<Rating>();
     }
 
     public User() {
@@ -167,6 +168,10 @@ public class User {
             groupSet = new HashSet<StudyGroup>();
         }
         groupSet.add(studyGroup);
+    }
+
+    public void addRating(Rating rating){
+        ratingSet.add(rating);
     }
 
     //Method to remove course from hashset

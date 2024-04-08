@@ -72,14 +72,16 @@ public class RatingController {
 //        }
 //    }
 //}
-    @PostMapping(path = "/rating/post/{group_id}/{user_id}/{rating}")
-    Rating rateGroup(@PathVariable int group_id, @PathVariable int user_id, @PathVariable int rating) {
+    @PostMapping(path = "/rating/post/{groupname}/{username}/{rating}")
+    Rating rateGroup(@PathVariable String groupname, @PathVariable String username, @PathVariable double rating) {
 
-        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
-        User user = userRepository.findById(user_id);
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        User user = userRepository.findByUserName(username);
         Rating rating1 = new Rating(user,studyGroup,rating);
-        studyGroup.getRatingList().add(rating1);
-        user.getRatingSet().add(rating1);
+        studyGroup.addRating(rating1);
+        user.addRating(rating1);
+//        rating1.getId().setUserId(user.getid());
+//        rating1.getId().setGroupId(studyGroup.getid());
         ratingRepository.save(rating1);
         userRepository.save(user);
         studyGroupRepository.save(studyGroup);
