@@ -83,7 +83,7 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
-                UsernameSingleton.getInstance().setUserName(name);
+                UsernameSingleton.getInstance().setUserName(username);
 
 
             }
