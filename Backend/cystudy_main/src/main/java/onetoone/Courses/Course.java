@@ -101,6 +101,8 @@ public class Course {
         userSet.add(user);
     }
 
+    public void removeUser(User user){userSet.remove(user);}
+
     public Set<StudyGroup> getGroupSet() {
         return groupSet;
     }

@@ -3,6 +3,7 @@ package onetoone.Users;
 import java.util.List;
 import java.util.Optional;
 
+import onetoone.Groups.StudyGroup;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,11 +142,17 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @DeleteMapping(path = "/users/{user_id}")
+    @DeleteMapping(path = "/users/delete/{user_id}")
     String deleteUser(@PathVariable int user_id){
         User user = userRepository.findById(user_id);
         if(user == null){
             return failure;
+        }
+        for(StudyGroup studyGroup : user.getGroupSet()){
+            studyGroup.removeUser(user);
+        }
+        for(Course course : user.getCourseSet()){
+            course.removeUser(user);
         }
         userRepository.deleteById(user_id);
         return success;

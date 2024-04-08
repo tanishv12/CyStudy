@@ -59,8 +59,8 @@ public class StudyGroupController {
     }
 
 
-    @PostMapping(path = "/groups/post/{group_name}")
-    String createGroup(@PathVariable String group_name) {
+    @PostMapping(path = "/groups/post/{group_name}/{username}")
+    String createGroup(@PathVariable String group_name, @PathVariable String username) {
         if (group_name == null) {
             return failure;
         }
@@ -71,6 +71,11 @@ public class StudyGroupController {
         }
         StudyGroup studyGroup = new StudyGroup(group_name);
         studyGroupRepository.save(studyGroup);
+        User user = userRepository.findByUserName(username);
+        studyGroup.addUser(user);
+        user.addStudyGroup(studyGroup);
+        studyGroupRepository.save(studyGroup);
+        userRepository.save(user);
         return "Group created successfully!";
     }
 
