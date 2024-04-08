@@ -145,14 +145,15 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 //                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                        signupRedirectText.setText(error.toString());
+//                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+//                        signupRedirectText.setText(error.toString());
                     }
                 }
         ){
