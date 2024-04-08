@@ -76,7 +76,6 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String name = signupName.getText().toString();
                 String email = signupEmail.getText().toString();
                 String username = signupUsername.getText().toString();
@@ -87,6 +86,12 @@ public class SignupActivity extends AppCompatActivity {
                 //Move all to Post Request on Response
                 UsernameSingleton.getInstance().setUserName(name);
 
+
+
+                Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                startActivity(intent);
+                UsernameSingleton.getInstance().setUserName(username);
 
             }
         });
