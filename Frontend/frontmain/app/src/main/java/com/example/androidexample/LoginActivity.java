@@ -48,11 +48,12 @@ public class LoginActivity extends AppCompatActivity {
         loginPassword = findViewById(R.id.login_password);
         signupRedirectText = findViewById(R.id.signupRedirectText);
         loginButton = findViewById(R.id.login_button);
-
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 postRequest();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
         signupRedirectText.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void postRequest() {
         //Change the url from using a specific user ID to the username & pass
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post/4/";
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/users/login/";
         // Convert input to JSONObject
         JSONObject postBody = null;
 
@@ -129,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
             postBody = new JSONObject();
-            postBody.put("username", loginUsername.getText().toString());
+            postBody.put("userName", loginUsername.getText().toString());
             postBody.put("password", loginPassword.getText().toString());
             url += loginUsername.getText().toString() + "/" + loginPassword.getText().toString();
         } catch (Exception e){
@@ -143,15 +144,15 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
+//                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                        signupRedirectText.setText(error.toString());
                     }
                 }
         ){
