@@ -77,6 +77,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     private String mParam2;
 
     private StringBuilder names = new StringBuilder();
+    private StringBuilder ratings = new StringBuilder();
 
     private String user;
 
@@ -552,10 +553,13 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
 
                                 // Access the value associated with the key "name"
+                                String rating = jsonObj.getString("ratingList");
+
+                                ratings.append(rating);
                                 String name = jsonObj.getString("groupName");
                                 names.append(name).append("\n");
                             }
-                            gresponse.setText(names);
+                            gresponse.setText(names +""+ ratings);
                         }
                         catch (JSONException err)
                         {
