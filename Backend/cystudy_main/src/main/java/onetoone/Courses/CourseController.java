@@ -73,7 +73,7 @@ public class CourseController {
             }
         }
         courseRepository.save(course);
-        System.out.println(course.getId());
+        System.out.println(course.getid());
         return ResponseEntity.ok("Courses created successfully");
     }
 
@@ -83,7 +83,7 @@ public class CourseController {
         Course course = courseRepository.findById(id);
         if(course == null)
             throw new RuntimeException("User id does not exist");
-        else if(request.getId()!=id){
+        else if(request.getid()!=id){
             throw new RuntimeException("Path variable Id does not match with request Id");
         }
         courseRepository.save(request);

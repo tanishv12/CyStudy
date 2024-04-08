@@ -3,6 +3,7 @@ package onetoone.Users;
 import java.util.List;
 import java.util.Optional;
 
+import onetoone.Groups.StudyGroup;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +102,7 @@ public class UserController {
     @PostMapping(path = "/users/login/{userName}/{password}")
     ResponseEntity<String> authenticateUser(@PathVariable String userName, @PathVariable String password) {
 
-        Optional<User> optUser = Optional.ofNullable(userRepository.findByUsername(userName));
+        Optional<User> optUser = Optional.ofNullable(userRepository.findByUserName(userName));
         if (optUser.isPresent()) {
             User dbUser = optUser.get();
             if (!(userName.equals(dbUser.getUserName()))) {
@@ -133,7 +134,7 @@ public class UserController {
         if(user == null) {
             throw new RuntimeException("user id does not exist");
         }
-        else if (request.getId() != id){
+        else if (request.getid() != id){
             throw new RuntimeException("path variable id does not match User request id");
         }
 
@@ -141,13 +142,19 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @DeleteMapping(path = "/users/{id}")
-    String deleteUser(@PathVariable long id){
-        User user = userRepository.findById(id);
+    @DeleteMapping(path = "/users/delete/{user_id}")
+    String deleteUser(@PathVariable int user_id){
+        User user = userRepository.findById(user_id);
         if(user == null){
             return failure;
         }
-        userRepository.deleteById(id);
+        for(StudyGroup studyGroup : user.getGroupSet()){
+            studyGroup.removeUser(user);
+        }
+        for(Course course : user.getCourseSet()){
+            course.removeUser(user);
+        }
+        userRepository.deleteById(user_id);
         return success;
     }
 

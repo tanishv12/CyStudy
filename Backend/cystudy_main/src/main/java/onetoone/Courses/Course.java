@@ -39,7 +39,6 @@ public class Course {
 //    private Set<StudyResources> studyResourcesSet;
 
 
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
     private List<StudyResources> studyResourceList;
 
@@ -58,11 +57,11 @@ public class Course {
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public long getId() {
+    public long getid() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setid(long id) {
         this.id = id;
     }
 
@@ -101,6 +100,8 @@ public class Course {
     public void addUser(User user) {
         userSet.add(user);
     }
+
+    public void removeUser(User user){userSet.remove(user);}
 
     public Set<StudyGroup> getGroupSet() {
         return groupSet;

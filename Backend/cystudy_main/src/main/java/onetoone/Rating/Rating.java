@@ -1,5 +1,6 @@
 package onetoone.Rating;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -8,28 +9,41 @@ import onetoone.Groups.StudyGroup;
 import onetoone.Users.User;
 
 @Entity
-@Data
 @Table(name = "group_rating")
 public class Rating {
 
-    @EmbeddedId
-    private RatingKey id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
+
+//    @EmbeddedId
+//    private RatingKey id;
 
     @ManyToOne
-    @MapsId("user_id")
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
-    @MapsId("group_id")
     @JoinColumn(name = "group_id")
+    @JsonIgnore
     private StudyGroup studyGroup;
 
     @Column(name = "rating")
-    private int rating;
+    private double rating;
 
-    public Rating(RatingKey id, User user, StudyGroup studyGroup, int rating) {
-        this.id = id;
+//    @Column(name = "review")
+//        private String review;
+
+//    public String getReview() {
+//        return review;
+//    }
+//
+//    public void setReview(String review) {
+//        this.review = review;
+//    }
+
+    public Rating(User user, StudyGroup studyGroup, double rating) {
         this.user = user;
         this.studyGroup = studyGroup;
         this.rating = rating;
@@ -38,11 +52,21 @@ public class Rating {
     public Rating() {
     }
 
-    public RatingKey getId() {
+
+
+//    public RatingKey getId() {
+//        return id;
+//    }
+//
+//    public void setId(RatingKey id) {
+//        this.id = id;
+//    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(RatingKey id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -62,12 +86,12 @@ public class Rating {
         this.studyGroup = studyGroup;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
+         }
     }
-}
 

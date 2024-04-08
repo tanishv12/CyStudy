@@ -1,6 +1,7 @@
 package onetoone.Groups;
 
 import onetoone.Courses.CourseRepository;
+import onetoone.Rating.Rating;
 import onetoone.Users.User;
 import onetoone.Users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,9 @@ public class StudyGroupController {
     @GetMapping(path="/groups/all")
     List<StudyGroup> getAllGroups(){return studyGroupRepository.findAll();}
 
-    @GetMapping(path = "/groups/all/users/{group_id}")
-    Set<User> getAllUsersInGroup (@PathVariable int group_id) {
-        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
+    @GetMapping(path = "/groups/all/users/{group_name}")
+    Set<User> getAllUsersInGroup (@PathVariable String group_name) {
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(group_name);
         if (studyGroup == null) {
             return null;
         }
@@ -40,9 +41,26 @@ public class StudyGroupController {
     @GetMapping(path="/groups/{group_id}")
     StudyGroup getAllGroupsById(@PathVariable int group_id){return studyGroupRepository.findById(group_id);}
 
+    @GetMapping(path = "/groups/all/{username}")
+    Set<StudyGroup> getUserGroups(@PathVariable String username){
+        User user = userRepository.findByUserName(username);
+        return user.getGroupSet();
+    }
 
-    @PostMapping(path = "/groups/post/{group_name}")
-    String createGroup(@PathVariable String group_name) {
+    @PutMapping(path = "/groups/update/{groupname}/{updatedGroupName}")
+    StudyGroup updateGroup(@PathVariable String groupname, @PathVariable String updatedGroupName){
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        if(studyGroup == null){
+            return null;
+        }
+        studyGroup.setGroupName(updatedGroupName);
+        studyGroupRepository.save(studyGroup);
+        return studyGroup;
+    }
+
+
+    @PostMapping(path = "/groups/post/{group_name}/{username}")
+    String createGroup(@PathVariable String group_name, @PathVariable String username) {
         if (group_name == null) {
             return failure;
         }
@@ -53,17 +71,22 @@ public class StudyGroupController {
         }
         StudyGroup studyGroup = new StudyGroup(group_name);
         studyGroupRepository.save(studyGroup);
+        User user = userRepository.findByUserName(username);
+        studyGroup.addUser(user);
+        user.addStudyGroup(studyGroup);
+        studyGroupRepository.save(studyGroup);
+        userRepository.save(user);
         return "Group created successfully!";
     }
 
-    @PutMapping(path="/groups/update/{group_id}")
-    StudyGroup updateGroup(@PathVariable int group_id, @RequestBody StudyGroup updatedGroup) {
-        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
-        if(studyGroup == null)
-            return null;
-        studyGroup.setGroupName(updatedGroup.getGroupName());
-        return studyGroupRepository.findById(group_id);
-    }
+//    @PutMapping(path="/groups/update/{group_id}")
+//    StudyGroup updateGroup(@PathVariable int group_id, @RequestBody StudyGroup updatedGroup) {
+//        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
+//        if(studyGroup == null)
+//            return null;
+//        studyGroup.setGroupName(updatedGroup.getGroupName());
+//        return studyGroupRepository.findById(group_id);
+//    }
 
     @PutMapping(path="/groups/update/addUser/{group_id}")
     StudyGroup addUserToGroup(@PathVariable int group_id, @RequestBody User user){
@@ -71,18 +94,47 @@ public class StudyGroupController {
         if(studyGroup == null)
             return null;
         studyGroup.addUser(user);
+        user.addStudyGroup(studyGroup);
+        studyGroupRepository.save(studyGroup);
+        userRepository.save(user);
         return studyGroupRepository.findById(group_id);
     }
 
-
-    @DeleteMapping(path = "/group/delete/{group_id}")
-    String deleteGroup(@PathVariable int group_id){
-        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
-        if(studyGroup == null)
+    @DeleteMapping(path ="/groups/delete/{groupname}/{username}")
+    String deleteUserFromGroup(@PathVariable String username, @PathVariable String groupname){
+        User user = userRepository.findByUserName(username);
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        if (user == null || studyGroup == null)
             return failure;
-        studyGroupRepository.deleteById(group_id);
+        studyGroup.removeUser(user);
+        studyGroupRepository.save(studyGroup);
         return success;
     }
+
+
+    @DeleteMapping(path = "/group/delete/{groupname}")
+    String deleteGroup(@PathVariable String groupname){
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        if(studyGroup == null)
+            return failure;
+        studyGroupRepository.deleteStudyGroupByGroupName(groupname);
+        return success;
+    }
+
+
+
+
+
+//@DeleteMapping(path = "/group/delete/{group_name}")
+//String deleteGroup(@PathVariable String group_name){
+//    StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(group_name);
+//    if(studyGroup == null)
+//        return failure;
+//    studyGroupRepository.deleteById(studyGroup.getid());
+//    return success;
+//}
+
+
 
 
 

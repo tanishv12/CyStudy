@@ -95,7 +95,7 @@ public class ChatSocket {
 		}
 
 		// Saving chat history to repository
-		msgRepo.save(new Message(message,userRepo.findByUsername(username)));
+		msgRepo.save(new Message(message,userRepo.findByUserName(username)));
 	}
 
 

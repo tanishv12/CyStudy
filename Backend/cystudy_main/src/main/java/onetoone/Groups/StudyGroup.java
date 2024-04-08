@@ -1,10 +1,11 @@
 package onetoone.Groups;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import onetoone.Courses.Course;
 import onetoone.Messages.Message;
-import onetoone.Resources.StudyResources;
+import onetoone.Rating.Rating;
 //import onetoone.Rating.Rating;
 import onetoone.Users.User;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,6 +33,9 @@ public class StudyGroup {
     @CreationTimestamp
     private Timestamp creationTime;
 
+    @Column(nullable = false)
+    private double avgRating;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
@@ -44,10 +48,8 @@ public class StudyGroup {
             inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
     private Set<User> userSet;
 
-
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
-//    private List<Rating> ratingList;
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
+   private List<Rating> ratingList;
 
 
     // =============================== Constructors ================================== //
@@ -57,15 +59,19 @@ public class StudyGroup {
 
     public StudyGroup(String groupName) {
         this.groupName = groupName;
+        this.avgRating = 0;
+        this.userSet = new HashSet<User>();
+        this.messageSet = new HashSet<Message>();
+        this.ratingList = new ArrayList<Rating>();
     }
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public long getId() {
+    public long getid() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setid(long id) {
         this.id = id;
     }
 
@@ -101,6 +107,7 @@ public class StudyGroup {
         this.messageSet = messageSet;
     }
 
+
     public Set<User> getUserSet() {
         return userSet;
     }
@@ -113,4 +120,29 @@ public class StudyGroup {
         userSet.add(user);
     }
 
+    public void removeUser(User user){ userSet.remove(user);}
+
+    public List<Rating> getRatingList() {
+        return ratingList;
+    }
+
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
+    }
+
+    public void addRating(Rating rating){
+        ratingList.add(rating);
+    }
+
+    public void addMessage(Message message){messageSet.add(message);}
+
+    public void removeMessage(Message message){messageSet.remove(message);}
+
+    public void setRatingList(List<Rating> ratingList) {
+        this.ratingList = ratingList;
+    }
 }

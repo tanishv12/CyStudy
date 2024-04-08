@@ -1,17 +1,19 @@
 package onetoone.Users;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import onetoone.Courses.Course;
 import onetoone.Groups.StudyGroup;
 import onetoone.Messages.Message;
+import onetoone.Rating.Rating;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 //import onetoone.Rating.Rating;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,10 +40,14 @@ public class User {
     private Set<Course> courseSet;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
+    @JsonIgnore
     private Set<StudyGroup> groupSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
     private Set<Message> messageSet;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Rating> ratingSet;
 
 
     // =============================== Constructors ================================== //
@@ -55,6 +61,7 @@ public class User {
         this.courseSet = new HashSet<Course>();
         this.groupSet = new HashSet<StudyGroup>();
         this.messageSet = new HashSet<Message>();
+        this.ratingSet = new HashSet<Rating>();
     }
 
     public User() {
@@ -66,11 +73,11 @@ public class User {
         return encoder().encode(password);
     }
 
-    public long getId(){
+    public long getid(){
         return id;
     }
 
-    public void setId(long id){
+    public void setid(long id){
         this.id = id;
     }
 
@@ -123,6 +130,7 @@ public class User {
         this.courseSet = courseSet;
     }
 
+
     public Set<StudyGroup> getGroupSet() {
         return groupSet;
     }
@@ -139,6 +147,13 @@ public class User {
         this.messageSet = messageSet;
     }
 
+    public Set<Rating> getRatingSet() {
+        return ratingSet;
+    }
+
+    public void setRatingSet(Set<Rating> ratingSet) {
+        this.ratingSet = ratingSet;
+    }
 
     //Method to add course to hashset
     public void addCourse(Course course) {
@@ -147,10 +162,25 @@ public class User {
         }
         courseSet.add(course);
     }
+    //Method to add studyGroup to user
+    public void addStudyGroup(StudyGroup studyGroup){
+        if(groupSet == null){
+            groupSet = new HashSet<StudyGroup>();
+        }
+        groupSet.add(studyGroup);
+    }
+
+    public void addRating(Rating rating){
+        ratingSet.add(rating);
+    }
 
     //Method to remove course from hashset
     public void removeCourse(Course course){courseSet.remove(course);
     }
+
+    public void addMessage(Message message){messageSet.add(message);}
+
+    public void removeMessage(Message message){messageSet.remove(message);}
 
     @Bean
     public PasswordEncoder encoder(){

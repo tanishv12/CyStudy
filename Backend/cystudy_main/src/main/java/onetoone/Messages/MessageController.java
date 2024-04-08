@@ -2,6 +2,7 @@ package onetoone.Messages;
 
 import onetoone.Groups.StudyGroup;
 import onetoone.Users.UserRepository;
+import onetoone.Users.User;
 import onetoone.Groups.StudyGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,12 +33,17 @@ public class MessageController {
         return messageRepository.findAll();
     }
 
-    @GetMapping(path="/messages/all/group/{group_id}")
-    Set<Message> getAllMessagesByGroup(@PathVariable int group_id){
-        StudyGroup group = studyGroupRepository.findById(group_id);
+    @GetMapping(path="/messages/all/group/{groupname}")
+    Set<Message> getAllMessagesByGroup(@PathVariable String groupname){
+        StudyGroup group = studyGroupRepository.findStudyGroupByGroupName(groupname);
         return group.getMessageSet();
     }
 
+    @GetMapping(path ="/messages/all/user/{username}")
+    Set<Message> getAllMessagesByUser(@PathVariable String username){
+        User user = userRepository.findByUserName(username);
+        return user.getMessageSet();
+    }
 
 
     @GetMapping(path = "/messages/{message_id}")
@@ -53,10 +59,16 @@ public class MessageController {
         }
     }
 
-    @PostMapping(path = "/messages/post")
-    String createMessage(@RequestBody Message message){
+    @PostMapping(path = "/messages/post/{username}/{groupname}")
+    String createMessage(@RequestBody Message message, @PathVariable String username, @PathVariable String groupname){
         if(message == null)
             return failure;
+        User user = userRepository.findByUserName(username);
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        user.addMessage(message);
+        studyGroup.addMessage(message);
+        userRepository.save(user);
+        studyGroupRepository.save(studyGroup);
         messageRepository.save(message);
         return success;
     }

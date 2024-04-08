@@ -3,6 +3,8 @@ package onetoone;
 import onetoone.Groups.StudyGroup;
 import onetoone.Groups.StudyGroupRepository;
 import onetoone.Messages.Message;
+import onetoone.Rating.Rating;
+import onetoone.Rating.RatingRepository;
 import org.antlr.v4.runtime.misc.LogManager;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -43,21 +45,10 @@ class Main {
      * As mentioned in User.java just associating the Laptop object with the User will save it into the database because of the CascadeType
      */
     @Bean
-    CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository) {
+    CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository, RatingRepository ratingRepository) {
         return args -> {
 
-<<<<<<< HEAD
-            User user1 = new User("John", "john@somemail.com","lol");
-            User user2 = new User("Jane", "jane@somemail.com","lol");
-           User user3 = new User("Justin", "justin@somemail.com","lol");
-//            Course course1 = new Course( "Calculus 1","MATH",166);
-//            Course course2 = new Course( "Intro to Object Oriented Programming","COM S", 227);
-//            Course course3 = new Course( "Written,oral,Visual, and Electronic compostition","ENG",250);
-//            user1.addCourse(course1);
-//            user2.addCourse(course2);
-//            user3.addCourse(course3);
-//            userRepository.save(user1);
-=======
+
 
 //
             User user1 = new User("John", "john123","john@somemail.com", "lol");
@@ -68,7 +59,7 @@ class Main {
             Course course1 = new Course("Calculus 1", "MATH", 166);
 //
             userRepository.save(user1);
->>>>>>> create-rating-table
+
 //            userRepository.save(user2);
 //            userRepository.save(user3);
 //
@@ -86,10 +77,19 @@ class Main {
 //            messageRepository.save(message1);
 //
             StudyGroup group1 = new StudyGroup("Group 1");
+            StudyGroup group2 = new StudyGroup("Group2");
+
+            Rating rating1 = new Rating(user1,group1,4);
+            group1.addRating(rating1);
+            user1.addRating(rating1);
             group1.addUser(user1);
-            group1.addUser(user2);
-           group1.addUser(user3);
+            group2.addUser(user1);
+//            group1.addUser(user2);
+//           group1.addUser(user3);
            studyGroupRepository.save(group1);
+           studyGroupRepository.save(group2);
+           userRepository.save(user1);
+           ratingRepository.save(rating1);
 
 
         };
