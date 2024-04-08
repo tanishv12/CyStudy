@@ -553,13 +553,14 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
 
                                 // Access the value associated with the key "name"
-                                String rating = jsonObj.getString("ratingList");
-
-                                ratings.append(rating);
+                                String rating = jsonObj.getString("avgRating");
                                 String name = jsonObj.getString("groupName");
-                                names.append(name).append("\n");
+
+                                String groupRate = name + "   " + rating;
+                                names.append(groupRate).append("\n");
                             }
-                            gresponse.setText(names +""+ ratings);
+                            gresponse.setText(names+ " " + ratings);
+
                         }
                         catch (JSONException err)
                         {

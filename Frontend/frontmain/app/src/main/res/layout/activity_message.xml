@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#404040"
+    android:background="@color/olive"
     tools:context=".MessageActivity">
 
     <View
@@ -90,8 +90,8 @@
 
     <TextView
         android:id="@+id/allMessages"
-        android:layout_width="414dp"
-        android:layout_height="583dp"
+        android:layout_width="388dp"
+        android:layout_height="575dp"
         app:layout_constraintBottom_toBottomOf="@+id/viewBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
