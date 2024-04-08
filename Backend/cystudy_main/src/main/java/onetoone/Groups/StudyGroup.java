@@ -138,6 +138,10 @@ public class StudyGroup {
         ratingList.add(rating);
     }
 
+    public void addMessage(Message message){messageSet.add(message);}
+
+    public void removeMessage(Message message){messageSet.remove(message);}
+
     public void setRatingList(List<Rating> ratingList) {
         this.ratingList = ratingList;
     }

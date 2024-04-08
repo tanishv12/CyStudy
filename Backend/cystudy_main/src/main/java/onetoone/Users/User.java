@@ -178,6 +178,10 @@ public class User {
     public void removeCourse(Course course){courseSet.remove(course);
     }
 
+    public void addMessage(Message message){messageSet.add(message);}
+
+    public void removeMessage(Message message){messageSet.remove(message);}
+
     @Bean
     public PasswordEncoder encoder(){
 

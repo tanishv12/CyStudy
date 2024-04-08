@@ -60,9 +60,15 @@ public class MessageController {
     }
 
     @PostMapping(path = "/messages/post/{username}/{groupname}")
-    String createMessage(@RequestBody Message message){
+    String createMessage(@RequestBody Message message, @PathVariable String username, @PathVariable String groupname){
         if(message == null)
             return failure;
+        User user = userRepository.findByUserName(username);
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        user.addMessage(message);
+        studyGroup.addMessage(message);
+        userRepository.save(user);
+        studyGroupRepository.save(studyGroup);
         messageRepository.save(message);
         return success;
     }
