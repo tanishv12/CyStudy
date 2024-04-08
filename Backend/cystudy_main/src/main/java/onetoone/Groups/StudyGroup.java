@@ -33,6 +33,9 @@ public class StudyGroup {
     @CreationTimestamp
     private Timestamp creationTime;
 
+    @Column(nullable = false)
+    private double avgRating;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
@@ -56,6 +59,7 @@ public class StudyGroup {
 
     public StudyGroup(String groupName) {
         this.groupName = groupName;
+        this.avgRating = 0;
         this.userSet = new HashSet<User>();
         this.messageSet = new HashSet<Message>();
         this.ratingList = new ArrayList<Rating>();
@@ -120,6 +124,14 @@ public class StudyGroup {
 
     public List<Rating> getRatingList() {
         return ratingList;
+    }
+
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
     public void addRating(Rating rating){

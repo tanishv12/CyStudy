@@ -23,6 +23,9 @@ public class RatingController {
     @Autowired
     RatingRepository ratingRepository;
 
+    private String success = "{\"message\":\"success\"}";
+    private String failure = "{\"message\":\"failure\"}";
+
     @GetMapping(path = "/rating/{group_id}")
     ResponseEntity<List<Rating>> ratingOfTheGroup(@PathVariable int group_id) {
         Optional<StudyGroup> optionalStudyGroup = Optional.ofNullable(studyGroupRepository.findById(group_id));
@@ -53,6 +56,24 @@ public class RatingController {
         }
     }
 
+    @GetMapping(path = "/rating/average/{groupname}")
+    double averageRatingByGroup(String groupname){
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        if(studyGroup == null){
+            return 0;
+        }
+       return studyGroup.getAvgRating();
+    }
+
+    @PutMapping(path = "/update/rating/{new_rating}")
+    String updateRating(@RequestBody Rating rating, @PathVariable double new_rating){
+        if(rating == null) {
+            return failure;
+        }
+            rating.setRating(new_rating);
+        return success;
+    }
+
     //    @PostMapping(path = "/rating/post/{group_id}/{user_id}/{rating}")
 //    ResponseEntity<?> rateGroup(@PathVariable int group_id,@PathVariable int user_id, @PathVariable int rating) {
 //        Optional<StudyGroup> optionalStudyGroup = Optional.ofNullable(studyGroupRepository.findById(group_id));
@@ -73,18 +94,28 @@ public class RatingController {
 //    }
 //}
     @PostMapping(path = "/rating/post/{groupname}/{username}/{rating}")
-    Rating rateGroup(@PathVariable String groupname, @PathVariable String username, @PathVariable double rating) {
+    String rateGroup(@PathVariable String groupname, @PathVariable String username, @PathVariable double rating) {
 
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
         User user = userRepository.findByUserName(username);
-        Rating rating1 = new Rating(user,studyGroup,rating);
-        studyGroup.addRating(rating1);
-        user.addRating(rating1);
-//        rating1.getId().setUserId(user.getid());
-//        rating1.getId().setGroupId(studyGroup.getid());
-        ratingRepository.save(rating1);
-        userRepository.save(user);
-        studyGroupRepository.save(studyGroup);
-        return rating1;
+        if(studyGroup.getUserSet().contains(user)) {
+            Rating rating1 = new Rating(user, studyGroup, rating);
+            studyGroup.addRating(rating1);
+            user.addRating(rating1);
+            ratingRepository.save(rating1);
+            userRepository.save(user);
+            studyGroupRepository.save(studyGroup);
+            double sum = 0;
+            for(Rating rating2: studyGroup.getRatingList()){
+                sum = sum + rating2.getRating();
+            }
+            double avg = sum/studyGroup.getRatingList().size();
+            studyGroup.setAvgRating(avg);
+            studyGroupRepository.save(studyGroup);
+            return success;
+        }
+        else{
+            return failure;
+        }
     }
 }
