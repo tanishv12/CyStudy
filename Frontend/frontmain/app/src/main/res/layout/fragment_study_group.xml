@@ -12,6 +12,18 @@
     <!-- TODO: Update blank fragment layout -->
 
 
+<!--    <androidx.appcompat.widget.AppCompatImageView-->
+<!--        android:id="@+id/imageRate"-->
+<!--        android:layout_width="49dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_marginStart="168dp"-->
+<!--        android:layout_marginTop="528dp"-->
+<!--        android:padding="4dp"-->
+<!--        android:src="@drawable/baseline_grade"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:tint="@color/red"></androidx.appcompat.widget.AppCompatImageView>-->
+
     <TextView
         android:id="@+id/studyHead"
         android:layout_width="wrap_content"

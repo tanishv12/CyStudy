@@ -26,6 +26,8 @@ public class RatingReview extends AppCompatActivity
     private RatingBar ratingBar;
     private Button submitrate;
 
+    private String group;
+
     private String user;
 
     private double i;
@@ -40,6 +42,7 @@ public class RatingReview extends AppCompatActivity
         submitrate = findViewById(R.id.submitRate);
         reviewTxt = findViewById(R.id.ReviewText);
         user = UsernameSingleton.getInstance().getUserName();
+        group = GroupNameSingleton.getInstance().getGroupName();
 
         submitrate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +72,7 @@ public class RatingReview extends AppCompatActivity
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
             postBody = new JSONObject();
-            url += "Group2" + "/" + user + "/" + i;
+            url += group + "/" + user + "/" + i;
             postBody.put("rating", i);
 //            url += "/" + i;
 

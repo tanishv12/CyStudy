@@ -110,7 +110,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     private EditText updateGrpName;
     private EditText groupEditText;
     private Button buttonUpd;
-
+    private Button buttonRat;
     private Button buttonDel;
     private EditText GroupText;
 
@@ -136,6 +136,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         groupEditText = dialogView.findViewById(R.id.editGroup);
         buttonUpd = dialogView.findViewById(R.id.buttonUpdate);
         buttonDel = dialogView.findViewById(R.id.buttonDelete);
+        buttonRat = dialogView.findViewById(R.id.buttonRating);
         updateGrpName = dialogView.findViewById(R.id.updatedGroupName);
 
 
@@ -168,6 +169,19 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                 dialog.dismiss(); // Close the dialog if needed
             }
         });
+
+        buttonRat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                optionGroupName = groupEditText.getText().toString();
+                GroupNameSingleton.getInstance().setGroupName(optionGroupName);
+                // Handle button click
+                startActivity(new Intent(getApplicationContext(), RatingReview.class));
+                // Do something with the input
+//                dialog.dismiss(); // Close the dialog if needed
+            }
+        });
+
 
         dialog.show();
     }
