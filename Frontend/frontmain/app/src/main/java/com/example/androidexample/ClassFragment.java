@@ -28,6 +28,8 @@ public class ClassFragment extends AppCompatActivity {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private Button enter166;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -59,8 +61,20 @@ public class ClassFragment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_class);
 
+        enter166 = findViewById(R.id.math166);
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
         bottomNavigationView.setSelectedItemId(R.id.Classes);
+
+
+        enter166.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+//                Intent intent = new Intent(ClassFragment.this, Math166.class);
+//                startActivity(intent);
+            }
+        });
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.Classes) {
