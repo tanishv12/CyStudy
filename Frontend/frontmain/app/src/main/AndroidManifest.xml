@@ -29,6 +29,10 @@
             android:exported="false" />
         <activity
             android:name=".AdminPanelActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".RatingReview"
             android:exported="false" />
         <activity
             android:name=".MessageActivity"
@@ -56,7 +60,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
 
     </application>
 

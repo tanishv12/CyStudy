@@ -153,6 +153,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                 putRequest();
                 // Do something with the input
                 dialog.dismiss(); // Close the dialog if needed
+                Intent intent = new Intent(StudyGroupFragment.this, RatingReview.class);
+                startActivity(intent);
             }
         });
 
