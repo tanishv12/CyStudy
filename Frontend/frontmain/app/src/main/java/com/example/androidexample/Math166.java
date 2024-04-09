@@ -9,7 +9,7 @@ public class Math166 extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_math166);
+        super.onCreate(savedInstanceState);
     }
 }

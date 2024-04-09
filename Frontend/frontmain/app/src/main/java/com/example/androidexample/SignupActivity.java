@@ -42,9 +42,7 @@ public class SignupActivity extends AppCompatActivity {
 
     JSONObject postBody;
 
-
-
-    private String url = "http://coms-309-016.class.las.iastate.edu:8080/users/post";
+    private String url;
 
     private String method;
 
@@ -68,6 +66,7 @@ public class SignupActivity extends AppCompatActivity {
         signupPassword = findViewById(R.id.signup_password);
         signupButton = findViewById(R.id.signup_button);
         loginRedirectText = findViewById(R.id.loginRedirectText);
+        url = "http://coms-309-016.class.las.iastate.edu:8080/users/register";
 
         /**
          * This is the on click function for the sign up button creates the user in
@@ -76,22 +75,11 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = signupName.getText().toString();
-                String email = signupEmail.getText().toString();
-                String username = signupUsername.getText().toString();
-                String password = signupPassword.getText().toString();
 
                 postRequest();
-
-                //Move all to Post Request on Response
-                UsernameSingleton.getInstance().setUserName(name);
-
-
-
-                Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
-                UsernameSingleton.getInstance().setUserName(username);
+
             }
         });
         /**
@@ -170,6 +158,23 @@ public class SignupActivity extends AppCompatActivity {
      */
     private void postRequest() {
 
+        String name = signupName.getText().toString().trim();
+        String email = signupEmail.getText().toString().trim();
+        String username = signupUsername.getText().toString().trim();
+        String password = signupPassword.getText().toString().trim();
+
+
+        //Move all to Post Request on Response
+        UsernameSingleton.getInstance().setUserName(name);
+
+
+
+//                Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+//                startActivity(intent);
+        UsernameSingleton.getInstance().setUserName(username);
+
+
         // Convert input to JSONObject
         JSONObject postBody = null;
 
@@ -183,11 +188,13 @@ public class SignupActivity extends AppCompatActivity {
             // etRequest should contain a JSON object string as your POST body
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
+            url = "http://coms-309-016.class.las.iastate.edu:8080/users/register";
             postBody = new JSONObject();
-            postBody.put("name", signupUsername.getText().toString());
-            postBody.put("emailId",signupEmail.getText().toString());
-            postBody.put("password", signupPassword.getText().toString());
-            postBody.put("ifActive", "true");
+            postBody.put("name", name);
+            postBody.put("emailId", email);
+            postBody.put("userName", username);
+            postBody.put("password", password);
+            Log.e("body", postBody.toString());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -199,15 +206,13 @@ public class SignupActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(SignupActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                        startActivity(intent);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+//                        loginRedirectText.setText(error.toString());
                     }
                 }
         ){

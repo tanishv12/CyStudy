@@ -5,7 +5,7 @@
     android:id="@+id/cardsContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#404040"
+    android:background="@color/olive"
     tools:context=".StudyGroupFragment">
 
 
@@ -79,7 +79,7 @@
         android:layout_width="374dp"
         android:layout_height="401dp"
         android:layout_marginTop="1dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="@+id/bottomnavbar"
         app:layout_constraintEnd_toEndOf="parent"
