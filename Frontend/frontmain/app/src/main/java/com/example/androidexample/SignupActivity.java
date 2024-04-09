@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -164,36 +165,33 @@ public class SignupActivity extends AppCompatActivity {
         String username = signupUsername.getText().toString().trim();
         String password = signupPassword.getText().toString().trim();
 
-        // Convert input to JSONObject
-        JSONObject postBody = null;
-
         if (!validateCredentials()) {
             Toast.makeText(SignupActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        JSONObject postBody = new JSONObject(); // Initialize postBody here
+
         try {
             url = "http://coms-309-016.class.las.iastate.edu:8080/users/register";
-            postBody = new JSONObject();
             postBody.put("name", name);
             postBody.put("emailId", email);
             postBody.put("userName", username);
             postBody.put("password", password);
-            Log.e("body", postBody.toString());
         } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(
+        // Create a StringRequest
+        StringRequest request = new StringRequest(
                 Request.Method.POST,
                 url,
-                postBody,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(String response) {
                         // Handle successful response here
-                        loginRedirectText.setText(response.toString());
+                        loginRedirectText.setText(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -218,11 +216,16 @@ public class SignupActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                // Return the JSON byte array as the request body
+                return postBody.toString().getBytes(StandardCharsets.UTF_8);
+            }
         };
 
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
-
 
 }

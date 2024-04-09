@@ -15,6 +15,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,7 +86,12 @@ public class AdminPanelActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        try {
+                            JSONObject object = new JSONObject(response);
+//                            response = object.getString("groupName");
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
                         // Display the first 500 characters of the response string.
                         // String response can be converted to JSONObject via
                         // JSONObject object = new JSONObject(response);
