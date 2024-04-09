@@ -112,6 +112,7 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password credentials");
             }
             dbUser.setIfActive(true);
+            userRepository.save(dbUser);
             return ResponseEntity.ok("Login successful");
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found");
@@ -142,9 +143,9 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @DeleteMapping(path = "/users/delete/{user_id}")
-    String deleteUser(@PathVariable int user_id){
-        User user = userRepository.findById(user_id);
+    @DeleteMapping(path = "/users/delete/{userName}")
+    String deleteUser(@PathVariable String userName){
+        User user = userRepository.findByUserName(userName);
         if(user == null){
             return failure;
         }
@@ -154,7 +155,7 @@ public class UserController {
         for(Course course : user.getCourseSet()){
             course.removeUser(user);
         }
-        userRepository.deleteById(user_id);
+        userRepository.deleteByUserName(userName);
         return success;
     }
 

@@ -16,6 +16,7 @@ import jakarta.websocket.server.ServerEndpoint;
 import onetoone.Groups.*;
 import onetoone.Users.User;
 import onetoone.Users.UserRepository;
+import onetoone.Messages.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
