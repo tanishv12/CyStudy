@@ -79,8 +79,8 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 postRequest();
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+//                startActivity(intent);
 
             }
         });

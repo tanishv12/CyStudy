@@ -70,6 +70,20 @@
                 android:textSize="18dp"
                 app:cornerRadius="20dp" />
 
+            <TextView
+                android:id="@+id/lowest_rated_groups"
+                android:layout_width="300dp"
+                android:layout_height="130dp"
+                android:text="Messages will show up here"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:paddingTop="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
