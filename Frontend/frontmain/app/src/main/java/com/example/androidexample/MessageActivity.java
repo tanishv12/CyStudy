@@ -357,8 +357,9 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
 //        sentVeri = findViewById(R.id.sentVerify);
 
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/post";
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/post/";
         // Convert input to JSONObject
+        url += "Group 1/" + username;
         JSONObject postBody = null;
         try
         {

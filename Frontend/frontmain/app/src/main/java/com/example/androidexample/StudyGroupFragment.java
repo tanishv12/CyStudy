@@ -311,6 +311,12 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
         WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
 
+        user = UsernameSingleton.getInstance().getUserName();
+        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/user/"+user;
+
+        WebSocketManager.getInstance().connectWebSocket(serverURL);
+        WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
+
 
 
         addGrp = findViewById(R.id.addGroup);
@@ -694,7 +700,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             String s = gresponse.getText().toString();
             gresponse.setText(s + "\n"+message);
         });
-
     }
 
     /**
