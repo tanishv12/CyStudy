@@ -37,7 +37,7 @@ public class UserManagementActivity extends AppCompatActivity {
         deleteUser = findViewById(R.id.delete_user);
         userName = findViewById(R.id.edit_user);
         chat = findViewById(R.id.user_chat);
-        deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/users/";
+        deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/users/delete/";
 
         deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +45,7 @@ public class UserManagementActivity extends AppCompatActivity {
                 String temp = userName.getText().toString();
                 deleteUrl += temp;
                 deleteRequest();
-                deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/users/";
+                deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/users/delete/";
                 userName.setText("");
             }
         });

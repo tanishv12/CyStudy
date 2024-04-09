@@ -52,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 postRequest();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                startActivity(intent);
             }
         });
         signupRedirectText.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-//                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 //                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-//                        signupRedirectText.setText(error.toString());
+                        signupRedirectText.setText(error.toString());
                     }
                 }
         ){
