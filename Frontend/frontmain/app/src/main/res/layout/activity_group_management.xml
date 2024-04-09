@@ -28,7 +28,7 @@
 
             <ScrollView
                 android:layout_width="0dp"
-                android:layout_height="300dp"
+                android:layout_height="350dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,9 @@
                     android:layout_height="wrap_content"
                     android:text="Messages will show up here"
                     android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textSize="16sp"
+                    android:paddingLeft = "6dp"
+                    android:paddingRight = "6dp"/>
 
             </ScrollView>
 
