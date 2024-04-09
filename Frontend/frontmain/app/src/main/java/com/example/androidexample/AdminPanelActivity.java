@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -85,23 +86,32 @@ public class AdminPanelActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response != null && response.length() >= 2) {
-                            response = response.substring(1, response.length() - 1);
-                        }
-
                         try {
-                            JSONObject object = new JSONObject(response);
-                            response = "Lowest rated group: " + object.getString("groupName");
-                            response += "\nRating: " + object.getString("ratingList");
+                            // Convert the response string to a JSONArray
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            // Initialize a StringBuilder to store all group names and ratings
+                            StringBuilder groupsInfo = new StringBuilder();
+
+                            // Iterate through the JSONArray to extract group names and ratings
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject groupObject = jsonArray.getJSONObject(i);
+                                String groupName = groupObject.getString("groupName");
+                                String ratingList = groupObject.getString("ratingList");
+
+                                // Append group name and rating to the StringBuilder
+                                groupsInfo.append("Group Name: ").append(groupName).append("\n");
+                                groupsInfo.append("Rating: ").append(ratingList).append("\n\n");
+                            }
+
+                            // Display the group names and ratings
+                            lowestRatedGroups.setText(groupsInfo.toString());
+
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
-                        // Display the first 500 characters of the response string.
-                        // String response can be converted to JSONObject via
-                        // JSONObject object = new JSONObject(response);
-                        lowestRatedGroups.setText(response);
-
                     }
+
                 },
                 new Response.ErrorListener() {
                     @Override

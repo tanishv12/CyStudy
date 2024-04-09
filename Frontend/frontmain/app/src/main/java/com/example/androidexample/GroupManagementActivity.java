@@ -50,8 +50,8 @@ public class GroupManagementActivity extends AppCompatActivity {
         create_group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chat.setText("make this method map to the create group screen");
-                //Map to create group screen
+                Intent intent = new Intent(GroupManagementActivity.this, AddStudyGrp.class);
+                startActivity(intent);
             }
         });
 
@@ -147,13 +147,14 @@ public class GroupManagementActivity extends AppCompatActivity {
         }
 
         // Create a StringRequest
-        StringRequest request = new StringRequest(
+        JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.DELETE,
                 url,
-                new Response.Listener<String>() {
+                deleteBody,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        chat.setText(response);
+                    public void onResponse(JSONObject response) {
+                        chat.setText(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
