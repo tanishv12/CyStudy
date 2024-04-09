@@ -16,10 +16,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,28 +92,28 @@ public class UserManagementActivity extends AppCompatActivity implements WebSock
 //            e.printStackTrace();
 //        }
 
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.DELETE,
+        // Create a StringRequest
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
                 url,
-                deleteBody,
-                new Response.Listener<JSONObject>()
-                {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        chat.setText(response.toString());
-                        Log.e("Response Entered",response.toString());
-
+                    public void onResponse(String response) {
+                        chat.setText(response);
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Log.e("Error Response", error.toString());
-                        Toast.makeText(UserManagementActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle errors here
+                        String errorMessage;
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        } else {
+                            errorMessage = error.toString();
+                        }
+                        Log.e("Error response", errorMessage);
+                        chat.setText("Failure: " + errorMessage);
                     }
                 }
         ){

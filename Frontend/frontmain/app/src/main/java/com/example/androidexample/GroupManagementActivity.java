@@ -2,6 +2,7 @@ package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -135,7 +137,6 @@ public class GroupManagementActivity extends AppCompatActivity {
 //            deleteBody.put("group_id", updateGrp.getText().toString());
             Log.e("what is putbody",deleteBody.toString());
             Log.e("Try BLAH","oisafuhgiureshg");
-            url += "/" + "5";
             Log.e("What is url",url.toString());
 ////                    + "/" + loginPassword.getText().toString();
         }
@@ -145,28 +146,28 @@ public class GroupManagementActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(
+        // Create a StringRequest
+        StringRequest request = new StringRequest(
                 Request.Method.DELETE,
                 url,
-                deleteBody,
-                new Response.Listener<JSONObject>()
-                {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        chat.setText(response.toString());
-                        Log.e("Response Entered",response.toString());
-
+                    public void onResponse(String response) {
+                        chat.setText(response);
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Log.e("Error Response", error.toString());
-                        Toast.makeText(GroupManagementActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle errors here
+                        String errorMessage;
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        } else {
+                            errorMessage = error.toString();
+                        }
+                        Log.e("Error response", errorMessage);
+                        chat.setText("Failure: " + errorMessage);
                     }
                 }
         ){

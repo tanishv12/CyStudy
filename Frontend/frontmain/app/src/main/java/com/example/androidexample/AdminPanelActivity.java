@@ -73,7 +73,7 @@ public class AdminPanelActivity extends AppCompatActivity {
     }
 
     /**
-     * Retrieves all study groups that the user is in given user name
+     * Retrieves lowest study groups
      */
     private void getRequest()
     {
@@ -108,7 +108,7 @@ public class AdminPanelActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         lowestRatedGroups.setText(error.toString());
                     }
-                }){
+                }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
