@@ -67,8 +67,30 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:text="Return Home"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 app:cornerRadius="20dp" />
+
+            <ScrollView
+                android:layout_width="300dp"
+                android:layout_height="140dp"
+                android:paddingTop="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <TextView
+                    android:id="@+id/lowest_rated_groups"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="Messages will show up here"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </ScrollView>
+
+
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

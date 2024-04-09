@@ -16,9 +16,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,8 +80,8 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 postRequest();
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+//                startActivity(intent);
 
             }
         });
@@ -157,79 +160,68 @@ public class SignupActivity extends AppCompatActivity {
      * of the users.
      */
     private void postRequest() {
-
         String name = signupName.getText().toString().trim();
         String email = signupEmail.getText().toString().trim();
         String username = signupUsername.getText().toString().trim();
         String password = signupPassword.getText().toString().trim();
 
-
-        //Move all to Post Request on Response
-        UsernameSingleton.getInstance().setUserName(name);
-
-
-
-//                Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-//                startActivity(intent);
-        UsernameSingleton.getInstance().setUserName(username);
-
-
-        // Convert input to JSONObject
-        JSONObject postBody = null;
-
-        if(validateCredentials() != true)
-        {
+        if (!validateCredentials()) {
             Toast.makeText(SignupActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        try{
-            // etRequest should contain a JSON object string as your POST body
-            // similar to what you would have in POSTMAN-body field
-            // and the fields should match with the object structure of @RequestBody on sb
+        JSONObject postBody = new JSONObject(); // Initialize postBody here
+
+        try {
             url = "http://coms-309-016.class.las.iastate.edu:8080/users/register";
-            postBody = new JSONObject();
             postBody.put("name", name);
             postBody.put("emailId", email);
             postBody.put("userName", username);
             postBody.put("password", password);
-            Log.e("body", postBody.toString());
-        } catch (Exception e){
+        } catch (JSONException e) {
             e.printStackTrace();
+            return;
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(
+        // Create a StringRequest
+        StringRequest request = new StringRequest(
                 Request.Method.POST,
                 url,
-                postBody,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(String response) {
+                        Toast.makeText(SignupActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                        startActivity(intent);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-//                        loginRedirectText.setText(error.toString());
+                        // Handle errors here
+                        String errorMessage;
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        } else {
+                            errorMessage = error.toString();
+                        }
+                        Log.e("Error response", errorMessage);
+                        loginRedirectText.setText("Failure: " + errorMessage);
                     }
                 }
-        ){
+        ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
-                //                headers.put("Content-Type", "application/json");
+                // Set content type to JSON
+                headers.put("Content-Type", "application/json");
                 return headers;
             }
 
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                //                params.put("param1", "value1");
-                //                params.put("param2", "value2");
-                return params;
+            public byte[] getBody() throws AuthFailureError {
+                // Return the JSON byte array as the request body
+                return postBody.toString().getBytes(StandardCharsets.UTF_8);
             }
         };
 

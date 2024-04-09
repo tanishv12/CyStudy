@@ -16,18 +16,21 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserManagementActivity extends AppCompatActivity {
+public class UserManagementActivity extends AppCompatActivity{
 
     Button createUser, deleteUser;
     EditText userName;
     TextView chat;
-    String deleteUrl;
+    String deleteUrl, serverURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class UserManagementActivity extends AppCompatActivity {
         deleteUser = findViewById(R.id.delete_user);
         userName = findViewById(R.id.edit_user);
         chat = findViewById(R.id.user_chat);
-        deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/users/";
+        deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/users/delete/";
 
         deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +48,7 @@ public class UserManagementActivity extends AppCompatActivity {
                 String temp = userName.getText().toString();
                 deleteUrl += temp;
                 deleteRequest();
-                deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/users/";
+                deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/users/delete/";
                 userName.setText("");
             }
         });
@@ -66,47 +69,47 @@ public class UserManagementActivity extends AppCompatActivity {
         // Convert input to JSONObject
         JSONObject deleteBody = null;
 
-//        try
-//        {
-//            Log.e("Try Entered","oisafuhgiureshg");
-//            // etRequest should contain a JSON object string as your POST body
-//            // similar to what you would have in POSTMAN-body field
-//            // and the fields should match with the object structure of @RequestBody on sb
-//            deleteBody = new JSONObject();
-////            deleteBody.put("group_id", updateGrp.getText().toString());
-//            Log.e("what is putbody",deleteBody.toString());
-//            Log.e("Try BLAH","oisafuhgiureshg");
-//            Log.e("What is url",url.toString());
-//////                    + "/" + loginPassword.getText().toString();
-//        }
-//        catch (Exception e)
-//        {
-//            Log.e("Catch Entered","wkerufhieuwhf");
-//            e.printStackTrace();
-//        }
+        try
+        {
+            Log.e("Try Entered","oisafuhgiureshg");
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+            deleteBody = new JSONObject();
+//            deleteBody.put("group_id", updateGrp.getText().toString());
+            Log.e("what is putbody",deleteBody.toString());
+            Log.e("Try BLAH","oisafuhgiureshg");
+            Log.e("What is url",url.toString());
+////                    + "/" + loginPassword.getText().toString();
+        }
+        catch (Exception e)
+        {
+            Log.e("Catch Entered","wkerufhieuwhf");
+            e.printStackTrace();
+        }
 
-        JsonObjectRequest request = new JsonObjectRequest(
+        // Create a StringRequest
+        StringRequest request = new StringRequest(
                 Request.Method.DELETE,
                 url,
-                deleteBody,
-                new Response.Listener<JSONObject>()
-                {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        chat.setText(response.toString());
-                        Log.e("Response Entered",response.toString());
-
+                    public void onResponse(String response) {
+                        chat.setText(response);
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Log.e("Error Response", error.toString());
-                        Toast.makeText(UserManagementActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle errors here
+                        String errorMessage;
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        } else {
+                            errorMessage = error.toString();
+                        }
+                        Log.e("Error response", errorMessage);
+                        chat.setText("Failure: " + errorMessage);
                     }
                 }
         ){

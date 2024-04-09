@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,15 +54,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 postRequest();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                startActivity(intent);
             }
         });
         signupRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Change MainActivity.class to SignupActivity.class when done testing
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
             }
         });
@@ -137,14 +139,15 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(
+        // Create a StringRequest
+        StringRequest request = new StringRequest(
                 Request.Method.POST,
                 url,
-                postBody,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-//                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                    public void onResponse(String response) {
+                        UsernameSingleton.getInstance().setUserName(loginUsername.getText().toString());
+                        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
@@ -152,8 +155,15 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-//                        signupRedirectText.setText(error.toString());
+                        // Handle errors here
+                        String errorMessage;
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        } else {
+                            errorMessage = error.toString();
+                        }
+                        Log.e("Error response", errorMessage);
+                        signupRedirectText.setText("Failure: " + errorMessage);
                     }
                 }
         ){
