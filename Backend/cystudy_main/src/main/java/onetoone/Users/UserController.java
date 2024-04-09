@@ -155,7 +155,8 @@ public class UserController {
         for(Course course : user.getCourseSet()){
             course.removeUser(user);
         }
-        userRepository.deleteByUserName(userName);
+//        userRepository.deleteByUserName(userName);
+        userRepository.deleteById(user.getid());
         return success;
     }
 
