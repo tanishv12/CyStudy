@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AdminPanelActivity extends AppCompatActivity {
-
     TextView lowestRatedGroups;
 
     @Override
@@ -36,7 +35,7 @@ public class AdminPanelActivity extends AppCompatActivity {
         groupManagement = findViewById(R.id.group_management);
         userManagement = findViewById(R.id.user_management);
         returnHome = findViewById(R.id.return_home);
-        lowestRatedGroups = findViewById(R.id.lowest_rated_groups);
+         lowestRatedGroups = findViewById(R.id.lowest_rated_groups);
         getRequest();
 
         chatLogs.setOnClickListener(new View.OnClickListener() {
@@ -86,9 +85,14 @@ public class AdminPanelActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        if (response != null && response.length() >= 2) {
+                            response = response.substring(1, response.length() - 1);
+                        }
+
                         try {
                             JSONObject object = new JSONObject(response);
-//                            response = object.getString("groupName");
+                            response = "Lowest rated group: " + object.getString("groupName");
+                            response += "\nRating: " + object.getString("ratingList");
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
