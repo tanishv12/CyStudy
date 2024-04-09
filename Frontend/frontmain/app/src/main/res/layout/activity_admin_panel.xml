@@ -67,12 +67,13 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:text="Return Home"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 app:cornerRadius="20dp" />
 
             <ScrollView
                 android:layout_width="300dp"
-                android:layout_height="130dp"
+                android:layout_height="140dp"
+                android:paddingTop="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

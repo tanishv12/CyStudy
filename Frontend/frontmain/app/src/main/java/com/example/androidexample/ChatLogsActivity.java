@@ -50,17 +50,18 @@ public class ChatLogsActivity extends AppCompatActivity {
                 if(user.isEmpty())
                 {
                     url += "/messages/all/group/" + group;
+                    getRequest();
                 }
                 else {
                     url += "/messages/all/user/" + user;
-                    postRequest();
+                    getRequest();
                 }
 
             }
         });
     }
 
-    private void postRequest() {
+    private void getRequest() {
         //Change the URL to whatever they say the endpoint is
         // Convert input to JSONObject
         JSONObject postBody = null;
@@ -72,14 +73,13 @@ public class ChatLogsActivity extends AppCompatActivity {
             postBody = new JSONObject();
             postBody.put("username", editUser.getText().toString());
             postBody.put("group", editGroupName.getText().toString());
-            url += editUser.getText().toString() + "/" + editGroupName.getText().toString();
         } catch (Exception e){
             e.printStackTrace();
         }
 
         // Create a StringRequest
         StringRequest request = new StringRequest(
-                Request.Method.POST,
+                Request.Method.GET,
                 url,
                 new Response.Listener<String>() {
                     @Override

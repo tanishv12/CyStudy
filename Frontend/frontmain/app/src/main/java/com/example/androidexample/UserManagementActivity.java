@@ -25,7 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserManagementActivity extends AppCompatActivity implements WebSocketListener{
+public class UserManagementActivity extends AppCompatActivity{
 
     Button createUser, deleteUser;
     EditText userName;
@@ -40,11 +40,7 @@ public class UserManagementActivity extends AppCompatActivity implements WebSock
         deleteUser = findViewById(R.id.delete_user);
         userName = findViewById(R.id.edit_user);
         chat = findViewById(R.id.user_chat);
-        serverURL = ""; //make this the websocket url
         deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/users/delete/";
-
-        WebSocketManager.getInstance().setWebSocketListener(UserManagementActivity.this);
-        WebSocketManager.getInstance().connectWebSocket(serverURL);
 
         deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,28 +69,28 @@ public class UserManagementActivity extends AppCompatActivity implements WebSock
         // Convert input to JSONObject
         JSONObject deleteBody = null;
 
-//        try
-//        {
-//            Log.e("Try Entered","oisafuhgiureshg");
-//            // etRequest should contain a JSON object string as your POST body
-//            // similar to what you would have in POSTMAN-body field
-//            // and the fields should match with the object structure of @RequestBody on sb
-//            deleteBody = new JSONObject();
-////            deleteBody.put("group_id", updateGrp.getText().toString());
-//            Log.e("what is putbody",deleteBody.toString());
-//            Log.e("Try BLAH","oisafuhgiureshg");
-//            Log.e("What is url",url.toString());
-//////                    + "/" + loginPassword.getText().toString();
-//        }
-//        catch (Exception e)
-//        {
-//            Log.e("Catch Entered","wkerufhieuwhf");
-//            e.printStackTrace();
-//        }
+        try
+        {
+            Log.e("Try Entered","oisafuhgiureshg");
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+            deleteBody = new JSONObject();
+//            deleteBody.put("group_id", updateGrp.getText().toString());
+            Log.e("what is putbody",deleteBody.toString());
+            Log.e("Try BLAH","oisafuhgiureshg");
+            Log.e("What is url",url.toString());
+////                    + "/" + loginPassword.getText().toString();
+        }
+        catch (Exception e)
+        {
+            Log.e("Catch Entered","wkerufhieuwhf");
+            e.printStackTrace();
+        }
 
         // Create a StringRequest
         StringRequest request = new StringRequest(
-                Request.Method.POST,
+                Request.Method.DELETE,
                 url,
                 new Response.Listener<String>() {
                     @Override
@@ -136,32 +132,5 @@ public class UserManagementActivity extends AppCompatActivity implements WebSock
 
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
-    }
-
-    @Override
-    public void onWebSocketOpen(ServerHandshake handshakedata) {
-
-    }
-
-    @Override
-    public void onWebSocketMessage(String message) {
-        runOnUiThread(() ->
-        {
-            String s = chat.getText().toString();
-            chat.setText(s + "\n"+message);
-        });
-    }
-
-    @Override
-    public void onWebSocketClose(int code, String reason, boolean remote) {
-        String closedBy = remote ? "server" : "local";
-        runOnUiThread(() -> {
-//            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
-        });
-    }
-
-    @Override
-    public void onWebSocketError(Exception ex) {
-
     }
 }
