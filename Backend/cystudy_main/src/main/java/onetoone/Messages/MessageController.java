@@ -59,7 +59,7 @@ public class MessageController {
         }
     }
 
-    @PostMapping(path = "/messages/post/{username}/{groupname}")
+    @PostMapping(path = "/messages/post/{groupname}/{username}")
     String createMessage(@RequestBody Message message, @PathVariable String username, @PathVariable String groupname){
         if(message == null)
             return failure;

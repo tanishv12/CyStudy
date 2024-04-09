@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -117,5 +118,22 @@ public class RatingController {
         else{
             return failure;
         }
+    }
+
+    @GetMapping("/rating/lowestRatedGroups")
+    public List<StudyGroup> getLowestRatedGroups() {
+        List<StudyGroup> lowRatedGroups = new ArrayList<>();
+        for(StudyGroup studyGroup: studyGroupRepository.findAll()){
+            double sum =0;
+            for(Rating rating: studyGroup.getRatingList()){
+                sum = sum + rating.getRating();
+            }
+            double avg = sum/studyGroup.getRatingList().size();
+            if(avg <= 2.0){
+                lowRatedGroups.add(studyGroup);
+            }
+        }
+
+        return lowRatedGroups;
     }
 }

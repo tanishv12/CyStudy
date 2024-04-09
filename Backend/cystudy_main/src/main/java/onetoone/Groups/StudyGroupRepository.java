@@ -6,7 +6,7 @@ public interface StudyGroupRepository extends JpaRepository<StudyGroup, Integer>
 
     StudyGroup findById(long id);
 
-    StudyGroup findStudyGroupByGroupName(String name);
+    StudyGroup findStudyGroupByGroupName(String groupName);
 
 
     void deleteById(long id);

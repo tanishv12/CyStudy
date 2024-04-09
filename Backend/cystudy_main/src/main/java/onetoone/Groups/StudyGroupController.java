@@ -1,5 +1,6 @@
 package onetoone.Groups;
 
+import jakarta.transaction.Transactional;
 import onetoone.Courses.CourseRepository;
 import onetoone.Rating.Rating;
 import onetoone.Users.User;
@@ -112,12 +113,20 @@ public class StudyGroupController {
     }
 
 
-    @DeleteMapping(path = "/group/delete/{groupname}")
-    String deleteGroup(@PathVariable String groupname){
-        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+    @Transactional
+    @DeleteMapping(path = "/groups/delete/{groupName}")
+    String deleteGroup(@PathVariable String groupName){
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupName);
         if(studyGroup == null)
             return failure;
-        studyGroupRepository.deleteStudyGroupByGroupName(groupname);
+//        studyGroupRepository.deleteStudyGroupByGroupName(groupName);
+        try {
+            studyGroupRepository.deleteById(studyGroup.getid());
+        } catch (Exception e) {
+            // Log the exception for debugging
+            e.printStackTrace();
+            return failure;
+        }
         return success;
     }
 
