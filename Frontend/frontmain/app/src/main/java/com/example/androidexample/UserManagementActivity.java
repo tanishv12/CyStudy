@@ -17,17 +17,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserManagementActivity extends AppCompatActivity {
+public class UserManagementActivity extends AppCompatActivity implements WebSocketListener{
 
     Button createUser, deleteUser;
     EditText userName;
     TextView chat;
-    String deleteUrl;
+    String deleteUrl, serverURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,11 @@ public class UserManagementActivity extends AppCompatActivity {
         deleteUser = findViewById(R.id.delete_user);
         userName = findViewById(R.id.edit_user);
         chat = findViewById(R.id.user_chat);
+        serverURL = ""; //make this the websocket url
         deleteUrl = "http://coms-309-016.class.las.iastate.edu:8080/users/delete/";
+
+        WebSocketManager.getInstance().setWebSocketListener(UserManagementActivity.this);
+        WebSocketManager.getInstance().connectWebSocket(serverURL);
 
         deleteUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,5 +134,32 @@ public class UserManagementActivity extends AppCompatActivity {
 
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+    @Override
+    public void onWebSocketOpen(ServerHandshake handshakedata) {
+
+    }
+
+    @Override
+    public void onWebSocketMessage(String message) {
+        runOnUiThread(() ->
+        {
+            String s = chat.getText().toString();
+            chat.setText(s + "\n"+message);
+        });
+    }
+
+    @Override
+    public void onWebSocketClose(int code, String reason, boolean remote) {
+        String closedBy = remote ? "server" : "local";
+        runOnUiThread(() -> {
+//            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
+        });
+    }
+
+    @Override
+    public void onWebSocketError(Exception ex) {
+
     }
 }

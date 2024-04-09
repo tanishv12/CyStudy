@@ -34,6 +34,7 @@ public class AdminPanelActivity extends AppCompatActivity {
         userManagement = findViewById(R.id.user_management);
         returnHome = findViewById(R.id.return_home);
         lowestRatedGroups = findViewById(R.id.lowest_rated_groups);
+        getRequest();
 
         chatLogs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +75,7 @@ public class AdminPanelActivity extends AppCompatActivity {
      */
     private void getRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all";
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/rating/lowestRatedGroups";
         //Change url to lowest rated grous
 
         // Request a string response from the provided URL.
