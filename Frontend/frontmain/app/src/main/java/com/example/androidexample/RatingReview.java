@@ -52,7 +52,7 @@ public class RatingReview extends AppCompatActivity
                 i = Double.parseDouble(s);
                 postRating();
                 Toast.makeText(getApplicationContext(), i + " Stars", Toast.LENGTH_SHORT).show();
-
+                finish();
             }
         });
     }
