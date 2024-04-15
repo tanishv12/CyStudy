@@ -17,7 +17,7 @@ android-build:
     refs:
       - TanishVisanagiri_CICD
     changes:
-      - frontmain/**/*
+      - Frontend/**/*
 
 android-test:
   image: afirefly/android-ci:java17
@@ -34,4 +34,4 @@ android-test:
     refs:
       - TanishVisanagiri_CICD
     changes:
-      - frontmain/**/*
+      - Frontend/**/*
