@@ -17,7 +17,7 @@ android-build:
     refs:
       - GAVINMCCLURE_CICD          # only to trigger the pipeline when changes are pushed to 'main'
     changes:
-      - frontmain/*    # more specifically - only when changes are made inside the 'Frontend' folder
+      - Frontend/*    # more specifically - only when changes are made inside the 'Frontend' folder
 
 android-test:
   image: afirefly/android-ci:java17
@@ -34,4 +34,4 @@ android-test:
     refs:
       - GAVINMCCLURE_CICD          # only to trigger the pipeline when changes are pushed to 'main'
     changes:
-      - frontmain/*    # more specifically - only when changes are made inside the 'Frontend' folder
+      - Frontend/*    # more specifically - only when changes are made inside the 'Frontend' folder
