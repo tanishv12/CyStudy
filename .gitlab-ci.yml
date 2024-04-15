@@ -9,15 +9,15 @@ android-build:
    - TanishVisanagiri_tag                   # <-- change to your runner's tag
   before_script:                    # change 'Frontend' to where you have 'gradlew'
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./Frontend/gradlew
+    - chmod +x ./frontmain/gradlew
   script:
-    - cd Frontend                   # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+    - cd frontmain                   # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
     - ./gradlew build
   only:
     refs:
       - TanishVisanagiri_CICD
     changes:
-      - Frontend/**/*
+      - frontmain/**/*
 
 android-test:
   image: afirefly/android-ci:java17
@@ -26,12 +26,12 @@ android-test:
     - TanishVisanagiri_tag                  # <-- change to your runner's tag
   before_script:                   # change 'Frontend' to where you have 'gradlew'
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./Frontend/gradlew
+    - chmod +x ./frontmain/gradlew
   script:
-    - cd Frontend                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+    - cd frontmain                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
     - ./gradlew test
   only:
     refs:
       - TanishVisanagiri_CICD
     changes:
-      - Frontend/**/*
+      - frontmain/**/*
