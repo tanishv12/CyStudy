@@ -7,7 +7,7 @@ maven-build:
   tags:
     - SaeshuKarthika_tag      # <-- change to your runner's tag
   script:
-    - cd Backend        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - cd Backend/cystudy_main        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
     - mvn package
   only:
     refs:
@@ -21,7 +21,7 @@ maven-test:
   tags:
     - SaeshuKarthika_tag     # <-- change to your runner's tag
   script:
-    - cd Backend       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - cd Backend/cystudy_main       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
     - mvn test
   only:
     refs:
