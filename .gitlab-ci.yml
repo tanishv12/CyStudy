@@ -1,3 +1,4 @@
+image: maven:3.8-openjdk-17
 stages:
   - mavenbuild
   - maventest
