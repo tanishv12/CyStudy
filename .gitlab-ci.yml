@@ -9,15 +9,15 @@ android-build:
    - GavinMcClure_tag                    # change to your runner's tag
   before_script:                    # enable gradlew, change 'Frontend' to where you have 'gradlew'
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./frontmain/gradlew
+    - chmod +x .Frontend/frontmain/gradlew
   script:
-    - cd frontmain                   # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+    - cd Frontend/frontmain                   # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
     - ./gradlew build               # gradle build
   only:
     refs:
       - GAVINMCCLURE_CICD          # only to trigger the pipeline when changes are pushed to 'main'
     changes:
-      - Frontend/*    # more specifically - only when changes are made inside the 'Frontend' folder
+      - Frontend/frontmain/**/*    # more specifically - only when changes are made inside the 'Frontend' folder
 
 android-test:
   image: afirefly/android-ci:java17
@@ -26,12 +26,12 @@ android-test:
     - GavinMcClure_tag                   # change to your runner's tag
   before_script:                   # enable gradlew, change 'Frontend' to where you have 'gradlew'
      - export GRADLE_USER_HOME=`pwd`/.gradle
-     - chmod +x ./frontmain/gradlew
+     - chmod +x ./Frontent/frontmain/gradlew
   script:
-     - cd frontmain                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+     - cd Frontend/frontmain                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
      - ./gradlew test               # gradle test
   only:
     refs:
       - GAVINMCCLURE_CICD          # only to trigger the pipeline when changes are pushed to 'main'
     changes:
-      - Frontend/*    # more specifically - only when changes are made inside the 'Frontend' folder
+      - Frontend/frontmain/**/*    # more specifically - only when changes are made inside the 'Frontend' folder
