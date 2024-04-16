@@ -3,8 +3,7 @@ stages:
   - maventest
   
 maven-build: 
-  image:
-    - maven:3.8-openjdk-17           
+  image: maven:3.8-openjdk-17           
   stage: mavenbuild
   tags:
     - rahulSudev_tag      # <-- change to your runner's tag
@@ -19,8 +18,7 @@ maven-build:
 
 
 maven-test:    
-  image:
-    - maven:3.8-openjdk-17         
+  image: maven:3.8-openjdk-17         
   stage: maventest
   tags:
     - rahulSudev_tag     # <-- change to your runner's tag
