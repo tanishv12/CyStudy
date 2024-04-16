@@ -61,7 +61,6 @@
         app:layout_constraintTop_toBottomOf="@id/imageBack">
     </View>
 
-
     <!--    <View-->
 <!--        android:id="@+id/headerBackground"-->
 <!--        android:layout_width="match_parent"-->
