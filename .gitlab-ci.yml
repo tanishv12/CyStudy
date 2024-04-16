@@ -1,9 +1,9 @@
-image: maven:3.8-openjdk-17
 stages:
   - mavenbuild
   - maventest
   
-maven-build:            
+maven-build:
+  image: maven:3.8-openjdk-17            
   stage: mavenbuild
   tags:
     - SaeshuKarthika_tag      # <-- change to your runner's tag
@@ -17,7 +17,8 @@ maven-build:
       - Backend/**/*
 
 
-maven-test:             
+maven-test:
+  image: maven:3.8-openjdk-17             
   stage: maventest
   tags:
     - SaeshuKarthika_tag     # <-- change to your runner's tag
