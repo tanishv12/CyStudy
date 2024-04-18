@@ -614,7 +614,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             @Override
             public boolean onLongClick(View v) {
                 // Handle the long click event
-                Toast.makeText(StudyGroupFragment.this, "Long clicked on " + grouprate, Toast.LENGTH_SHORT).show();
+                showForgotDialog(StudyGroupFragment.this);
 
                 // Return true to indicate that you have handled the long click event
                 return true;
@@ -653,7 +653,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                                 String rating = jsonObj.getString("avgRating");
                                 String name = jsonObj.getString("groupName");
 
-                                String groupRate = name + "\n" + rating;
+                                String groupRate = name + "\n" + "Group Rating: "+ rating;
 
                                 CardView cardView = createCard(groupRate);
                                 cardsContainer.addView(cardView);
