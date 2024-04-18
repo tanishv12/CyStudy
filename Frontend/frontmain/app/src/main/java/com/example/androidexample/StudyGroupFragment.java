@@ -56,6 +56,7 @@ import org.json.JSONString;
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -523,6 +524,59 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         }
     }
 
+    private CardView createCard(String grouprate) {
+        // Create a new CardView and set up its layout parameters
+        CardView cardView = new CardView(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(
+                convertDpToPixels(16, this),
+                convertDpToPixels(8, this),
+                convertDpToPixels(16, this),
+                convertDpToPixels(8, this)
+        );
+        cardView.setLayoutParams(layoutParams);
+
+        // Set the CardView's appearance
+        cardView.setCardElevation(convertDpToPixels(4, this));
+        cardView.setRadius(convertDpToPixels(4, this));
+
+        // Create a TextView for the group name
+        TextView groupNameView = new TextView(this);
+        groupNameView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+        groupNameView.setText(grouprate);
+        groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+        // Create a TextView for the group rating
+//        TextView ratingView = new TextView(this);
+//        ratingView.setLayoutParams(new ViewGroup.LayoutParams(
+//                ViewGroup.LayoutParams.WRAP_CONTENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT
+//        ));
+//        ratingView.setText(rating);
+//        ratingView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+
+        // Add TextViews to a LinearLayout
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(groupNameView);
+//        linearLayout.addView(ratingView);
+
+        // Add the LinearLayout to the CardView
+        cardView.addView(linearLayout);
+
+        // Optionally, set a click listener on the CardView
+        cardView.setOnClickListener(v -> {
+            // Handle the card click, e.g., start a new activity with group details
+        });
+
+        return cardView;
+    }
 
 
     /**
@@ -542,22 +596,24 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response){
-
-
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for(int i = 0; i < jsonArray.length(); i++) {
                                 // Get each JSONObject within the array
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
-
+                                cardsContainer = findViewById(R.id.linearLayoutGroups);
                                 // Access the value associated with the key "name"
                                 String rating = jsonObj.getString("avgRating");
                                 String name = jsonObj.getString("groupName");
+                                String groupRate = name + "\n" + rating;
 
-                                String groupRate = name + "   " + rating;
-                                names.append(groupRate).append("\n");
+                                CardView cardView = createCard(groupRate);
+                                cardsContainer.addView(cardView);
+
+
+//                                names.append(groupRate).append("\n");
                             }
-                            gresponse.setText(names+ " " + ratings);
+//                            gresponse.setText(names+ " " + ratings);
 
                         }
                         catch (JSONException err)
