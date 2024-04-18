@@ -8,6 +8,8 @@ import onetoone.Courses.Course;
 import onetoone.Groups.StudyGroup;
 import onetoone.Messages.Message;
 import onetoone.Rating.Rating;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,6 +43,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
     @JsonIgnore
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<StudyGroup> groupSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)

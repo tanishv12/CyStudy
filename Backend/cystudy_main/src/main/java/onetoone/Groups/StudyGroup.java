@@ -9,6 +9,8 @@ import onetoone.Rating.Rating;
 //import onetoone.Rating.Rating;
 import onetoone.Users.User;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -43,9 +45,10 @@ public class StudyGroup {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
     private Set<Message> messageSet;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany()
     @JoinTable(name = "group_user", joinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<User> userSet;
 
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
