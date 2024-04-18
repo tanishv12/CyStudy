@@ -283,8 +283,12 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                         studyGrpHead = findViewById(R.id.studyHead);
                         String groupName = result.getData().getStringExtra("groupName");
                         Log.e("group", "group name: " + groupName); //Learn how to completely transfer data this is temporary.
-                        names.append(groupName).append("\n");
-                        gresponse.setText(names);
+//                        names.append(groupName).append("\n");
+
+                        cardsContainer = findViewById(R.id.linearLayoutGroups);
+                        CardView cardView = createCard(groupName);
+                        cardsContainer.addView(cardView);
+//                        gresponse.setText(names);
                     }
                 }
         );
@@ -542,14 +546,39 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         cardView.setCardElevation(convertDpToPixels(4, this));
         cardView.setRadius(convertDpToPixels(4, this));
 
+
+        LinearLayout cardContentLayout = new LinearLayout(this);
+        cardContentLayout.setOrientation(LinearLayout.HORIZONTAL);
+        cardContentLayout.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+
+
         // Create a TextView for the group name
         TextView groupNameView = new TextView(this);
-        groupNameView.setLayoutParams(new ViewGroup.LayoutParams(
+        groupNameView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1f
         ));
         groupNameView.setText(grouprate);
         groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+        Button entergroup = new Button(this);
+        LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        buttonLayoutParams.gravity = Gravity.END;
+        entergroup.setLayoutParams(buttonLayoutParams);
+        entergroup.setText("Enter");
+        entergroup.setOnClickListener(v -> {
+            // Handle button click
+            // For example, start a new activity with group details
+            Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
+            startActivity(intent);
+        });
 
         // Create a TextView for the group rating
 //        TextView ratingView = new TextView(this);
@@ -561,17 +590,35 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //        ratingView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
         // Add TextViews to a LinearLayout
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.addView(groupNameView);
+//        LinearLayout linearLayout = new LinearLayout(this);
+//        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+
+        // Add the TextView and Button to the horizontal LinearLayout
+        cardContentLayout.addView(groupNameView);
+        cardContentLayout.addView(entergroup);
+
+        // Add the horizontal LinearLayout to the CardView
+        cardView.addView(cardContentLayout);
+
+//        linearLayout.addView(groupNameView);
+
 //        linearLayout.addView(ratingView);
 
-        // Add the LinearLayout to the CardView
-        cardView.addView(linearLayout);
 
-        // Optionally, set a click listener on the CardView
-        cardView.setOnClickListener(v -> {
-            // Handle the card click, e.g., start a new activity with group details
+        // Add the LinearLayout to the CardView
+//        cardView.addView(linearLayout);
+
+        // Set a long-click listener on the CardView
+        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // Handle the long click event
+                Toast.makeText(StudyGroupFragment.this, "Long clicked on " + grouprate, Toast.LENGTH_SHORT).show();
+
+                // Return true to indicate that you have handled the long click event
+                return true;
+            }
         });
 
         return cardView;
