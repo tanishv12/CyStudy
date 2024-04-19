@@ -46,7 +46,7 @@ public class User {
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<StudyGroup> groupSet;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sender", cascade = CascadeType.ALL)
     private Set<Message> messageSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)

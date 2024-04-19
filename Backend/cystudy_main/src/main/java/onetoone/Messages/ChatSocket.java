@@ -55,8 +55,8 @@ public class ChatSocket {
 	}
 
 	// Store all socket session and their corresponding username.
-	private static Map<Session, User> sessionUsernameMap = new Hashtable<>();
-	private static Map<User, Session> usernameSessionMap = new Hashtable<>();
+	private static Map<Session, String> sessionUsernameMap = new Hashtable<>();
+	private static Map<String, Session> usernameSessionMap = new Hashtable<>();
 
 	private final Logger logger = LoggerFactory.getLogger(ChatSocket.class);
 
@@ -67,18 +67,18 @@ public class ChatSocket {
 		StudyGroup group = studyGroupRepository.findStudyGroupByGroupName(groupName);
 		System.out.println(group.getGroupName());
 		User user = userRepo.findByUserName(username);
-		System.out.println(user.getid());
+		System.out.println(user);
 		for (User u : group.getUserSet()) {
-			if (u.getid()== user.getid()) {
+			if (u.getid() == user.getid()) {
 				logger.info("Entered into Open");
 				if (usernameSessionMap.containsKey(username)) {
 					session.getBasicRemote().sendText("Student already exists in group");
 					session.close();
 				} else {
 					// store connecting user information
-					sessionUsernameMap.put(session, userRepo.findByUserName(username));
-					usernameSessionMap.put(userRepo.findByUserName(username), session);
-
+					sessionUsernameMap.put(session, user.getUserName());
+					usernameSessionMap.put(user.getUserName(), session);
+					System.out.println("User session map " + user);
 					//Send chat history to the newly connected user
 					sendMessageToPArticularUser(username, "Welcome to study group1!" + username);
 
@@ -87,10 +87,8 @@ public class ChatSocket {
 					broadcast(message);
 
 				}
-				break;
 			}
 		}
-		session.close();
 	}
 
 
@@ -99,25 +97,27 @@ public class ChatSocket {
 
 		// Handle new messages
 		logger.info("Entered into Message: Got Message:" + message);
-		User user = sessionUsernameMap.get(session);
+		String userName = sessionUsernameMap.get(session);
 		// Direct message to a user using the format "@username <message>"
 		 if (message.startsWith("@")) {
 			String destUsername = message.split(" ")[0].substring(1);
 
 			// send the message to the sender and receiver
-			sendMessageToPArticularUser(destUsername, "[DM] " + user.getUserName() + ": " + message);
-			sendMessageToPArticularUser(user.getUserName(), "[DM] " + user.getUserName() + ": " + message);
+			sendMessageToPArticularUser(destUsername, "[DM] " + userName + ": " + message);
+			sendMessageToPArticularUser(userName, "[DM] " + userName + ": " + message);
 
 		}
 		else { // broadcast
-			broadcast(user.getUserName() + ": " + message);
+			broadcast(userName+ ": " + message);
 		}
 
+		User user = userRepo.findByUserName(userName);
 		// Saving chat history to repository
 		Message userMessage = new Message(message,user);
 		user.addMessage(userMessage);
-		msgRepo.save(userMessage);
 		userRepo.save(user);
+		msgRepo.save(userMessage);
+
 
 		System.out.println(user.getName());
 	}
@@ -128,12 +128,12 @@ public class ChatSocket {
 		logger.info("Entered into Close");
 
 		// remove the user connection information
-		User user = sessionUsernameMap.get(session);
+		String userName = sessionUsernameMap.get(session);
 		sessionUsernameMap.remove(session);
-		usernameSessionMap.remove(user);
+		usernameSessionMap.remove(userName);
 
 		// broadcase that the user disconnected
-		String message = user.getUserName() + " exited group1";
+		String message = userName + " exited group1";
 		broadcast(message);
 	}
 
@@ -147,12 +147,19 @@ public class ChatSocket {
 
 
 	private void sendMessageToPArticularUser(String username, String message) {
-		try {
-			usernameSessionMap.get(userRepo.findByUserName(username)).getBasicRemote().sendText(message);
-		}
-		catch (IOException e) {
-			logger.info("Exception: " + e.getMessage().toString());
-			e.printStackTrace();
+		User user = userRepo.findByUserName(username);
+		System.out.println("Send message to particular user"+user);
+		System.out.println(usernameSessionMap.containsKey(username));
+		if (user != null && usernameSessionMap.containsKey(username)) {
+			try {
+				Session session = usernameSessionMap.get(username);
+				session.getBasicRemote().sendText(message);
+
+			}
+			catch (IOException e) {
+				logger.info("Exception: " + e.getMessage().toString());
+				e.printStackTrace();
+			}
 		}
 	}
 
