@@ -50,10 +50,12 @@ class Main {
 
             User user1 = new User("John", "john123", "john@somemail.com", "lol");
             User user2 = new User("Sam", "sam123", "sam@somemail.com", "lol");
+            User user3 = new User("Rahul","rahul123","rahul@gmail.com","Anu320graha");
 
 // Save users
             userRepository.save(user1);
             userRepository.save(user2);
+            userRepository.save(user3);
 
 // Create course
             Course course1 = new Course("Calculus 1", "MATH", 166);
@@ -66,8 +68,8 @@ class Main {
             courseRepository.save(course1);
 
 // Create study groups
-            StudyGroup group1 = new StudyGroup("Group 1");
-            StudyGroup group2 = new StudyGroup("Group 2");
+            StudyGroup group1 = new StudyGroup("Group 1","john123");
+            StudyGroup group2 = new StudyGroup("Group 2","sam123");
 
 // Save study groups
             studyGroupRepository.save(group1);
@@ -78,22 +80,23 @@ class Main {
             group1.addUser(user2);
             group2.addUser(user1);
             group2.addUser(user2);
+            group2.addUser(user3);
 
 // Save the study groups after adding users
             studyGroupRepository.save(group1);
             studyGroupRepository.save(group2);
 
 // Create ratings
-            Rating rating1 = new Rating(user1, group1, 2);
-            Rating rating2 = new Rating(user1, group2, 1.5);
-            Rating rating3 = new Rating(user2, group1, 2);
-            Rating rating4 = new Rating(user2, group2, 1.5);
+//            Rating rating1 = new Rating(user1, group1, 2);
+//            Rating rating2 = new Rating(user1, group2, 1.5);
+//            Rating rating3 = new Rating(user2, group1, 2);
+//            Rating rating4 = new Rating(user2, group2, 1.5);
 
 // Save ratings
-            ratingRepository.save(rating1);
-            ratingRepository.save(rating2);
-            ratingRepository.save(rating3);
-            ratingRepository.save(rating4);
+//            ratingRepository.save(rating1);
+//            ratingRepository.save(rating2);
+//            ratingRepository.save(rating3);
+//            ratingRepository.save(rating4);
 
 // Save users after adding ratings
             userRepository.save(user1);

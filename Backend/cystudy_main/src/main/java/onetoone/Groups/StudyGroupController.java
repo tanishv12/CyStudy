@@ -70,7 +70,7 @@ public class StudyGroupController {
                 return "Group name already exists";
             }
         }
-        StudyGroup studyGroup = new StudyGroup(group_name);
+        StudyGroup studyGroup = new StudyGroup(group_name,username);
         studyGroupRepository.save(studyGroup);
         User user = userRepository.findByUserName(username);
         studyGroup.addUser(user);

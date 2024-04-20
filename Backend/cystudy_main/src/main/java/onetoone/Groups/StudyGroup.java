@@ -36,6 +36,9 @@ public class StudyGroup {
     @Column(nullable = false)
     private double avgRating;
 
+    @Column(nullable = false)
+    private String groupMaster;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
@@ -54,15 +57,18 @@ public class StudyGroup {
 
     // =============================== Constructors ================================== //
 
+
+
     public StudyGroup() {
     }
 
-    public StudyGroup(String groupName) {
+    public StudyGroup(String groupName, String masterUsername) {
         this.groupName = groupName;
         this.avgRating = 0;
         this.userSet = new HashSet<User>();
         this.messageSet = new HashSet<Message>();
         this.ratingList = new ArrayList<Rating>();
+        this.groupMaster = masterUsername;
     }
 
     // =============================== Getters and Setters for each field ================================== //
@@ -144,5 +150,9 @@ public class StudyGroup {
 
     public void setRatingList(List<Rating> ratingList) {
         this.ratingList = ratingList;
+    }
+
+    public String getGroupMaster() {
+        return groupMaster;
     }
 }
