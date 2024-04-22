@@ -1,5 +1,6 @@
 package onetoone.Messages;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import onetoone.Groups.StudyGroup;
 import onetoone.Users.User;
@@ -27,10 +28,12 @@ public class Message {
 
     @ManyToOne(cascade = CascadeType.ALL)// many messages can belong to one studyGroup
     @JoinColumn(name="group_id")
+    @JsonIgnore
     private StudyGroup studyGroup;
 
     @ManyToOne(fetch = FetchType.LAZY)// many messages can belong to one user
     @JoinColumn(name="user_id")
+    @JsonIgnore
     private User sender;
 
     // =============================== Constructors ================================== //

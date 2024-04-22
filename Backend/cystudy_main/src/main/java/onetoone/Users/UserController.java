@@ -3,10 +3,14 @@ package onetoone.Users;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.validation.Valid;
 import onetoone.Groups.StudyGroup;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,7 +63,11 @@ public class UserController {
     }
 
     @PostMapping(path = "/users/register")
-    ResponseEntity<String> createUser(@RequestBody User user){
+    ResponseEntity<String> createUser(@Valid @RequestBody User user, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            // If there are validation errors, return a custom response
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid email address. Please check your input.");
+        }
         if (user == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");;
         for(User prevUser: this.getAllUsers()){
@@ -78,6 +86,7 @@ public class UserController {
 //
 //        // Return the token to the client
 //        return ResponseEntity.ok(token);
+
         return ResponseEntity.ok("User created successfully");
     }
 
