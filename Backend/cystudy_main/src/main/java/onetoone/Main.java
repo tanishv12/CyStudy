@@ -66,8 +66,8 @@ class Main {
             courseRepository.save(course1);
 
 // Create study groups
-            StudyGroup group1 = new StudyGroup("Group 1");
-            StudyGroup group2 = new StudyGroup("Group 2");
+            StudyGroup group1 = new StudyGroup("Group1");
+            StudyGroup group2 = new StudyGroup("Group2");
 
 // Save study groups
             studyGroupRepository.save(group1);

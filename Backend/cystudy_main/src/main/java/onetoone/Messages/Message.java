@@ -29,7 +29,7 @@ public class Message {
     @JoinColumn(name="group_id")
     private StudyGroup studyGroup;
 
-    @ManyToOne(cascade = CascadeType.ALL)// many messages can belong to one user
+    @ManyToOne(fetch = FetchType.LAZY)// many messages can belong to one user
     @JoinColumn(name="user_id")
     private User sender;
 
