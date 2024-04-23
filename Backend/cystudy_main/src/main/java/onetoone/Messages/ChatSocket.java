@@ -22,10 +22,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller      // this is needed for this to be an endpoint to springboot
 @ServerEndpoint(value = "/chat/{username}/{groupname}")  // this is Websocket url
 public class ChatSocket {
+
 
 	// cannot autowire static directly (instead we do it by the below
 	// method
@@ -34,6 +36,11 @@ public class ChatSocket {
 	private static UserRepository userRepo;
 
 	private static StudyGroupRepository studyGroupRepository;
+
+	private StudyGroup group;
+
+	private User user;
+
 
 	/*
 	 * Grabs the MessageRepository singleton from the Spring Application
@@ -64,9 +71,9 @@ public class ChatSocket {
 	public void onOpen(Session session, @PathParam("username") String username, @PathParam("groupname") String groupName)
 			throws IOException {
 
-		StudyGroup group = studyGroupRepository.findStudyGroupByGroupName(groupName);
+		 group = studyGroupRepository.findStudyGroupByGroupName(groupName);
 		System.out.println(group.getGroupName());
-		User user = userRepo.findByUserName(username);
+		 user = userRepo.findByUserName(username);
 		System.out.println(user);
 		for (User u : group.getUserSet()) {
 			if (u.getid() == user.getid()) {
@@ -93,7 +100,7 @@ public class ChatSocket {
 
 
 	@OnMessage
-	public void onMessage(Session session, String message) throws IOException {
+	public void onMessage(Session session, String message,@PathParam("groupname") String groupName) throws IOException {
 
 		// Handle new messages
 		logger.info("Entered into Message: Got Message:" + message);
@@ -111,11 +118,14 @@ public class ChatSocket {
 			broadcast(userName+ ": " + message);
 		}
 
-		User user = userRepo.findByUserName(userName);
+		//User user = userRepo.findByUserName(userName);
+//		StudyGroup group1 = studyGroupRepository.findStudyGroupByGroupName(groupName);
 		// Saving chat history to repository
-		Message userMessage = new Message(message,user);
+		Message userMessage = new Message(message,user,group);
 		user.addMessage(userMessage);
-		userRepo.save(user);
+		group.addMessage(userMessage);
+//		userRepo.save(user);
+//		studyGroupRepository.save(group);
 		msgRepo.save(userMessage);
 
 
