@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -36,6 +37,7 @@ public class MessageController {
     @GetMapping(path="/messages/all/group/{groupname}")
     Set<Message> getAllMessagesByGroup(@PathVariable String groupname){
         StudyGroup group = studyGroupRepository.findStudyGroupByGroupName(groupname);
+//        return messageRepository.findAllByStudyGroupOrderByTimestampAsc(group);
         return group.getMessageSet();
     }
 

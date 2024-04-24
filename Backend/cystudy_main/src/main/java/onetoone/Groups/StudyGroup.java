@@ -103,6 +103,8 @@ public class StudyGroup {
     }
 
     public Set<Message> getMessageSet() {
+
+
         return messageSet;
     }
 
