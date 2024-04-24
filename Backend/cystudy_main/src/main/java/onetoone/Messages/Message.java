@@ -33,7 +33,6 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.LAZY)// many messages can belong to one user
     @JoinColumn(name="user_id")
-    @JsonIgnore
     private User sender;
 
     // =============================== Constructors ================================== //
