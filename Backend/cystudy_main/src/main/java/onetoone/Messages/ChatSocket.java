@@ -90,7 +90,7 @@ public class ChatSocket {
 					sendMessageToPArticularUser(username, "Welcome to "+groupName+" " + username);
 
 					// broadcast that new user joined
-					String message = "Student:" + username + " has Joined the group1";
+					String message = "Student:" + username + " has Joined the "+groupName;
 					broadcast(message);
 
 				}
