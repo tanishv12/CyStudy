@@ -45,10 +45,13 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     private static EditText UPDATEtext;
     private  static Button UPDATEmsgBtn;
 
+    private static TextView GroupHeading;
+
     private static String messages;
-    private static String message;
+//    private static String message;
 
     private static String username;
+    private static String sentMessageUser;
 
     private StringBuilder allMessagesBuilder = new StringBuilder();
 
@@ -56,6 +59,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 
     private static Button connectBtn;
     private static String serverURL;
+
+    private JSONObject jsonObj;
 
     private static String GroupName;
 
@@ -71,14 +76,17 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_message);
 //        binding = ActivityChatBinding.inflate(getLayoutInflater());
 
-        GroupName = GroupSingleton.getInstance().getGroupName();
-        Log.e("group", "group: " + GroupName);
-        setContentView(R.layout.activity_message);
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
         username = UsernameSingleton.getInstance().getUserName();
 
+        GroupName = GroupSingleton.getInstance().getGroupName();
+        Log.e("group", "group: " + GroupName);
+
+        GroupHeading = findViewById(R.id.groupHeading);
+        GroupHeading.setText(GroupName);
         serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName;
         WebSocketManager.getInstance().connectWebSocket(serverURL);
         getRequest();
@@ -95,6 +103,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
                 startActivity(intent);
             }
         });
+
         MessageTextSend = findViewById(R.id.MessageText);
         msgButton = findViewById(R.id.sendBUTTON);
 //        getMESSAGES = findViewById(R.id.getMessageButton);
@@ -160,10 +169,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
                     // send message
                     WebSocketManager.getInstance().sendMessage(messageToSend);
 
+
                     // Immediate feedback in the UI
-                    String messageToDisplay = username + ": " + messageToSend + "\n";
-                    allMessagesBuilder.append(messageToDisplay);
-                    AllMessages.append(messageToDisplay); // Use append to add only the new message
                     MessageTextSend.setText("");
 
                     Log.e("message", allMessagesBuilder.toString());
@@ -193,9 +200,26 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
                             JSONArray jsonArray = new JSONArray(response);
                             for(int i = 0; i < jsonArray.length(); i++) {
                                 // Get each JSONObject within the array
-                                JSONObject jsonObj = jsonArray.getJSONObject(i);
-                                messages = jsonObj.getString("messageContent");
-                                allMessagesBuilder.append(username).append(": ").append(messages).append("\n");
+                                jsonObj = jsonArray.getJSONObject(i);
+                                Log.e("json", "this is the json" + jsonObj.toString());
+
+//                                messages = jsonObj.getString("messageContent");
+//                                JSONObject senderObject = jsonObj.getJSONObject("sender");
+//                                sentMessageUser = senderObject.getString("userName");
+//
+//                                Log.e("user", "this is the user" + sentMessageUser);
+//                                allMessagesBuilder.append(sentMessageUser).append(": ").append(messages).append("\n");
+                                JSONObject groupInfo = jsonObj.getJSONObject("group_id");
+                                String currentGroup = groupInfo.getString("groupName");
+                                Log.e("currentGp", "group" + currentGroup);
+                                Log.e("GpName", "group" + GroupName);
+
+                                if (currentGroup.equals(GroupName))
+                                {
+                                    String sender = jsonObj.getJSONObject("sender").getString("userName");
+                                    String messageContent = jsonObj.getString("messageContent");
+                                    allMessagesBuilder.append(sender).append(": ").append(messageContent).append("\n");
+                                }
                             }
                             AllMessages.setText(allMessagesBuilder.toString());
                         }
@@ -463,11 +487,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     @Override
     public void onWebSocketMessage(String message)
     {
-        runOnUiThread(() ->
-        {
-//            String s = AllMessages.getText().toString();
-            String newMessage = username + ": " + message + "\n";
-            allMessagesBuilder.append(newMessage);
+        runOnUiThread(() -> {
+                String formattedMessage = message + "\n";
+                allMessagesBuilder.append(formattedMessage);
+                AllMessages.append(formattedMessage);
         });
     }
 

@@ -31,23 +31,20 @@
     </androidx.appcompat.widget.AppCompatImageView>
 
 
-
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/groupHeading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_gravity="center"
         android:fontFamily="@font/gidugu"
-        android:text="Messages"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textColorHighlight="#9E0202"
         android:textColorLink="#9E0202"
-        android:textSize="20dp"
+        android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageBack"
-        app:layout_constraintStart_toEndOf="@+id/imageBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageBack"
         tools:ignore="MissingConstraints" />
 
@@ -73,27 +70,34 @@
 <!--    </View>-->
 
 
-    <RelativeLayout
-        android:layout_width="392dp"
-        android:layout_height="494dp"
-        app:layout_constraintBottom_toBottomOf="@+id/viewBack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/viewSupporter">
+
 
         <!-- Place your message bubbles or other content here -->
 
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewSupporter">
+
         <TextView
             android:id="@+id/allMessages"
-            android:layout_width="379dp"
-            android:layout_height="530dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="-15dp">
-        </TextView>
-    </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp" />
+    </ScrollView>
+
+<!--        <TextView-->
+<!--            android:id="@+id/allMessages"-->
+<!--            android:layout_width="379dp"-->
+<!--            android:layout_height="530dp"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_marginTop="0dp"-->
+<!--            android:layout_marginBottom="-15dp">-->
+<!--        </TextView>-->
 
     <FrameLayout
         android:id="@+id/layoutSend"
