@@ -2,6 +2,8 @@ package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.Group;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +22,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.androidexample.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -41,12 +45,19 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     private static EditText UPDATEtext;
     private  static Button UPDATEmsgBtn;
 
-    private String username;
+    private static String messages;
+    private static String message;
+
+    private static String username;
+
+    private StringBuilder allMessagesBuilder = new StringBuilder();
 
     private static AppCompatImageView backButton;
 
     private static Button connectBtn;
     private static String serverURL;
+
+    private static String GroupName;
 
 
 
@@ -62,13 +73,15 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         super.onCreate(savedInstanceState);
 //        binding = ActivityChatBinding.inflate(getLayoutInflater());
 
-
-        Log.e("Try Entered","oisafuhgiureshg");
+        GroupName = GroupSingleton.getInstance().getGroupName();
+        Log.e("group", "group: " + GroupName);
         setContentView(R.layout.activity_message);
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
         username = UsernameSingleton.getInstance().getUserName();
-        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username;
+
+        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName;
         WebSocketManager.getInstance().connectWebSocket(serverURL);
+        getRequest();
 
 
         backButton = findViewById(R.id.imageBack);
@@ -77,6 +90,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             @Override
             public void onClick(View view)
             {
+                WebSocketManager.getInstance().disconnectWebSocket();
                 Intent intent = new Intent(MessageActivity.this, StudyGroupFragment.class);
                 startActivity(intent);
             }
@@ -139,11 +153,21 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             @Override
             public void onClick(View view)
             {
-                postRequest();
                 try
                 {
                     // send message
-                    WebSocketManager.getInstance().sendMessage(MessageTextSend.getText().toString());
+                    String messageToSend = MessageTextSend.getText().toString();
+                    // send message
+                    WebSocketManager.getInstance().sendMessage(messageToSend);
+
+                    // Immediate feedback in the UI
+                    String messageToDisplay = username + ": " + messageToSend + "\n";
+                    allMessagesBuilder.append(messageToDisplay);
+                    AllMessages.append(messageToDisplay); // Use append to add only the new message
+                    MessageTextSend.setText("");
+
+                    Log.e("message", allMessagesBuilder.toString());
+
                 }
                 catch (Exception e)
                 {
@@ -158,18 +182,27 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
      */
     private void getRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/all";
-
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/all/group" + "/" + GroupName;
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-                        // Display the first 500 characters of the response string.
-                        // String response can be converted to JSONObject via
-                        // JSONObject object = new JSONObject(response);
-                        AllMessages.setText(response);
+                        allMessagesBuilder.setLength(0);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            for(int i = 0; i < jsonArray.length(); i++) {
+                                // Get each JSONObject within the array
+                                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                                messages = jsonObj.getString("messageContent");
+                                allMessagesBuilder.append(username).append(": ").append(messages).append("\n");
+                            }
+                            AllMessages.setText(allMessagesBuilder.toString());
+                        }
+                        catch (JSONException err)
+                        {
+                            Log.d("Error", err.toString());
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -357,7 +390,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
 //        sentVeri = findViewById(R.id.sentVerify);
 
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/post";
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/post/Group1/" + username;
         // Convert input to JSONObject
         JSONObject postBody = null;
         try
@@ -388,8 +421,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
                     @Override
                     public void onResponse(JSONObject response)
                     {
-                        Log.e("Response Entered",response.toString());
-                        sentVeri.setText("Response is: "+ response.toString());
+
                     }
                 },
                 new Response.ErrorListener()
@@ -433,8 +465,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
         runOnUiThread(() ->
         {
-            String s = AllMessages.getText().toString();
-            AllMessages.setText(s + "\n"+message);
+//            String s = AllMessages.getText().toString();
+            String newMessage = username + ": " + message + "\n";
+            allMessagesBuilder.append(newMessage);
+            AllMessages.append(newMessage);
         });
     }
 
@@ -443,7 +477,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
         String closedBy = remote ? "server" : "local";
         runOnUiThread(() -> {
-            String s = MessageTextSend.getText().toString();
+//            String s = MessageTextSend.getText().toString();
 //            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
         });
     }

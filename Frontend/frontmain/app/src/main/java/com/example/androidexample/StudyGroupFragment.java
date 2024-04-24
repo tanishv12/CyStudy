@@ -121,6 +121,10 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     private LinearLayout cardsContainer;
 
+    private String rating;
+
+    private String groupName;
+
     private ActivityResultLauncher<Intent> mCreateGroupResultLauncher;
 
 
@@ -281,12 +285,14 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         // Retrieve the group information
                         studyGrpHead = findViewById(R.id.studyHead);
-                        String groupName = result.getData().getStringExtra("groupName");
+                        groupName = result.getData().getStringExtra("groupName");
                         Log.e("group", "group name: " + groupName); //Learn how to completely transfer data this is temporary.
 //                        names.append(groupName).append("\n");
 
                         cardsContainer = findViewById(R.id.linearLayoutGroups);
-                        CardView cardView = createCard(groupName);
+                        groupName = groupName.toString();
+                        CardView cardView = createCard(groupName, rating);
+//                        GroupSingleton.getInstance().setGroupName(groupName);
                         cardsContainer.addView(cardView);
 //                        gresponse.setText(names);
                     }
@@ -527,8 +533,11 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         }
     }
 
-    private CardView createCard(String grouprate) {
+    private CardView createCard(String name, String rating) {
         // Create a new CardView and set up its layout parameters
+        String groupRate = name + "\n" + "Group Rating: "+ rating;
+
+        Log.e("group", "group name: " + name);
         CardView cardView = new CardView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -562,7 +571,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 1f
         ));
-        groupNameView.setText(grouprate);
+        groupNameView.setText(groupRate);
         groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
         Button entergroup = new Button(this);
@@ -577,6 +586,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             // Handle button click
             // For example, start a new activity with group details
             Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
+            GroupSingleton.getInstance().setGroupName(name);
             startActivity(intent);
         });
 
@@ -633,16 +643,11 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all" + "/" + user;
 
 
-
-
-
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response){
-
-
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             for(int i = 0; i < jsonArray.length(); i++) {
@@ -650,12 +655,13 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                                 cardsContainer = findViewById(R.id.linearLayoutGroups);
                                 // Access the value associated with the key "name"
-                                String rating = jsonObj.getString("avgRating");
-                                String name = jsonObj.getString("groupName");
-
-                                String groupRate = name + "\n" + "Group Rating: "+ rating;
-
-                                CardView cardView = createCard(groupRate);
+                                rating = jsonObj.getString("avgRating");
+                                groupName = jsonObj.getString("groupName");
+//                                GroupSingleton.getInstance().setGroupName(name);
+//                                String groupRate = name + "\n" + "Group Rating: "+ rating;
+//
+                                CardView cardView = createCard(groupName, rating);
+//                                GroupSingleton.getInstance().setGroupName(groupName);
                                 cardsContainer.addView(cardView);
 
 
