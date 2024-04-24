@@ -468,7 +468,6 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 //            String s = AllMessages.getText().toString();
             String newMessage = username + ": " + message + "\n";
             allMessagesBuilder.append(newMessage);
-            AllMessages.append(newMessage);
         });
     }
 
