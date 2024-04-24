@@ -35,10 +35,10 @@ public class MessageController {
     }
 
     @GetMapping(path="/messages/all/group/{groupname}")
-    Set<Message> getAllMessagesByGroup(@PathVariable String groupname){
+    List<Message> getAllMessagesByGroup(@PathVariable String groupname){
         StudyGroup group = studyGroupRepository.findStudyGroupByGroupName(groupname);
-//        return messageRepository.findAllByStudyGroupOrderByTimestampAsc(group);
-        return group.getMessageSet();
+        return messageRepository.findAllByStudyGroupOrderByTimestampAsc(group);
+//        return group.getMessageSet();
     }
 
     @GetMapping(path ="/messages/all/user/{username}")
