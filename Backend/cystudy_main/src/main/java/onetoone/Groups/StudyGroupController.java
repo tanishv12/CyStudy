@@ -42,7 +42,7 @@ public class StudyGroupController {
     @GetMapping(path="/groups/{group_id}")
     StudyGroup getAllGroupsById(@PathVariable int group_id){return studyGroupRepository.findById(group_id);}
 
-    @GetMapping(path = "q")
+    @GetMapping(path = "/groups/all/{username}")
     Set<StudyGroup> getUserGroups(@PathVariable String username){
         User user = userRepository.findByUserName(username);
         return user.getGroupSet();
