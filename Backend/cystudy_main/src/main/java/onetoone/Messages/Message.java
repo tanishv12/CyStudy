@@ -27,7 +27,7 @@ public class Message {
     @CreationTimestamp
     private LocalDateTime timestamp;
 
-    @ManyToOne(cascade = CascadeType.ALL)// many messages can belong to one studyGroup
+    @ManyToOne(cascade = CascadeType.MERGE)// many messages can belong to one studyGroup
     @JoinColumn(name="group_id")
     @JsonIgnore
     private StudyGroup studyGroup;
@@ -39,9 +39,10 @@ public class Message {
 
     // =============================== Constructors ================================== //
 
-    public Message(String messageContent, User user) {
+    public Message(String messageContent, User user, StudyGroup group) {
         this.messageContent = messageContent;
         this.sender = user;
+        this.studyGroup = group;
 
     }
 

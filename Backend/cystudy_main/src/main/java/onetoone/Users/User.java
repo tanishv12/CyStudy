@@ -41,6 +41,7 @@ public class User {
     private boolean ifActive;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
+    @JsonIgnore
     private Set<Course> courseSet;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
@@ -49,9 +50,11 @@ public class User {
     private Set<StudyGroup> groupSet;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "sender", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Message> messageSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Rating> ratingSet;
 
 

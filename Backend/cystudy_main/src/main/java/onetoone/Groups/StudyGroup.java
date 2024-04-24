@@ -42,16 +42,19 @@ public class StudyGroup {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "studyGroup", cascade = CascadeType.MERGE)
+    @JsonIgnore
     private Set<Message> messageSet;
 
     @ManyToMany()
     @JoinTable(name = "group_user", joinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     private Set<User> userSet;
 
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
+   @JsonIgnore
    private List<Rating> ratingList;
 
 
