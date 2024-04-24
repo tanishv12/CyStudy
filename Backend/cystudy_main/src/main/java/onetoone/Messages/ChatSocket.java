@@ -87,7 +87,7 @@ public class ChatSocket {
 					usernameSessionMap.put(user.getUserName(), session);
 					System.out.println("User session map " + user);
 					//Send chat history to the newly connected user
-					sendMessageToPArticularUser(username, "Welcome to study group1!" + username);
+					sendMessageToPArticularUser(username, "Welcome to "+groupName+" " + username);
 
 					// broadcast that new user joined
 					String message = "Student:" + username + " has Joined the group1";
