@@ -325,7 +325,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
 
         addGrp = findViewById(R.id.addGroup);
-        studyGroupsToMessages = findViewById(R.id.toMessages);
         optionBtn = findViewById(R.id.optionButton);
 //        getButton = findViewById(R.id.getBUTTON);
         gresponse = findViewById(R.id.getresponse);
@@ -420,22 +419,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //                putRequest();
 //            }
 //        });
-
-
-
-
-
-        /**
-         * Redirects user to groupchat activity
-         */
-        studyGroupsToMessages.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     //group_id   course_id
