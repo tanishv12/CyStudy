@@ -24,6 +24,7 @@
 <!--        app:layout_constraintTop_toTopOf="parent"-->
 <!--        app:tint="@color/red"></androidx.appcompat.widget.AppCompatImageView>-->
 
+
     <LinearLayout
         android:id="@+id/linearLayoutGroups"
         android:layout_width="match_parent"
@@ -35,6 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent">
         <!-- Cards will be added programmatically here -->
     </LinearLayout>
+
     <TextView
         android:id="@+id/studyHead"
         android:layout_width="wrap_content"
