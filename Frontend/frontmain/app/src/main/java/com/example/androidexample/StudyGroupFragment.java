@@ -600,6 +600,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
 
         // Add the TextView and Button to the horizontal LinearLayout
+        // Testing
         cardContentLayout.addView(groupNameView);
 //        cardContentLayout.addView(entergroup);
 
