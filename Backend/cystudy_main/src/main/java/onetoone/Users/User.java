@@ -4,10 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.Email;
 import onetoone.Courses.Course;
 import onetoone.Groups.StudyGroup;
 import onetoone.Messages.Message;
 import onetoone.Rating.Rating;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,20 +36,25 @@ public class User {
     private String name;
     private String password;
     private String userName;
+    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String emailId;
     private boolean ifActive;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
+    @JsonIgnore
     private Set<Course> courseSet;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
     @JsonIgnore
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<StudyGroup> groupSet;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sender", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Message> messageSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Rating> ratingSet;
 
 

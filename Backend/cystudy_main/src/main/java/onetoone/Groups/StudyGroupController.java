@@ -90,10 +90,11 @@ public class StudyGroupController {
 //    }
 
     @PutMapping(path="/groups/update/addUser/{group_id}")
-    StudyGroup addUserToGroup(@PathVariable int group_id, @RequestBody User user){
+    StudyGroup addUserToGroup(@PathVariable int group_id, @RequestBody User userCopy){
         StudyGroup studyGroup = studyGroupRepository.findById(group_id);
         if(studyGroup == null)
             return null;
+        User user = userRepository.findByUserName(userCopy.getUserName());
         studyGroup.addUser(user);
         user.addStudyGroup(studyGroup);
         studyGroupRepository.save(studyGroup);

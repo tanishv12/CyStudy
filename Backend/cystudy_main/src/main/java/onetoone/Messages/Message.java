@@ -1,10 +1,12 @@
 package onetoone.Messages;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import onetoone.Groups.StudyGroup;
 import onetoone.Users.User;
 import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * @author Saeshu Karthika
@@ -23,21 +25,23 @@ public class Message {
 
     @Column(nullable = false)
     @CreationTimestamp
-    private Timestamp timestamp;
+    private LocalDateTime timestamp;
 
-    @ManyToOne(cascade = CascadeType.ALL)// many messages can belong to one studyGroup
+    @ManyToOne(cascade = CascadeType.MERGE)// many messages can belong to one studyGroup
     @JoinColumn(name="group_id")
+    @JsonIgnore
     private StudyGroup studyGroup;
 
-    @ManyToOne(cascade = CascadeType.ALL)// many messages can belong to one user
+    @ManyToOne(fetch = FetchType.LAZY)// many messages can belong to one user
     @JoinColumn(name="user_id")
     private User sender;
 
     // =============================== Constructors ================================== //
 
-    public Message(String messageContent, User user) {
+    public Message(String messageContent, User user, StudyGroup group) {
         this.messageContent = messageContent;
         this.sender = user;
+        this.studyGroup = group;
 
     }
 
@@ -78,11 +82,11 @@ public class Message {
         this.messageContent = messageContent;
     }
 
-    public Timestamp getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
