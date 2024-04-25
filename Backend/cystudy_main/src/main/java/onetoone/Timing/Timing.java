@@ -3,22 +3,30 @@ package onetoone.Timing;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
 import org.springframework.data.annotation.Id;
 
+import javax.xml.datatype.Duration;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 @Entity
+@Table(name="timing")
 public class Timing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     private LocalTime startTime;
-    private LocalTime endTime;
+    private int duration;
+    private DayOfWeek day;
 
-    public Timing(LocalTime startTime, LocalTime endTime) {
+    private String location;
+
+    public Timing(LocalTime startTime, int duration, DayOfWeek day) {
         this.startTime = startTime;
-        this.endTime = endTime;
+        this.duration = duration;
+        this.day = day;
     }
 
 
@@ -30,7 +38,7 @@ public class Timing {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -42,11 +50,30 @@ public class Timing {
         this.startTime = startTime;
     }
 
-    public LocalTime getEndTime() {
-        return endTime;
+
+    public int getDuration() {
+        return duration;
     }
 
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public DayOfWeek getDay() {
+        return day;
+    }
+
+    public void setDay(DayOfWeek day) {
+        this.day = day;
+    }
+
 }
+
