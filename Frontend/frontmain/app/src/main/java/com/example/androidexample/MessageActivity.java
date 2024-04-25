@@ -94,6 +94,17 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 
         backButton = findViewById(R.id.imageBack);
 
+
+        GroupHeading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(MessageActivity.this, GroupInformation.class);
+                startActivity(intent);
+            }
+        });
+
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)

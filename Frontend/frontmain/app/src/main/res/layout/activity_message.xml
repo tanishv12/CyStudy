@@ -36,15 +36,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
         android:fontFamily="@font/gidugu"
+        android:onClick="onClick"
         android:textAlignment="center"
+        android:layout_marginRight="45dp"
         android:textColor="@color/black"
         android:textColorHighlight="#9E0202"
         android:textColorLink="#9E0202"
-        android:textSize="40dp"
+        android:textSize="50dp"
         app:layout_constraintBottom_toTopOf="@+id/viewSupporter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageBack"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -145,7 +149,9 @@
     </EditText>
 
 
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+
+
+    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
 <!--        android:id="@+id/bottomnavbar"-->
 <!--        android:layout_width="368dp"-->
 <!--        android:layout_height="55dp"-->
