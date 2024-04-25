@@ -5,21 +5,10 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/editGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Group Name" />
-    <EditText
         android:id="@+id/updatedGroupName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Updated Group Name" />
-
-    <Button
-        android:id="@+id/buttonDelete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delete Group" />
+        android:hint="Enter Updated Group" />
 
     <Button
         android:id="@+id/buttonUpdate"
@@ -32,6 +21,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Rate Group" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Group" />
 
 
 </LinearLayout>

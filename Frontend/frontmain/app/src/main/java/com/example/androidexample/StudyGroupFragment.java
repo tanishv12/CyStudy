@@ -138,11 +138,12 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                 .setNegativeButton("Cancel", null)
                 .create();
 
-        groupEditText = dialogView.findViewById(R.id.editGroup);
         buttonUpd = dialogView.findViewById(R.id.buttonUpdate);
         buttonDel = dialogView.findViewById(R.id.buttonDelete);
         buttonRat = dialogView.findViewById(R.id.buttonRating);
         updateGrpName = dialogView.findViewById(R.id.updatedGroupName);
+//        updateGrpName.setText(groupname);
+
 
 
 
@@ -291,6 +292,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
                         cardsContainer = findViewById(R.id.linearLayoutGroups);
                         groupName = groupName.toString();
+
                         CardView cardView = createCard(groupName, rating);
 //                        GroupSingleton.getInstance().setGroupName(groupName);
                         cardsContainer.addView(cardView);
@@ -537,6 +539,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         // Create a new CardView and set up its layout parameters
         String groupRate = name + "\n" + "Group Rating: "+ rating;
 
+
         Log.e("group", "group name: " + name);
         CardView cardView = new CardView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -574,21 +577,21 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         groupNameView.setText(groupRate);
         groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
-        Button entergroup = new Button(this);
-        LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        buttonLayoutParams.gravity = Gravity.END;
-        entergroup.setLayoutParams(buttonLayoutParams);
-        entergroup.setText("Enter");
-        entergroup.setOnClickListener(v -> {
-            // Handle button click
-            // For example, start a new activity with group details
-            Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
-            GroupSingleton.getInstance().setGroupName(name);
-            startActivity(intent);
-        });
+//        Button entergroup = new Button(this);
+//        LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//        );
+//        buttonLayoutParams.gravity = Gravity.END;
+//        entergroup.setLayoutParams(buttonLayoutParams);
+//        entergroup.setText("Enter");
+//        entergroup.setOnClickListener(v -> {
+//            // Handle button click
+//            // For example, start a new activity with group details
+//            Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
+////            GroupSingleton.getInstance().setGroupName(name);
+//            startActivity(intent);
+//        });
 
         // Create a TextView for the group rating
 //        TextView ratingView = new TextView(this);
@@ -606,7 +609,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
         // Add the TextView and Button to the horizontal LinearLayout
         cardContentLayout.addView(groupNameView);
-        cardContentLayout.addView(entergroup);
+//        cardContentLayout.addView(entergroup);
 
         // Add the horizontal LinearLayout to the CardView
         cardView.addView(cardContentLayout);
@@ -618,6 +621,17 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
         // Add the LinearLayout to the CardView
 //        cardView.addView(linearLayout);
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
+                GroupSingleton.getInstance().setGroupName(name);
+                startActivity(intent);
+            }
+        });
+
 
         // Set a long-click listener on the CardView
         cardView.setOnLongClickListener(new View.OnLongClickListener() {
