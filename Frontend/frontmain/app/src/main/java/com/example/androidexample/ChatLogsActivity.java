@@ -2,9 +2,7 @@ package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +14,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,18 +46,17 @@ public class ChatLogsActivity extends AppCompatActivity {
                 if(user.isEmpty())
                 {
                     url += "/messages/all/group/" + group;
-                    getRequest();
                 }
                 else {
                     url += "/messages/all/user/" + user;
-                    getRequest();
+                    postRequest();
                 }
 
             }
         });
     }
 
-    private void getRequest() {
+    private void postRequest() {
         //Change the URL to whatever they say the endpoint is
         // Convert input to JSONObject
         JSONObject postBody = null;
@@ -73,32 +68,25 @@ public class ChatLogsActivity extends AppCompatActivity {
             postBody = new JSONObject();
             postBody.put("username", editUser.getText().toString());
             postBody.put("group", editGroupName.getText().toString());
+            url += editUser.getText().toString() + "/" + editGroupName.getText().toString();
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        // Create a StringRequest
-        StringRequest request = new StringRequest(
-                Request.Method.GET,
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
                 url,
-                new Response.Listener<String>() {
+                postBody,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
-                        txtMessages.setText(response);
+                    public void onResponse(JSONObject response) {
+                        txtMessages.setText(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Handle errors here
-                        String errorMessage;
-                        if (error.networkResponse != null && error.networkResponse.data != null) {
-                            errorMessage = new String(error.networkResponse.data, StandardCharsets.UTF_8);
-                        } else {
-                            errorMessage = error.toString();
-                        }
-                        Log.e("Error response", errorMessage);
-                        txtMessages.setText(errorMessage);
+                        Toast.makeText(ChatLogsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
         ){

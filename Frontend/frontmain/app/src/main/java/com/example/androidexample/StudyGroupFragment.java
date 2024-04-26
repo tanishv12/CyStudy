@@ -322,16 +322,9 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
         WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
 
-        user = UsernameSingleton.getInstance().getUserName();
-        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/user/"+user;
-
-        WebSocketManager.getInstance().connectWebSocket(serverURL);
-        WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
-
 
 
         addGrp = findViewById(R.id.addGroup);
-        studyGroupsToMessages = findViewById(R.id.toMessages);
         optionBtn = findViewById(R.id.optionButton);
 //        getButton = findViewById(R.id.getBUTTON);
         gresponse = findViewById(R.id.getresponse);
@@ -426,22 +419,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //                putRequest();
 //            }
 //        });
-
-
-
-
-
-        /**
-         * Redirects user to groupchat activity
-         */
-        studyGroupsToMessages.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     //group_id   course_id
@@ -617,7 +594,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
 
         // Add the TextView and Button to the horizontal LinearLayout
-        // Testing
         cardContentLayout.addView(groupNameView);
 //        cardContentLayout.addView(entergroup);
 
@@ -819,6 +795,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             String s = gresponse.getText().toString();
             gresponse.setText(s + "\n"+message);
         });
+
     }
 
     /**

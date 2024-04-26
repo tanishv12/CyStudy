@@ -416,7 +416,6 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 
         String url = "http://coms-309-016.class.las.iastate.edu:8080/messages/post/Group1/" + username;
         // Convert input to JSONObject
-        url += "Group 1/" + username;
         JSONObject postBody = null;
         try
         {
