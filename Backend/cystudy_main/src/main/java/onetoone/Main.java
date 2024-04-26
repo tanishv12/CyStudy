@@ -58,7 +58,17 @@ class Main {
 
 
 // Create course
-            Course course1 = new Course("Calculus 1", "MATH", 166);
+            Course course1 = new Course("Calculus 1", "MATH", 165);
+            Course course2 = new Course("Calculus 2","MATH",166);
+            Course course3 = new Course("Software Development Practices","COM S",309);
+            Course course4 = new Course("Introduction to Design and Analysis of algorithms","COM S",311);
+            Course course5 = new Course("Principles of Microeconomics","ECON",101);
+            Course course6 = new Course("Economics of Discrimination","ECON",321);
+            Course course7 = new Course("Principles of Microeconomics","ECON",101);
+            Course course8 = new Course("Intro to music listening","MUSIC",102);
+            Course course9 = new Course("Introduction to classical physics","PHYS",231);
+            Course course10 = new Course("General Chemsitry 1","CHEM",177);
+            Course course11 = new Course("Principles of Biology 1", "BIOL",211);
 
 // Add users to the course
             course1.addUser(user1);
@@ -66,10 +76,22 @@ class Main {
 
 // Save the course
             courseRepository.save(course1);
+            courseRepository.save(course2);
+            courseRepository.save(course3);
+            courseRepository.save(course4);
+            courseRepository.save(course5);
+            courseRepository.save(course6);
+            courseRepository.save(course7);
+            courseRepository.save(course8);
+            courseRepository.save(course9);
+            courseRepository.save(course10);
+            courseRepository.save(course11);
 
 // Create study groups
-            StudyGroup group1 = new StudyGroup("Group1");
-            StudyGroup group2 = new StudyGroup("Group2");
+            StudyGroup group1 = new StudyGroup("MATH 165 GROUP 1",course1);
+            StudyGroup group2 = new StudyGroup("MATH 165 GROUP 2",course1);
+            StudyGroup group3 = new StudyGroup("MATH 165 GROUP 3",course1);
+            StudyGroup group4 = new StudyGroup("MATH 166 GROUP 1",course2);
 
 // Save study groups
             studyGroupRepository.save(group1);
