@@ -27,23 +27,18 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <ScrollView
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/all_chatlogs"
+                android:layout_width="340dp"
                 android:layout_height="410dp"
+                android:text="Messages will show up here"
+                android:textColor="@color/black"
+                android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-                <TextView
-                    android:id="@+id/all_chatlogs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Enter group name to check group messages, username to check user messages"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-            </ScrollView>
-
-
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
