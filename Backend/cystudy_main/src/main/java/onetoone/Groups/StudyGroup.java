@@ -7,6 +7,7 @@ import onetoone.Courses.Course;
 import onetoone.Messages.Message;
 import onetoone.Rating.Rating;
 //import onetoone.Rating.Rating;
+import onetoone.Timing.Timing;
 import onetoone.Users.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.LazyCollection;
@@ -57,6 +58,10 @@ public class StudyGroup {
    @JsonIgnore
    private List<Rating> ratingList;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Timing> timingList;
+
 
     // =============================== Constructors ================================== //
 
@@ -69,6 +74,7 @@ public class StudyGroup {
         this.userSet = new HashSet<User>();
         this.messageSet = new HashSet<Message>();
         this.ratingList = new ArrayList<Rating>();
+        this.timingList = new ArrayList<Timing>();
     }
 
     // =============================== Getters and Setters for each field ================================== //
@@ -150,5 +156,13 @@ public class StudyGroup {
 
     public void setRatingList(List<Rating> ratingList) {
         this.ratingList = ratingList;
+    }
+
+    public List<Timing> getTimingList() {
+        return timingList;
+    }
+
+    public void setTimingList(List<Timing> timingList) {
+        this.timingList = timingList;
     }
 }

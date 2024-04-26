@@ -1,10 +1,9 @@
 package onetoone.Timing;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.*;
+import jakarta.persistence.Id;
+import onetoone.Groups.StudyGroup;
+
 
 import javax.xml.datatype.Duration;
 import java.time.DayOfWeek;
@@ -22,6 +21,10 @@ public class Timing {
     private DayOfWeek day;
 
     private String location;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "group_id")
+    private StudyGroup studyGroup;
 
     public Timing(LocalTime startTime, int duration, DayOfWeek day) {
         this.startTime = startTime;
@@ -75,5 +78,12 @@ public class Timing {
         this.day = day;
     }
 
+    public StudyGroup getGroup() {
+        return studyGroup;
+    }
+
+    public void setGroup(StudyGroup group) {
+        this.studyGroup = group;
+    }
 }
 
