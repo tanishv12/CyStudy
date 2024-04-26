@@ -26,7 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller      // this is needed for this to be an endpoint to springboot
-@ServerEndpoint(value = "/chat/{username}/{groupname}")  // this is Websocket url
+@ServerEndpoint(value = "/chat/{username}/{groupname}/end")  // this is Websocket url
 public class ChatSocket {
 
 
