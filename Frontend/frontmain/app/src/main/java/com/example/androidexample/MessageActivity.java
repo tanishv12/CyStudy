@@ -26,6 +26,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,14 +84,20 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
         username = UsernameSingleton.getInstance().getUserName();
-
         GroupName = GroupSingleton.getInstance().getGroupName();
-        Log.e("group", "group: " + GroupName);
+
+
+        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName + "/" + "end";
+        String encodedPath = serverURL.replace(" ", "%20");
+        Log.e("url", "Server URL: " + encodedPath);
+        WebSocketManager.getInstance().connectWebSocket(encodedPath);
+
+
+
 
         GroupHeading = findViewById(R.id.groupHeading);
         GroupHeading.setText(GroupName);
-        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName;
-        WebSocketManager.getInstance().connectWebSocket(serverURL);
+
         getRequest();
 
 
@@ -510,8 +519,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
         String closedBy = remote ? "server" : "local";
         runOnUiThread(() -> {
-//            String s = MessageTextSend.getText().toString();
-//            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
+            String s = MessageTextSend.getText().toString();
+            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
         });
     }
 
