@@ -32,14 +32,14 @@ public class Course {
     @JsonIgnore
     private Set<User> userSet;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.MERGE)
     private Set<StudyGroup> groupSet;
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
 //    private Set<StudyResources> studyResourcesSet;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.MERGE)
     private List<StudyResources> studyResourceList;
 
     // =============================== Constructors ================================== //

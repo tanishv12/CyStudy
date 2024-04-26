@@ -19,6 +19,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     Course findCourseBystudyResourceList(StudyResources sr);
 
+    Course findCourseByCourseName(String coursename);
+
     @Transactional
     void deleteById(long id);
 }

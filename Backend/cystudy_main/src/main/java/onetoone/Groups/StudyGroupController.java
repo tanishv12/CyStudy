@@ -1,6 +1,7 @@
 package onetoone.Groups;
 
 import jakarta.transaction.Transactional;
+import onetoone.Courses.Course;
 import onetoone.Courses.CourseRepository;
 import onetoone.Rating.Rating;
 import onetoone.Users.User;
@@ -60,8 +61,8 @@ public class StudyGroupController {
     }
 
 
-    @PostMapping(path = "/groups/post/{group_name}/{username}")
-    String createGroup(@PathVariable String group_name, @PathVariable String username) {
+    @PostMapping(path = "/groups/post/{group_name}/{username}/{course_name}")
+    String createGroup(@PathVariable String group_name, @PathVariable String username,@PathVariable String course_name) {
         if (group_name == null) {
             return failure;
         }
@@ -70,7 +71,8 @@ public class StudyGroupController {
                 return "Group name already exists";
             }
         }
-        StudyGroup studyGroup = new StudyGroup(group_name);
+        Course course = courseRepository.findCourseByCourseName(course_name);
+        StudyGroup studyGroup = new StudyGroup(group_name,course);
         studyGroupRepository.save(studyGroup);
         User user = userRepository.findByUserName(username);
         studyGroup.addUser(user);

@@ -38,7 +38,7 @@ public class StudyGroup {
     @Column(nullable = false)
     private double avgRating;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "course_id")
     private Course course;
 
