@@ -108,6 +108,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             @Override
             public void onClick(View view)
             {
+                WebSocketManager.getInstance().disconnectWebSocket();
                 Intent intent = new Intent(MessageActivity.this, GroupInformation.class);
                 startActivity(intent);
             }
@@ -519,8 +520,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
         String closedBy = remote ? "server" : "local";
         runOnUiThread(() -> {
-            String s = MessageTextSend.getText().toString();
-            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
+//            String s = MessageTextSend.getText().toString();
+//            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
         });
     }
 
