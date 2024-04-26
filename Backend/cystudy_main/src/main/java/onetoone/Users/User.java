@@ -35,6 +35,8 @@ public class User {
     private long id;
     private String name;
     private String password;
+
+    @Column(unique = true)
     private String userName;
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String emailId;

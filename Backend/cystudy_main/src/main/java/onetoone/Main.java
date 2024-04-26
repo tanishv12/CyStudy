@@ -51,9 +51,11 @@ class Main {
             User user1 = new User("John", "john123", "john@somemail.com", "lol");
             User user2 = new User("Sam", "sam123", "sam@somemail.com", "lol");
 
+
 // Save users
             userRepository.save(user1);
             userRepository.save(user2);
+
 
 // Create course
             Course course1 = new Course("Calculus 1", "MATH", 166);
