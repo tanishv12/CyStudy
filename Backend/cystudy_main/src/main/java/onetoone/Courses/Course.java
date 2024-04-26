@@ -33,6 +33,7 @@ public class Course {
     private Set<User> userSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.MERGE)
+    @JsonIgnore
     private Set<StudyGroup> groupSet;
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)

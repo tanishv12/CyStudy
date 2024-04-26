@@ -40,6 +40,7 @@ public class StudyGroup {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "studyGroup", cascade = CascadeType.MERGE)
