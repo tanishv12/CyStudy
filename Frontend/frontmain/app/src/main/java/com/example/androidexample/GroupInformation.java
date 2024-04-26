@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +38,8 @@ public class GroupInformation extends AppCompatActivity {
 
     private AppCompatImageView backToGrpChat;
 
+    private AppCompatImageView optionsGrpBtn;
+
     private LinearLayout userContainer;
 
     private String groupNameSet;
@@ -43,7 +49,67 @@ public class GroupInformation extends AppCompatActivity {
     private String users;
     private TextView GroupHeadingName;
 
+    private Button editGroupBtn;
+
+    private Button leaveGroupBtn;
+    private Button doneButton;
+
     private TextView members;
+
+
+    private void optionsDialog(Context c)
+    {
+        LayoutInflater inflater = LayoutInflater.from(c);
+        View dialogView = inflater.inflate(R.layout.groupoptions, null);
+//        BottomSheetDialog dialog = new AlertDialog.Builder(c)
+//                .setTitle("Group Options")
+//                .setView(dialogView)
+//                .setNegativeButton("Cancel", null)
+//                .create();
+//
+//        buttonUpd = dialogView.findViewById(R.id.buttonUpdate);
+//        buttonDel = dialogView.findViewById(R.id.buttonDelete);
+//        buttonRat = dialogView.findViewById(R.id.buttonRating);
+//        updateGrpName = dialogView.findViewById(R.id.updatedGroupName);
+//        updateGrpName.setText(groupname);
+
+        BottomSheetDialog dialog = new BottomSheetDialog(c);
+        dialog.setTitle("Options");
+        dialog.setContentView(dialogView); // Use setContentView instead of setView
+//        dialog.setNegativeButton("Done", null);
+        dialog.create();
+
+        leaveGroupBtn = dialogView.findViewById(R.id.leaveGroup);
+        editGroupBtn = dialogView.findViewById(R.id.editGrpName);
+        doneButton = dialogView.findViewById(R.id.doneBtn);
+
+        leaveGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        editGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                dialog.dismiss(); // Close the dialog if needed
+            }
+        });
+
+        dialog.show();
+    }
+
 
 
     @Override
@@ -53,7 +119,8 @@ public class GroupInformation extends AppCompatActivity {
         setContentView(R.layout.activity_group_information);
         GroupHeadingName = findViewById(R.id.GroupHeadInfo);
         backToGrpChat = findViewById(R.id.imageBackToGroup);
-        members = findViewById(R.id.allGrpMembers);
+        optionsGrpBtn = findViewById(R.id.options);
+//        members = findViewById(R.id.allGrpMembers);
         userContainer = findViewById(R.id.usersHolder);
 
 
@@ -72,6 +139,16 @@ public class GroupInformation extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        optionsGrpBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                optionsDialog(GroupInformation.this);
+            }
+        });
+
     }
 
     private void getRequest()

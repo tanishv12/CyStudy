@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Options"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:padding="16dp" />
+
+    <Button
+        android:id="@+id/leaveGroup"
+        android:layout_gravity="center"
+        android:layout_width="365dp"
+        android:layout_height="wrap_content"
+        android:text="Leave Group" />
+
+    <Button
+        android:id="@+id/editGrpName"
+        android:layout_gravity="center"
+        android:layout_width="364dp"
+        android:layout_height="wrap_content"
+        android:text="Edit Group Name" />
+
+    <Button
+        android:id="@+id/doneBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/cardview_shadow_start_color"
+        android:text="Done" />
+
+
+</LinearLayout>

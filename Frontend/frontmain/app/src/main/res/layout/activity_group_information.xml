@@ -7,6 +7,24 @@
     tools:context=".GroupInformation">
 
 
+    <TextView
+        android:layout_width="383dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/gidugu"
+        android:text="Group Members"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        app:layout_constraintVertical_bias="1.0">
+
+    </TextView>
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageBackToGroup"
         android:layout_width="30dp"
@@ -57,11 +75,11 @@
             android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="60dp">
-        </TextView>
+            android:textSize="60dp"></TextView>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
         android:layout_width="383dp"
         android:layout_height="291dp"
         android:layout_margin="10dp"
@@ -69,41 +87,18 @@
         app:cardElevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.634"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2"
-        app:layout_constraintVertical_bias="0.034">
+        app:layout_constraintVertical_bias="0.373">
 
         <LinearLayout
             android:id="@+id/usersHolder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="93dp"
-                android:fontFamily="@font/gidugu"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="Members"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="45dp" />
-
-            <TextView
-                android:id="@+id/allGrpMembers"
-                android:layout_width="match_parent"
-                android:layout_height="194dp"
-                android:fontFamily="@font/gidugu"
-                android:gravity="start"
-                android:padding="16dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="30sp" />
-
-        </LinearLayout>
+            android:layout_height="275dp"
+            android:orientation="vertical"
+            app:layout_constraintVertical_bias="0.318"></LinearLayout>
     </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
