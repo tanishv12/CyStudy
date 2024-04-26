@@ -62,8 +62,8 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="384dp"
-        android:layout_height="232dp"
+        android:layout_width="383dp"
+        android:layout_height="291dp"
         android:layout_margin="10dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp"
@@ -74,60 +74,36 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView2"
         app:layout_constraintVertical_bias="0.034">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="384dp"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/usersHolder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/allGrpMembers"
-                    android:layout_width="374dp"
-                    android:layout_height="154dp"
-                    android:fontFamily="@font/gidugu"
-                    android:gravity="start"
-                    android:padding="16dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3"
-                    app:layout_constraintVertical_bias="0.0">
-                </TextView>
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="93dp"
+                android:fontFamily="@font/gidugu"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Members"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="45dp" />
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="382dp"
-                    android:layout_height="71dp"
-                    android:padding="1dp"
-                    android:fontFamily="@font/gidugu"
-                    android:gravity="center"
-                    android:text="Members"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="45dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0">
-                </TextView>
+            <TextView
+                android:id="@+id/allGrpMembers"
+                android:layout_width="match_parent"
+                android:layout_height="194dp"
+                android:fontFamily="@font/gidugu"
+                android:gravity="start"
+                android:padding="16dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
 
-
-            <!--            <ScrollView-->
-            <!--                android:layout_width="384dp"-->
-            <!--                android:layout_height="138dp"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHorizontal_bias="0.0"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/textView3"-->
-            <!--                app:layout_constraintVertical_bias="0.0">-->
-
-            <!--            </ScrollView>-->
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

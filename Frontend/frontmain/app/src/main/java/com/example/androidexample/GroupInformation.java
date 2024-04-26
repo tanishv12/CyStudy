@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -30,10 +34,13 @@ public class GroupInformation extends AppCompatActivity {
 
     private AppCompatImageView backToGrpChat;
 
+    private LinearLayout userContainer;
+
     private String groupNameSet;
 
     private String user;
-    ArrayList<String> users = new ArrayList<String>();
+//    ArrayList<String> users = new ArrayList<String>();
+    private String users;
     private TextView GroupHeadingName;
 
     private TextView members;
@@ -47,6 +54,7 @@ public class GroupInformation extends AppCompatActivity {
         GroupHeadingName = findViewById(R.id.GroupHeadInfo);
         backToGrpChat = findViewById(R.id.imageBackToGroup);
         members = findViewById(R.id.allGrpMembers);
+        userContainer = findViewById(R.id.usersHolder);
 
 
         groupNameSet = GroupSingleton.getInstance().getGroupName();
@@ -79,23 +87,23 @@ public class GroupInformation extends AppCompatActivity {
                     {
                         try {
                                 JSONArray jsonArray = new JSONArray(response);
+//                                users = "";
                                 for(int i = 0; i < jsonArray.length(); i++)
                                 {
                                     JSONObject jsonObj = jsonArray.getJSONObject(i);
-//                                cardsContainer = findViewById(R.id.linearLayoutGroups);
-
                                     user = jsonObj.getString("name");
-                                    users.add(user);
-                                    Log.e("user","users " + users);
+//                                  users.add(user);
 
+//                                  String groupRate = name + "\n" + "Group Rating: "+ rating;
+//                                    users +=  user + "\n";
+                                    Log.e("user","users " + user);
+//                                    members.setText(users);
 //                                GroupSingleton.getInstance().setGroupName(name);
-//                                String groupRate = name + "\n" + "Group Rating: "+ rating;
-////
-//                                CardView cardView = createCard(groupName, rating);
-////                                GroupSingleton.getInstance().setGroupName(groupName);
-//                                cardsContainer.addView(cardView);
 
-                                    members.setText(users.toString());
+////
+                                CardView cardView = createCard(user);
+////                                GroupSingleton.getInstance().setGroupName(groupName);
+                                userContainer.addView(cardView);
                                 }
                             }
                             catch (JSONException err)
@@ -131,6 +139,83 @@ public class GroupInformation extends AppCompatActivity {
 
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    private CardView createCard(String nameOfUser) {
+        // Create a new CardView and set up its layout parameters
+//        String groupRate = users;
+//        Log.e("users", "user name: " + users);
+        Log.e("name of user","users " + nameOfUser);
+
+        CardView cardView = new CardView(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(
+                convertDpToPixels(16, this),
+                convertDpToPixels(8, this),
+                convertDpToPixels(16, this),
+                convertDpToPixels(8, this)
+        );
+        cardView.setLayoutParams(layoutParams);
+
+        // Set the CardView's appearance
+        cardView.setCardElevation(convertDpToPixels(4, this));
+        cardView.setRadius(convertDpToPixels(4, this));
+
+
+        LinearLayout cardContentLayout = new LinearLayout(this);
+        cardContentLayout.setOrientation(LinearLayout.HORIZONTAL);
+        cardContentLayout.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+
+
+        // Create a TextView for the group name
+        TextView userNameView = new TextView(this);
+        userNameView.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1f
+        ));
+        userNameView.setText(nameOfUser);
+        userNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+        cardContentLayout.addView(userNameView);
+        cardView.addView(cardContentLayout);
+
+
+//        cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
+//                GroupSingleton.getInstance().setGroupName(name);
+//                startActivity(intent);
+//            }
+//        });
+
+
+//        // Set a long-click listener on the CardView
+//        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                // Handle the long click event
+////                showForgotDialog(StudyGroupFragment.this);
+//
+//                // Return true to indicate that you have handled the long click event
+//                return true;
+//            }
+//        });
+
+        return cardView;
+    }
+
+    private int convertDpToPixels(float dp, Context context)
+    {
+        return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
 }

@@ -267,6 +267,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     public int convertDpToPixels(float dp, Context context)
     {
+
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
