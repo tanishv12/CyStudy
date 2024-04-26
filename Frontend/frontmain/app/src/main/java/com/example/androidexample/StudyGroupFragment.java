@@ -166,7 +166,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         buttonDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                optionGroupName = groupEditText.getText().toString();
+                optionUpdateGroupName = groupEditText.getText().toString();
                 // Handle button click
                 deleteRequest();
                 // Do something with the input
@@ -177,8 +177,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         buttonRat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                optionGroupName = groupEditText.getText().toString();
-                GroupNameSingleton.getInstance().setGroupName(optionGroupName);
+                optionUpdateGroupName = updateGrpName.getText().toString();
+                GroupNameSingleton.getInstance().setGroupName(optionUpdateGroupName);
                 // Handle button click
                 startActivity(new Intent(getApplicationContext(), RatingReview.class));
                 // Do something with the input
