@@ -68,7 +68,7 @@ public class CourseController {
         if (course == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid course credentials");;
         for(Course prevCourse: this.getAllCourses()){
-            if(course.getCourseCode() == prevCourse.getCourseCode()){
+            if(course.getCourseCode() == prevCourse.getCourseCode() && course.getCourseDepartment().equals(prevCourse.getCourseDepartment())){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course already exists");
             }
         }

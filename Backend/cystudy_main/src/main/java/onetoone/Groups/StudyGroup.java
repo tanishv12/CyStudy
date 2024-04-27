@@ -60,13 +60,16 @@ public class StudyGroup {
     public StudyGroup() {
     }
 
-    public StudyGroup(String groupName) {
+
+    public StudyGroup(String groupName, Course course) {
         this.groupName = groupName;
+        this.course = course;
         this.avgRating = 0;
         this.userSet = new HashSet<User>();
         this.messageSet = new HashSet<Message>();
         this.ratingList = new ArrayList<Rating>();
     }
+
 
     // =============================== Getters and Setters for each field ================================== //
 
