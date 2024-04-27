@@ -48,15 +48,42 @@ class Main {
     CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository, RatingRepository ratingRepository) {
         return args -> {
 
-            User user1 = new User("John", "john123", "john@somemail.com", "lol");
+            User user1 = new User("John", "john123", "john@osomemail.com", "lol");
             User user2 = new User("Sam", "sam123", "sam@somemail.com", "lol");
+            User user3 = new User("Rahul", "rahul123", "rahul@somemail.com", "lol");
+            User user4 = new User("Tanish", "tan123", "tan@somemail.com", "lol");
+            User user5 = new User("Gavin", "gav123", "gav@somemail.com", "lol");
+            User user6 = new User("Saeshu Karthika", "saeshu123", "saesh@somemail.com", "lol");
+            User user7 = new User("Ben", "ben123", "ben@somemail.com", "lol");
+            User user8 = new User("Shaun","shaun123","shaun@somemail.com","lol");
+            User user9 = new User("Jack","jack123","jack@somemail.com","lol");
+            User user10 = new User("Ethan","ethan123","ethan@somemail.com","lol");
+
 
 // Save users
             userRepository.save(user1);
             userRepository.save(user2);
+            userRepository.save(user3);
+            userRepository.save(user4);
+            userRepository.save(user5);
+            userRepository.save(user6);
+            userRepository.save(user7);
+            userRepository.save(user8);
+            userRepository.save(user9);
+            userRepository.save(user10);
+
 
 // Create course
-            Course course1 = new Course("Calculus 1", "MATH", 166);
+            Course course1 = new Course("Calculus 1", "MATH", 165);
+            Course course2 = new Course("Calculus 2","MATH",166);
+            Course course3 = new Course("Software Development Practices","COM S",309);
+            Course course4 = new Course("Introduction to Design and Analysis of algorithms","COM S",311);
+            Course course5 = new Course("Principles of Microeconomics","ECON",101);
+            Course course6 = new Course("Economics of Discrimination","ECON",321);
+            Course course7 = new Course("Intro to music listening","MUSIC",102);
+            Course course8 = new Course("Introduction to classical physics","PHYS",231);
+            Course course9 = new Course("General Chemsitry 1","CHEM",177);
+            Course course10 = new Course("Principles of Biology 1", "BIOL",211);
 
 // Add users to the course
             course1.addUser(user1);
@@ -64,14 +91,104 @@ class Main {
 
 // Save the course
             courseRepository.save(course1);
+            courseRepository.save(course2);
+            courseRepository.save(course3);
+            courseRepository.save(course4);
+            courseRepository.save(course5);
+            courseRepository.save(course6);
+            courseRepository.save(course7);
+            courseRepository.save(course8);
+            courseRepository.save(course9);
+            courseRepository.save(course10);
 
 // Create study groups
-            StudyGroup group1 = new StudyGroup("Group1");
-            StudyGroup group2 = new StudyGroup("Group2");
+
+            //Study groups for course1
+            StudyGroup group1 = new StudyGroup("MATH 165 GROUP 1",course1);
+            StudyGroup group2 = new StudyGroup("MATH 165 GROUP 2",course1);
+            StudyGroup group3 = new StudyGroup("MATH 165 GROUP 3",course1);
+
+            //Study groups for course2
+            StudyGroup group4 = new StudyGroup("MATH 166 GROUP 1",course2);
+            StudyGroup group5 = new StudyGroup("MATH 166 GROUP 2",course2);
+            StudyGroup group6 = new StudyGroup("MATH 166 GROUP 3",course2);
+
+            //Study groups for course3
+            StudyGroup group7 = new StudyGroup("COM S 309 GROUP 1",course3);
+            StudyGroup group8 = new StudyGroup("COM S 309 GROUP 2",course3);
+            StudyGroup group9 = new StudyGroup("COM S 309 GROUP 3",course3);
+
+            //Study groups for course4
+            StudyGroup group10 = new StudyGroup("COM S 311 GROUP 1",course4);
+            StudyGroup group11 = new StudyGroup("COM S 311 GROUP 2",course4);
+            StudyGroup group12 = new StudyGroup("COM S 311 GROUP 3",course4);
+
+            //Study groups for course5
+            StudyGroup group13 = new StudyGroup("ECON 101 Group1",course5);
+            StudyGroup group14 = new StudyGroup("ECON 101 Group2",course5);
+            StudyGroup group15 = new StudyGroup("ECON 101 Group3",course5);
+
+            //Study groups for course6
+            StudyGroup group16 = new StudyGroup("ECON 321 Group1",course6);
+            StudyGroup group17 = new StudyGroup("ECON 321 Group2",course6);
+            StudyGroup group18 = new StudyGroup("ECON 321 Group3",course6);
+
+            //Study groups for course7
+            StudyGroup group19 = new StudyGroup("MUSIC 102 Group1",course7);
+            StudyGroup group20 = new StudyGroup("MUSIC 102 Group2",course7);
+            StudyGroup group21 = new StudyGroup("MUSIC 102 Group3",course7);
+
+            //Study groups for course8
+            StudyGroup group22 = new StudyGroup("PHYS 231 Group1",course8);
+            StudyGroup group23 = new StudyGroup("PHYS 231 Group2",course8);
+            StudyGroup group24 = new StudyGroup("PHYS 231 Group3",course8);
+
+            //Study groups for course9
+            StudyGroup group25 = new StudyGroup("CHEM 177 Group1",course9);
+            StudyGroup group26 = new StudyGroup("CHEM 177 Group2",course9);
+            StudyGroup group27 = new StudyGroup("CHEM 177 Group3",course9);
+
+            //Study groups for course 10
+            StudyGroup group28 = new StudyGroup("BIOL 211 Group1",course10);
+            StudyGroup group29 = new StudyGroup("BIOL 211 Group2",course10);
+            StudyGroup group30 = new StudyGroup("BIOL 211 Group3",course10);
+
 
 // Save study groups
             studyGroupRepository.save(group1);
             studyGroupRepository.save(group2);
+            studyGroupRepository.save(group3);
+            studyGroupRepository.save(group4);
+            studyGroupRepository.save(group5);
+            studyGroupRepository.save(group6);
+            studyGroupRepository.save(group7);
+            studyGroupRepository.save(group8);
+            studyGroupRepository.save(group9);
+            studyGroupRepository.save(group10);
+            studyGroupRepository.save(group11);
+            studyGroupRepository.save(group12);
+            studyGroupRepository.save(group13);
+            studyGroupRepository.save(group14);
+            studyGroupRepository.save(group15);
+            studyGroupRepository.save(group16);
+            studyGroupRepository.save(group17);
+            studyGroupRepository.save(group18);
+            studyGroupRepository.save(group19);
+            studyGroupRepository.save(group20);
+            studyGroupRepository.save(group21);
+            studyGroupRepository.save(group22);
+            studyGroupRepository.save(group23);
+            studyGroupRepository.save(group24);
+            studyGroupRepository.save(group25);
+            studyGroupRepository.save(group26);
+            studyGroupRepository.save(group27);
+            studyGroupRepository.save(group28);
+            studyGroupRepository.save(group29);
+            studyGroupRepository.save(group30);
+
+
+
+
 
 // Add users to study groups
             group1.addUser(user1);

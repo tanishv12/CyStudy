@@ -28,7 +28,7 @@ public class StudyGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(unique = true)
     private String groupName;
 
     @Column(nullable = false)
@@ -38,8 +38,9 @@ public class StudyGroup {
     @Column(nullable = false)
     private double avgRating;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "studyGroup", cascade = CascadeType.MERGE)
@@ -63,8 +64,9 @@ public class StudyGroup {
     public StudyGroup() {
     }
 
-    public StudyGroup(String groupName) {
+    public StudyGroup(String groupName, Course course) {
         this.groupName = groupName;
+        this.course = course;
         this.avgRating = 0;
         this.userSet = new HashSet<User>();
         this.messageSet = new HashSet<Message>();

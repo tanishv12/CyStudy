@@ -122,6 +122,10 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     private LinearLayout cardsContainer;
 
+    private String rating;
+
+    private String groupName;
+
     private ActivityResultLauncher<Intent> mCreateGroupResultLauncher;
 
 
@@ -135,11 +139,12 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                 .setNegativeButton("Cancel", null)
                 .create();
 
-        groupEditText = dialogView.findViewById(R.id.editGroup);
         buttonUpd = dialogView.findViewById(R.id.buttonUpdate);
         buttonDel = dialogView.findViewById(R.id.buttonDelete);
         buttonRat = dialogView.findViewById(R.id.buttonRating);
         updateGrpName = dialogView.findViewById(R.id.updatedGroupName);
+//        updateGrpName.setText(groupname);
+
 
 
 
@@ -282,10 +287,17 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                         // Retrieve the group information
                         studyGrpHead = findViewById(R.id.studyHead);
-                        String groupName = result.getData().getStringExtra("groupName");
+                        groupName = result.getData().getStringExtra("groupName");
                         Log.e("group", "group name: " + groupName); //Learn how to completely transfer data this is temporary.
-                        names.append(groupName).append("\n");
-                        gresponse.setText(names);
+//                        names.append(groupName).append("\n");
+
+                        cardsContainer = findViewById(R.id.linearLayoutGroups);
+                        groupName = groupName.toString();
+
+                        CardView cardView = createCard(groupName, rating);
+//                        GroupSingleton.getInstance().setGroupName(groupName);
+                        cardsContainer.addView(cardView);
+//                        gresponse.setText(names);
                     }
                 }
         );
@@ -313,7 +325,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
 
         addGrp = findViewById(R.id.addGroup);
-        studyGroupsToMessages = findViewById(R.id.toMessages);
         optionBtn = findViewById(R.id.optionButton);
 //        getButton = findViewById(R.id.getBUTTON);
         gresponse = findViewById(R.id.getresponse);
@@ -408,22 +419,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //                putRequest();
 //            }
 //        });
-
-
-
-
-
-        /**
-         * Redirects user to groupchat activity
-         */
-        studyGroupsToMessages.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     //group_id   course_id
@@ -524,8 +519,14 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         }
     }
 
-    private CardView createCard(String grouprate) {
+
+    private CardView createCard(String name, String rating) {
         // Create a new CardView and set up its layout parameters
+        String groupRate = name + "\n" + "Group Rating: "+ rating;
+
+
+        Log.e("group", "group name: " + name);
+
         CardView cardView = new CardView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -543,14 +544,41 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         cardView.setCardElevation(convertDpToPixels(4, this));
         cardView.setRadius(convertDpToPixels(4, this));
 
-        // Create a TextView for the group name
-        TextView groupNameView = new TextView(this);
-        groupNameView.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
+
+        LinearLayout cardContentLayout = new LinearLayout(this);
+        cardContentLayout.setOrientation(LinearLayout.HORIZONTAL);
+        cardContentLayout.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
-        groupNameView.setText(grouprate);
+
+
+        // Create a TextView for the group name
+        TextView groupNameView = new TextView(this);
+        groupNameView.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1f
+        ));
+        groupNameView.setText(groupRate);
         groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+//        Button entergroup = new Button(this);
+//        LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//        );
+//        buttonLayoutParams.gravity = Gravity.END;
+//        entergroup.setLayoutParams(buttonLayoutParams);
+//        entergroup.setText("Enter");
+//        entergroup.setOnClickListener(v -> {
+//            // Handle button click
+//            // For example, start a new activity with group details
+//            Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
+////            GroupSingleton.getInstance().setGroupName(name);
+//            startActivity(intent);
+//        });
+
 
         // Create a TextView for the group rating
 //        TextView ratingView = new TextView(this);
@@ -561,23 +589,50 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //        ratingView.setText(rating);
 //        ratingView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
-        // Add TextViews to a LinearLayout
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.addView(groupNameView);
+//        LinearLayout linearLayout = new LinearLayout(this);
+//        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+
+        // Add the TextView and Button to the horizontal LinearLayout
+        cardContentLayout.addView(groupNameView);
+//        cardContentLayout.addView(entergroup);
+
+        // Add the horizontal LinearLayout to the CardView
+        cardView.addView(cardContentLayout);
+
+//        linearLayout.addView(groupNameView);
+
 //        linearLayout.addView(ratingView);
 
-        // Add the LinearLayout to the CardView
-        cardView.addView(linearLayout);
 
-        // Optionally, set a click listener on the CardView
-        cardView.setOnClickListener(v -> {
-            // Handle the card click, e.g., start a new activity with group details
+        // Add the LinearLayout to the CardView
+//        cardView.addView(linearLayout);
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
+                GroupSingleton.getInstance().setGroupName(name);
+                startActivity(intent);
+            }
+        });
+
+
+        // Set a long-click listener on the CardView
+        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // Handle the long click event
+                showForgotDialog(StudyGroupFragment.this);
+
+                // Return true to indicate that you have handled the long click event
+                return true;
+            }
         });
 
         return cardView;
     }
-
 
     /**
      * Retrieves study group that the user is in
@@ -586,9 +641,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all";
         url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all" + "/" + user;
-
-
-
 
 
         // Request a string response from the provided URL.
@@ -603,27 +655,22 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                                 cardsContainer = findViewById(R.id.linearLayoutGroups);
                                 // Access the value associated with the key "name"
-                                String rating = jsonObj.getString("avgRating");
-                                String name = jsonObj.getString("groupName");
-                                String groupRate = name + "\n" + rating;
-
-                                CardView cardView = createCard(groupRate);
+                                rating = jsonObj.getString("avgRating");
+                                groupName = jsonObj.getString("groupName");
+//                                GroupSingleton.getInstance().setGroupName(name);
+//                                String groupRate = name + "\n" + "Group Rating: "+ rating;
+//
+                                CardView cardView = createCard(groupName, rating);
+//                                GroupSingleton.getInstance().setGroupName(groupName);
                                 cardsContainer.addView(cardView);
 
 
-//                                names.append(groupRate).append("\n");
                             }
-//                            gresponse.setText(names+ " " + ratings);
-
                         }
                         catch (JSONException err)
                         {
                             Log.d("Error", err.toString());
                         }
-
-
-
-
                         // Display the first 500 characters of the response string.
                         // String response can be converted to JSONObject via
                         // JSONObject object = new JSONObject(response);

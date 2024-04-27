@@ -39,7 +39,7 @@ public class CourseController {
     private String failure = "{\"message\":\"failure\"}";
 
 
-    @GetMapping(path = "/courses")
+    @GetMapping(path = "/courses/all")
     List<Course> getAllCourses(){
         return courseRepository.findAll();
     }
@@ -47,6 +47,15 @@ public class CourseController {
     @GetMapping(path = "/courses/{id}")
     Course getCourseById(@PathVariable long id){
         return courseRepository.findById(id);
+    }
+
+    @GetMapping(path = "/courses/{username}")
+    Set<Course> getCoursesByUser(@PathVariable String username){
+        User user = userRepository.findByUserName(username);
+        if(user == null){
+            return null;
+        }
+        return user.getCourseSet();
     }
 
     @GetMapping(path = "/courses/users/{id}")

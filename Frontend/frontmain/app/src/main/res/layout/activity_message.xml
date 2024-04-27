@@ -31,25 +31,21 @@
     </androidx.appcompat.widget.AppCompatImageView>
 
 
-
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/groupHeading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_gravity="center"
         android:fontFamily="@font/gidugu"
-        android:text="Messages"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textColorHighlight="#9E0202"
         android:textColorLink="#9E0202"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageBack"
-        app:layout_constraintStart_toEndOf="@+id/imageBack"
-        app:layout_constraintTop_toTopOf="@+id/imageBack"
-        tools:ignore="MissingConstraints" />
+        android:textSize="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewSupporter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/viewSupporter"
@@ -70,32 +66,36 @@
 <!--        app:layout_constraintTop_toTopOf="parent"-->
 <!--        >-->
 <!--    </View>-->
-    
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:id="@+id/chatRecyclerView"-->
-<!--        android:orientation="vertical"-->
-<!--        android:overScrollMode="never"-->
-<!--        android:padding="20dp"-->
-<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/viewBack"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/viewSupporter"-->
-<!--        android:visibility="gone">-->
-<!--    </androidx.recyclerview.widget.RecyclerView>-->
 
 
-    <TextView
-        android:id="@+id/allMessages"
-        android:layout_width="388dp"
-        android:layout_height="575dp"
+
+
+        <!-- Place your message bubbles or other content here -->
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/viewBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="1.0">
-    </TextView>
+        app:layout_constraintTop_toTopOf="@+id/viewSupporter">
+
+        <TextView
+            android:id="@+id/allMessages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp" />
+    </ScrollView>
+
+<!--        <TextView-->
+<!--            android:id="@+id/allMessages"-->
+<!--            android:layout_width="379dp"-->
+<!--            android:layout_height="530dp"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_marginTop="0dp"-->
+<!--            android:layout_marginBottom="-15dp">-->
+<!--        </TextView>-->
 
     <FrameLayout
         android:id="@+id/layoutSend"
