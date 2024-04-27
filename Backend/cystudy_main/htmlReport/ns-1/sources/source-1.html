@@ -1,0 +1,422 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Main</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">onetoone</a>
+</div>
+
+<h1>Coverage Summary for Class: Main (onetoone)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Main</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    99.2%
+  </span>
+  <span class="absValue">
+    (120/121)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Main$$SpringCGLIB$$0</td>
+  </tr>
+  <tr>
+    <td class="name">Main$$SpringCGLIB$$FastClass$$0</td>
+  </tr>
+  <tr>
+    <td class="name">Main$$SpringCGLIB$$FastClass$$1</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    99.2%
+  </span>
+  <span class="absValue">
+    (120/121)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package onetoone;
+&nbsp;
+&nbsp;import onetoone.Groups.StudyGroup;
+&nbsp;import onetoone.Groups.StudyGroupRepository;
+&nbsp;import onetoone.Messages.Message;
+&nbsp;import onetoone.Rating.Rating;
+&nbsp;import onetoone.Rating.RatingRepository;
+&nbsp;import org.antlr.v4.runtime.misc.LogManager;
+&nbsp;import org.springframework.boot.CommandLineRunner;
+&nbsp;import org.springframework.boot.SpringApplication;
+&nbsp;import org.springframework.boot.autoconfigure.SpringBootApplication;
+&nbsp;import org.springframework.context.annotation.Bean;
+&nbsp;
+&nbsp;import onetoone.Courses.Course;
+&nbsp;import onetoone.Courses.CourseRepository;
+&nbsp;import onetoone.Users.User;
+&nbsp;import onetoone.Users.UserRepository;
+&nbsp;import onetoone.Messages.MessageRepository;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;/**
+&nbsp; * 
+&nbsp; * @author Saeshu Karthika &amp; Rahul Sudev
+&nbsp; * 
+&nbsp; */ 
+&nbsp;
+&nbsp;@SpringBootApplication
+<b class="fc">&nbsp;class Main {</b>
+&nbsp;
+&nbsp;
+&nbsp;    public static void main(String[] args) {
+<b class="nc">&nbsp;        SpringApplication.run(Main.class, args);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Create 3 users with their machines
+&nbsp;    /**
+&nbsp;     * 
+&nbsp;     * @param userRepository repository for the User entity
+&nbsp;     * @param courseRepository repository for the Course entity
+&nbsp;     * Creates a commandLine runner to enter dummy data into the database
+&nbsp;     * As mentioned in User.java just associating the Laptop object with the User will save it into the database because of the CascadeType
+&nbsp;     */
+&nbsp;    @Bean
+&nbsp;    CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository, RatingRepository ratingRepository) {
+<b class="fc">&nbsp;        return args -&gt; {</b>
+&nbsp;
+<b class="fc">&nbsp;            User user1 = new User(&quot;John&quot;, &quot;john123&quot;, &quot;john@osomemail.com&quot;, &quot;lol&quot;);</b>
+<b class="fc">&nbsp;            User user2 = new User(&quot;Sam&quot;, &quot;sam123&quot;, &quot;sam@somemail.com&quot;, &quot;lol&quot;);</b>
+<b class="fc">&nbsp;            User user3 = new User(&quot;Rahul&quot;, &quot;rahul123&quot;, &quot;rahul@somemail.com&quot;, &quot;lol&quot;);</b>
+<b class="fc">&nbsp;            User user4 = new User(&quot;Tanish&quot;, &quot;tan123&quot;, &quot;tan@somemail.com&quot;, &quot;lol&quot;);</b>
+<b class="fc">&nbsp;            User user5 = new User(&quot;Gavin&quot;, &quot;gav123&quot;, &quot;gav@somemail.com&quot;, &quot;lol&quot;);</b>
+<b class="fc">&nbsp;            User user6 = new User(&quot;Saeshu Karthika&quot;, &quot;saeshu123&quot;, &quot;saesh@somemail.com&quot;, &quot;lol&quot;);</b>
+<b class="fc">&nbsp;            User user7 = new User(&quot;Ben&quot;, &quot;ben123&quot;, &quot;ben@somemail.com&quot;, &quot;lol&quot;);</b>
+<b class="fc">&nbsp;            User user8 = new User(&quot;Shaun&quot;,&quot;shaun123&quot;,&quot;shaun@somemail.com&quot;,&quot;lol&quot;);</b>
+<b class="fc">&nbsp;            User user9 = new User(&quot;Jack&quot;,&quot;jack123&quot;,&quot;jack@somemail.com&quot;,&quot;lol&quot;);</b>
+<b class="fc">&nbsp;            User user10 = new User(&quot;Ethan&quot;,&quot;ethan123&quot;,&quot;ethan@somemail.com&quot;,&quot;lol&quot;);</b>
+&nbsp;
+&nbsp;
+&nbsp;// Save users
+<b class="fc">&nbsp;            userRepository.save(user1);</b>
+<b class="fc">&nbsp;            userRepository.save(user2);</b>
+<b class="fc">&nbsp;            userRepository.save(user3);</b>
+<b class="fc">&nbsp;            userRepository.save(user4);</b>
+<b class="fc">&nbsp;            userRepository.save(user5);</b>
+<b class="fc">&nbsp;            userRepository.save(user6);</b>
+<b class="fc">&nbsp;            userRepository.save(user7);</b>
+<b class="fc">&nbsp;            userRepository.save(user8);</b>
+<b class="fc">&nbsp;            userRepository.save(user9);</b>
+<b class="fc">&nbsp;            userRepository.save(user10);</b>
+&nbsp;
+&nbsp;
+&nbsp;// Create course
+<b class="fc">&nbsp;            Course course1 = new Course(&quot;Calculus 1&quot;, &quot;MATH&quot;, 165);</b>
+<b class="fc">&nbsp;            Course course2 = new Course(&quot;Calculus 2&quot;,&quot;MATH&quot;,166);</b>
+<b class="fc">&nbsp;            Course course3 = new Course(&quot;Software Development Practices&quot;,&quot;COM S&quot;,309);</b>
+<b class="fc">&nbsp;            Course course4 = new Course(&quot;Introduction to Design and Analysis of algorithms&quot;,&quot;COM S&quot;,311);</b>
+<b class="fc">&nbsp;            Course course5 = new Course(&quot;Principles of Microeconomics&quot;,&quot;ECON&quot;,101);</b>
+<b class="fc">&nbsp;            Course course6 = new Course(&quot;Economics of Discrimination&quot;,&quot;ECON&quot;,321);</b>
+<b class="fc">&nbsp;            Course course7 = new Course(&quot;Intro to music listening&quot;,&quot;MUSIC&quot;,102);</b>
+<b class="fc">&nbsp;            Course course8 = new Course(&quot;Introduction to classical physics&quot;,&quot;PHYS&quot;,231);</b>
+<b class="fc">&nbsp;            Course course9 = new Course(&quot;General Chemsitry 1&quot;,&quot;CHEM&quot;,177);</b>
+<b class="fc">&nbsp;            Course course10 = new Course(&quot;Principles of Biology 1&quot;, &quot;BIOL&quot;,211);</b>
+&nbsp;
+&nbsp;// Add users to the course
+<b class="fc">&nbsp;            course1.addUser(user1);</b>
+<b class="fc">&nbsp;            course1.addUser(user2);</b>
+&nbsp;
+&nbsp;// Save the course
+<b class="fc">&nbsp;            courseRepository.save(course1);</b>
+<b class="fc">&nbsp;            courseRepository.save(course2);</b>
+<b class="fc">&nbsp;            courseRepository.save(course3);</b>
+<b class="fc">&nbsp;            courseRepository.save(course4);</b>
+<b class="fc">&nbsp;            courseRepository.save(course5);</b>
+<b class="fc">&nbsp;            courseRepository.save(course6);</b>
+<b class="fc">&nbsp;            courseRepository.save(course7);</b>
+<b class="fc">&nbsp;            courseRepository.save(course8);</b>
+<b class="fc">&nbsp;            courseRepository.save(course9);</b>
+<b class="fc">&nbsp;            courseRepository.save(course10);</b>
+&nbsp;
+&nbsp;// Create study groups
+&nbsp;
+&nbsp;            //Study groups for course1
+<b class="fc">&nbsp;            StudyGroup group1 = new StudyGroup(&quot;MATH 165 GROUP 1&quot;,course1);</b>
+<b class="fc">&nbsp;            StudyGroup group2 = new StudyGroup(&quot;MATH 165 GROUP 2&quot;,course1);</b>
+<b class="fc">&nbsp;            StudyGroup group3 = new StudyGroup(&quot;MATH 165 GROUP 3&quot;,course1);</b>
+&nbsp;
+&nbsp;            //Study groups for course2
+<b class="fc">&nbsp;            StudyGroup group4 = new StudyGroup(&quot;MATH 166 GROUP 1&quot;,course2);</b>
+<b class="fc">&nbsp;            StudyGroup group5 = new StudyGroup(&quot;MATH 166 GROUP 2&quot;,course2);</b>
+<b class="fc">&nbsp;            StudyGroup group6 = new StudyGroup(&quot;MATH 166 GROUP 3&quot;,course2);</b>
+&nbsp;
+&nbsp;            //Study groups for course3
+<b class="fc">&nbsp;            StudyGroup group7 = new StudyGroup(&quot;COM S 309 GROUP 1&quot;,course3);</b>
+<b class="fc">&nbsp;            StudyGroup group8 = new StudyGroup(&quot;COM S 309 GROUP 2&quot;,course3);</b>
+<b class="fc">&nbsp;            StudyGroup group9 = new StudyGroup(&quot;COM S 309 GROUP 3&quot;,course3);</b>
+&nbsp;
+&nbsp;            //Study groups for course4
+<b class="fc">&nbsp;            StudyGroup group10 = new StudyGroup(&quot;COM S 311 GROUP 1&quot;,course4);</b>
+<b class="fc">&nbsp;            StudyGroup group11 = new StudyGroup(&quot;COM S 311 GROUP 2&quot;,course4);</b>
+<b class="fc">&nbsp;            StudyGroup group12 = new StudyGroup(&quot;COM S 311 GROUP 3&quot;,course4);</b>
+&nbsp;
+&nbsp;            //Study groups for course5
+<b class="fc">&nbsp;            StudyGroup group13 = new StudyGroup(&quot;ECON 101 Group1&quot;,course5);</b>
+<b class="fc">&nbsp;            StudyGroup group14 = new StudyGroup(&quot;ECON 101 Group2&quot;,course5);</b>
+<b class="fc">&nbsp;            StudyGroup group15 = new StudyGroup(&quot;ECON 101 Group3&quot;,course5);</b>
+&nbsp;
+&nbsp;            //Study groups for course6
+<b class="fc">&nbsp;            StudyGroup group16 = new StudyGroup(&quot;ECON 321 Group1&quot;,course6);</b>
+<b class="fc">&nbsp;            StudyGroup group17 = new StudyGroup(&quot;ECON 321 Group2&quot;,course6);</b>
+<b class="fc">&nbsp;            StudyGroup group18 = new StudyGroup(&quot;ECON 321 Group3&quot;,course6);</b>
+&nbsp;
+&nbsp;            //Study groups for course7
+<b class="fc">&nbsp;            StudyGroup group19 = new StudyGroup(&quot;MUSIC 102 Group1&quot;,course7);</b>
+<b class="fc">&nbsp;            StudyGroup group20 = new StudyGroup(&quot;MUSIC 102 Group2&quot;,course7);</b>
+<b class="fc">&nbsp;            StudyGroup group21 = new StudyGroup(&quot;MUSIC 102 Group3&quot;,course7);</b>
+&nbsp;
+&nbsp;            //Study groups for course8
+<b class="fc">&nbsp;            StudyGroup group22 = new StudyGroup(&quot;PHYS 231 Group1&quot;,course8);</b>
+<b class="fc">&nbsp;            StudyGroup group23 = new StudyGroup(&quot;PHYS 231 Group2&quot;,course8);</b>
+<b class="fc">&nbsp;            StudyGroup group24 = new StudyGroup(&quot;PHYS 231 Group3&quot;,course8);</b>
+&nbsp;
+&nbsp;            //Study groups for course9
+<b class="fc">&nbsp;            StudyGroup group25 = new StudyGroup(&quot;CHEM 177 Group1&quot;,course9);</b>
+<b class="fc">&nbsp;            StudyGroup group26 = new StudyGroup(&quot;CHEM 177 Group2&quot;,course9);</b>
+<b class="fc">&nbsp;            StudyGroup group27 = new StudyGroup(&quot;CHEM 177 Group3&quot;,course9);</b>
+&nbsp;
+&nbsp;            //Study groups for course 10
+<b class="fc">&nbsp;            StudyGroup group28 = new StudyGroup(&quot;BIOL 211 Group1&quot;,course10);</b>
+<b class="fc">&nbsp;            StudyGroup group29 = new StudyGroup(&quot;BIOL 211 Group2&quot;,course10);</b>
+<b class="fc">&nbsp;            StudyGroup group30 = new StudyGroup(&quot;BIOL 211 Group3&quot;,course10);</b>
+&nbsp;
+&nbsp;
+&nbsp;// Save study groups
+<b class="fc">&nbsp;            studyGroupRepository.save(group1);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group2);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group3);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group4);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group5);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group6);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group7);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group8);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group9);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group10);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group11);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group12);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group13);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group14);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group15);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group16);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group17);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group18);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group19);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group20);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group21);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group22);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group23);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group24);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group25);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group26);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group27);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group28);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group29);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group30);</b>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;// Add users to study groups
+<b class="fc">&nbsp;            group1.addUser(user1);</b>
+<b class="fc">&nbsp;            group1.addUser(user2);</b>
+<b class="fc">&nbsp;            group2.addUser(user1);</b>
+<b class="fc">&nbsp;            group2.addUser(user2);</b>
+&nbsp;
+&nbsp;// Save the study groups after adding users
+<b class="fc">&nbsp;            studyGroupRepository.save(group1);</b>
+<b class="fc">&nbsp;            studyGroupRepository.save(group2);</b>
+&nbsp;
+&nbsp;// Create ratings
+<b class="fc">&nbsp;            Rating rating1 = new Rating(user1, group1, 2);</b>
+<b class="fc">&nbsp;            Rating rating2 = new Rating(user1, group2, 1.5);</b>
+<b class="fc">&nbsp;            Rating rating3 = new Rating(user2, group1, 2);</b>
+<b class="fc">&nbsp;            Rating rating4 = new Rating(user2, group2, 1.5);</b>
+&nbsp;
+&nbsp;// Save ratings
+<b class="fc">&nbsp;            ratingRepository.save(rating1);</b>
+<b class="fc">&nbsp;            ratingRepository.save(rating2);</b>
+<b class="fc">&nbsp;            ratingRepository.save(rating3);</b>
+<b class="fc">&nbsp;            ratingRepository.save(rating4);</b>
+&nbsp;
+&nbsp;// Save users after adding ratings
+<b class="fc">&nbsp;            userRepository.save(user1);</b>
+<b class="fc">&nbsp;            userRepository.save(user2);</b>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;//
+&nbsp;//            User user1 = new User(&quot;John&quot;, &quot;john123&quot;,&quot;john@somemail.com&quot;, &quot;lol&quot;);
+&nbsp;//
+&nbsp;//            User user2 = new User(&quot;Sam&quot;, &quot;sam123&quot;,&quot;sam@somemail.com&quot;, &quot;lol&quot;);
+&nbsp;////            User user2 = new User(&quot;Jane&quot;, &quot;jane@somemail.com&quot;, &quot;lol&quot;);
+&nbsp;////            User user3 = new User(&quot;Justin&quot;, &quot;justin@somemail.com&quot;, &quot;lol&quot;);
+&nbsp;////
+&nbsp;//            Course course1 = new Course(&quot;Calculus 1&quot;, &quot;MATH&quot;, 166);
+&nbsp;////
+&nbsp;//            userRepository.save(user1);
+&nbsp;//            userRepository.save(user2);
+&nbsp;//
+&nbsp;////            userRepository.save(user2);
+&nbsp;////            userRepository.save(user3);
+&nbsp;////
+&nbsp;//            course1.addUser(user1);
+&nbsp;//            course1.addUser(user2);
+&nbsp;////            course1.addUser(user3);
+&nbsp;////
+&nbsp;//            courseRepository.save(course1);
+&nbsp;//
+&nbsp;//
+&nbsp;//
+&nbsp;//
+&nbsp;////            Message message1 = new Message(&quot;How are you&quot;);
+&nbsp;////            message1.setSender(user1);
+&nbsp;////            messageRepository.save(message1);
+&nbsp;////
+&nbsp;//            StudyGroup group1 = new StudyGroup(&quot;Group 1&quot;);
+&nbsp;//            StudyGroup group2 = new StudyGroup(&quot;Group 2&quot;);
+&nbsp;//
+&nbsp;//            studyGroupRepository.save(group1);
+&nbsp;//            studyGroupRepository.save(group2);
+&nbsp;//
+&nbsp;//            group1.addUser(user1);
+&nbsp;//            group1.addUser(user2);
+&nbsp;//            group2.addUser(user1);
+&nbsp;//            group2.addUser(user2);
+&nbsp;//
+&nbsp;//            studyGroupRepository.save(group1);
+&nbsp;//            studyGroupRepository.save(group2);
+&nbsp;//
+&nbsp;//            Rating rating1 = new Rating(user1,group1,2);
+&nbsp;//            Rating rating2 = new Rating(user1,group2, 1.5);
+&nbsp;//
+&nbsp;//
+&nbsp;//            Rating rating3 = new Rating(user2, group1, 2);
+&nbsp;//            Rating rating4 = new Rating(user2,group2, 1.5);
+&nbsp;//
+&nbsp;//            ratingRepository.save(rating1);
+&nbsp;//            ratingRepository.save(rating2);
+&nbsp;//            ratingRepository.save(rating3);
+&nbsp;//            ratingRepository.save(rating4);
+&nbsp;//
+&nbsp;//            userRepository.save(user1);
+&nbsp;//            userRepository.save(user2);
+&nbsp;////
+&nbsp;////            group1.addRating(rating1);
+&nbsp;////            group1.addRating(rating2);
+&nbsp;////            group2.addRating(rating1);
+&nbsp;////            group2.addRating(rating2);
+&nbsp;//
+&nbsp;////            user1.addRating(rating1);
+&nbsp;////            user1.addRating(rating2);
+&nbsp;////
+&nbsp;////            user2.addRating(rating1);
+&nbsp;////            user2.addRating(rating2);
+&nbsp;//
+&nbsp;//
+&nbsp;////          group1.addUser(user2);
+&nbsp;////           group1.addUser(user3);
+&nbsp;//            studyGroupRepository.save(group1);
+&nbsp;//            studyGroupRepository.save(group2);
+&nbsp;//           userRepository.save(user1);
+&nbsp;//           userRepository.save(user2);
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-26 22:54</div>
+</div>
+</body>
+</html>

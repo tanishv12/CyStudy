@@ -1,0 +1,231 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Course</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">onetoone.Courses</a>
+</div>
+
+<h1>Coverage Summary for Class: Course (onetoone.Courses)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Course</td>
+<td class="coverageStat">
+  <span class="percent">
+    43.8%
+  </span>
+  <span class="absValue">
+    (7/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (12/21)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Course$HibernateInstantiator$aN4cLDRc</td>
+  </tr>
+  <tr>
+    <td class="name">Course$HibernateProxy$xgoZwHG3</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    43.8%
+  </span>
+  <span class="absValue">
+    (7/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (12/21)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package onetoone.Courses;
+&nbsp;import jakarta.persistence.*;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;
+&nbsp;import onetoone.Groups.StudyGroup;
+&nbsp;import onetoone.Resources.StudyResources;
+&nbsp;import onetoone.Users.User;
+&nbsp;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;/**
+&nbsp; * 
+&nbsp; * @author Rahul Sudev
+&nbsp; */ 
+&nbsp;
+&nbsp;@Entity
+&nbsp;@Table(name = &quot;COURSE&quot;)
+&nbsp;public class Course {
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    private long id;
+&nbsp;    private int courseCode;
+&nbsp;    private String courseName;
+&nbsp;    private String courseDepartment;
+&nbsp;
+&nbsp;    @ManyToMany(fetch = FetchType.LAZY)
+&nbsp;    @JoinTable(name=&quot;course_user&quot;, joinColumns = {@JoinColumn(name=&quot;course_id&quot;, referencedColumnName = &quot;id&quot;)},
+&nbsp;    inverseJoinColumns = {@JoinColumn(name=&quot;user_id&quot;, referencedColumnName = &quot;id&quot;)})
+&nbsp;    @JsonIgnore
+&nbsp;    private Set&lt;User&gt; userSet;
+&nbsp;
+&nbsp;    @OneToMany(fetch = FetchType.LAZY, mappedBy = &quot;course&quot;, cascade = CascadeType.MERGE)
+&nbsp;    @JsonIgnore
+&nbsp;    private Set&lt;StudyGroup&gt; groupSet;
+&nbsp;
+&nbsp;//    @OneToMany(fetch = FetchType.LAZY, mappedBy = &quot;course&quot;, cascade = CascadeType.ALL)
+&nbsp;//    private Set&lt;StudyResources&gt; studyResourcesSet;
+&nbsp;
+&nbsp;
+&nbsp;    @OneToMany(fetch = FetchType.LAZY, mappedBy = &quot;course&quot;, cascade = CascadeType.MERGE)
+&nbsp;    private List&lt;StudyResources&gt; studyResourceList;
+&nbsp;
+&nbsp;    // =============================== Constructors ================================== //
+&nbsp;
+<b class="fc">&nbsp;    public Course(String courseName, String courseDepartment,int courseCode) {</b>
+<b class="fc">&nbsp;        this.courseName = courseName;</b>
+<b class="fc">&nbsp;        this.courseDepartment = courseDepartment;</b>
+<b class="fc">&nbsp;        this.courseCode = courseCode;</b>
+<b class="fc">&nbsp;        this.userSet = new HashSet&lt;User&gt;();</b>
+<b class="fc">&nbsp;        this.groupSet = new HashSet&lt;StudyGroup&gt;();</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public Course() {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // =============================== Getters and Setters for each field ================================== //
+&nbsp;
+&nbsp;    public long getid() {
+<b class="nc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setid(long id) {
+<b class="nc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getCourseCode() {
+<b class="fc">&nbsp;        return courseCode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCourseCode(int courseCode) {
+<b class="fc">&nbsp;        this.courseCode = courseCode;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCourseName() {
+<b class="nc">&nbsp;        return courseName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCourseName(String courseName) {
+<b class="fc">&nbsp;        this.courseName = courseName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCourseDepartment() {
+<b class="nc">&nbsp;        return courseDepartment;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCourseDepartment(String courseDepartment) {
+<b class="fc">&nbsp;        this.courseDepartment = courseDepartment;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Set&lt;User&gt; getUserSet() {
+<b class="nc">&nbsp;        return userSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUserSet(Set&lt;User&gt; userSet) {
+<b class="nc">&nbsp;        this.userSet = userSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addUser(User user) {
+<b class="fc">&nbsp;        userSet.add(user);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public void removeUser(User user){userSet.remove(user);}</b>
+&nbsp;
+&nbsp;    public Set&lt;StudyGroup&gt; getGroupSet() {
+<b class="nc">&nbsp;        return groupSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setGroupSet(Set&lt;StudyGroup&gt; groupSet) {
+<b class="nc">&nbsp;        this.groupSet = groupSet;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-26 22:54</div>
+</div>
+</body>
+</html>
