@@ -85,8 +85,8 @@ public class ChatSocket {
 					groupnameSessionMap.get(groupName).add(session);
 					sessionGroupnameMap.put(session, group.getGroupName());
 
-					String message = "Student:" + username + " has Joined the " + groupName;
-					broadcast(message, groupName);
+//					String message = "Student:" + username + " has Joined the " + groupName;
+//					broadcast(message, groupName);
 				} else {
 					// store connecting user information
 					List<Session> sessions = new ArrayList<>();
