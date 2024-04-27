@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GroupManagementActivity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debug</a> &gt; <a href="index.source.html" class="el_package">com.example.androidexample</a> &gt; <span class="el_source">GroupManagementActivity.java</span></div><h1>GroupManagementActivity.java</h1><pre class="source lang-java linenums">package com.example.androidexample;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+<span class="nc" id="L25">public class GroupManagementActivity extends AppCompatActivity {</span>
+
+    String deleteUrl, updateUrl;
+    boolean isFirstClick, isFirstClickUpdate;
+    private EditText group_name;
+    private TextView chat;
+    private Button create_group, read_group, update_group, delete_group;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="nc" id="L35">        super.onCreate(savedInstanceState);</span>
+<span class="nc" id="L36">        setContentView(R.layout.activity_group_management);</span>
+<span class="nc" id="L37">        isFirstClick = true;</span>
+<span class="nc" id="L38">        isFirstClickUpdate = true;</span>
+<span class="nc" id="L39">        deleteUrl = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/delete/&quot;;</span>
+<span class="nc" id="L40">        updateUrl = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/update/&quot;;</span>
+<span class="nc" id="L41">        chat = findViewById(R.id.all_chat);</span>
+<span class="nc" id="L42">        group_name = findViewById(R.id.groupName);</span>
+<span class="nc" id="L43">        create_group = findViewById(R.id.createGroup);</span>
+<span class="nc" id="L44">        read_group = findViewById(R.id.readGroup);</span>
+<span class="nc" id="L45">        update_group = findViewById(R.id.updateGroup);</span>
+<span class="nc" id="L46">        delete_group = findViewById(R.id.deleteGroup);</span>
+
+<span class="nc" id="L48">        create_group.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L51">                chat.setText(&quot;make this method map to the create group screen&quot;);</span>
+                //Map to create group screen
+<span class="nc" id="L53">            }</span>
+        });
+
+<span class="nc" id="L56">        delete_group.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L59">                String temp = group_name.getText().toString();</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                if(isFirstClick)</span>
+                {
+<span class="nc" id="L62">                    Toast.makeText(GroupManagementActivity.this, &quot;Click again to delete group, enter user name and click to remove user&quot;, Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L63">                    deleteUrl += temp;</span>
+<span class="nc" id="L64">                    getUsersRequest();</span>
+<span class="nc" id="L65">                    isFirstClick = false;</span>
+<span class="nc" id="L66">                    group_name.setText(&quot;&quot;);</span>
+
+                }
+                else {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                    if(!temp.isEmpty())</span>
+                    {
+<span class="nc" id="L72">                        deleteUrl += &quot;/&quot; + temp;</span>
+<span class="nc" id="L73">                        Toast.makeText(GroupManagementActivity.this, deleteUrl, Toast.LENGTH_SHORT).show();</span>
+                    }
+                    else {
+<span class="nc" id="L76">                        Toast.makeText(GroupManagementActivity.this, deleteUrl, Toast.LENGTH_SHORT).show();</span>
+                    }
+<span class="nc" id="L78">                    isFirstClick = true;</span>
+<span class="nc" id="L79">                    deleteRequest();</span>
+<span class="nc" id="L80">                    deleteUrl = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/delete/&quot;;</span>
+<span class="nc" id="L81">                    group_name.setText(&quot;&quot;);</span>
+                }
+<span class="nc" id="L83">            }</span>
+        });
+
+<span class="nc" id="L86">        read_group.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L89">                getRequest();</span>
+<span class="nc" id="L90">            }</span>
+        });
+
+<span class="nc" id="L93">        update_group.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L96">                String temp = group_name.getText().toString();</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                if(isFirstClickUpdate)</span>
+                {
+<span class="nc" id="L99">                    Toast.makeText(GroupManagementActivity.this, &quot;Enter new group name and click update&quot;, Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L100">                    isFirstClickUpdate = false;</span>
+<span class="nc" id="L101">                    updateUrl += temp + &quot;/&quot;;</span>
+<span class="nc" id="L102">                    group_name.setText(&quot;&quot;);</span>
+                }
+                else {
+<span class="nc" id="L105">                    updateUrl += temp;</span>
+<span class="nc" id="L106">                    isFirstClickUpdate = true;</span>
+<span class="nc" id="L107">                    putRequest();</span>
+<span class="nc" id="L108">                    updateUrl = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/update/&quot;;</span>
+<span class="nc" id="L109">                    group_name.setText(&quot;&quot;);</span>
+                }
+
+<span class="nc" id="L112">            }</span>
+        });
+        //Most of the methods are in StudyGroupFragment. Copy over from there.
+<span class="nc" id="L115">    }</span>
+
+    /**
+     * Deletes study group that the user is currently in
+     *
+     * IMPORTANT: Must change url to delete the group using given name
+     */
+    private void deleteRequest()
+    {
+<span class="nc" id="L124">        String url = deleteUrl;</span>
+        // Convert input to JSONObject
+<span class="nc" id="L126">        JSONObject deleteBody = null;</span>
+
+        try
+        {
+<span class="nc" id="L130">            Log.e(&quot;Try Entered&quot;,&quot;oisafuhgiureshg&quot;);</span>
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+<span class="nc" id="L134">            deleteBody = new JSONObject();</span>
+//            deleteBody.put(&quot;group_id&quot;, updateGrp.getText().toString());
+<span class="nc" id="L136">            Log.e(&quot;what is putbody&quot;,deleteBody.toString());</span>
+<span class="nc" id="L137">            Log.e(&quot;Try BLAH&quot;,&quot;oisafuhgiureshg&quot;);</span>
+<span class="nc" id="L138">            url += &quot;/&quot; + &quot;5&quot;;</span>
+<span class="nc" id="L139">            Log.e(&quot;What is url&quot;,url.toString());</span>
+////                    + &quot;/&quot; + loginPassword.getText().toString();
+        }
+<span class="nc" id="L142">        catch (Exception e)</span>
+        {
+<span class="nc" id="L144">            Log.e(&quot;Catch Entered&quot;,&quot;wkerufhieuwhf&quot;);</span>
+<span class="nc" id="L145">            e.printStackTrace();</span>
+<span class="nc" id="L146">        }</span>
+
+<span class="nc" id="L148">        JsonObjectRequest request = new JsonObjectRequest(</span>
+                Request.Method.DELETE,
+                url,
+                deleteBody,
+                new Response.Listener&lt;JSONObject&gt;()
+<span class="nc" id="L153">                {</span>
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+<span class="nc" id="L157">                        chat.setText(response.toString());</span>
+<span class="nc" id="L158">                        Log.e(&quot;Response Entered&quot;,response.toString());</span>
+
+<span class="nc" id="L160">                    }</span>
+                },
+                new Response.ErrorListener()
+<span class="nc" id="L163">                {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+<span class="nc" id="L167">                        Log.e(&quot;Error Response&quot;, error.toString());</span>
+<span class="nc" id="L168">                        Toast.makeText(GroupManagementActivity.this, error.toString(), Toast.LENGTH_SHORT).show();</span>
+
+<span class="nc" id="L170">                    }</span>
+                }
+<span class="nc" id="L172">        ){</span>
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L175">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L178">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L183">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L186">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L191">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);</span>
+<span class="nc" id="L192">    }</span>
+
+    /**
+     * Retrieves all study groups that the user is in given user name
+     */
+    private void getRequest()
+    {
+<span class="nc" id="L199">        String url = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/all&quot;;</span>
+<span class="nc" id="L200">        url += &quot;/&quot; + group_name.getText().toString();</span>
+
+<span class="nc" id="L202">        chat.setText(url);</span>
+
+        // Request a string response from the provided URL.
+<span class="nc" id="L205">        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,</span>
+<span class="nc" id="L206">                new Response.Listener&lt;String&gt;() {</span>
+                    @Override
+                    public void onResponse(String response) {
+
+                        // Display the first 500 characters of the response string.
+                        // String response can be converted to JSONObject via
+                        // JSONObject object = new JSONObject(response);
+<span class="nc" id="L213">                        chat.setText(response);</span>
+
+<span class="nc" id="L215">                    }</span>
+                },
+<span class="nc" id="L217">                new Response.ErrorListener() {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+<span class="nc" id="L220">                        Toast.makeText(GroupManagementActivity.this, error.toString(), Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L221">                    }</span>
+<span class="nc" id="L222">                }){</span>
+
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L226">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L229">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L234">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L237">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L242">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);</span>
+<span class="nc" id="L243">    }</span>
+
+    /**
+     * Retrieves all users in study group
+     */
+    private void getUsersRequest()
+    {
+<span class="nc" id="L250">        String url = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/all/users/&quot;;</span>
+<span class="nc" id="L251">        url += group_name.getText().toString();</span>
+        //CHANGE TO USERS IN GROUP
+
+        // Request a string response from the provided URL.
+<span class="nc" id="L255">        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,</span>
+<span class="nc" id="L256">                new Response.Listener&lt;String&gt;() {</span>
+                    @Override
+                    public void onResponse(String response) {
+
+                        // Display the first 500 characters of the response string.
+                        // String response can be converted to JSONObject via
+                        // JSONObject object = new JSONObject(response);
+<span class="nc" id="L263">                        chat.setText(response);</span>
+
+<span class="nc" id="L265">                    }</span>
+                },
+<span class="nc" id="L267">                new Response.ErrorListener() {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+<span class="nc" id="L270">                        Toast.makeText(GroupManagementActivity.this, error.toString(), Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L271">                    }</span>
+<span class="nc" id="L272">                }){</span>
+
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L276">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L279">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L284">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L287">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L292">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);</span>
+<span class="nc" id="L293">    }</span>
+
+    /**
+     * Updates study group name that the user is in
+     */
+    private void putRequest()
+    {
+<span class="nc" id="L300">        String url = updateUrl;</span>
+        // Convert input to JSONObject
+<span class="nc" id="L302">        JSONObject putBody = null;</span>
+
+        try
+        {
+<span class="nc" id="L306">            Log.e(&quot;Try Entered&quot;,&quot;oisafuhgiureshg&quot;);</span>
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+<span class="nc" id="L310">            Log.e(&quot;What is url&quot;,url.toString());</span>
+////                    + &quot;/&quot; + loginPassword.getText().toString();
+        }
+<span class="nc" id="L313">        catch (Exception e)</span>
+        {
+<span class="nc" id="L315">            Log.e(&quot;Catch Entered&quot;,&quot;wkerufhieuwhf&quot;);</span>
+<span class="nc" id="L316">            e.printStackTrace();</span>
+<span class="nc" id="L317">        }</span>
+
+<span class="nc" id="L319">        JsonObjectRequest request = new JsonObjectRequest(</span>
+                Request.Method.PUT,
+                url,
+                putBody,
+                new Response.Listener&lt;JSONObject&gt;()
+<span class="nc" id="L324">                {</span>
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+<span class="nc" id="L328">                        Log.e(&quot;Response Entered&quot;,response.toString());</span>
+<span class="nc" id="L329">                        chat.setText(response.toString());</span>
+<span class="nc" id="L330">                    }</span>
+                },
+                new Response.ErrorListener()
+<span class="nc" id="L333">                {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+<span class="nc" id="L337">                        Log.e(&quot;Error Response&quot;, error.toString());</span>
+<span class="nc" id="L338">                        Toast.makeText(GroupManagementActivity.this, error.toString(), Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L339">                    }</span>
+                }
+<span class="nc" id="L341">        ){</span>
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L344">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L347">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L352">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L355">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L360">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);</span>
+<span class="nc" id="L361">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>Generated by the Android Gradle plugin 8.0.0</div></body></html>

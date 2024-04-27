@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StudyGroupFragment.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debug</a> &gt; <a href="index.source.html" class="el_package">com.example.androidexample</a> &gt; <span class="el_source">StudyGroupFragment.java</span></div><h1>StudyGroupFragment.java</h1><pre class="source lang-java linenums">package com.example.androidexample;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Typeface;
+import android.os.Bundle;
+
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.Group;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
+
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.java_websocket.handshake.ServerHandshake;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONString;
+import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+/**
+ * StudyGroupFragment instance used for group members to see
+ * who is joining and leaving the study group.
+ *
+ * Utilizes websockets to a live notification display
+ * as well as CRUDL operations for study groups
+ */
+public class StudyGroupFragment extends AppCompatActivity implements WebSocketListener
+{
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = &quot;param1&quot;;
+    private static final String ARG_PARAM2 = &quot;param2&quot;;
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+<span class="nc" id="L80">    private StringBuilder names = new StringBuilder();</span>
+<span class="nc" id="L81">    private StringBuilder ratings = new StringBuilder();</span>
+
+    private String user;
+
+
+
+    private TextView gresponse;
+//    private Button getButton;
+//    private Button postButton;
+//    private Button studyGroupsToClasses;
+
+//    private Button updateButton;
+//    private EditText updateGrp;
+
+    private EditText updateGrpText;
+
+    private Button studyGroupsToMessages;
+
+    private FloatingActionButton optionBtn;
+
+    private FloatingActionButton addGrp;
+
+    private Button deleteBTN;
+
+    private Button connectButton;
+
+    private static final int CREATE_GROUP_REQUEST_CODE = 1;
+
+
+    private String optionGroupName;
+    private String optionUpdateGroupName;
+    private EditText updateGrpName;
+    private EditText groupEditText;
+    private Button buttonUpd;
+    private Button buttonRat;
+    private Button buttonDel;
+    private EditText GroupText;
+
+    private static String serverURL;
+
+    private TextView studyGrpHead;
+
+    private LinearLayout cardsContainer;
+
+    private String rating;
+
+    private String groupName;
+
+    private ActivityResultLauncher&lt;Intent&gt; mCreateGroupResultLauncher;
+
+
+    private void showForgotDialog(Context c)
+    {
+<span class="nc" id="L134">        LayoutInflater inflater = LayoutInflater.from(c);</span>
+<span class="nc" id="L135">        View dialogView = inflater.inflate(R.layout.options_activity, null);</span>
+<span class="nc" id="L136">        AlertDialog dialog = new AlertDialog.Builder(c)</span>
+<span class="nc" id="L137">                .setTitle(&quot;Group Options&quot;)</span>
+<span class="nc" id="L138">                .setView(dialogView)</span>
+<span class="nc" id="L139">                .setNegativeButton(&quot;Cancel&quot;, null)</span>
+<span class="nc" id="L140">                .create();</span>
+
+<span class="nc" id="L142">        buttonUpd = dialogView.findViewById(R.id.buttonUpdate);</span>
+<span class="nc" id="L143">        buttonDel = dialogView.findViewById(R.id.buttonDelete);</span>
+<span class="nc" id="L144">        buttonRat = dialogView.findViewById(R.id.buttonRating);</span>
+<span class="nc" id="L145">        updateGrpName = dialogView.findViewById(R.id.updatedGroupName);</span>
+//        updateGrpName.setText(groupname);
+
+
+
+
+<span class="nc" id="L151">        Log.d(&quot;DialogSetup&quot;, &quot;Setting up buttonUpd listener&quot;);</span>
+<span class="nc" id="L152">        buttonUpd.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L155">                optionGroupName = groupEditText.getText().toString();</span>
+<span class="nc" id="L156">                optionUpdateGroupName = updateGrpName.getText().toString();</span>
+<span class="nc" id="L157">                Log.d(&quot;DialogSetup&quot;, optionGroupName);</span>
+<span class="nc" id="L158">                Log.d(&quot;DialogSetup&quot;, optionUpdateGroupName);</span>
+<span class="nc" id="L159">                Log.d(&quot;Dialog&quot;, &quot;Function called&quot;);</span>
+                // Handle button click
+<span class="nc" id="L161">                putRequest();</span>
+                // Do something with the input
+<span class="nc" id="L163">                dialog.dismiss(); // Close the dialog if needed</span>
+<span class="nc" id="L164">            }</span>
+        });
+
+<span class="nc" id="L167">        buttonDel.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L170">                optionGroupName = groupEditText.getText().toString();</span>
+                // Handle button click
+<span class="nc" id="L172">                deleteRequest();</span>
+                // Do something with the input
+<span class="nc" id="L174">                dialog.dismiss(); // Close the dialog if needed</span>
+<span class="nc" id="L175">            }</span>
+        });
+
+<span class="nc" id="L178">        buttonRat.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L181">                optionGroupName = groupEditText.getText().toString();</span>
+<span class="nc" id="L182">                GroupNameSingleton.getInstance().setGroupName(optionGroupName);</span>
+                // Handle button click
+<span class="nc" id="L184">                startActivity(new Intent(getApplicationContext(), RatingReview.class));</span>
+                // Do something with the input
+//                dialog.dismiss(); // Close the dialog if needed
+<span class="nc" id="L187">            }</span>
+        });
+
+
+<span class="nc" id="L191">        dialog.show();</span>
+<span class="nc" id="L192">    }</span>
+
+    /**
+     * Updates study group name that the user is in
+     */
+    private void putRequest()
+    {
+<span class="nc" id="L199">        Log.d(&quot;DialogActions&quot;, &quot;putRequest method called&quot;);</span>
+<span class="nc" id="L200">        String url = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/update&quot;;</span>
+        // Convert input to JSONObject
+<span class="nc" id="L202">        JSONObject putBody = null;</span>
+
+        try
+        {
+<span class="nc" id="L206">            Log.e(&quot;name&quot;,&quot;optionGroupName&quot;);</span>
+<span class="nc" id="L207">            Log.e(&quot;name&quot;,&quot;optionUpdateGroupName&quot;);</span>
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+<span class="nc" id="L211">            putBody = new JSONObject();</span>
+<span class="nc" id="L212">            putBody.put(&quot;groupName&quot;, optionUpdateGroupName);</span>
+
+<span class="nc" id="L214">            url += &quot;/&quot; + optionGroupName + &quot;/&quot; + optionUpdateGroupName;</span>
+        }
+<span class="nc" id="L216">        catch (Exception e)</span>
+        {
+<span class="nc" id="L218">            Log.e(&quot;Catch Entered&quot;,&quot;wkerufhieuwhf&quot;);</span>
+<span class="nc" id="L219">            e.printStackTrace();</span>
+<span class="nc" id="L220">        }</span>
+
+<span class="nc" id="L222">        JsonObjectRequest request = new JsonObjectRequest(</span>
+                Request.Method.PUT,
+                url,
+                putBody,
+                new Response.Listener&lt;JSONObject&gt;()
+<span class="nc" id="L227">                {</span>
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+
+<span class="nc" id="L232">                        Log.e(&quot;Response Entered&quot;,response.toString());</span>
+
+<span class="nc" id="L234">                    }</span>
+                },
+                new Response.ErrorListener()
+<span class="nc" id="L237">                {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+<span class="nc" id="L241">                        Log.e(&quot;Error Response&quot;, error.toString());</span>
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+<span class="nc" id="L244">                    }</span>
+                }
+<span class="nc" id="L246">        ){</span>
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L249">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L252">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L257">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L260">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L265">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);</span>
+<span class="nc" id="L266">    }</span>
+
+
+    public int convertDpToPixels(float dp, Context context)
+    {
+<span class="nc" id="L271">        return (int) (dp * getResources().getDisplayMetrics().density);</span>
+    }
+
+    /**
+     * Creates a study group user interface
+     * @param savedInstanceState Stores information needed to reload UI on system crashes
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+<span class="nc" id="L281">        setContentView(R.layout.fragment_study_group);</span>
+<span class="nc" id="L282">        user = UsernameSingleton.getInstance().getUserName();</span>
+<span class="nc" id="L283">        getRequest();</span>
+<span class="nc" id="L284">        ActivityResultLauncher&lt;Intent&gt; mCreateGroupResultLauncher = registerForActivityResult(</span>
+                new ActivityResultContracts.StartActivityForResult(),
+                result -&gt; {
+<span class="nc bnc" id="L287" title="All 4 branches missed.">                    if (result.getResultCode() == Activity.RESULT_OK &amp;&amp; result.getData() != null) {</span>
+                        // Retrieve the group information
+<span class="nc" id="L289">                        studyGrpHead = findViewById(R.id.studyHead);</span>
+<span class="nc" id="L290">                        groupName = result.getData().getStringExtra(&quot;groupName&quot;);</span>
+<span class="nc" id="L291">                        Log.e(&quot;group&quot;, &quot;group name: &quot; + groupName); //Learn how to completely transfer data this is temporary.</span>
+//                        names.append(groupName).append(&quot;\n&quot;);
+
+<span class="nc" id="L294">                        cardsContainer = findViewById(R.id.linearLayoutGroups);</span>
+<span class="nc" id="L295">                        groupName = groupName.toString();</span>
+
+<span class="nc" id="L297">                        CardView cardView = createCard(groupName, rating);</span>
+//                        GroupSingleton.getInstance().setGroupName(groupName);
+<span class="nc" id="L299">                        cardsContainer.addView(cardView);</span>
+//                        gresponse.setText(names);
+                    }
+<span class="nc" id="L302">                }</span>
+        );
+
+<span class="nc" id="L305">        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);</span>
+<span class="nc" id="L306">        bottomNavigationView.setSelectedItemId(R.id.StudyGroups);</span>
+
+<span class="nc" id="L308">        bottomNavigationView.setOnItemSelectedListener(item -&gt; {</span>
+<span class="nc bnc" id="L309" title="All 2 branches missed.">            if (item.getItemId() == R.id.StudyGroups) {</span>
+<span class="nc" id="L310">                return true;</span>
+<span class="nc bnc" id="L311" title="All 2 branches missed.">            } if (item.getItemId() == R.id.Home) {</span>
+<span class="nc" id="L312">                startActivity(new Intent(getApplicationContext(), MainActivity.class));</span>
+<span class="nc" id="L313">                return true;</span>
+<span class="nc bnc" id="L314" title="All 2 branches missed.">            } if (item.getItemId() == R.id.Classes) {</span>
+<span class="nc" id="L315">                startActivity(new Intent(getApplicationContext(), ClassFragment.class));</span>
+<span class="nc" id="L316">                return true;</span>
+            }
+<span class="nc" id="L318">            return false;</span>
+        });
+
+<span class="nc" id="L321">        super.onCreate(savedInstanceState);</span>
+
+<span class="nc" id="L323">        WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);</span>
+
+
+
+<span class="nc" id="L327">        addGrp = findViewById(R.id.addGroup);</span>
+<span class="nc" id="L328">        optionBtn = findViewById(R.id.optionButton);</span>
+//        getButton = findViewById(R.id.getBUTTON);
+<span class="nc" id="L330">        gresponse = findViewById(R.id.getresponse);</span>
+//        postButton = findViewById(R.id.postButton);
+//        updateButton = findViewById(R.id.putButton);
+//        updateGrp = findViewById(R.id.updateGroup);
+//        GroupText = findViewById(R.id.groupText);
+//        deleteBTN = findViewById(R.id.deleteGrpButton);
+//        connectButton = findViewById(R.id.userConnectButton);
+
+
+<span class="nc" id="L339">        optionBtn.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view)
+            {
+<span class="nc" id="L343">                showForgotDialog(StudyGroupFragment.this);</span>
+<span class="nc" id="L344">            }</span>
+        });
+
+<span class="nc" id="L347">        addGrp.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view)
+            {
+<span class="nc" id="L351">                Intent intent = new Intent(StudyGroupFragment.this, AddStudyGrp.class);</span>
+<span class="nc" id="L352">                mCreateGroupResultLauncher.launch(intent);</span>
+
+//                Intent intent = new Intent(StudyGroupFragment.this, AddStudyGrp.class);
+//                startActivity(intent);
+//                activityResultLauncher.launch(intent);
+<span class="nc" id="L357">            }</span>
+        });
+
+        /**
+         * Connects user to chat server using websockets
+         */
+//        connectButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                user = UsernameSingleton.getInstance().getUserName();
+//                serverURL = &quot;ws://coms-309-016.class.las.iastate.edu:8080/user/&quot;+user;
+//
+//                WebSocketManager.getInstance().connectWebSocket(serverURL);
+//                WebSocketManager.getInstance().setWebSocketListener(StudyGroupFragment.this);
+//            }
+//        });
+
+        /**
+         * Gets study group name
+         */
+//        getButton.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                getRequest();
+//            }
+//        });
+
+        /**
+         * Deletes study group
+         */
+//        deleteBTN.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                deleteRequest();
+//            }
+//        });
+
+        /**
+         * Creates study group
+         */
+//        postButton.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                postRequest();
+//            }
+//        });
+
+        /**
+         * Updates study group name
+         */
+//        updateButton.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                putRequest();
+//            }
+//        });
+<span class="nc" id="L422">    }</span>
+
+    //group_id   course_id
+    public StudyGroupFragment()
+<span class="nc" id="L426">    {</span>
+        // Required empty public constructor
+<span class="nc" id="L428">    }</span>
+
+    /**
+     * Deletes study group that the user is currently in
+     */
+    private void deleteRequest()
+    {
+<span class="nc" id="L435">        String url = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/delete&quot;;</span>
+        // Convert input to JSONObject
+<span class="nc" id="L437">        JSONObject deleteBody = null;</span>
+
+        try
+        {
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+<span class="nc" id="L444">            deleteBody = new JSONObject();</span>
+<span class="nc" id="L445">            deleteBody.put(&quot;group_id&quot;, optionGroupName);</span>
+<span class="nc" id="L446">            url += &quot;/&quot; + optionGroupName + &quot;/&quot; + user;</span>
+        }
+<span class="nc" id="L448">        catch (Exception e)</span>
+        {
+<span class="nc" id="L450">            Log.e(&quot;Catch Entered&quot;,&quot;wkerufhieuwhf&quot;);</span>
+<span class="nc" id="L451">            e.printStackTrace();</span>
+<span class="nc" id="L452">        }</span>
+
+<span class="nc" id="L454">        JsonObjectRequest request = new JsonObjectRequest(</span>
+                Request.Method.DELETE,
+                url,
+                deleteBody,
+                new Response.Listener&lt;JSONObject&gt;()
+<span class="nc" id="L459">                {</span>
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+
+<span class="nc" id="L464">                        Log.e(&quot;Response Entered&quot;,response.toString());</span>
+
+<span class="nc" id="L466">                    }</span>
+                },
+                new Response.ErrorListener()
+<span class="nc" id="L469">                {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+<span class="nc" id="L473">                        Log.e(&quot;Error Response&quot;, error.toString());</span>
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+<span class="nc" id="L476">                    }</span>
+                }
+<span class="nc" id="L478">        ){</span>
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L481">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L484">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L489">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L492">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L497">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);</span>
+<span class="nc" id="L498">    }</span>
+
+
+
+
+
+    public static JSONObject JsonConverter(String jsonString) {
+        try {
+<span class="nc" id="L506">            return new JSONObject(jsonString);</span>
+<span class="nc" id="L507">        } catch (JSONException e) {</span>
+<span class="nc" id="L508">            e.printStackTrace();</span>
+<span class="nc" id="L509">            return null; // Or handle the error as appropriate for your application</span>
+        }
+    }
+
+    public static JSONArray stringToJsonArray(String jsonString) {
+        try {
+<span class="nc" id="L515">            return new JSONArray(jsonString);</span>
+<span class="nc" id="L516">        } catch (JSONException e) {</span>
+<span class="nc" id="L517">            e.printStackTrace();</span>
+<span class="nc" id="L518">            return null; // Or handle the error as appropriate for your application</span>
+        }
+    }
+
+
+    private CardView createCard(String name, String rating) {
+        // Create a new CardView and set up its layout parameters
+<span class="nc" id="L525">        String groupRate = name + &quot;\n&quot; + &quot;Group Rating: &quot;+ rating;</span>
+
+
+<span class="nc" id="L528">        Log.e(&quot;group&quot;, &quot;group name: &quot; + name);</span>
+
+<span class="nc" id="L530">        CardView cardView = new CardView(this);</span>
+<span class="nc" id="L531">        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(</span>
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+<span class="nc" id="L535">        layoutParams.setMargins(</span>
+<span class="nc" id="L536">                convertDpToPixels(16, this),</span>
+<span class="nc" id="L537">                convertDpToPixels(8, this),</span>
+<span class="nc" id="L538">                convertDpToPixels(16, this),</span>
+<span class="nc" id="L539">                convertDpToPixels(8, this)</span>
+        );
+<span class="nc" id="L541">        cardView.setLayoutParams(layoutParams);</span>
+
+        // Set the CardView's appearance
+<span class="nc" id="L544">        cardView.setCardElevation(convertDpToPixels(4, this));</span>
+<span class="nc" id="L545">        cardView.setRadius(convertDpToPixels(4, this));</span>
+
+
+<span class="nc" id="L548">        LinearLayout cardContentLayout = new LinearLayout(this);</span>
+<span class="nc" id="L549">        cardContentLayout.setOrientation(LinearLayout.HORIZONTAL);</span>
+<span class="nc" id="L550">        cardContentLayout.setLayoutParams(new ViewGroup.LayoutParams(</span>
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+
+
+        // Create a TextView for the group name
+<span class="nc" id="L557">        TextView groupNameView = new TextView(this);</span>
+<span class="nc" id="L558">        groupNameView.setLayoutParams(new LinearLayout.LayoutParams(</span>
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1f
+        ));
+<span class="nc" id="L563">        groupNameView.setText(groupRate);</span>
+<span class="nc" id="L564">        groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);</span>
+
+//        Button entergroup = new Button(this);
+//        LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//        );
+//        buttonLayoutParams.gravity = Gravity.END;
+//        entergroup.setLayoutParams(buttonLayoutParams);
+//        entergroup.setText(&quot;Enter&quot;);
+//        entergroup.setOnClickListener(v -&gt; {
+//            // Handle button click
+//            // For example, start a new activity with group details
+//            Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
+////            GroupSingleton.getInstance().setGroupName(name);
+//            startActivity(intent);
+//        });
+
+
+        // Create a TextView for the group rating
+//        TextView ratingView = new TextView(this);
+//        ratingView.setLayoutParams(new ViewGroup.LayoutParams(
+//                ViewGroup.LayoutParams.WRAP_CONTENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT
+//        ));
+//        ratingView.setText(rating);
+//        ratingView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+
+//        LinearLayout linearLayout = new LinearLayout(this);
+//        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+
+        // Add the TextView and Button to the horizontal LinearLayout
+<span class="nc" id="L597">        cardContentLayout.addView(groupNameView);</span>
+//        cardContentLayout.addView(entergroup);
+
+        // Add the horizontal LinearLayout to the CardView
+<span class="nc" id="L601">        cardView.addView(cardContentLayout);</span>
+
+//        linearLayout.addView(groupNameView);
+
+//        linearLayout.addView(ratingView);
+
+
+        // Add the LinearLayout to the CardView
+//        cardView.addView(linearLayout);
+
+<span class="nc" id="L611">        cardView.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view)
+            {
+<span class="nc" id="L615">                Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);</span>
+<span class="nc" id="L616">                GroupSingleton.getInstance().setGroupName(name);</span>
+<span class="nc" id="L617">                startActivity(intent);</span>
+<span class="nc" id="L618">            }</span>
+        });
+
+
+        // Set a long-click listener on the CardView
+<span class="nc" id="L623">        cardView.setOnLongClickListener(new View.OnLongClickListener() {</span>
+            @Override
+            public boolean onLongClick(View v) {
+                // Handle the long click event
+<span class="nc" id="L627">                showForgotDialog(StudyGroupFragment.this);</span>
+
+                // Return true to indicate that you have handled the long click event
+<span class="nc" id="L630">                return true;</span>
+            }
+        });
+
+<span class="nc" id="L634">        return cardView;</span>
+    }
+
+    /**
+     * Retrieves study group that the user is in
+     */
+    private void getRequest()
+    {
+<span class="nc" id="L642">        String url = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/all&quot;;</span>
+<span class="nc" id="L643">        url = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/all&quot; + &quot;/&quot; + user;</span>
+
+
+        // Request a string response from the provided URL.
+<span class="nc" id="L647">        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,</span>
+<span class="nc" id="L648">                new Response.Listener&lt;String&gt;() {</span>
+                    @Override
+                    public void onResponse(String response){
+                        try {
+<span class="nc" id="L652">                            JSONArray jsonArray = new JSONArray(response);</span>
+<span class="nc bnc" id="L653" title="All 2 branches missed.">                            for(int i = 0; i &lt; jsonArray.length(); i++) {</span>
+                                // Get each JSONObject within the array
+<span class="nc" id="L655">                                JSONObject jsonObj = jsonArray.getJSONObject(i);</span>
+<span class="nc" id="L656">                                cardsContainer = findViewById(R.id.linearLayoutGroups);</span>
+                                // Access the value associated with the key &quot;name&quot;
+<span class="nc" id="L658">                                rating = jsonObj.getString(&quot;avgRating&quot;);</span>
+<span class="nc" id="L659">                                groupName = jsonObj.getString(&quot;groupName&quot;);</span>
+//                                GroupSingleton.getInstance().setGroupName(name);
+//                                String groupRate = name + &quot;\n&quot; + &quot;Group Rating: &quot;+ rating;
+//
+<span class="nc" id="L663">                                CardView cardView = createCard(groupName, rating);</span>
+//                                GroupSingleton.getInstance().setGroupName(groupName);
+<span class="nc" id="L665">                                cardsContainer.addView(cardView);</span>
+
+
+                            }
+                        }
+<span class="nc" id="L670">                        catch (JSONException err)</span>
+                        {
+<span class="nc" id="L672">                            Log.d(&quot;Error&quot;, err.toString());</span>
+<span class="nc" id="L673">                        }</span>
+                        // Display the first 500 characters of the response string.
+                        // String response can be converted to JSONObject via
+                        // JSONObject object = new JSONObject(response);
+
+<span class="nc" id="L678">                    }</span>
+                },
+<span class="nc" id="L680">                new Response.ErrorListener() {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+
+<span class="nc" id="L685">                    }</span>
+<span class="nc" id="L686">                }){</span>
+
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L690">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L693">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L698">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L701">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L706">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);</span>
+<span class="nc" id="L707">    }</span>
+
+    /**
+     * Creates new study group which will contain the user
+     */
+    private void postRequest()
+    {
+<span class="nc" id="L714">        String url = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/post&quot;;</span>
+        // Convert input to JSONObject
+<span class="nc" id="L716">        JSONObject postBody = null;</span>
+
+        try
+        {
+<span class="nc" id="L720">            Log.e(&quot;Try Entered&quot;,&quot;oisafuhgiureshg&quot;);</span>
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+<span class="nc" id="L724">            postBody = new JSONObject();</span>
+<span class="nc" id="L725">            Log.e(&quot;JSON Created&quot;,&quot;Json was created bla bla&quot;);</span>
+<span class="nc" id="L726">            postBody.put(&quot;studyGroup&quot;, GroupText.getText().toString());</span>
+<span class="nc" id="L727">            url += &quot;/&quot; + GroupText.getText().toString();</span>
+////                    + &quot;/&quot; + loginPassword.getText().toString();
+        }
+<span class="nc" id="L730">        catch (Exception e)</span>
+        {
+<span class="nc" id="L732">            Log.e(&quot;Catch Entered&quot;,&quot;wkerufhieuwhf&quot;);</span>
+<span class="nc" id="L733">            e.printStackTrace();</span>
+<span class="nc" id="L734">        }</span>
+
+<span class="nc" id="L736">        JsonObjectRequest request = new JsonObjectRequest(</span>
+                Request.Method.POST,
+                url,
+                postBody,
+                new Response.Listener&lt;JSONObject&gt;()
+<span class="nc" id="L741">                {</span>
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+<span class="nc" id="L745">                        Log.e(&quot;Response Entered&quot;,response.toString());</span>
+
+<span class="nc" id="L747">                    }</span>
+                },
+                new Response.ErrorListener()
+<span class="nc" id="L750">                {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+<span class="nc" id="L754">                        Log.e(&quot;Error Response&quot;, error.toString());</span>
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+<span class="nc" id="L757">                    }</span>
+                }
+<span class="nc" id="L759">        ){</span>
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L762">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L765">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L770">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L773">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L778">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);</span>
+<span class="nc" id="L779">    }</span>
+
+
+    @Override
+    public void onWebSocketOpen(ServerHandshake handshakedata) {
+
+<span class="nc" id="L785">    }</span>
+
+    /**
+     * Gets websocket message
+     * @param message The received WebSocket message.
+     */
+    @Override
+    public void onWebSocketMessage(String message) {
+<span class="nc" id="L793">        runOnUiThread(() -&gt;</span>
+        {
+<span class="nc" id="L795">            String s = gresponse.getText().toString();</span>
+<span class="nc" id="L796">            gresponse.setText(s + &quot;\n&quot;+message);</span>
+<span class="nc" id="L797">        });</span>
+
+<span class="nc" id="L799">    }</span>
+
+    /**
+     * Runs on websocket closure
+     * @param code   The status code indicating the reason for closure.
+     * @param reason A human-readable explanation for the closure.
+     * @param remote Indicates whether the closure was initiated by the remote endpoint.
+     */
+    @Override
+    public void onWebSocketClose(int code, String reason, boolean remote) {
+
+<span class="nc" id="L810">    }</span>
+
+    /**
+     * Runs when websocket encounters an error
+     * @param ex The exception that describes the error.
+     */
+    @Override
+    public void onWebSocketError(Exception ex) {
+
+<span class="nc" id="L819">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>Generated by the Android Gradle plugin 8.0.0</div></body></html>
