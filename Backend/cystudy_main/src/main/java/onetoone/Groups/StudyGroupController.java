@@ -60,8 +60,6 @@ public class StudyGroupController {
         return studyGroup;
     }
 
-
-
     @PostMapping(path = "/groups/post/{group_name}/{username}/{course_name}")
     String createGroup(@PathVariable String group_name, @PathVariable String username,@PathVariable String course_name) {
         if (group_name == null) {

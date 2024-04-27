@@ -35,12 +35,15 @@ public class User {
     private long id;
     private String name;
     private String password;
+
+    @Column(unique = true)
     private String userName;
     @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String emailId;
     private boolean ifActive;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
+    @JsonIgnore
     private Set<Course> courseSet;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
@@ -49,9 +52,11 @@ public class User {
     private Set<StudyGroup> groupSet;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "sender", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Message> messageSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Rating> ratingSet;
 
 

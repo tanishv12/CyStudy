@@ -28,7 +28,7 @@ public class StudyGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(unique = true)
     private String groupName;
 
     @Column(nullable = false)
@@ -38,20 +38,24 @@ public class StudyGroup {
     @Column(nullable = false)
     private double avgRating;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "course_id")
+    @JsonIgnore
     private Course course;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "studyGroup", cascade = CascadeType.MERGE)
+    @JsonIgnore
     private Set<Message> messageSet;
 
     @ManyToMany()
     @JoinTable(name = "group_user", joinColumns = {@JoinColumn(name = "group_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonIgnore
     private Set<User> userSet;
 
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
+   @JsonIgnore
    private List<Rating> ratingList;
 
 
@@ -59,7 +63,6 @@ public class StudyGroup {
 
     public StudyGroup() {
     }
-
 
     public StudyGroup(String groupName, Course course) {
         this.groupName = groupName;
@@ -106,6 +109,8 @@ public class StudyGroup {
     }
 
     public Set<Message> getMessageSet() {
+
+
         return messageSet;
     }
 
