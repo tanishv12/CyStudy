@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SignupActivity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debug</a> &gt; <a href="index.source.html" class="el_package">com.example.androidexample</a> &gt; <span class="el_source">SignupActivity.java</span></div><h1>SignupActivity.java</h1><pre class="source lang-java linenums">package com.example.androidexample;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+/**
+ * SignupActivity Class is used for creating users on the application and manage
+ * getting the information from the users.
+ *
+ * The Class also makes use of different CRUD operations to move information
+ * to the database and communicate with the remote server.
+ */
+<span class="nc" id="L33">public class SignupActivity extends AppCompatActivity {</span>
+
+    EditText signupName, signupEmail, signupUsername, signupPassword;
+    TextView loginRedirectText;
+    Button signupButton;
+
+    private EditText etRequest;
+
+
+
+    JSONObject postBody;
+
+    private String url;
+
+    private String method;
+
+    String errorUrl;
+
+<span class="nc" id="L51">    String[] methods = new String[]{&quot;GET&quot;, &quot;POST&quot;};</span>
+
+
+    /**
+     * This class calls and correctly maps the different variables and initializes the ids from the application
+     * layout files.
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="nc" id="L61">        super.onCreate(savedInstanceState);</span>
+<span class="nc" id="L62">        setContentView(R.layout.activity_signup);</span>
+<span class="nc" id="L63">        signupName = findViewById(R.id.signup_name);</span>
+<span class="nc" id="L64">        signupEmail = findViewById(R.id.signup_email);</span>
+<span class="nc" id="L65">        signupUsername = findViewById(R.id.signup_username);</span>
+<span class="nc" id="L66">        signupPassword = findViewById(R.id.signup_password);</span>
+<span class="nc" id="L67">        signupButton = findViewById(R.id.signup_button);</span>
+<span class="nc" id="L68">        loginRedirectText = findViewById(R.id.loginRedirectText);</span>
+<span class="nc" id="L69">        url = &quot;http://coms-309-016.class.las.iastate.edu:8080/users/register&quot;;</span>
+
+        /**
+         * This is the on click function for the sign up button creates the user in
+         * the application after they enters their information and click the button.
+         */
+<span class="nc" id="L75">        signupButton.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+
+<span class="nc" id="L79">                postRequest();</span>
+<span class="nc" id="L80">                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);</span>
+<span class="nc" id="L81">                startActivity(intent);</span>
+
+<span class="nc" id="L83">            }</span>
+        });
+        /**
+         * This function is involved in redirecting users who already have accounts so they
+         * don't have to sign up again on the registration page on clicking the &quot;Not yet registered? Sign Up&quot;.
+         */
+<span class="nc" id="L89">        loginRedirectText.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L92">                Intent intent = new Intent(SignupActivity.this, AdminPanelActivity.class);</span>
+<span class="nc" id="L93">                startActivity(intent);</span>
+<span class="nc" id="L94">            }</span>
+        });
+<span class="nc" id="L96">    }</span>
+
+    /**
+     * Sets all signup information errors if any are empty.
+     */
+    public Boolean validateCredentials()
+    {
+<span class="nc" id="L103">        Boolean returnValue = true;</span>
+        //Sets signupName error if empty
+<span class="nc" id="L105">        String val = signupName.getText().toString();</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if(val.isEmpty())</span>
+        {
+<span class="nc" id="L108">            signupName.setError(&quot;Name cannot be empty&quot;);</span>
+<span class="nc" id="L109">            returnValue = false;</span>
+        }
+        else
+        {
+<span class="nc" id="L113">            signupName.setError(null);</span>
+        }
+
+        //Sets signupUsername error if empty
+<span class="nc" id="L117">        val = signupUsername.getText().toString();</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if(val.isEmpty())</span>
+        {
+<span class="nc" id="L120">            signupUsername.setError(&quot;Username cannot be empty&quot;);</span>
+<span class="nc" id="L121">            returnValue = false;</span>
+        }
+        else
+        {
+<span class="nc" id="L125">            signupUsername.setError(null);</span>
+        }
+
+        //Sets signupEmail error if empty
+<span class="nc" id="L129">        val = signupEmail.getText().toString();</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if(val.isEmpty())</span>
+        {
+<span class="nc" id="L132">            signupEmail.setError(&quot;Email cannot be empty&quot;);</span>
+<span class="nc" id="L133">            returnValue = false;</span>
+        }
+        else
+        {
+<span class="nc" id="L137">            signupEmail.setError(null);</span>
+        }
+
+        //Sets signupPassword error if empty
+<span class="nc" id="L141">        val = signupPassword.getText().toString();</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if(val.isEmpty())</span>
+        {
+<span class="nc" id="L144">            signupPassword.setError(&quot;Password cannot be empty&quot;);</span>
+<span class="nc" id="L145">            returnValue = false;</span>
+        }
+        else
+        {
+<span class="nc" id="L149">            signupPassword.setError(null);</span>
+        }
+
+<span class="nc" id="L152">        return returnValue;</span>
+    }
+
+    /**
+     * This class is involved in posting the users to the database, and save the information
+     * of the users.
+     */
+    private void postRequest() {
+
+<span class="nc" id="L161">        String name = signupName.getText().toString().trim();</span>
+<span class="nc" id="L162">        String email = signupEmail.getText().toString().trim();</span>
+<span class="nc" id="L163">        String username = signupUsername.getText().toString().trim();</span>
+<span class="nc" id="L164">        String password = signupPassword.getText().toString().trim();</span>
+
+
+        //Move all to Post Request on Response
+<span class="nc" id="L168">        UsernameSingleton.getInstance().setUserName(name);</span>
+
+
+
+//                Toast.makeText(SignupActivity.this, &quot;Sign Up Complete&quot;, Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+//                startActivity(intent);
+<span class="nc" id="L175">        UsernameSingleton.getInstance().setUserName(username);</span>
+
+
+        // Convert input to JSONObject
+<span class="nc" id="L179">        JSONObject postBody = null;</span>
+
+<span class="nc bnc" id="L181" title="All 2 branches missed.">        if(validateCredentials() != true)</span>
+        {
+<span class="nc" id="L183">            Toast.makeText(SignupActivity.this, &quot;Please fill out all fields&quot;, Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L184">            return;</span>
+        }
+
+        try{
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+<span class="nc" id="L191">            url = &quot;http://coms-309-016.class.las.iastate.edu:8080/users/register&quot;;</span>
+<span class="nc" id="L192">            postBody = new JSONObject();</span>
+<span class="nc" id="L193">            postBody.put(&quot;name&quot;, name);</span>
+<span class="nc" id="L194">            postBody.put(&quot;emailId&quot;, email);</span>
+<span class="nc" id="L195">            postBody.put(&quot;userName&quot;, username);</span>
+<span class="nc" id="L196">            postBody.put(&quot;password&quot;, password);</span>
+<span class="nc" id="L197">            Log.e(&quot;body&quot;, postBody.toString());</span>
+<span class="nc" id="L198">        } catch (Exception e){</span>
+<span class="nc" id="L199">            e.printStackTrace();</span>
+<span class="nc" id="L200">        }</span>
+
+<span class="nc" id="L202">        JsonObjectRequest request = new JsonObjectRequest(</span>
+                Request.Method.POST,
+                url,
+                postBody,
+<span class="nc" id="L206">                new Response.Listener&lt;JSONObject&gt;() {</span>
+                    @Override
+                    public void onResponse(JSONObject response) {
+<span class="nc" id="L209">                    }</span>
+                },
+<span class="nc" id="L211">                new Response.ErrorListener() {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+//                        loginRedirectText.setText(error.toString());
+<span class="nc" id="L216">                    }</span>
+                }
+<span class="nc" id="L218">        ){</span>
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L221">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L224">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L229">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L232">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L237">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);</span>
+<span class="nc" id="L238">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>Generated by the Android Gradle plugin 8.0.0</div></body></html>

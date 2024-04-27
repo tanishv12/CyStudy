@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserManagementActivity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debug</a> &gt; <a href="index.source.html" class="el_package">com.example.androidexample</a> &gt; <span class="el_source">UserManagementActivity.java</span></div><h1>UserManagementActivity.java</h1><pre class="source lang-java linenums">package com.example.androidexample;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+<span class="nc" id="L25">public class UserManagementActivity extends AppCompatActivity {</span>
+
+    Button createUser, deleteUser;
+    EditText userName;
+    TextView chat;
+    String deleteUrl;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="nc" id="L34">        super.onCreate(savedInstanceState);</span>
+<span class="nc" id="L35">        setContentView(R.layout.activity_user_management);</span>
+<span class="nc" id="L36">        createUser = findViewById(R.id.create_user);</span>
+<span class="nc" id="L37">        deleteUser = findViewById(R.id.delete_user);</span>
+<span class="nc" id="L38">        userName = findViewById(R.id.edit_user);</span>
+<span class="nc" id="L39">        chat = findViewById(R.id.user_chat);</span>
+<span class="nc" id="L40">        deleteUrl = &quot;http://coms-309-016.class.las.iastate.edu:8080/users/&quot;;</span>
+
+<span class="nc" id="L42">        deleteUser.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L45">                String temp = userName.getText().toString();</span>
+<span class="nc" id="L46">                deleteUrl += temp;</span>
+<span class="nc" id="L47">                deleteRequest();</span>
+<span class="nc" id="L48">                deleteUrl = &quot;http://coms-309-016.class.las.iastate.edu:8080/users/&quot;;</span>
+<span class="nc" id="L49">                userName.setText(&quot;&quot;);</span>
+<span class="nc" id="L50">            }</span>
+        });
+
+<span class="nc" id="L53">        createUser.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L56">                Intent intent = new Intent(UserManagementActivity.this, SignupActivity.class);</span>
+<span class="nc" id="L57">                startActivity(intent);</span>
+<span class="nc" id="L58">            }</span>
+        });
+
+<span class="nc" id="L61">    }</span>
+
+    private void deleteRequest()
+    {
+<span class="nc" id="L65">        String url = deleteUrl;</span>
+        // Convert input to JSONObject
+<span class="nc" id="L67">        JSONObject deleteBody = null;</span>
+
+//        try
+//        {
+//            Log.e(&quot;Try Entered&quot;,&quot;oisafuhgiureshg&quot;);
+//            // etRequest should contain a JSON object string as your POST body
+//            // similar to what you would have in POSTMAN-body field
+//            // and the fields should match with the object structure of @RequestBody on sb
+//            deleteBody = new JSONObject();
+////            deleteBody.put(&quot;group_id&quot;, updateGrp.getText().toString());
+//            Log.e(&quot;what is putbody&quot;,deleteBody.toString());
+//            Log.e(&quot;Try BLAH&quot;,&quot;oisafuhgiureshg&quot;);
+//            Log.e(&quot;What is url&quot;,url.toString());
+//////                    + &quot;/&quot; + loginPassword.getText().toString();
+//        }
+//        catch (Exception e)
+//        {
+//            Log.e(&quot;Catch Entered&quot;,&quot;wkerufhieuwhf&quot;);
+//            e.printStackTrace();
+//        }
+
+<span class="nc" id="L88">        JsonObjectRequest request = new JsonObjectRequest(</span>
+                Request.Method.DELETE,
+                url,
+                deleteBody,
+                new Response.Listener&lt;JSONObject&gt;()
+<span class="nc" id="L93">                {</span>
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+<span class="nc" id="L97">                        chat.setText(response.toString());</span>
+<span class="nc" id="L98">                        Log.e(&quot;Response Entered&quot;,response.toString());</span>
+
+<span class="nc" id="L100">                    }</span>
+                },
+                new Response.ErrorListener()
+<span class="nc" id="L103">                {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+<span class="nc" id="L107">                        Log.e(&quot;Error Response&quot;, error.toString());</span>
+<span class="nc" id="L108">                        Toast.makeText(UserManagementActivity.this, error.toString(), Toast.LENGTH_SHORT).show();</span>
+
+<span class="nc" id="L110">                    }</span>
+                }
+<span class="nc" id="L112">        ){</span>
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L115">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L118">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L123">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L126">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L131">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);</span>
+<span class="nc" id="L132">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>Generated by the Android Gradle plugin 8.0.0</div></body></html>

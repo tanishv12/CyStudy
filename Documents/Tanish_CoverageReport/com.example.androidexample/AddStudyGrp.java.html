@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AddStudyGrp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debug</a> &gt; <a href="index.source.html" class="el_package">com.example.androidexample</a> &gt; <span class="el_source">AddStudyGrp.java</span></div><h1>AddStudyGrp.java</h1><pre class="source lang-java linenums">package com.example.androidexample;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+<span class="fc" id="L28">public class AddStudyGrp extends AppCompatActivity {</span>
+
+    private EditText numUsers;
+
+<span class="fc" id="L32">    private int count = 2;</span>
+    private ImageButton increaseUser;
+    private ImageButton decreaseUser;
+
+    private String user;
+
+    private AutoCompleteTextView cName;
+    private Button createGrp;
+
+    private EditText groupText;
+<span class="fc" id="L42">    private static final String[] COURSES = new String[]</span>
+            {
+                    &quot;COM S 227&quot;, &quot;MATH 165&quot;, &quot;MATH 166&quot;, &quot;PHYS 200&quot;, &quot;CHEM 100&quot;
+            };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+<span class="fc" id="L50">        super.onCreate(savedInstanceState);</span>
+<span class="fc" id="L51">        setContentView(R.layout.activity_add_study_grp);</span>
+
+<span class="fc" id="L53">        increaseUser = findViewById(R.id.increaseCount);</span>
+<span class="fc" id="L54">        decreaseUser = findViewById(R.id.decreaseCount);</span>
+<span class="fc" id="L55">        numUsers = findViewById(R.id.numberofmembers);</span>
+<span class="fc" id="L56">        createGrp = findViewById(R.id.createGroup);</span>
+<span class="fc" id="L57">        cName = findViewById(R.id.courseName);</span>
+
+<span class="fc" id="L59">        groupText = findViewById(R.id.groupName);</span>
+
+<span class="fc" id="L61">        user = UsernameSingleton.getInstance().getUserName();</span>
+
+<span class="fc" id="L63">        ArrayAdapter&lt;String&gt; adapter = new ArrayAdapter&lt;String&gt;(this,</span>
+                android.R.layout.simple_dropdown_item_1line, COURSES);
+<span class="fc" id="L65">        AutoCompleteTextView textView = (AutoCompleteTextView)</span>
+                cName;
+<span class="fc" id="L67">        textView.setAdapter(adapter);</span>
+
+<span class="fc" id="L69">        createGrp.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view)
+            {
+<span class="nc" id="L73">                String courseName = cName.getText().toString();</span>
+<span class="nc" id="L74">                String gName = groupText.getText().toString();</span>
+<span class="nc" id="L75">                String userCount = numUsers.getText().toString();</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">                if (courseName.isEmpty())</span>
+                {
+<span class="nc" id="L78">                    cName.setError(&quot;Course Name cannot be empty&quot;);</span>
+                }
+<span class="nc bnc" id="L80" title="All 2 branches missed.">                else if (gName.isEmpty())</span>
+                {
+                    // If groupText field is empty, display a Error message indicating the error
+<span class="nc" id="L83">                    groupText.setError(&quot;Group Name cannot be left empty&quot;);</span>
+                }
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                else if (userCount.isEmpty())</span>
+                {
+<span class="nc" id="L87">                    numUsers.setError(&quot;Number of Users cannot be left empty&quot;);</span>
+                }
+                else
+                {
+<span class="nc" id="L91">                    Intent returnIntent = new Intent();</span>
+<span class="nc" id="L92">                    returnIntent.putExtra(&quot;groupName&quot;, gName);//Essentially should be what the user gives</span>
+<span class="nc" id="L93">                    setResult(Activity.RESULT_OK, returnIntent);</span>
+<span class="nc" id="L94">                    Log.e(&quot;groupName&quot;, &quot;group: &quot; + gName);</span>
+<span class="nc" id="L95">                    postRequest();</span>
+<span class="nc" id="L96">                    finish();</span>
+                }
+<span class="nc" id="L98">            }</span>
+        });
+
+<span class="fc" id="L101">        increaseUser.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view)
+            {
+<span class="nc" id="L105">                count += 1;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                if(count &lt;= 2)</span>
+                {
+<span class="nc" id="L108">                    count = 2;</span>
+<span class="nc" id="L109">                    numUsers.setText(&quot;&quot; + count);</span>
+                }
+<span class="nc" id="L111">                numUsers.setText(&quot;&quot; + count);</span>
+<span class="nc" id="L112">            }</span>
+        });
+
+<span class="fc" id="L115">        decreaseUser.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L118">                count -= 1;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">                if(count &lt;= 2)</span>
+                {
+<span class="nc" id="L121">                    count = 2;</span>
+<span class="nc" id="L122">                    numUsers.setText(&quot;&quot; + count);</span>
+                }
+<span class="nc" id="L124">                numUsers.setText(&quot;&quot; + count);</span>
+<span class="nc" id="L125">            }</span>
+        });
+<span class="fc" id="L127">    }</span>
+    private void postRequest()
+    {
+<span class="nc" id="L130">        String url = &quot;http://coms-309-016.class.las.iastate.edu:8080/groups/post&quot;;</span>
+        // Convert input to JSONObject
+<span class="nc" id="L132">        JSONObject postBody = null;</span>
+
+        try
+        {
+<span class="nc" id="L136">            Log.e(&quot;Try Entered&quot;,&quot;oisafuhgiureshg&quot;);</span>
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+<span class="nc" id="L140">            postBody = new JSONObject();</span>
+<span class="nc" id="L141">            Log.e(&quot;JSON Created&quot;,&quot;Json was created bla bla&quot;);</span>
+<span class="nc" id="L142">            postBody.put(&quot;studyGroup&quot;, groupText.getText().toString());</span>
+<span class="nc" id="L143">            url += &quot;/&quot; + groupText.getText().toString() +  &quot;/&quot; + user;</span>
+////                    + &quot;/&quot; + loginPassword.getText().toString();
+        }
+<span class="nc" id="L146">        catch (Exception e)</span>
+        {
+<span class="nc" id="L148">            Log.e(&quot;Catch Entered&quot;,&quot;wkerufhieuwhf&quot;);</span>
+<span class="nc" id="L149">            e.printStackTrace();</span>
+<span class="nc" id="L150">        }</span>
+
+<span class="nc" id="L152">        JsonObjectRequest request = new JsonObjectRequest(</span>
+                Request.Method.POST,
+                url,
+                postBody,
+                new Response.Listener&lt;JSONObject&gt;()
+<span class="nc" id="L157">                {</span>
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+<span class="nc" id="L161">                        Log.e(&quot;Response Entered&quot;,response.toString());</span>
+
+<span class="nc" id="L163">                    }</span>
+                },
+                new Response.ErrorListener()
+<span class="nc" id="L166">                {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+<span class="nc" id="L170">                        Log.e(&quot;Error Response&quot;, error.toString());</span>
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+<span class="nc" id="L173">                    }</span>
+                }
+<span class="nc" id="L175">        ){</span>
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L178">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L181">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L186">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L189">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L194">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);</span>
+<span class="nc" id="L195">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>Generated by the Android Gradle plugin 8.0.0</div></body></html>

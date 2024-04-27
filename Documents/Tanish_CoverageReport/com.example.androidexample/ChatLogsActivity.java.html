@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChatLogsActivity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debug</a> &gt; <a href="index.source.html" class="el_package">com.example.androidexample</a> &gt; <span class="el_source">ChatLogsActivity.java</span></div><h1>ChatLogsActivity.java</h1><pre class="source lang-java linenums">package com.example.androidexample;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+<span class="nc" id="L23">public class ChatLogsActivity extends AppCompatActivity {</span>
+
+    Button btnCheckMessages;
+    EditText editUser, editGroupName;
+    TextView txtMessages;
+
+<span class="nc" id="L29">    String url = &quot;http://coms-309-016.class.las.iastate.edu:8080&quot;;</span>
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+<span class="nc" id="L33">        super.onCreate(savedInstanceState);</span>
+<span class="nc" id="L34">        setContentView(R.layout.activity_chat_logs);</span>
+
+<span class="nc" id="L36">        btnCheckMessages = findViewById(R.id.check_messages);</span>
+<span class="nc" id="L37">        editUser = findViewById(R.id.chatlogs_username);</span>
+<span class="nc" id="L38">        editGroupName = findViewById(R.id.chatlogs_group);</span>
+<span class="nc" id="L39">        txtMessages = findViewById(R.id.all_chatlogs);</span>
+
+<span class="nc" id="L41">        btnCheckMessages.setOnClickListener(new View.OnClickListener() {</span>
+            @Override
+            public void onClick(View view) {
+<span class="nc" id="L44">                String group = editGroupName.getText().toString();</span>
+<span class="nc" id="L45">                String user = editUser.getText().toString();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">                if(user.isEmpty())</span>
+                {
+<span class="nc" id="L48">                    url += &quot;/messages/all/group/&quot; + group;</span>
+                }
+                else {
+<span class="nc" id="L51">                    url += &quot;/messages/all/user/&quot; + user;</span>
+<span class="nc" id="L52">                    postRequest();</span>
+                }
+
+<span class="nc" id="L55">            }</span>
+        });
+<span class="nc" id="L57">    }</span>
+
+    private void postRequest() {
+        //Change the URL to whatever they say the endpoint is
+        // Convert input to JSONObject
+<span class="nc" id="L62">        JSONObject postBody = null;</span>
+
+        try{
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+<span class="nc" id="L68">            postBody = new JSONObject();</span>
+<span class="nc" id="L69">            postBody.put(&quot;username&quot;, editUser.getText().toString());</span>
+<span class="nc" id="L70">            postBody.put(&quot;group&quot;, editGroupName.getText().toString());</span>
+<span class="nc" id="L71">            url += editUser.getText().toString() + &quot;/&quot; + editGroupName.getText().toString();</span>
+<span class="nc" id="L72">        } catch (Exception e){</span>
+<span class="nc" id="L73">            e.printStackTrace();</span>
+<span class="nc" id="L74">        }</span>
+
+<span class="nc" id="L76">        JsonObjectRequest request = new JsonObjectRequest(</span>
+                Request.Method.POST,
+                url,
+                postBody,
+<span class="nc" id="L80">                new Response.Listener&lt;JSONObject&gt;() {</span>
+                    @Override
+                    public void onResponse(JSONObject response) {
+<span class="nc" id="L83">                        txtMessages.setText(response.toString());</span>
+<span class="nc" id="L84">                    }</span>
+                },
+<span class="nc" id="L86">                new Response.ErrorListener() {</span>
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+<span class="nc" id="L89">                        Toast.makeText(ChatLogsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();</span>
+<span class="nc" id="L90">                    }</span>
+                }
+<span class="nc" id="L92">        ){</span>
+            @Override
+            public Map&lt;String, String&gt; getHeaders() throws AuthFailureError {
+<span class="nc" id="L95">                HashMap&lt;String, String&gt; headers = new HashMap&lt;String, String&gt;();</span>
+                //                headers.put(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;);
+                //                headers.put(&quot;Content-Type&quot;, &quot;application/json&quot;);
+<span class="nc" id="L98">                return headers;</span>
+            }
+
+            @Override
+            protected Map&lt;String, String&gt; getParams() {
+<span class="nc" id="L103">                Map&lt;String, String&gt; params = new HashMap&lt;String, String&gt;();</span>
+                //                params.put(&quot;param1&quot;, &quot;value1&quot;);
+                //                params.put(&quot;param2&quot;, &quot;value2&quot;);
+<span class="nc" id="L106">                return params;</span>
+            }
+        };
+
+        // Adding request to request queue
+<span class="nc" id="L111">        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);</span>
+<span class="nc" id="L112">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span>Generated by the Android Gradle plugin 8.0.0</div></body></html>
