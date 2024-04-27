@@ -27,7 +27,7 @@ public class SaeshuSystemTest {
 	@Before
 	public void setUp() {
 		RestAssured.port = port;
-		RestAssured.baseURI = "http://localhost:8080";
+		RestAssured.baseURI = "http://localhost";
 	}
 
 	/**
@@ -39,25 +39,20 @@ public class SaeshuSystemTest {
 		// Send request and receive response
 		Response response = RestAssured.given().
 				header("Content-Type", "text/plain").
-				header("charset","utf-8").
+				header("charset", "utf-8").
 				body("").
 				when().
-				post("/groups/post/MATH 165 GROUP 1/john123/Calculus 1");
+				post("/groups/post/MATH 165 GROUP 10/john123/Calculus 1");
 
 
 		// Check status code
 		int statusCode = response.getStatusCode();
 		assertEquals(200, statusCode);
 
-//		// Check response body for correct response
-//		String returnString = response.getBody().asString();
-//		try {
-//			JSONArray returnArr = new JSONArray(returnString);
-//			JSONObject returnObj = returnArr.getJSONObject(returnArr.length()-1);
-//			assertEquals("olleh", returnObj.get("data"));
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
+		// Check response body for correct response
+		String returnString = response.getBody().asString();
+		assertEquals("Group created successfully!", returnString);
+
 	}
 
 	/**

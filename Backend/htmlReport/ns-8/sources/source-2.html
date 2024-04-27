@@ -1,0 +1,319 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > User</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">onetoone.Users</a>
+</div>
+
+<h1>Coverage Summary for Class: User (onetoone.Users)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">User</td>
+<td class="coverageStat">
+  <span class="percent">
+    43.3%
+  </span>
+  <span class="absValue">
+    (13/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    53.5%
+  </span>
+  <span class="absValue">
+    (23/43)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">User$HibernateInstantiator$38Vrzmpz</td>
+  </tr>
+  <tr>
+    <td class="name">User$HibernateProxy$4xCAWmKM</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    43.3%
+  </span>
+  <span class="absValue">
+    (13/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    53.5%
+  </span>
+  <span class="absValue">
+    (23/43)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package onetoone.Users;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;import com.fasterxml.jackson.annotation.JsonManagedReference;
+&nbsp;import jakarta.persistence.*;
+&nbsp;
+&nbsp;import jakarta.validation.constraints.Email;
+&nbsp;import onetoone.Courses.Course;
+&nbsp;import onetoone.Groups.StudyGroup;
+&nbsp;import onetoone.Messages.Message;
+&nbsp;import onetoone.Rating.Rating;
+&nbsp;import org.hibernate.annotations.LazyCollection;
+&nbsp;import org.hibernate.annotations.LazyCollectionOption;
+&nbsp;import org.springframework.context.annotation.Bean;
+&nbsp;import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;//import onetoone.Rating.Rating;
+&nbsp;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;/**
+&nbsp; * 
+&nbsp; * @author Rahul Sudev
+&nbsp; * @author Saeshu Karthika
+&nbsp; * 
+&nbsp; */ 
+&nbsp;
+&nbsp;@Entity
+&nbsp;@Table(name = &quot;USER&quot;)
+&nbsp;public class User {
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    private long id;
+&nbsp;    private String name;
+&nbsp;    private String password;
+&nbsp;
+&nbsp;    @Column(unique = true)
+&nbsp;    private String userName;
+&nbsp;    @Email(message = &quot;Email is not valid&quot;, regexp = &quot;^[a-zA-Z0-9_!#$%&amp;&#39;*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$&quot;)
+&nbsp;    private String emailId;
+&nbsp;    private boolean ifActive;
+&nbsp;
+&nbsp;    @ManyToMany(fetch = FetchType.LAZY, mappedBy = &quot;userSet&quot; )
+&nbsp;    @JsonIgnore
+&nbsp;    private Set&lt;Course&gt; courseSet;
+&nbsp;
+&nbsp;    @ManyToMany(fetch = FetchType.LAZY, mappedBy = &quot;userSet&quot;)
+&nbsp;    @JsonIgnore
+&nbsp;    @LazyCollection(LazyCollectionOption.FALSE)
+&nbsp;    private Set&lt;StudyGroup&gt; groupSet;
+&nbsp;
+&nbsp;    @OneToMany(fetch = FetchType.EAGER, mappedBy = &quot;sender&quot;, cascade = CascadeType.ALL)
+&nbsp;    @JsonIgnore
+&nbsp;    private Set&lt;Message&gt; messageSet;
+&nbsp;
+&nbsp;    @OneToMany(fetch = FetchType.LAZY, mappedBy = &quot;user&quot;, cascade = CascadeType.ALL)
+&nbsp;    @JsonIgnore
+&nbsp;    private Set&lt;Rating&gt; ratingSet;
+&nbsp;
+&nbsp;
+&nbsp;    // =============================== Constructors ================================== //
+&nbsp;
+<b class="fc">&nbsp;    public User(String name, String userName, String emailId, String password) {</b>
+<b class="fc">&nbsp;        this.name = name;</b>
+<b class="fc">&nbsp;        this.password = savePassword(password);</b>
+<b class="fc">&nbsp;        this.userName = userName;</b>
+<b class="fc">&nbsp;        this.emailId = emailId;</b>
+<b class="fc">&nbsp;        this.ifActive = true;</b>
+<b class="fc">&nbsp;        this.courseSet = new HashSet&lt;Course&gt;();</b>
+<b class="fc">&nbsp;        this.groupSet = new HashSet&lt;StudyGroup&gt;();</b>
+<b class="fc">&nbsp;        this.messageSet = new HashSet&lt;Message&gt;();</b>
+<b class="fc">&nbsp;        this.ratingSet = new HashSet&lt;Rating&gt;();</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public User() {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // =============================== Getters and Setters for each field ================================== //
+&nbsp;
+&nbsp;    public String savePassword(String password){
+<b class="fc">&nbsp;        return encoder().encode(password);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public long getid(){
+<b class="nc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setid(long id){
+<b class="nc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getName(){
+<b class="nc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setName(String name){
+<b class="fc">&nbsp;        this.name = name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getPassword() {
+<b class="fc">&nbsp;        return password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPassword(String password) {
+<b class="fc">&nbsp;        this.password = password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEmailId(){
+<b class="fc">&nbsp;        return emailId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEmailId(String emailId){
+<b class="fc">&nbsp;        this.emailId = emailId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isIfActive() {
+<b class="nc">&nbsp;        return ifActive;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setIfActive(boolean ifActive){
+<b class="fc">&nbsp;        this.ifActive = ifActive;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getUserName() {
+<b class="fc">&nbsp;        return userName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUserName(String userName) {
+<b class="fc">&nbsp;        this.userName = userName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public Set&lt;Course&gt; getCourseSet() {
+<b class="nc">&nbsp;        return courseSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCourseSet(Set&lt;Course&gt; courseSet) {
+<b class="nc">&nbsp;        this.courseSet = courseSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public Set&lt;StudyGroup&gt; getGroupSet() {
+<b class="nc">&nbsp;        return groupSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setGroupSet(Set&lt;StudyGroup&gt; groupSet) {
+<b class="nc">&nbsp;        this.groupSet = groupSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Set&lt;Message&gt; getMessageSet() {
+<b class="nc">&nbsp;        return messageSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMessageSet(Set&lt;Message&gt; messageSet) {
+<b class="nc">&nbsp;        this.messageSet = messageSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Set&lt;Rating&gt; getRatingSet() {
+<b class="nc">&nbsp;        return ratingSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRatingSet(Set&lt;Rating&gt; ratingSet) {
+<b class="nc">&nbsp;        this.ratingSet = ratingSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Method to add course to hashset
+&nbsp;    public void addCourse(Course course) {
+<b class="nc">&nbsp;        if (courseSet == null) {</b>
+<b class="nc">&nbsp;            courseSet = new HashSet&lt;Course&gt;();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        courseSet.add(course);</b>
+&nbsp;    }
+&nbsp;    //Method to add studyGroup to user
+&nbsp;    public void addStudyGroup(StudyGroup studyGroup){
+<b class="fc">&nbsp;        if(groupSet == null){</b>
+<b class="nc">&nbsp;            groupSet = new HashSet&lt;StudyGroup&gt;();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        groupSet.add(studyGroup);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addRating(Rating rating){
+<b class="nc">&nbsp;        ratingSet.add(rating);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Method to remove course from hashset
+<b class="nc">&nbsp;    public void removeCourse(Course course){courseSet.remove(course);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public void addMessage(Message message){messageSet.add(message);}</b>
+&nbsp;
+<b class="nc">&nbsp;    public void removeMessage(Message message){messageSet.remove(message);}</b>
+&nbsp;
+&nbsp;    @Bean
+&nbsp;    public PasswordEncoder encoder(){
+&nbsp;
+<b class="fc">&nbsp;        return new BCryptPasswordEncoder();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-26 22:49</div>
+</div>
+</body>
+</html>
