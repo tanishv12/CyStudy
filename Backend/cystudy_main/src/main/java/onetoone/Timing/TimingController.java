@@ -64,6 +64,26 @@ public class TimingController {
         return ResponseEntity.ok("Timing added to group successfully");
     }
 
+    @PutMapping("/timings/location/{groupName}/{timingId}") // Adjust the endpoint path
+    public ResponseEntity<String> addLocationToTiming(@RequestBody String location,
+                                                      @PathVariable String groupName,
+                                                      @PathVariable Long timingId) {
+        StudyGroup group = groupRepository.findStudyGroupByGroupName(groupName);
+        if (group == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Group does not exist");
+        }
+
+        Timing timing = timingRepository.findByIdAndStudyGroup(timingId, group);
+        if (timing == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Timing does not exist for this group");
+        }
+
+        timing.setLocation(location);
+        timingRepository.save(timing);
+
+        return ResponseEntity.ok("Location added to timing successfully");
+    }
+
 
 
 }
