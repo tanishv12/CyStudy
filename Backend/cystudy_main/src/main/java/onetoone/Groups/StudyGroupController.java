@@ -49,6 +49,18 @@ public class StudyGroupController {
         return user.getGroupSet();
     }
 
+    @GetMapping(path ="/groupMasterCheck/{groupname}/{username}")
+    boolean groupMasterCheck(@PathVariable String groupname, @PathVariable String username){
+        User user = userRepository.findByUserName(username);
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        if(studyGroup.getUserSet().contains(user)){
+            return username.equals(studyGroup.getGroupMaster());
+        }
+        else {
+            return false;
+        }
+    }
+
     @PutMapping(path = "/groups/update/{groupname}/{updatedGroupName}")
     StudyGroup updateGroup(@PathVariable String groupname, @PathVariable String updatedGroupName){
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
@@ -72,11 +84,12 @@ public class StudyGroupController {
             }
         }
         Course course = courseRepository.findCourseByCourseName(course_name);
-        StudyGroup studyGroup = new StudyGroup(group_name,course);
+        StudyGroup studyGroup = new StudyGroup(group_name,course,username);
         studyGroupRepository.save(studyGroup);
         User user = userRepository.findByUserName(username);
         studyGroup.addUser(user);
         user.addStudyGroup(studyGroup);
+        studyGroup.setGroupMaster(user.getUserName());
         studyGroupRepository.save(studyGroup);
         userRepository.save(user);
         return "Group created successfully!";

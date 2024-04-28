@@ -38,6 +38,10 @@ public class StudyGroup {
     @Column(nullable = false)
     private double avgRating;
 
+    @Column(nullable = false)
+    private String groupMaster;
+
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "course_id")
     @JsonIgnore
@@ -64,13 +68,14 @@ public class StudyGroup {
     public StudyGroup() {
     }
 
-    public StudyGroup(String groupName, Course course) {
+    public StudyGroup(String groupName, Course course, String groupMaster) {
         this.groupName = groupName;
         this.course = course;
         this.avgRating = 0;
         this.userSet = new HashSet<User>();
         this.messageSet = new HashSet<Message>();
         this.ratingList = new ArrayList<Rating>();
+        this.groupMaster = groupMaster;
     }
 
     // =============================== Getters and Setters for each field ================================== //
@@ -154,5 +159,13 @@ public class StudyGroup {
 
     public void setRatingList(List<Rating> ratingList) {
         this.ratingList = ratingList;
+    }
+
+    public String getGroupMaster() {
+        return groupMaster;
+    }
+
+    public void setGroupMaster(String groupMaster) {
+        this.groupMaster = groupMaster;
     }
 }

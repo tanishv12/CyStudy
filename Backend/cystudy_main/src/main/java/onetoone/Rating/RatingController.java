@@ -100,24 +100,34 @@ public class RatingController {
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
         User user = userRepository.findByUserName(username);
         if(studyGroup.getUserSet().contains(user)) {
-            Rating rating1 = new Rating(user, studyGroup, rating);
-            studyGroup.addRating(rating1);
-            user.addRating(rating1);
-            ratingRepository.save(rating1);
-            userRepository.save(user);
-            studyGroupRepository.save(studyGroup);
-            double sum = 0;
-            for(Rating rating2: studyGroup.getRatingList()){
-                sum = sum + rating2.getRating();
+            for (Rating r : studyGroup.getRatingList()) {
+                if (user.equals(r.getUser())) {
+                    return "You have already rated group";
+                }
             }
-            double avg = sum/studyGroup.getRatingList().size();
-            studyGroup.setAvgRating(avg);
-            studyGroupRepository.save(studyGroup);
-            return success;
         }
-        else{
+        else {
             return failure;
         }
+        if(user.getUserName().equals(studyGroup.getGroupMaster())){
+            return"Group Master cannot rate group";
+        }
+
+        Rating rating1 = new Rating(user, studyGroup, rating);
+        studyGroup.addRating(rating1);
+        user.addRating(rating1);
+        ratingRepository.save(rating1);
+        userRepository.save(user);
+        studyGroupRepository.save(studyGroup);
+        double sum = 0;
+        for (Rating rating2 : studyGroup.getRatingList()) {
+            sum = sum + rating2.getRating();
+        }
+        double avg = sum / studyGroup.getRatingList().size();
+        studyGroup.setAvgRating(avg);
+        studyGroupRepository.save(studyGroup);
+        return success;
+
     }
 
     @GetMapping("/rating/lowestRatedGroups")
