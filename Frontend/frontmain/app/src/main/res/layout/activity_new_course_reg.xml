@@ -66,6 +66,7 @@
         </AutoCompleteTextView>
 
         <Button
+            android:id="@+id/doneButton"
             android:layout_width="100dp"
             android:layout_height="53dp"
             android:layout_marginStart="8dp"
