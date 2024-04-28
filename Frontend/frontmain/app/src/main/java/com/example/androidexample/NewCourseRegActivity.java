@@ -5,8 +5,17 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
-public class NewCourseRegActivity extends AppCompatActivity {
+import org.java_websocket.handshake.ServerHandshake;
+
+public class NewCourseRegActivity extends AppCompatActivity implements WebSocketListener {
+
+    private ScrollView cardsContainer;
+    private AutoCompleteTextView courseDeptAutoCompleteTextView;
+    private AutoCompleteTextView courseCodeAutoCompleteTextView;
 
     public int convertDpToPixels(float dp, Context context)
     {
@@ -17,6 +26,9 @@ public class NewCourseRegActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_course_reg);
+
+        //uncomment when trying with server.
+        //WebSocketManager.getInstance().setWebSocketListener(NewCourseRegActivity.this);
     }
 
     private CardView createCard(String courseDept, String courseCode)
@@ -25,6 +37,26 @@ public class NewCourseRegActivity extends AppCompatActivity {
         cardView.setCardElevation(convertDpToPixels(4, this));
         cardView.setRadius(convertDpToPixels(4, this));
 
+
+    }
+
+    @Override
+    public void onWebSocketOpen(ServerHandshake handshakedata) {
+
+    }
+
+    @Override
+    public void onWebSocketMessage(String message) {
+
+    }
+
+    @Override
+    public void onWebSocketClose(int code, String reason, boolean remote) {
+
+    }
+
+    @Override
+    public void onWebSocketError(Exception ex) {
 
     }
 }
