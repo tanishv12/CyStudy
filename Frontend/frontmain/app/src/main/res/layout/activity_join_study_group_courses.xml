@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,69 +7,76 @@
     android:background="@color/olive"
     tools:context=".JoinStudyGroupCourses">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomnavbar"
-        android:layout_width="368dp"
-        android:layout_height="55dp"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:elevation="2dp"
-        app:menu="@menu/bottom_navbar"
-        app:itemIconSize="30dp"
-        app:itemTextColor="@color/black"
-        app:labelVisibilityMode="unlabeled"
-        android:background="@drawable/bottomnavbackground"
+
+    <TextView
+        android:layout_width="383dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/gidugu"
+        android:text="Study Groups"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        app:layout_constraintVertical_bias="1.0">
+
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="343dp"
+        android:layout_height="71dp"
+        android:layout_margin="10dp"
+        android:foregroundGravity="center"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        >
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        app:layout_constraintVertical_bias="0.083">
 
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:scrollbars="vertical">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/CourseNameInfo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="89dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/gidugu"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="60dp">
+        </TextView>
+    </androidx.cardview.widget.CardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="383dp"
+        android:layout_height="291dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        app:layout_constraintVertical_bias="0.373">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/coursesHolder"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/courseHeading"
-                    android:layout_width="match_parent"
-                    android:layout_height="71dp"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/gidugu"
-                    android:text="Courses"
-                    android:textAlignment="center"
-                    android:textColor="#ffffff"
-                    android:textSize="40dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="1.15in"
-                android:layout_margin="10dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardCornerRadius="25dp">
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+                android:layout_height="275dp"
+                android:orientation="vertical"
+                app:layout_constraintVertical_bias="0.318">
+            </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
