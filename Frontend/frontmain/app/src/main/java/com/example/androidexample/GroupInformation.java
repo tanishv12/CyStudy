@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -249,16 +250,16 @@ public class GroupInformation extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
 
-
         // Create a TextView for the group name
         TextView userNameView = new TextView(this);
         userNameView.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
+                0,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 1f
         ));
         userNameView.setText(nameOfUser);
         userNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        userNameView.setGravity(Gravity.CENTER_VERTICAL);
 
         cardContentLayout.addView(userNameView);
         cardView.addView(cardContentLayout);
