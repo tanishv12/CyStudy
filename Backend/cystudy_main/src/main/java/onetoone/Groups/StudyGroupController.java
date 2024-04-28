@@ -49,6 +49,12 @@ public class StudyGroupController {
         return user.getGroupSet();
     }
 
+    @GetMapping(path = "/course/groups/{course_id}")
+    Set<StudyGroup> getCourseGroups(@PathVariable int course_id){
+        Course course = courseRepository.findById(course_id);
+        return course.getGroupSet();
+    }
+
     @GetMapping(path ="/groupMasterCheck/{groupname}/{username}")
     boolean groupMasterCheck(@PathVariable String groupname, @PathVariable String username){
         User user = userRepository.findByUserName(username);
@@ -73,20 +79,25 @@ public class StudyGroupController {
     }
 
 
-    @PostMapping(path = "/groups/post/{group_name}/{username}/{course_name}")
-    String createGroup(@PathVariable String group_name, @PathVariable String username,@PathVariable String course_name) {
+    @PostMapping(path = "/groups/post/{group_name}/{username}/{courseid}/{groupCapacity}")
+    String createGroup(@PathVariable String group_name, @PathVariable String username,@PathVariable int courseid,@PathVariable int groupCapacity) {
+        Course course = courseRepository.findById(courseid);
+        User user = userRepository.findByUserName(username);
         if (group_name == null) {
             return failure;
+        }
+        for(Course course1 : user.getCourseSet()){
+            if(course.getid()==course1.getid()){
+                return "Cannot join multiple groups of same course";
+            }
         }
         for (StudyGroup group : studyGroupRepository.findAll()) {
             if (group.getGroupName().equals(group_name)){
                 return "Group name already exists";
             }
         }
-        Course course = courseRepository.findCourseByCourseName(course_name);
-        StudyGroup studyGroup = new StudyGroup(group_name,course,username);
+        StudyGroup studyGroup = new StudyGroup(group_name,course,username,groupCapacity);
         studyGroupRepository.save(studyGroup);
-        User user = userRepository.findByUserName(username);
         studyGroup.addUser(user);
         user.addStudyGroup(studyGroup);
         studyGroup.setGroupMaster(user.getUserName());
@@ -104,17 +115,23 @@ public class StudyGroupController {
 //        return studyGroupRepository.findById(group_id);
 //    }
 
-    @PutMapping(path="/groups/update/addUser/{group_id}")
-    StudyGroup addUserToGroup(@PathVariable int group_id, @RequestBody User userCopy){
-        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
-        if(studyGroup == null)
+    @PutMapping(path="/groups/update/addUser/{groupname}/{username}")
+    String addUserToGroup(@PathVariable String groupname,@PathVariable String username){
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        User user = userRepository.findByUserName(username);
+        Course groupCourse = studyGroup.getCourse();
+        if(studyGroup == null || user == null)
             return null;
-        User user = userRepository.findByUserName(userCopy.getUserName());
+        for(Course course : user.getCourseSet()) {
+            if (course.getid() == groupCourse.getid()) {
+                return "Can't join multiple groups of same course";
+            }
+        }
         studyGroup.addUser(user);
         user.addStudyGroup(studyGroup);
         studyGroupRepository.save(studyGroup);
         userRepository.save(user);
-        return studyGroupRepository.findById(group_id);
+        return "successful!";
     }
 
     @DeleteMapping(path ="/groups/delete/{groupname}/{username}")

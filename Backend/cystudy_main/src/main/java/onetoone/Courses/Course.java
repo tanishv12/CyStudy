@@ -23,8 +23,10 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private int courseCode;
-    private String courseName;
+    private String courseTitle;
     private String courseDepartment;
+
+    private String courseName = "";
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="course_user", joinColumns = {@JoinColumn(name="course_id", referencedColumnName = "id")},
@@ -45,12 +47,13 @@ public class Course {
 
     // =============================== Constructors ================================== //
 
-    public Course(String courseName, String courseDepartment,int courseCode) {
-        this.courseName = courseName;
+    public Course(String courseTitle, String courseDepartment,int courseCode) {
+        this.courseTitle = courseName;
         this.courseDepartment = courseDepartment;
         this.courseCode = courseCode;
         this.userSet = new HashSet<User>();
         this.groupSet = new HashSet<StudyGroup>();
+        courseName = courseDepartment + courseCode;
     }
 
     public Course() {
@@ -74,12 +77,12 @@ public class Course {
         this.courseCode = courseCode;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getCourseTitle() {
+        return courseTitle;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setCourseTitle(String courseName) {
+        this.courseTitle = courseName;
     }
 
     public String getCourseDepartment() {
