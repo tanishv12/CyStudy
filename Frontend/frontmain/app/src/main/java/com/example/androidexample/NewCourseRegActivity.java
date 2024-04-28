@@ -16,6 +16,7 @@ public class NewCourseRegActivity extends AppCompatActivity implements WebSocket
     private ScrollView cardsContainer;
     private AutoCompleteTextView courseDeptAutoCompleteTextView;
     private AutoCompleteTextView courseCodeAutoCompleteTextView;
+    private String courseDept, courseCode;
 
     public int convertDpToPixels(float dp, Context context)
     {
@@ -27,7 +28,20 @@ public class NewCourseRegActivity extends AppCompatActivity implements WebSocket
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_course_reg);
 
-        //uncomment when trying with server.
+        cardsContainer = findViewById(R.id.constrLayout);
+
+        //This takes the text from the autocomplete fields. Needs to
+        //be changed to take text from backend dummy courses and run the createCard
+        //as well as .addView for each pair.
+        courseDept = courseDeptAutoCompleteTextView.getText().toString();
+        courseCode = courseCodeAutoCompleteTextView.getText().toString();
+
+        CardView cardView = createCard(courseDept, courseCode);
+
+        //Uncomment when above method is implemented
+        //cardsContainer.addView(cardView)
+
+        //Uncomment when trying with server.
         //WebSocketManager.getInstance().setWebSocketListener(NewCourseRegActivity.this);
     }
 
