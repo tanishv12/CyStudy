@@ -28,8 +28,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="343dp"
-        android:layout_height="71dp"
+        android:layout_width="337dp"
+        android:layout_height="76dp"
         android:layout_margin="10dp"
         android:foregroundGravity="center"
         app:cardCornerRadius="30dp"
@@ -43,13 +43,13 @@
         <TextView
             android:id="@+id/CourseNameInfo"
             android:layout_width="match_parent"
-            android:layout_height="89dp"
+            android:layout_height="64dp"
             android:layout_marginBottom="20dp"
             android:fontFamily="@font/gidugu"
             android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="60dp">
+            android:textSize="45dp">
         </TextView>
     </androidx.cardview.widget.CardView>
 

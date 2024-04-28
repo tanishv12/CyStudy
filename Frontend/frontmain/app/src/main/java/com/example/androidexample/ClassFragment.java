@@ -33,6 +33,7 @@ import java.util.Map;
 
 public class ClassFragment extends AppCompatActivity {
     private String user;
+    private String courseNAME;
     private LinearLayout cardsContainer;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class ClassFragment extends AppCompatActivity {
         });
     }
     private CardView createCard(String courseName) {
+//        CourseNameSingleton.getInstance().setCourseName(courseName);
         // Create a new CardView and set up its layout parameters
         CardView cardView = new CardView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -104,6 +106,7 @@ public class ClassFragment extends AppCompatActivity {
             public void onClick(View view)
             {
                 Intent intent = new Intent(ClassFragment.this, JoinStudyGroupCourses.class);
+                CourseNameSingleton.getInstance().setCourseName(courseName);
                 startActivity(intent);
             }
         });
