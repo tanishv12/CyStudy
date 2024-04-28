@@ -3,6 +3,8 @@ package onetoone.Groups;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import onetoone.Courses.Course;
 import onetoone.Messages.Message;
 import onetoone.Rating.Rating;
@@ -40,6 +42,12 @@ public class StudyGroup {
 
     @Column(nullable = false)
     private String groupMaster;
+
+
+//    @Min(value = 3, message = "group capacity must at least be 3")
+//    @Max(value = 10, message ="Group Capacity cannot go over 10")
+    @Column(nullable = false)
+    private int groupCapacity;
 
 
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -168,4 +176,14 @@ public class StudyGroup {
     public void setGroupMaster(String groupMaster) {
         this.groupMaster = groupMaster;
     }
+
+    public int getGroupCapacity() {
+        return groupCapacity;
+    }
+
+    public void setGroupCapacity(int groupCapacity) {
+        this.groupCapacity = groupCapacity;
+    }
+
+
 }
