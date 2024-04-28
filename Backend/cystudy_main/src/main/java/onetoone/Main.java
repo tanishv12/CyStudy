@@ -87,7 +87,13 @@ class Main {
 
 // Add users to the course
             course1.addUser(user1);
-            course1.addUser(user2);
+            user1.addCourse(course1);
+            course2.addUser(user1);
+            user1.addCourse(course2);
+            course3.addUser(user1);
+            user1.addCourse(course3);
+
+            userRepository.save(user1);
 
 // Save the course
             courseRepository.save(course1);
