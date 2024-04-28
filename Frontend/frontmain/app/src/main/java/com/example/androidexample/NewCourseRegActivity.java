@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +37,6 @@ public class NewCourseRegActivity extends AppCompatActivity{
 
         courseDeptAutoCompleteTextView = findViewById(R.id.courseDept);
         courseCodeAutoCompleteTextView = findViewById(R.id.courseCode);
-
-        cardsContainer = findViewById(R.id.linearLayoutCourses);
         doneBtn = findViewById(R.id.doneButton);
 
         doneBtn.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +47,8 @@ public class NewCourseRegActivity extends AppCompatActivity{
                 //as well as .addView for each pair.
                 //
                 //This code will work for narrowing down search results.
+                cardsContainer = findViewById(R.id.linearLayoutCourses);
+
                 courseDept = courseDeptAutoCompleteTextView.getText().toString();
                 courseCode = courseCodeAutoCompleteTextView.getText().toString();
 
@@ -64,12 +65,14 @@ public class NewCourseRegActivity extends AppCompatActivity{
     {
         CardView cardView = new CardView(this);
         String courseNameCombined = courseDept + " " + courseCode;
+
+        Log.e("group", "group name: " + courseNameCombined);
         cardView.setCardElevation(convertDpToPixels(4, this));
         cardView.setRadius(convertDpToPixels(4, this));
 
-        ScrollView.LayoutParams layoutParams = new ScrollView.LayoutParams(
-                ScrollView.LayoutParams.MATCH_PARENT,
-                ScrollView.LayoutParams.WRAP_CONTENT
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
         );
         layoutParams.setMargins(
                 convertDpToPixels(16, this),
