@@ -86,7 +86,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-        <!-- Cards will be added programmatically here -->
+
+        <LinearLayout
+            android:id="@+id/linearLayoutCourses"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!-- Cards will be added programmatically here -->
+        </LinearLayout>
+
     </ScrollView>
 
 

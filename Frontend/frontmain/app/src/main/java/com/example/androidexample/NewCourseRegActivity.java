@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import org.java_websocket.handshake.ServerHandshake;
 
-public class NewCourseRegActivity extends AppCompatActivity implements WebSocketListener {
+public class NewCourseRegActivity extends AppCompatActivity{
 
-    private ScrollView cardsContainer;
+    private LinearLayout cardsContainer;
     private Button doneBtn;
     private AutoCompleteTextView courseDeptAutoCompleteTextView;
     private AutoCompleteTextView courseCodeAutoCompleteTextView;
@@ -37,7 +37,7 @@ public class NewCourseRegActivity extends AppCompatActivity implements WebSocket
         courseDeptAutoCompleteTextView = findViewById(R.id.courseDept);
         courseCodeAutoCompleteTextView = findViewById(R.id.courseCode);
 
-        cardsContainer = findViewById(R.id.scrollViewCourses);
+        cardsContainer = findViewById(R.id.linearLayoutCourses);
         doneBtn = findViewById(R.id.doneButton);
 
         doneBtn.setOnClickListener(new View.OnClickListener() {
@@ -58,9 +58,6 @@ public class NewCourseRegActivity extends AppCompatActivity implements WebSocket
             }
         });
 
-
-        //Uncomment when trying with server.
-        //WebSocketManager.getInstance().setWebSocketListener(NewCourseRegActivity.this);
     }
 
     private CardView createCard(String courseDept, String courseCode)
@@ -107,23 +104,4 @@ public class NewCourseRegActivity extends AppCompatActivity implements WebSocket
         return cardView;
     }
 
-    @Override
-    public void onWebSocketOpen(ServerHandshake handshakedata) {
-
-    }
-
-    @Override
-    public void onWebSocketMessage(String message) {
-
-    }
-
-    @Override
-    public void onWebSocketClose(int code, String reason, boolean remote) {
-
-    }
-
-    @Override
-    public void onWebSocketError(Exception ex) {
-
-    }
 }
