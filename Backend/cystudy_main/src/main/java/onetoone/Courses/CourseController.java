@@ -49,7 +49,7 @@ public class CourseController {
         return courseRepository.findById(id);
     }
 
-    @GetMapping(path = "/courses/user/git {username}")
+    @GetMapping(path = "/courses/user/ {username}")
     Set<Course> getCoursesByUser(@PathVariable String username){
         User user = userRepository.findByUserName(username);
         if(user == null){
