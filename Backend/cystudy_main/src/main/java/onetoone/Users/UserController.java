@@ -169,9 +169,9 @@ public class UserController {
         return success;
     }
 
-    @PostMapping("/users/{userId}/courses/{courseId}")
-    String addCourseToUser(@PathVariable long userId,@PathVariable long courseId){
-        User user = userRepository.findById(userId);
+    @PostMapping("/users/{userName}/course/{courseId}")
+    String addCourseToUser(@PathVariable String userName,@PathVariable long courseId){
+        User user = userRepository.findByUserName(userName);
         Course course = courseRepository.findById(courseId);
         if(user == null || course == null)
             return failure;
