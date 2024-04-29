@@ -67,7 +67,7 @@ public class User {
         this.password = savePassword(password);
         this.userName = userName;
         this.emailId = emailId;
-        this.ifActive = true;
+        this.ifActive = false;
         this.courseSet = new HashSet<Course>();
         this.groupSet = new HashSet<StudyGroup>();
         this.messageSet = new HashSet<Message>();

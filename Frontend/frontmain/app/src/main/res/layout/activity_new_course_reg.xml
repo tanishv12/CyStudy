@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/courseCardsContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewCourseRegActivity"
+    android:background="@color/olive">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constrLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/courseRegTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gidugu"
+            android:text="Course Registration"
+            android:textColor="#ffffff"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <AutoCompleteTextView
+            android:id="@+id/courseCode"
+            android:layout_width="100dp"
+            android:layout_height="53dp"
+            android:layout_marginEnd="132dp"
+            android:background="#D3D3D3"
+            android:completionThreshold="1"
+            android:dropDownWidth="match_parent"
+            android:dropDownHeight="wrap_content"
+            android:hint=" Code..."
+            android:inputType="text"
+            android:paddingEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/courseRegTxt"
+            app:layout_constraintVertical_bias="0.0">
+
+        </AutoCompleteTextView>
+
+        <AutoCompleteTextView
+            android:id="@+id/courseDept"
+            android:layout_width="150dp"
+            android:layout_height="53dp"
+            android:background="#D3D3D3"
+            android:completionThreshold="1"
+            android:dropDownWidth="match_parent"
+            android:dropDownHeight="wrap_content"
+            android:hint=" Department..."
+            android:inputType="text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/courseCode"
+            app:layout_constraintHorizontal_bias="0.761"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/courseRegTxt"
+            app:layout_constraintVertical_bias="0.0">
+
+        </AutoCompleteTextView>
+
+        <Button
+            android:id="@+id/doneButton"
+            android:layout_width="100dp"
+            android:layout_height="53dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/courseCode"
+            app:layout_constraintTop_toBottomOf="@+id/courseRegTxt"
+            android:text="Done"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollViewCourses"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/constrLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutCourses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- Cards will be added programmatically here -->
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,6 +26,7 @@ public class Course {
     private String courseTitle;
     private String courseDepartment;
 
+    @Column(unique = true)
     private String courseName = "";
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -75,6 +76,14 @@ public class Course {
 
     public void setCourseCode(int courseCode) {
         this.courseCode = courseCode;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public String getCourseTitle() {

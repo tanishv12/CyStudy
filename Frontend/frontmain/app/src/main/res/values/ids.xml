@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="course_id_tag" type="id" />
+    <item name="if_selected_tag" type="id" />
+    <item name="course_dept_tag" type="id"/>
+    <item name="course_code_tag" type="id"/>
+</resources>

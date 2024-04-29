@@ -57,9 +57,15 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping(path = "/users/{id}")
+    @GetMapping(path = "/users/id/{id}")
     User getUserById( @PathVariable long id){
         return userRepository.findById(id);
+    }
+
+   //this get does not return any list because of JSONignore
+    @GetMapping(path = "/users/{userName}")
+    User getUserByUserName( @PathVariable String userName){
+        return userRepository.findByUserName(userName);
     }
 
     @PostMapping(path = "/users/register")
@@ -137,19 +143,53 @@ public class UserController {
 //        return userRepository.findById(id);
 //    }
 
-    @PutMapping("/users/{id}")
-    User updateUser(@PathVariable long id, @RequestBody User request){
-        User user = userRepository.findById(id);
+    @PutMapping("/users/{userName}")
+    User updateUser(@PathVariable String userName, @RequestBody User request){
+        User user = userRepository.findByUserName(userName);
 
         if(user == null) {
             throw new RuntimeException("user id does not exist");
         }
-        else if (request.getid() != id){
+        else if (request.getid() != user.getid()){
             throw new RuntimeException("path variable id does not match User request id");
         }
 
         userRepository.save(request);
-        return userRepository.findById(id);
+        return userRepository.findById(user.getid());
+    }
+
+    @PutMapping("/users/{userName}/{newUserName}/{password}")
+    ResponseEntity<String> updateUserName(@PathVariable String userName, @PathVariable String newUserName, @PathVariable String password){
+        User user = userRepository.findByUserName(userName);
+        if(user == null) {
+            throw new RuntimeException("user does not e");
+        }
+        for(User prevUser: this.getAllUsers()){
+            if((newUserName).equals(prevUser.getUserName())){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exist");
+            }
+        }
+        if (!(passwordEncoder.matches(password, user.getPassword()))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password credentials");
+        }
+        user.setUserName(newUserName);
+        userRepository.save(user);
+        return ResponseEntity.ok("User name changed successfully");
+    }
+
+    @PutMapping("/users/logout/{userName}")
+    String logOutUser(@PathVariable String userName){
+        User user = userRepository.findByUserName(userName);
+
+        if(user == null) {
+            throw new RuntimeException("user id does not exist");
+        }
+        if (!user.isIfActive()){
+            return "user is not logged in";
+        }
+        user.setIfActive(false);
+        userRepository.save(user);
+        return "Logged out successfully";
     }
 
     @DeleteMapping(path = "/users/delete/{userName}")
@@ -169,16 +209,21 @@ public class UserController {
         return success;
     }
 
-    @PostMapping("/users/{userName}/course/{courseId}")
+    @PostMapping("/users/{userName}/courses/{courseId}")
     String addCourseToUser(@PathVariable String userName,@PathVariable long courseId){
         User user = userRepository.findByUserName(userName);
         Course course = courseRepository.findById(courseId);
         if(user == null || course == null)
             return failure;
-//        course.addUser(user);
+        for (Course addedCourse: user.getCourseSet()){
+            if(addedCourse.equals(course)){
+                return failure;
+            }
+        }
+        course.addUser(user);
         user.addCourse(course);
         userRepository.save(user);
-//        courseRepository.save(course);
+        courseRepository.save(course);
         return success;
     }
 
