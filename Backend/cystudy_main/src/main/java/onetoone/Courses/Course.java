@@ -48,12 +48,12 @@ public class Course {
     // =============================== Constructors ================================== //
 
     public Course(String courseTitle, String courseDepartment,int courseCode) {
-        this.courseTitle = courseName;
+        this.courseTitle = courseTitle;
         this.courseDepartment = courseDepartment;
         this.courseCode = courseCode;
         this.userSet = new HashSet<User>();
         this.groupSet = new HashSet<StudyGroup>();
-        courseName = courseDepartment + courseCode;
+        this.courseName = courseDepartment + courseCode;
     }
 
     public Course() {
@@ -75,6 +75,14 @@ public class Course {
 
     public void setCourseCode(int courseCode) {
         this.courseCode = courseCode;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public String getCourseTitle() {
