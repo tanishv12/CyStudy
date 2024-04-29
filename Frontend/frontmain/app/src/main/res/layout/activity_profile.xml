@@ -23,17 +23,16 @@
         android:id="@+id/profile_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/circle_background"
         android:longClickable="true"
         android:onClick="showEnlargedProfileImage"
         android:src="@drawable/profileimage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/profile_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -115,14 +114,14 @@
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:text="Log out"
-                            android:id="@+id/logout_button"
-                            android:textSize="18dp"
-                            android:layout_marginTop="10dp"
-                            app:cornerRadius="20dp"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Log out"
+                android:id="@+id/logout_button"
+                android:textSize="18dp"
+                android:layout_marginTop="10dp"
+                app:cornerRadius="20dp"/>
 
 
         </LinearLayout>

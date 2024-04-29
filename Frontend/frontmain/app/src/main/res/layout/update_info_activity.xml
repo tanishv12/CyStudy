@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/updateInfoLinear"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:background="@drawable/negative_background"> <!-- Set a shape drawable as the background -->
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -13,7 +14,7 @@
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp"
         app:contentPadding="10dp"
-        android:background="@drawable/lavender_border">
+        android:background="@android:color/transparent"> <!-- Set transparent background for the CardView -->
 
         <LinearLayout
             android:layout_width="match_parent"

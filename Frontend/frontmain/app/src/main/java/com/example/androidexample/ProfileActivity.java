@@ -2,11 +2,14 @@ package com.example.androidexample;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -103,6 +106,20 @@ public class ProfileActivity extends AppCompatActivity {
     private void showCustomDialog() {
         // Inflate the custom dialog layout
         View dialogView = getLayoutInflater().inflate(R.layout.update_info_activity, null);
+
+        // Find the EditText views
+        EditText updatedNameEditText = dialogView.findViewById(R.id.updatedNameEditText);
+        EditText currentPasswordEditText = dialogView.findViewById(R.id.currentPasswordEditText);
+
+        // Get the text entered in the EditText views
+        String updatedName = updatedNameEditText.getText().toString();
+        String password = currentPasswordEditText.getText().toString();
+
+        // Find the LinearLayout inside the CardView
+        LinearLayout dialogLinearLayout = dialogView.findViewById(R.id.updateInfoLinear);
+
+        // Set the background color of the LinearLayout to transparent
+        dialogLinearLayout.setBackgroundColor(Color.TRANSPARENT);
 
         // Create a dialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
