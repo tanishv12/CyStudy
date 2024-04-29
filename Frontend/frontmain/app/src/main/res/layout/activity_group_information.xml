@@ -75,7 +75,8 @@
             android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="60dp"></TextView>
+            android:textSize="60dp">
+        </TextView>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView

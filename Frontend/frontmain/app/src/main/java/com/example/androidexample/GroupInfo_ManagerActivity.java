@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +15,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -31,6 +34,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,11 +65,23 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
     private Button leaveGroupBtn;
     private Button doneButton;
 
+    private static final String[] Days = new String[]
+            {
+                    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+            };
 
-    private EditText enterDay;
+    private static final String[] Duration = new String[]
+            {
+                    "1 hour", "2 hours", "3 hours", "4 hours"
+            };
+
+
+    private AutoCompleteTextView enterDay;
     private EditText enterTime;
     private AutoCompleteTextView enterDuration;
     private Button updateButton;
+
+    private int hours,minutes;
 
 
 
@@ -129,6 +150,51 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         enterDuration = dialogView.findViewById(R.id.setDuration);
         updateButton = dialogView.findViewById(R.id.buttonUpdate);
 //        updateGrpName.setText(groupname);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, Days);
+        AutoCompleteTextView textView = (AutoCompleteTextView)
+                enterDay;
+        textView.setAdapter(adapter);
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, Duration);
+        AutoCompleteTextView textView2 = (AutoCompleteTextView)
+                enterDuration;
+        textView2.setAdapter(adapter2);
+
+
+
+
+
+        enterTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        GroupInfo_ManagerActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                hours = hourOfDay;
+                                minutes = minute;
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(0,0,0,hours,minutes);
+
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa");
+                                String formattedTime = simpleDateFormat.format(calendar.getTime());
+                                Log.e("time","local time"+ formattedTime);
+                                enterTime.setText(formattedTime);
+                            }
+                        }, 12, 0, false
+                );
+                timePickerDialog.updateTime(hours, minutes);
+                timePickerDialog.show();
+            }
+        });
+
+
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
