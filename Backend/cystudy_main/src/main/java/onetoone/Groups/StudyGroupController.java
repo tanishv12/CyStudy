@@ -106,13 +106,22 @@ public class StudyGroupController {
         return "Group created successfully!";
     }
 
-    @PutMapping(path="/groups/update/{groupName}/{userName}")
-    StudyGroup updateGroupName(@PathVariable String groupName, @PathVariable String userName) {
-        StudyGroup studyGroup = studyGroupRepository.findByU;
+    @PutMapping(path="/groups/update/{groupName}/{newGroupName}/{userName}")
+    String updateGroupName(@PathVariable String groupName,@PathVariable String newGroupName, @PathVariable String userName) {
+        StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupName);
         if(studyGroup == null)
-            return null;
-        studyGroup.setGroupName(updatedGroup.getGroupName());
-        return studyGroupRepository.findById(group_id);
+            return "Group does not exist";
+        if(!(userName.equals(studyGroup.getGroupMaster()))){
+            return "The user is not the group master";
+        }
+        for (StudyGroup group : studyGroupRepository.findAll()) {
+            if (group.getGroupName().equals(newGroupName) && !(studyGroup.getGroupName().equals(newGroupName))){
+                return "Group name already exists";
+            }
+        }
+        studyGroup.setGroupName(newGroupName);
+        studyGroupRepository.save(studyGroup);
+        return "Group name changed successfully";
     }
 
     @PutMapping(path="/groups/update/addUser/{groupname}/{username}")
