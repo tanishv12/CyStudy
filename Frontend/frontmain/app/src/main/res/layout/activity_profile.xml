@@ -49,14 +49,14 @@
             android:id="@+id/text_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username: John Doe" />><!-- Replace with actual username -->
+            android:text="Username: " />><!-- Replace with actual username -->
 
         <TextView
             android:id="@+id/text_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_username"
-            android:text="Email: john.doe@example.com"/> <!-- Replace with actual email --> />
+            android:text="Email: "/> <!-- Replace with actual email --> />
 
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_email"
-            android:text="Password: ********"/>
+            android:text="Password: "/>
 
         <!-- Replace with actual password --> />
 
