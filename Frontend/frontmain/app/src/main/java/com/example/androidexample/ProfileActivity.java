@@ -68,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                putRequest();
+                putActiveRequest();
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -135,22 +135,20 @@ public class ProfileActivity extends AppCompatActivity {
     /**
      * Updates study group name that the user is in
      */
-    private void putRequest()
+    private void putActiveRequest()
     {
         Log.d("DialogActions", "putRequest method called");
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/update";
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/users/logout/" + usernameValue;
+        Log.e("url",url);
         // Convert input to JSONObject
         JSONObject putBody = null;
 
         try
         {
-            Log.e("name","optionGroupName");
-            Log.e("name","optionUpdateGroupName");
             // etRequest should contain a JSON object string as your POST body
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
             putBody = new JSONObject();
-            putBody.put("isActive", "false");
         }
         catch (Exception e)
         {
@@ -167,7 +165,6 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response)
                     {
-
                         Log.e("Response Entered",response.toString());
 
                     }
@@ -281,5 +278,78 @@ public class ProfileActivity extends AppCompatActivity {
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
+
+    /**
+     * Updates study group name that the user is in
+     */
+    private void putRequest()
+    {
+        Log.d("DialogActions", "putRequest method called");
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/update";
+        // Convert input to JSONObject
+        JSONObject putBody = null;
+
+        try
+        {
+            Log.e("name","optionGroupName");
+            Log.e("name","optionUpdateGroupName");
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+            putBody = new JSONObject();
+//            putBody.put("groupName", optionUpdateGroupName);
+        }
+        catch (Exception e)
+        {
+            Log.e("Catch Entered","wkerufhieuwhf");
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                putBody,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+
+                        Log.e("Response Entered",response.toString());
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
 
 }
