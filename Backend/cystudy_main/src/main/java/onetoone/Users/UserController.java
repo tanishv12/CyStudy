@@ -169,7 +169,7 @@ public class UserController {
         return success;
     }
 
-    @PostMapping("/users/{userName}/course/{courseId}")
+    @PostMapping("/users/{userName}/courses/{courseId}")
     String addCourseToUser(@PathVariable String userName,@PathVariable long courseId){
         User user = userRepository.findByUserName(userName);
         Course course = courseRepository.findById(courseId);
