@@ -175,10 +175,10 @@ public class UserController {
         Course course = courseRepository.findById(courseId);
         if(user == null || course == null)
             return failure;
-//        course.addUser(user);
+        course.addUser(user);
         user.addCourse(course);
         userRepository.save(user);
-//        courseRepository.save(course);
+        courseRepository.save(course);
         return success;
     }
 
