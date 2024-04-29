@@ -124,7 +124,7 @@ public class StudyGroupController {
         return "Group name changed successfully";
     }
 
-    @PutMapping(path="/groups/update/addUser/{groupname}/{username}")
+    @PutMapping(path="/groups/addUser/{groupname}/{username}")
     String addUserToGroup(@PathVariable String groupname,@PathVariable String username){
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
         User user = userRepository.findByUserName(username);
