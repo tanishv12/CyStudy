@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,11 +16,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.java_websocket.handshake.ServerHandshake;
@@ -36,7 +39,8 @@ public class NewCourseRegActivity extends AppCompatActivity{
     private Button doneBtn;
     private AutoCompleteTextView courseDeptAutoCompleteTextView;
     private AutoCompleteTextView courseCodeAutoCompleteTextView;
-    private String courseDept, courseCode;
+    private String courseDept, courseCode, user;
+    private Integer courseId;
 
     public int convertDpToPixels(float dp, Context context)
     {
@@ -48,35 +52,37 @@ public class NewCourseRegActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_course_reg);
 
+        user = UsernameSingleton.getInstance().getUserName();
+
         courseDeptAutoCompleteTextView = findViewById(R.id.courseDept);
         courseCodeAutoCompleteTextView = findViewById(R.id.courseCode);
         doneBtn = findViewById(R.id.doneButton);
-        
+
         getRequest();
 
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //This takes the text from the autocomplete fields. Needs to
-                //be changed to take text from backend dummy courses and run the createCard
-                //as well as .addView for each pair.
-                //
-                //This code will work for narrowing down search results.
-                cardsContainer = findViewById(R.id.linearLayoutCourses);
-
-                courseDept = courseDeptAutoCompleteTextView.getText().toString();
-                courseCode = courseCodeAutoCompleteTextView.getText().toString();
-
-                CardView cardView = createCard(courseDept, courseCode);
-
-                //Uncomment when above method is implemented
-                cardsContainer.addView(cardView);
+                // Iterate over each card in the cardsContainer
+                for (int i = 0; i < cardsContainer.getChildCount(); i++) {
+                    view = cardsContainer.getChildAt(i);
+                    if (view instanceof CardView) {
+                        CardView cardView = (CardView) view;
+                        // Check if the cardView has been clicked (has a blue background color)
+                        if (cardView.getTag(R.id.if_selected_tag) != null && (boolean) cardView.getTag(R.id.if_selected_tag)) {
+                            // Get the courseId from the tag
+                            Integer courseId = (Integer) cardView.getTag(R.id.course_id_tag);
+                            // Call postRequest with the courseId
+                            postRequest(user, courseId);
+                        }
+                    }
+                }
             }
         });
 
     }
 
-    private CardView createCard(String courseDept, String courseCode)
+    private CardView createCard(String courseDept, String courseCode, int courseId)
     {
         CardView cardView = new CardView(this);
         String courseNameCombined = courseDept + " " + courseCode;
@@ -85,6 +91,8 @@ public class NewCourseRegActivity extends AppCompatActivity{
         cardView.setCardElevation(convertDpToPixels(4, this));
         cardView.setRadius(convertDpToPixels(8, this));
 
+        cardView.setTag(R.id.course_id_tag, courseId);
+        cardView.setTag(R.id.if_selected_tag, false);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -111,11 +119,11 @@ public class NewCourseRegActivity extends AppCompatActivity{
                 if (currentColor == getResources().getColor(android.R.color.white)) {
                     cardView.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
                     // Set clicked value to true
-                    cardView.setTag(true);
+                    cardView.setTag(R.id.if_selected_tag, true);
                 } else {
                     cardView.setBackgroundColor(getResources().getColor(android.R.color.white));
                     // Set clicked value to false
-                    cardView.setTag(false);
+                    cardView.setTag(R.id.if_selected_tag, false);
                 }
             }
         });
@@ -145,6 +153,33 @@ public class NewCourseRegActivity extends AppCompatActivity{
         return cardView;
     }
 
+    //Gets all selected courses and adds them to jsonObject
+    private JSONObject getUserCourses() {
+        JSONObject userCourses = new JSONObject();
+        try {
+            // Iterate over each card in the cardsContainer
+            for (int i = 0; i < cardsContainer.getChildCount(); i++) {
+                View view = cardsContainer.getChildAt(i);
+                if (view instanceof CardView) {
+                    CardView cardView = (CardView) view;
+                    // Check if the cardView has been clicked (has a blue background color)
+                    if (cardView.getTag() != null && (boolean) cardView.getTag()) {
+                        // Get the course name combined from the TextView in the card content layout
+                        LinearLayout cardContentLayout = (LinearLayout) cardView.getChildAt(0);
+                        TextView courseNameView = (TextView) cardContentLayout.getChildAt(0);
+                        String courseNameCombined = courseNameView.getText().toString();
+
+                        // Add the course name to the userCourses JSONObject
+                        userCourses.put("course_" + i, courseNameCombined);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return userCourses;
+    }
+
     /**
      * Retrieves study group that the user is in
      */
@@ -169,10 +204,11 @@ public class NewCourseRegActivity extends AppCompatActivity{
                                 // Access the value associated with the key "name"
                                 courseDept = jsonObj.getString("courseDepartment");
                                 courseCode = jsonObj.getString("courseCode");
+                                courseId = jsonObj.getInt("id");
 //                                GroupSingleton.getInstance().setGroupName(name);
 //                                String groupRate = name + "\n" + "Group Rating: "+ rating;
 //
-                                CardView cardView = createCard(courseDept, courseCode);
+                                CardView cardView = createCard(courseDept, courseCode, courseId);
 //                                GroupSingleton.getInstance().setGroupName(groupName);
                                 cardsContainer.addView(cardView);
 
@@ -216,6 +252,79 @@ public class NewCourseRegActivity extends AppCompatActivity{
 
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    /**
+     * Creates new study group which will contain the user
+     */
+    private void postRequest(String userName, int tempCourseId)
+    {
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/users/"+ userName +"/courses/" + tempCourseId;
+        Log.e("url", url);
+        // Convert input to JSONObject
+        JSONObject postBody = null;
+
+        try
+        {
+            Log.e("Try Entered","oisafuhgiureshg");
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+            postBody = new JSONObject();
+            Log.e("JSON Created","Json was created");
+        }
+        catch (Exception e)
+        {
+            Log.e("Catch Entered","wkerufhieuwhf");
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                postBody,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        Log.e("Response Entered",response.toString());
+                        Toast.makeText(NewCourseRegActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(NewCourseRegActivity.this, MainActivity.class);
+                        startActivity(intent);
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
 }
