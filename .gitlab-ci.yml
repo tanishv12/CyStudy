@@ -19,6 +19,7 @@ maven-build:
   only:
     refs:
       - main            # only to trigger the pipeline when changes are pushed to 'main'
+      - 60-final_touches_backend
     changes:
       - Backend/**/*       # more specifically - only when changes are made inside the 'Backend' folder
 
@@ -33,6 +34,7 @@ maven-test:
   only:
     refs:
       - main            # only to trigger the pipeline when changes are pushed to 'main'
+      - 60-final_touches_backend
     changes:
       - Backend/**/*       # more specifically - only when changes are made inside the 'Backend' folder
 
@@ -48,7 +50,8 @@ auto-deploy:
     - sudo systemctl start system-web-demo
   only:
     refs:
-      - main            # only to trigger the pipeline when changes are pushed to 'main'
+      - main                      # only to trigger the pipeline when changes are pushed to 'main'
+      - 60-final_touches_backend           
     changes:
       - Backend/**/*       # more specifically - only when changes are made inside the 'Backend' folder
 
