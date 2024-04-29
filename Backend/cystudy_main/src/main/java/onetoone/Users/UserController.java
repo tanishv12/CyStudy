@@ -144,28 +144,28 @@ public class UserController {
         if(user == null) {
             throw new RuntimeException("user id does not exist");
         }
-        else if (request.getid() != id){
+        else if (request.getid() != user.getid()){
             throw new RuntimeException("path variable id does not match User request id");
         }
 
         userRepository.save(request);
-        return userRepository.findById(id);
+        return userRepository.findById(user.getid());
     }
 
     @PutMapping("/users/{userName}/{newUserName}")
     ResponseEntity<String> updateUserName(@PathVariable String userName, @PathVariable String newUserName){
         User user = userRepository.findByUserName(userName);
         if(user == null) {
-            throw new RuntimeException("user does not exist");
+            throw new RuntimeException("user does not e");
         }
         for(User prevUser: this.getAllUsers()){
-            if((user.getUserName()).equals(prevUser.getUserName())){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("UserName already exists");
+            if((newUserName).equals(prevUser.getUserName())){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exist");
             }
         }
         user.setUserName(newUserName);
         userRepository.save(user);
-        return userRepository.findById(id);
+        return ResponseEntity.ok("User name changed successfully");
     }
 
     @DeleteMapping(path = "/users/delete/{userName}")
@@ -191,6 +191,11 @@ public class UserController {
         Course course = courseRepository.findById(courseId);
         if(user == null || course == null)
             return failure;
+        for (Course addedCourse: user.getCourseSet()){
+            if(addedCourse.equals(course)){
+                return failure;
+            }
+        }
         course.addUser(user);
         user.addCourse(course);
         userRepository.save(user);
