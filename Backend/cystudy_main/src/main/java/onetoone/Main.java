@@ -110,54 +110,54 @@ class Main {
 // Create study groups
 
             //Study groups for course1
-            StudyGroup group1 = new StudyGroup("MATH 165 GROUP 1",course1,"john123");
-            StudyGroup group2 = new StudyGroup("MATH 165 GROUP 2",course1,"sam123");
-            StudyGroup group3 = new StudyGroup("MATH 165 GROUP 3",course1,"rahul123");
+            StudyGroup group1 = new StudyGroup("MATH 165 GROUP 1",course1,"john123",5);
+            StudyGroup group2 = new StudyGroup("MATH 165 GROUP 2",course1,"sam123",5);
+            StudyGroup group3 = new StudyGroup("MATH 165 GROUP 3",course1,"rahul123",5);
 
             //Study groups for course2
-            StudyGroup group4 = new StudyGroup("MATH 166 GROUP 1",course2,"gav123");
-            StudyGroup group5 = new StudyGroup("MATH 166 GROUP 2",course2,"tan123");
-            StudyGroup group6 = new StudyGroup("MATH 166 GROUP 3",course2,"saeshu123");
+            StudyGroup group4 = new StudyGroup("MATH 166 GROUP 1",course2,"gav123",5);
+            StudyGroup group5 = new StudyGroup("MATH 166 GROUP 2",course2,"tan123",5);
+            StudyGroup group6 = new StudyGroup("MATH 166 GROUP 3",course2,"saeshu123",5);
 
             //Study groups for course3
-            StudyGroup group7 = new StudyGroup("COM S 309 GROUP 1",course3,"ethan123");
-            StudyGroup group8 = new StudyGroup("COM S 309 GROUP 2",course3,"shaun123");
-            StudyGroup group9 = new StudyGroup("COM S 309 GROUP 3",course3,"ben123");
+            StudyGroup group7 = new StudyGroup("COM S 309 GROUP 1",course3,"ethan123",5);
+            StudyGroup group8 = new StudyGroup("COM S 309 GROUP 2",course3,"shaun123",5);
+            StudyGroup group9 = new StudyGroup("COM S 309 GROUP 3",course3,"ben123",5);
 
 //            //Study groups for course4
-//            StudyGroup group10 = new StudyGroup("COM S 311 GROUP 1",course4);
-//            StudyGroup group11 = new StudyGroup("COM S 311 GROUP 2",course4);
-//            StudyGroup group12 = new StudyGroup("COM S 311 GROUP 3",course4);
+//            StudyGroup group10 = new StudyGroup("COM S 311 GROUP 1",course4,10);
+//            StudyGroup group11 = new StudyGroup("COM S 311 GROUP 2",course4,10);
+//            StudyGroup group12 = new StudyGroup("COM S 311 GROUP 3",course4,10);
 //
 //            //Study groups for course5
-//            StudyGroup group13 = new StudyGroup("ECON 101 Group1",course5);
-//            StudyGroup group14 = new StudyGroup("ECON 101 Group2",course5);
-//            StudyGroup group15 = new StudyGroup("ECON 101 Group3",course5);
+//            StudyGroup group13 = new StudyGroup("ECON 101 Group1",course5,10);
+//            StudyGroup group14 = new StudyGroup("ECON 101 Group2",course5,10);
+//            StudyGroup group15 = new StudyGroup("ECON 101 Group3",course5,10);
 //
 //            //Study groups for course6
-//            StudyGroup group16 = new StudyGroup("ECON 321 Group1",course6);
-//            StudyGroup group17 = new StudyGroup("ECON 321 Group2",course6);
-//            StudyGroup group18 = new StudyGroup("ECON 321 Group3",course6);
+//            StudyGroup group16 = new StudyGroup("ECON 321 Group1",course6,10);
+//            StudyGroup group17 = new StudyGroup("ECON 321 Group2",course6,10);
+//            StudyGroup group18 = new StudyGroup("ECON 321 Group3",course6,10);
 //
 //            //Study groups for course7
-//            StudyGroup group19 = new StudyGroup("MUSIC 102 Group1",course7);
-//            StudyGroup group20 = new StudyGroup("MUSIC 102 Group2",course7);
-//            StudyGroup group21 = new StudyGroup("MUSIC 102 Group3",course7);
+//            StudyGroup group19 = new StudyGroup("MUSIC 102 Group1",course7,10);
+//            StudyGroup group20 = new StudyGroup("MUSIC 102 Group2",course7,10);
+//            StudyGroup group21 = new StudyGroup("MUSIC 102 Group3",course7,10);
 //
 //            //Study groups for course8
-//            StudyGroup group22 = new StudyGroup("PHYS 231 Group1",course8);
-//            StudyGroup group23 = new StudyGroup("PHYS 231 Group2",course8);
-//            StudyGroup group24 = new StudyGroup("PHYS 231 Group3",course8);
+//            StudyGroup group22 = new StudyGroup("PHYS 231 Group1",course8,10);
+//            StudyGroup group23 = new StudyGroup("PHYS 231 Group2",course8,10);
+//            StudyGroup group24 = new StudyGroup("PHYS 231 Group3",course8,10);
 //
 //            //Study groups for course9
-//            StudyGroup group25 = new StudyGroup("CHEM 177 Group1",course9);
-//            StudyGroup group26 = new StudyGroup("CHEM 177 Group2",course9);
-//            StudyGroup group27 = new StudyGroup("CHEM 177 Group3",course9);
+//            StudyGroup group25 = new StudyGroup("CHEM 177 Group1",course9,10);
+//            StudyGroup group26 = new StudyGroup("CHEM 177 Group2",course9,10);
+//            StudyGroup group27 = new StudyGroup("CHEM 177 Group3",course9,10);
 //
 //            //Study groups for course 10
-//            StudyGroup group28 = new StudyGroup("BIOL 211 Group1",course10);
-//            StudyGroup group29 = new StudyGroup("BIOL 211 Group2",course10);
-//            StudyGroup group30 = new StudyGroup("BIOL 211 Group3",course10);
+//            StudyGroup group28 = new StudyGroup("BIOL 211 Group1",course10,10);
+//            StudyGroup group29 = new StudyGroup("BIOL 211 Group2",course10,10);
+//            StudyGroup group30 = new StudyGroup("BIOL 211 Group3",course10,10);
 
 
 // Save study groups
@@ -205,6 +205,8 @@ class Main {
 // Save the study groups after adding users
             studyGroupRepository.save(group1);
             studyGroupRepository.save(group2);
+
+            
 
 // Create ratings
 //            Rating rating1 = new Rating(user1, group1, 2);

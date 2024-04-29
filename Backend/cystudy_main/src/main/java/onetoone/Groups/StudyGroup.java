@@ -44,9 +44,7 @@ public class StudyGroup {
     private String groupMaster;
 
 
-//    @Min(value = 3, message = "group capacity must at least be 3")
-//    @Max(value = 10, message ="Group Capacity cannot go over 10")
-    @Column(nullable = false)
+    @Column(name = "sg1_0.group_capacity", nullable = false)
     private int groupCapacity;
 
 
@@ -76,7 +74,7 @@ public class StudyGroup {
     public StudyGroup() {
     }
 
-    public StudyGroup(String groupName, Course course, String groupMaster) {
+    public StudyGroup(String groupName, Course course, String groupMaster,int groupCapacity) {
         this.groupName = groupName;
         this.course = course;
         this.avgRating = 0;
@@ -84,6 +82,7 @@ public class StudyGroup {
         this.messageSet = new HashSet<Message>();
         this.ratingList = new ArrayList<Rating>();
         this.groupMaster = groupMaster;
+        this.groupCapacity = groupCapacity;
     }
 
     // =============================== Getters and Setters for each field ================================== //
