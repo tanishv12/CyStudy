@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -33,8 +34,8 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     TextView name, email, username, password;
-    String nameValue, emailValue, usernameValue, passwordValue;
-    Button logout;
+    String nameValue, emailValue, usernameValue, passwordValue, typeCodeTemp, updatedName, updatedPassword;
+    Button logout, updateButton;
 
     /**
      * Creates home page UI
@@ -61,6 +62,23 @@ public class ProfileActivity extends AppCompatActivity {
         name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                typeCodeTemp = "name";
+                showCustomDialog();
+            }
+        });
+
+        username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                typeCodeTemp = "username";
+                showCustomDialog();
+            }
+        });
+
+        password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                typeCodeTemp = "password";
                 showCustomDialog();
             }
         });
@@ -110,10 +128,7 @@ public class ProfileActivity extends AppCompatActivity {
         // Find the EditText views
         EditText updatedNameEditText = dialogView.findViewById(R.id.updatedNameEditText);
         EditText currentPasswordEditText = dialogView.findViewById(R.id.currentPasswordEditText);
-
-        // Get the text entered in the EditText views
-        String updatedName = updatedNameEditText.getText().toString();
-        String password = currentPasswordEditText.getText().toString();
+        updateButton=dialogView.findViewById(R.id.updateButton);
 
         // Find the LinearLayout inside the CardView
         LinearLayout dialogLinearLayout = dialogView.findViewById(R.id.updateInfoLinear);
@@ -127,6 +142,25 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Create the dialog
         AlertDialog dialog = builder.create();
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get the text entered in the EditText views
+                updatedName = updatedNameEditText.getText().toString();
+                updatedPassword = currentPasswordEditText.getText().toString();
+
+                if(typeCodeTemp.equals("name")){
+                    putRequestName(typeCodeTemp, usernameValue, nameValue, updatedName);
+                } else if (typeCodeTemp.equals("username")) {
+                    putRequestUsername(typeCodeTemp, usernameValue, updatedName, updatedPassword);
+                } else if (typeCodeTemp.equals("password")) {
+                    putRequestPassword(typeCodeTemp, usernameValue, updatedPassword, updatedName);
+                }
+                // Dismiss the dialog after processing the values
+                dialog.dismiss();
+            }
+        });
 
         // Show the dialog
         dialog.show();
@@ -279,25 +313,131 @@ public class ProfileActivity extends AppCompatActivity {
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-    /**
-     * Updates study group name that the user is in
-     */
-    private void putRequest()
+    private void putRequestName(String tempType, String value1, String value2, String value3)
     {
         Log.d("DialogActions", "putRequest method called");
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/update";
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/users/"+tempType +"/" + value1 +"/"+ value2 +"/"+ value3;
+        // Convert input to JSONObject
+
+        try
+        {
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+        }
+        catch (Exception e)
+        {
+            Log.e("Catch Entered","wkerufhieuwhf");
+            e.printStackTrace();
+        }
+
+        StringRequest request = new StringRequest(
+                Request.Method.PUT,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Log.e("Response Entered",response);
+                        Toast.makeText(ProfileActivity.this, response, Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+    private void putRequestUsername(String tempType, String value1, String value2, String value3)
+    {
+        Log.d("DialogActions", "putRequest method called");
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/users/"+tempType +"/" + value1 +"/"+ value2 +"/"+ value3;
+        // Convert input to JSONObject
+        StringRequest request = new StringRequest(
+                Request.Method.PUT,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Toast.makeText(ProfileActivity.this, response, Toast.LENGTH_SHORT).show();
+                        Log.e("Response Entered",response);
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+                        Toast.makeText(ProfileActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+    private void putRequestPassword(String tempType, String value1, String value2, String value3)
+    {
+        Log.d("DialogActions", "putRequest method called");
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/users/"+tempType +"/" + value1 +"/"+ value2 +"/"+ value3;
         // Convert input to JSONObject
         JSONObject putBody = null;
 
         try
         {
-            Log.e("name","optionGroupName");
-            Log.e("name","optionUpdateGroupName");
             // etRequest should contain a JSON object string as your POST body
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
             putBody = new JSONObject();
-//            putBody.put("groupName", optionUpdateGroupName);
         }
         catch (Exception e)
         {
@@ -350,6 +490,8 @@ public class ProfileActivity extends AppCompatActivity {
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
+
+
 
 
 }
