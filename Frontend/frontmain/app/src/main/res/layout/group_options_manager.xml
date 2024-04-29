@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         android:layout_width="365dp"
         android:layout_height="wrap_content"
-        android:text="Set Group Calender Information" />
+        android:text="Set Meeting Time" />
 
     <Button
         android:id="@+id/leaveGroup"
