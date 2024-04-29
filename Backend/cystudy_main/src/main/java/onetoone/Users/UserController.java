@@ -158,7 +158,7 @@ public class UserController {
         return userRepository.findById(user.getid());
     }
 
-    @PutMapping("/users/{userName}/{newUserName}/{password}")
+    @PutMapping("/users/username/{userName}/{newUserName}/{password}")
     ResponseEntity<String> updateUserName(@PathVariable String userName, @PathVariable String newUserName, @PathVariable String password){
         User user = userRepository.findByUserName(userName);
         if(user == null) {
@@ -177,7 +177,7 @@ public class UserController {
         return ResponseEntity.ok("User name changed successfully");
     }
 
-    @PutMapping("/users/{userName}/{oldPassword}/{newPassword}")
+    @PutMapping("/users/password/{userName}/{oldPassword}/{newPassword}")
     ResponseEntity<String> updatePassword(@PathVariable String userName, @PathVariable String oldPassword, @PathVariable String newPassword){
         User user = userRepository.findByUserName(userName);
         if(user == null) {
@@ -191,7 +191,7 @@ public class UserController {
         return ResponseEntity.ok("User name changed successfully");
     }
 
-    @PutMapping("/users/{userName}/{oldName}/{newName}")
+    @PutMapping("/users/name/{userName}/{oldName}/{newName}")
     ResponseEntity<String> updateName(@PathVariable String userName, @PathVariable String oldName, @PathVariable String newName){
         User user = userRepository.findByUserName(userName);
         if(user == null) {
