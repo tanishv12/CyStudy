@@ -1,33 +1,15 @@
 package com.example.androidexample;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import org.java_websocket.handshake.ServerHandshake;
+import android.provider.ContactsContract;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-//import com.example.androidexample.databinding.ActivityMainBinding;
 
-/**
- * Home page for study group application.
- *
- * Redirects user to classes page, study group page, or back to homepage.
- */
-public class MainActivity extends AppCompatActivity
-{
-    private Button b1;
-//    ActivityMainBinding binding;
+public class ProfileActivity extends AppCompatActivity {
 
     /**
      * Creates home page UI
@@ -35,9 +17,9 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_profile);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
-        bottomNavigationView.setSelectedItemId(R.id.Home);
+        bottomNavigationView.setSelectedItemId(R.id.Profile);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if(item.getItemId() == R.id.Home)
@@ -52,11 +34,6 @@ public class MainActivity extends AppCompatActivity
             if(item.getItemId() == R.id.StudyGroups)
             {
                 startActivity(new Intent(getApplicationContext(), StudyGroupFragment.class));
-                return true;
-            }
-            if(item.getItemId() == R.id.Profile)
-            {
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 return true;
             }
             if(item.getItemId() == R.id.Profile)
