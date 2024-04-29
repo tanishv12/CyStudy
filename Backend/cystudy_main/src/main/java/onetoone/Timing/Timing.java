@@ -26,8 +26,8 @@ public class Timing {
     @JoinColumn(name = "group_id")
     private StudyGroup studyGroup;
 
-    public Timing(LocalTime startTime, int duration, DayOfWeek day, String location) {
-        this.startTime = startTime;
+    public Timing(String startTime, int duration, DayOfWeek day, String location) {
+        this.startTime = createStartTime(startTime);
         this.duration = duration;
         this.day = day;
         this.location = location;
@@ -36,6 +36,10 @@ public class Timing {
 
     public Timing() {
 
+    }
+
+    private LocalTime createStartTime(String startTime){
+        return null;
     }
 
     public Long getId() {

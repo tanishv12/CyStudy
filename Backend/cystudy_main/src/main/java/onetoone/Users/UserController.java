@@ -159,47 +159,47 @@ public class UserController {
     }
 
     @PutMapping("/users/username/{userName}/{newUserName}/{password}")
-    ResponseEntity<String> updateUserName(@PathVariable String userName, @PathVariable String newUserName, @PathVariable String password){
+    String updateUserName(@PathVariable String userName, @PathVariable String newUserName, @PathVariable String password){
         User user = userRepository.findByUserName(userName);
         if(user == null) {
             throw new RuntimeException("user does not e");
         }
         for(User prevUser: this.getAllUsers()){
             if((newUserName).equals(prevUser.getUserName())){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exist");
+                return "Username already exist";
             }
         }
         if (!(passwordEncoder.matches(password, user.getPassword()))) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password credentials");
+            return "Invalid password credentials";
         }
         user.setUserName(newUserName);
         userRepository.save(user);
-        return ResponseEntity.ok("User name changed successfully");
+        return "User name changed successfully";
     }
 
     @PutMapping("/users/password/{userName}/{oldPassword}/{newPassword}")
-    ResponseEntity<String> updatePassword(@PathVariable String userName, @PathVariable String oldPassword, @PathVariable String newPassword){
+    String updatePassword(@PathVariable String userName, @PathVariable String oldPassword, @PathVariable String newPassword){
         User user = userRepository.findByUserName(userName);
         if(user == null) {
             throw new RuntimeException("user does not e");
         }
         if (!(passwordEncoder.matches(oldPassword, user.getPassword()))) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password credentials");
+            return "Invalid password credentials";
         }
         user.setPassword(newPassword);
         userRepository.save(user);
-        return ResponseEntity.ok("User name changed successfully");
+        return "User name changed successfully";
     }
 
     @PutMapping("/users/name/{userName}/{oldName}/{newName}")
-    ResponseEntity<String> updateName(@PathVariable String userName, @PathVariable String oldName, @PathVariable String newName){
+    String updateName(@PathVariable String userName, @PathVariable String oldName, @PathVariable String newName){
         User user = userRepository.findByUserName(userName);
         if(user == null) {
             throw new RuntimeException("user does not e");
         }
         user.setName(newName);
         userRepository.save(user);
-        return ResponseEntity.ok("User name changed successfully");
+        return "User name changed successfully";
     }
 
 
