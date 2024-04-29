@@ -26,10 +26,11 @@ public class Timing {
     @JoinColumn(name = "group_id")
     private StudyGroup studyGroup;
 
-    public Timing(LocalTime startTime, int duration, DayOfWeek day) {
+    public Timing(LocalTime startTime, int duration, DayOfWeek day, String location) {
         this.startTime = startTime;
         this.duration = duration;
         this.day = day;
+        this.location = location;
     }
 
 
