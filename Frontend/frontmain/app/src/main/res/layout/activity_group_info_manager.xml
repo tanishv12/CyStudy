@@ -76,15 +76,15 @@
         app:layout_constraintVertical_bias="0.173">
 
         <ScrollView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <LinearLayout
                 android:id="@+id/usersHolder"
                 android:layout_width="match_parent"
                 android:layout_height="275dp"
                 android:orientation="vertical"
-                app:layout_constraintVertical_bias="0.318"></LinearLayout>
+                app:layout_constraintVertical_bias="0.318">
+            </LinearLayout>
         </ScrollView>
 
     </androidx.cardview.widget.CardView>
