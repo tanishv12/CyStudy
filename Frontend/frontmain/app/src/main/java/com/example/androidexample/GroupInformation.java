@@ -50,8 +50,7 @@ public class GroupInformation extends AppCompatActivity {
     private String users;
     private TextView GroupHeadingName;
 
-    private Button editGroupBtn;
-
+//    private Button editGroupBtn;
     private Button leaveGroupBtn;
     private Button doneButton;
 
@@ -81,7 +80,7 @@ public class GroupInformation extends AppCompatActivity {
         dialog.create();
 
         leaveGroupBtn = dialogView.findViewById(R.id.leaveGroup);
-        editGroupBtn = dialogView.findViewById(R.id.editGrpName);
+//        editGroupBtn = dialogView.findViewById(R.id.editGrpName);
         doneButton = dialogView.findViewById(R.id.doneBtn);
 
         leaveGroupBtn.setOnClickListener(new View.OnClickListener() {
@@ -92,13 +91,13 @@ public class GroupInformation extends AppCompatActivity {
             }
         });
 
-        editGroupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                dialog.dismiss();
-            }
-        });
+//        editGroupBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                dialog.dismiss();
+//            }
+//        });
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override

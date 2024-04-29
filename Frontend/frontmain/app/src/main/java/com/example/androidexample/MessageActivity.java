@@ -109,7 +109,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             public void onClick(View view)
             {
                 WebSocketManager.getInstance().disconnectWebSocket();
-                Intent intent = new Intent(MessageActivity.this, GroupInformation.class);
+                Intent intent = new Intent(MessageActivity.this, GroupInfo_ManagerActivity.class);
                 startActivity(intent);
             }
         });
