@@ -50,8 +50,8 @@ public class StudyGroupController {
     }
 
     @GetMapping(path = "/course/groups/{coursename}")
-    Set<StudyGroup> getCourseGroups(@PathVariable int course_id){
-        Course course = courseRepository.findById(course_id);
+    Set<StudyGroup> getCourseGroups(@PathVariable String coursename){
+        Course course = courseRepository.findCourseByCourseName(coursename);
         return course.getGroupSet();
     }
 
