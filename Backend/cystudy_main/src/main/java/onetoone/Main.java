@@ -76,7 +76,7 @@ class Main {
 // Create course
             Course course1 = new Course("Calculus 1", "MATH", 165);
             Course course2 = new Course("Calculus 2","MATH",166);
-            Course course3 = new Course("Software Development Practices","COM S",309);
+            Course course3 = new Course("Software Development Practices","COMS",309);
             Course course4 = new Course("Introduction to Design and Analysis of algorithms","COM S",311);
             Course course5 = new Course("Principles of Microeconomics","ECON",101);
             Course course6 = new Course("Economics of Discrimination","ECON",321);

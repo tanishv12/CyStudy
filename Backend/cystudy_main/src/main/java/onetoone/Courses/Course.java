@@ -53,7 +53,7 @@ public class Course {
         this.courseCode = courseCode;
         this.userSet = new HashSet<User>();
         this.groupSet = new HashSet<StudyGroup>();
-        courseName = courseDepartment + courseCode;
+        courseName = courseDepartment + " " + courseCode;
     }
 
     public Course() {
