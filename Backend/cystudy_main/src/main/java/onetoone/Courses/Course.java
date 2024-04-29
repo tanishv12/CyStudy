@@ -48,7 +48,7 @@ public class Course {
     // =============================== Constructors ================================== //
 
     public Course(String courseTitle, String courseDepartment,int courseCode) {
-        this.courseTitle = courseName;
+        this.courseTitle = courseTitle;
         this.courseDepartment = courseDepartment;
         this.courseCode = courseCode;
         this.userSet = new HashSet<User>();
