@@ -152,8 +152,8 @@ public class UserController {
         return userRepository.findById(user.getid());
     }
 
-    @PutMapping("/users/{userName}/{newUserName}")
-    ResponseEntity<String> updateUserName(@PathVariable String userName, @PathVariable String newUserName){
+    @PutMapping("/users/{userName}/{newUserName}/{password}")
+    ResponseEntity<String> updateUserName(@PathVariable String userName, @PathVariable String newUserName, @PathVariable String password){
         User user = userRepository.findByUserName(userName);
         if(user == null) {
             throw new RuntimeException("user does not e");
@@ -163,10 +163,15 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already exist");
             }
         }
+        if (!(passwordEncoder.matches(password, user.getPassword()))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password credentials");
+        }
         user.setUserName(newUserName);
         userRepository.save(user);
         return ResponseEntity.ok("User name changed successfully");
     }
+
+
 
     @DeleteMapping(path = "/users/delete/{userName}")
     String deleteUser(@PathVariable String userName){
