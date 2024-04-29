@@ -177,7 +177,20 @@ public class UserController {
         return ResponseEntity.ok("User name changed successfully");
     }
 
+    @PutMapping("/users/logout/{userName}")
+    String logOutUser(@PathVariable String userName){
+        User user = userRepository.findByUserName(userName);
 
+        if(user == null) {
+            throw new RuntimeException("user id does not exist");
+        }
+        if (!user.isIfActive()){
+            return "user is not logged in";
+        }
+        user.setIfActive(false);
+        userRepository.save(user);
+        return "Logged out successfully";
+    }
 
     @DeleteMapping(path = "/users/delete/{userName}")
     String deleteUser(@PathVariable String userName){
