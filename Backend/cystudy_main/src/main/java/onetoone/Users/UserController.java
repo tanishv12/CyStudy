@@ -137,9 +137,9 @@ public class UserController {
 //        return userRepository.findById(id);
 //    }
 
-    @PutMapping("/users/{id}")
-    User updateUser(@PathVariable long id, @RequestBody User request){
-        User user = userRepository.findById(id);
+    @PutMapping("/users/{userName}")
+    User updateUser(@PathVariable String userName, @RequestBody User request){
+        User user = userRepository.findByUserName(userName);
 
         if(user == null) {
             throw new RuntimeException("user id does not exist");
@@ -149,6 +149,22 @@ public class UserController {
         }
 
         userRepository.save(request);
+        return userRepository.findById(id);
+    }
+
+    @PutMapping("/users/{userName}/{newUserName}")
+    ResponseEntity<String> updateUserName(@PathVariable String userName, @PathVariable String newUserName){
+        User user = userRepository.findByUserName(userName);
+        if(user == null) {
+            throw new RuntimeException("user does not exist");
+        }
+        for(User prevUser: this.getAllUsers()){
+            if((user.getUserName()).equals(prevUser.getUserName())){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("UserName already exists");
+            }
+        }
+        user.setUserName(newUserName);
+        userRepository.save(user);
         return userRepository.findById(id);
     }
 
