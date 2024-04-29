@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -12,7 +14,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,8 +51,17 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
     private String users;
     private TextView GroupHeadingName;
 
+    private Button meetingInformation;
+
     private Button leaveGroupBtn;
     private Button doneButton;
+
+
+    private EditText enterDay;
+    private EditText enterTime;
+    private AutoCompleteTextView enterDuration;
+    private Button updateButton;
+
 
 
     private void optionsDialog(Context c)
@@ -64,6 +77,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         leaveGroupBtn = dialogView.findViewById(R.id.leaveGroup);
         editGroupBtn = dialogView.findViewById(R.id.editGrpName);
         doneButton = dialogView.findViewById(R.id.doneBtn);
+        meetingInformation = dialogView.findViewById(R.id.calenderInfo);
 
         leaveGroupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,8 +103,43 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
             }
         });
 
+        meetingInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                meetinginformation(GroupInfo_ManagerActivity.this);
+            }
+        });
+
         dialog.show();
     }
+
+    private void meetinginformation(Context c)
+    {
+        LayoutInflater inflater = LayoutInflater.from(c);
+        View dialogView = inflater.inflate(R.layout.activity_calender_info, null);
+        AlertDialog dialog = new AlertDialog.Builder(c)
+                .setTitle("Set Calender Meeting")
+                .setView(dialogView)
+                .setNegativeButton("Cancel", null)
+                .create();
+
+        enterDay = dialogView.findViewById(R.id.setDay);
+        enterTime = dialogView.findViewById(R.id.setTime);
+        enterDuration = dialogView.findViewById(R.id.setDuration);
+        updateButton = dialogView.findViewById(R.id.buttonUpdate);
+//        updateGrpName.setText(groupname);
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

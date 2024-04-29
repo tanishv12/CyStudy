@@ -5,27 +5,31 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:id="@+id/setDay"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Choose Day">
     </EditText>
     <EditText
+        android:id="@+id/setTime"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Set Time">
     </EditText>
 
     <AutoCompleteTextView
+        android:id="@+id/setDuration"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Duration Time">
     </AutoCompleteTextView>
 
-    <EditText
+    <AutoCompleteTextView
+        android:id="@+id/setLocation"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Location">
-    </EditText>
+    </AutoCompleteTextView>
 
     <Button
         android:id="@+id/buttonUpdate"

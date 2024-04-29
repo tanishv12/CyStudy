@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         android:layout_width="365dp"
         android:layout_height="wrap_content"
-        android:text="Set Meeting Time" />
+        android:text="Meeting Time" />
 
     <Button
         android:id="@+id/leaveGroup"

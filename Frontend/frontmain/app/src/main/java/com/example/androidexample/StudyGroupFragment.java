@@ -601,7 +601,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         cardView.addView(cardContentLayout);
 
 //        linearLayout.addView(groupNameView);
-
 //        linearLayout.addView(ratingView);
 
 
