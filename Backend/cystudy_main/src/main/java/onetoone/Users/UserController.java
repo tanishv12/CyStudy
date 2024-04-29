@@ -57,9 +57,15 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping(path = "/users/{id}")
+    @GetMapping(path = "/users/id/{id}")
     User getUserById( @PathVariable long id){
         return userRepository.findById(id);
+    }
+
+   //this get does not return any list because of JSONignore
+    @GetMapping(path = "/users/{userName}")
+    User getUserByUserName( @PathVariable String userName){
+        return userRepository.findByUserName(userName);
     }
 
     @PostMapping(path = "/users/register")
