@@ -177,6 +177,32 @@ public class UserController {
         return ResponseEntity.ok("User name changed successfully");
     }
 
+    @PutMapping("/users/{userName}/{oldPassword}/{newPassword}")
+    ResponseEntity<String> updatePassword(@PathVariable String userName, @PathVariable String oldPassword, @PathVariable String newPassword){
+        User user = userRepository.findByUserName(userName);
+        if(user == null) {
+            throw new RuntimeException("user does not e");
+        }
+        if (!(passwordEncoder.matches(oldPassword, user.getPassword()))) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password credentials");
+        }
+        user.setPassword(newPassword);
+        userRepository.save(user);
+        return ResponseEntity.ok("User name changed successfully");
+    }
+
+    @PutMapping("/users/{userName}/{oldName}/{newName}")
+    ResponseEntity<String> updateName(@PathVariable String userName, @PathVariable String oldName, @PathVariable String newName){
+        User user = userRepository.findByUserName(userName);
+        if(user == null) {
+            throw new RuntimeException("user does not e");
+        }
+        user.setName(newName);
+        userRepository.save(user);
+        return ResponseEntity.ok("User name changed successfully");
+    }
+
+
     @PutMapping("/users/logout/{userName}")
     String logOutUser(@PathVariable String userName){
         User user = userRepository.findByUserName(userName);
