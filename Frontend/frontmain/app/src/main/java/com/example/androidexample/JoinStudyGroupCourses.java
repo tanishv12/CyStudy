@@ -46,6 +46,8 @@ public class JoinStudyGroupCourses extends AppCompatActivity
 //    private TextView members;
     private TextView courseHeader;
     private String courseHead;
+
+    private AppCompatImageView backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -53,10 +55,19 @@ public class JoinStudyGroupCourses extends AppCompatActivity
         setContentView(R.layout.activity_join_study_group_courses);
         courseHead = CourseNameSingleton.getInstance().getCourseName();
 
+        backButton = findViewById(R.id.imageBack);
         courseHeader = findViewById(R.id.CourseNameInfo);
         courseHeader.setText(courseHead);
-    }
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(JoinStudyGroupCourses.this, ClassFragment.class);
+                startActivity(intent);
+            }
+        });
+    }
     private void getRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all/users/" ;
