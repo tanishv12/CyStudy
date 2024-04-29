@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -48,6 +50,39 @@ public class NewCourseRegActivity extends AppCompatActivity{
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        // Call the method to filter card views here
+        if (cardsContainer != null) {
+            filterCardViews();
+        }
+    }
+
+    private void filterCardViews() {
+        // Get the text entered in the department and code AutoCompleteTextViews
+        String deptFilter = courseDeptAutoCompleteTextView.getText().toString().trim().toLowerCase();
+        String codeFilter = courseCodeAutoCompleteTextView.getText().toString().trim().toLowerCase();
+
+        // Iterate over each card in the cardsContainer
+        for (int i = 0; i < cardsContainer.getChildCount(); i++) {
+            View view = cardsContainer.getChildAt(i);
+            if (view instanceof CardView) {
+                CardView cardView = (CardView) view;
+                // Get the course department and code from the cardView tags
+                String cardDept = ((String) cardView.getTag(R.id.course_dept_tag)).toLowerCase();
+                String cardCode = ((String) cardView.getTag(R.id.course_code_tag)).toLowerCase();
+
+                // Check if the card should be visible based on the filters
+                boolean shouldShow = cardDept.contains(deptFilter) && cardCode.contains(codeFilter);
+
+                // Set the visibility of the cardView accordingly
+                cardView.setVisibility(shouldShow ? View.VISIBLE : View.GONE);
+            }
+        }
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_course_reg);
@@ -59,6 +94,33 @@ public class NewCourseRegActivity extends AppCompatActivity{
         doneBtn = findViewById(R.id.doneButton);
 
         getRequest();
+
+        courseDeptAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                filterCardViews();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        // Add TextChangedListener for code AutoCompleteTextView
+        courseCodeAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                filterCardViews();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
 
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +144,8 @@ public class NewCourseRegActivity extends AppCompatActivity{
 
     }
 
+
+
     private CardView createCard(String courseDept, String courseCode, int courseId)
     {
         CardView cardView = new CardView(this);
@@ -93,6 +157,9 @@ public class NewCourseRegActivity extends AppCompatActivity{
 
         cardView.setTag(R.id.course_id_tag, courseId);
         cardView.setTag(R.id.if_selected_tag, false);
+        cardView.setTag(R.id.course_dept_tag, courseDept);
+        cardView.setTag(R.id.course_code_tag, courseCode);
+
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT

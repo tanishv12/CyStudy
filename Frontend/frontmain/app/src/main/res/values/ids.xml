@@ -2,4 +2,6 @@
 <resources>
     <item name="course_id_tag" type="id" />
     <item name="if_selected_tag" type="id" />
+    <item name="course_dept_tag" type="id"/>
+    <item name="course_code_tag" type="id"/>
 </resources>
