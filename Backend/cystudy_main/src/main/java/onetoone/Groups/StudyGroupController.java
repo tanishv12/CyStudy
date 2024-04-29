@@ -49,7 +49,7 @@ public class StudyGroupController {
         return user.getGroupSet();
     }
 
-    @GetMapping(path = "/course/groups/{course_id}")
+    @GetMapping(path = "/course/groups/{coursename}")
     Set<StudyGroup> getCourseGroups(@PathVariable int course_id){
         Course course = courseRepository.findById(course_id);
         return course.getGroupSet();
