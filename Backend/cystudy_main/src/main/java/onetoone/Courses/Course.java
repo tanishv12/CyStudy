@@ -26,6 +26,7 @@ public class Course {
     private String courseTitle;
     private String courseDepartment;
 
+    @Column(unique = true)
     private String courseName = "";
 
     @ManyToMany(fetch = FetchType.LAZY)

@@ -79,9 +79,9 @@ public class StudyGroupController {
     }
 
 
-    @PostMapping(path = "/groups/post/{group_name}/{username}/{courseid}/{groupCapacity}")
-    String createGroup(@PathVariable String group_name, @PathVariable String username,@PathVariable int courseid,@PathVariable int groupCapacity) {
-        Course course = courseRepository.findById(courseid);
+    @PostMapping(path = "/groups/post/{group_name}/{username}/{courseName}/{groupCapacity}")
+    String createGroup(@PathVariable String group_name, @PathVariable String username,@PathVariable String courseName,@PathVariable int groupCapacity) {
+        Course course = courseRepository.findCourseByCourseName(courseName);
         User user = userRepository.findByUserName(username);
         if (group_name == null) {
             return failure;
@@ -106,14 +106,14 @@ public class StudyGroupController {
         return "Group created successfully!";
     }
 
-//    @PutMapping(path="/groups/update/{group_id}")
-//    StudyGroup updateGroup(@PathVariable int group_id, @RequestBody StudyGroup updatedGroup) {
-//        StudyGroup studyGroup = studyGroupRepository.findById(group_id);
-//        if(studyGroup == null)
-//            return null;
-//        studyGroup.setGroupName(updatedGroup.getGroupName());
-//        return studyGroupRepository.findById(group_id);
-//    }
+    @PutMapping(path="/groups/update/{groupName}/{userName}")
+    StudyGroup updateGroupName(@PathVariable String groupName, @PathVariable String userName) {
+        StudyGroup studyGroup = studyGroupRepository.findByU;
+        if(studyGroup == null)
+            return null;
+        studyGroup.setGroupName(updatedGroup.getGroupName());
+        return studyGroupRepository.findById(group_id);
+    }
 
     @PutMapping(path="/groups/update/addUser/{groupname}/{username}")
     String addUserToGroup(@PathVariable String groupname,@PathVariable String username){
