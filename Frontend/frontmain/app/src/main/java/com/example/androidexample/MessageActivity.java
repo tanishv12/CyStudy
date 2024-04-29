@@ -88,7 +88,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         GroupHeading = findViewById(R.id.groupHeading);
         GroupHeading.setText(GroupName);
         serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName;
-        WebSocketManager.getInstance().connectWebSocket(serverURL);
+        String encodedPath = serverURL.replace(" ", "%20");
+        WebSocketManager.getInstance().connectWebSocket(encodedPath);
         getRequest();
 
 
