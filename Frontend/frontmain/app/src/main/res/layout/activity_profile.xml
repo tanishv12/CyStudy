@@ -69,9 +69,9 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:padding="8dp"
-                android:text="Name"
+                android:text="Name: "
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/signup_email_textView"
@@ -83,9 +83,9 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:padding="8dp"
-                android:text="Email"
+                android:text="Email: "
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/signup_username_textView"
@@ -97,9 +97,9 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:padding="8dp"
-                android:text="Username"
+                android:text="Username: "
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/signup_password_textView"
@@ -111,18 +111,18 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:padding="8dp"
-                android:text="Password"
+                android:text="Password: "
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
-            <!--            <Button-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="50dp"-->
-            <!--                android:text="Update"-->
-            <!--                android:id="@+id/signup_button"-->
-            <!--                android:textSize="18dp"-->
-            <!--                android:layout_marginTop="10dp"-->
-            <!--                app:cornerRadius="20dp"/>-->
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:text="Log out"
+                            android:id="@+id/logout_button"
+                            android:textSize="18dp"
+                            android:layout_marginTop="10dp"
+                            app:cornerRadius="20dp"/>
 
 
         </LinearLayout>
