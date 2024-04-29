@@ -131,8 +131,8 @@ public class StudyGroupController {
         Course groupCourse = studyGroup.getCourse();
         if(studyGroup == null || user == null)
             return null;
-        for(Course course : user.getCourseSet()) {
-            if (course.getid() == groupCourse.getid()) {
+        for(StudyGroup group : groupCourse.getGroupSet()) {
+            if (group.getUserSet().contains(user)) {
                 return "Can't join multiple groups of same course";
             }
         }
