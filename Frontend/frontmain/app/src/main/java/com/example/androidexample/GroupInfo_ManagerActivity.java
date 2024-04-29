@@ -104,7 +104,6 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
 
         userContainer = findViewById(R.id.usersHolder);
 
-
         groupNameSet = GroupSingleton.getInstance().getGroupName();
         Log.e("group","groupNameSet" + groupNameSet);
 

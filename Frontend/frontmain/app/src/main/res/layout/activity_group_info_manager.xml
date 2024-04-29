@@ -63,8 +63,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
-        android:layout_width="392dp"
-        android:layout_height="173dp"
+        android:layout_width="389dp"
+        android:layout_height="294dp"
         android:layout_margin="10dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp"
@@ -77,42 +77,16 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="290dp">
+
             <LinearLayout
                 android:id="@+id/usersHolder"
                 android:layout_width="match_parent"
                 android:layout_height="275dp"
                 android:orientation="vertical"
-                app:layout_constraintVertical_bias="0.318">
-            </LinearLayout>
+                app:layout_constraintVertical_bias="0.318"></LinearLayout>
         </ScrollView>
 
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView4"
-        android:layout_width="405dp"
-        android:layout_height="239dp"
-        android:layout_margin="10dp"
-        android:layout_marginVertical="10dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView3">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:id="@+id/calenderInfo"
-                android:layout_width="match_parent"
-                android:layout_height="275dp"
-                android:orientation="vertical"
-                app:layout_constraintVertical_bias="0.318">
-            </LinearLayout>
-        </ScrollView>
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -132,22 +106,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
-    </TextView>
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="382dp"
-        android:layout_height="79dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/gidugu"
-        android:text="Calender Information"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView3">
     </TextView>
 
 
