@@ -111,16 +111,10 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             public void onClick(View view)
             {
                 WebSocketManager.getInstance().disconnectWebSocket();
-                    if(username.compareTo(groupMaster) == 0)
-                    {
+
                         Intent intent = new Intent(MessageActivity.this, GroupInfo_ManagerActivity.class);
                         startActivity(intent);
-                    }
-                    else
-                    {
-                        Intent intent = new Intent(MessageActivity.this, GroupInformation.class);
-                        startActivity(intent);
-                    }
+
             }
         });
 
@@ -241,7 +235,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 //                                Log.e("user", "this is the user" + sentMessageUser);
 //                                allMessagesBuilder.append(sentMessageUser).append(": ").append(messages).append("\n");
                                 JSONObject groupInfo = jsonObj.getJSONObject("group_id");
-                                groupMaster = groupInfo.getString("groupMaster");
+                                groupMaster = jsonObj.getString("groupMaster");
+                                Log.e("master", "group master: " + groupMaster);
                                 String currentGroup = groupInfo.getString("groupName");
                                 Log.e("currentGp", "group" + currentGroup);
                                 Log.e("GpName", "group" + GroupName);

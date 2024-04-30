@@ -77,6 +77,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     private String mParam1;
     private String mParam2;
 
+    private String groupMaster;
+
     private StringBuilder names = new StringBuilder();
     private StringBuilder ratings = new StringBuilder();
 
@@ -654,6 +656,10 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                                 cardsContainer = findViewById(R.id.linearLayoutGroups);
                                 // Access the value associated with the key "name"
+//                                JSONObject groupInfo = jsonObj.getJSONObject("group_id");
+                                groupMaster = jsonObj.getString("groupMaster");
+//                                Log.e("groupMaster","group MASTER: "+ groupMaster);
+                                Log.e("groupMaster","group MASTER: "+ groupMaster);
                                 rating = jsonObj.getString("avgRating");
                                 groupName = jsonObj.getString("groupName");
 //                                GroupSingleton.getInstance().setGroupName(name);
