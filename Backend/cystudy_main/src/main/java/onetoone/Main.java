@@ -111,18 +111,27 @@ class Main {
 
             //Study groups for course1
             StudyGroup group1 = new StudyGroup("MATH 165 GROUP 1",course1,"john123",5);
+            group1.addUser(user1);
             StudyGroup group2 = new StudyGroup("MATH 165 GROUP 2",course1,"sam123",5);
+            group2.addUser(user2);
             StudyGroup group3 = new StudyGroup("MATH 165 GROUP 3",course1,"rahul123",5);
+            group3.addUser(user3);
 
             //Study groups for course2
             StudyGroup group4 = new StudyGroup("MATH 166 GROUP 1",course2,"gav123",5);
+            group4.addUser(user4);
             StudyGroup group5 = new StudyGroup("MATH 166 GROUP 2",course2,"tan123",5);
+            group5.addUser(user5);
             StudyGroup group6 = new StudyGroup("MATH 166 GROUP 3",course2,"saeshu123",5);
+            group6.addUser(user6);
 
             //Study groups for course3
             StudyGroup group7 = new StudyGroup("COM S 309 GROUP 1",course3,"ethan123",5);
+            group7.addUser(user7);
             StudyGroup group8 = new StudyGroup("COM S 309 GROUP 2",course3,"shaun123",5);
+            group8.addUser(user8);
             StudyGroup group9 = new StudyGroup("COM S 309 GROUP 3",course3,"ben123",5);
+            group9.addUser(user9);
 
 //            //Study groups for course4
 //            StudyGroup group10 = new StudyGroup("COM S 311 GROUP 1",course4,10);

@@ -86,6 +86,9 @@ public class StudyGroupController {
         if (group_name == null) {
             return failure;
         }
+        if(groupCapacity>10){
+            return "Cannot create a group with more than 10 members";
+        }
         for(Course course1 : user.getCourseSet()){
             if(course.getid()==course1.getid()){
                 return "Cannot join multiple groups of same course";

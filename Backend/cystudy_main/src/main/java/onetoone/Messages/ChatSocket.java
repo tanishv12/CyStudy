@@ -81,7 +81,7 @@ public class ChatSocket {
 			if (u.getid() == user.getid()) {
 				logger.info("Entered into Open");
 				if (groupnameSessionMap.containsKey(groupName)) {
-					session.getBasicRemote().sendText("Group already exists");
+//					session.getBasicRemote().sendText("Group already exists");
 					groupnameSessionMap.get(groupName).add(session);
 					sessionGroupnameMap.put(session, group.getGroupName());
 

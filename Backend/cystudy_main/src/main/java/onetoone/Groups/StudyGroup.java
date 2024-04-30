@@ -11,6 +11,7 @@ import onetoone.Rating.Rating;
 //import onetoone.Rating.Rating;
 import onetoone.Timing.Timing;
 import onetoone.Users.User;
+import onetoone.Users.UserRepository;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -44,7 +45,8 @@ public class StudyGroup {
     @Column(nullable = false)
     private String groupMaster;
 
-
+    @Min(value = 3)
+    @Max(value = 10)
     @Column(name = "sg1_0.group_capacity", nullable = false)
     private int groupCapacity;
 
@@ -72,6 +74,7 @@ public class StudyGroup {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Timing> timingList;
+
 
 
     // =============================== Constructors ================================== //
