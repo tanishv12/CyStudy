@@ -69,6 +69,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
     implementation 'org.json:json:20210307'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
