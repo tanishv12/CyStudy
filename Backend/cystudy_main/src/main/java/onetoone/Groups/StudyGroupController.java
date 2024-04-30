@@ -150,7 +150,9 @@ public class StudyGroupController {
         if (user == null || studyGroup == null)
             return failure;
         studyGroup.removeUser(user);
+        user.removeGroup(studyGroup);
         studyGroupRepository.save(studyGroup);
+        userRepository.save(user);
         return success;
     }
 

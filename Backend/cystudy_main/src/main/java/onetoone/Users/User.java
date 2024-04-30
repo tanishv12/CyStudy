@@ -192,6 +192,10 @@ public class User {
 
     public void removeMessage(Message message){messageSet.remove(message);}
 
+    public void addGroup(StudyGroup group){groupSet.add(group);}
+    public void removeGroup(StudyGroup group){groupSet.remove(group);
+    }
+
     @Bean
     public PasswordEncoder encoder(){
 
