@@ -113,6 +113,8 @@ public class LoginActivity extends AppCompatActivity {
         // Convert input to JSONObject
         JSONObject postBody = null;
 
+        UsernameSingleton.getInstance().setUserName(loginUsername.getText().toString());
+
         if(validateUsername() != true && validatePassword() != true)
         {
             Toast.makeText(LoginActivity.this, "Username and password cannot be empty", Toast.LENGTH_SHORT).show();

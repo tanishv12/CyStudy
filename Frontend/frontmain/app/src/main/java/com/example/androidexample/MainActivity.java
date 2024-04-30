@@ -54,6 +54,16 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(getApplicationContext(), StudyGroupFragment.class));
                 return true;
             }
+            if(item.getItemId() == R.id.Profile)
+            {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                return true;
+            }
+            if(item.getItemId() == R.id.Profile)
+            {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                return true;
+            }
             return false;
         });
         super.onCreate(savedInstanceState);
