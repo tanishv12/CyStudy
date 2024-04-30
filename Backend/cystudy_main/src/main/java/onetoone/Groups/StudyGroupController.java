@@ -158,7 +158,7 @@ public class StudyGroupController {
 
 
     @Transactional
-    @DeleteMapping(path = "/groups/delete/{groupName}")
+    @DeleteMapping(path = "/groups/delete/{groupName}/end")
     String deleteGroup(@PathVariable String groupName){
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupName);
         if(studyGroup == null)
