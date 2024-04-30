@@ -54,6 +54,9 @@ public class ClassFragment extends AppCompatActivity {
             } if (item.getItemId() == R.id.StudyGroups) {
                 startActivity(new Intent(getApplicationContext(), StudyGroupFragment.class));
                 return true;
+            } if (item.getItemId() == R.id.Profile) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                return true;
             }
             return false;
         });
