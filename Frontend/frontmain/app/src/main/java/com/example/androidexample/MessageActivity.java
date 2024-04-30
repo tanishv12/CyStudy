@@ -537,7 +537,6 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 //            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
         });
     }
-
     @Override
     public void onWebSocketError(Exception ex) {
 

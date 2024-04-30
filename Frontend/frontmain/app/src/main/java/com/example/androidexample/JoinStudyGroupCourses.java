@@ -192,7 +192,7 @@ public class JoinStudyGroupCourses extends AppCompatActivity
         entergroup.setOnClickListener(v -> {
             GroupSingleton.getInstance().setGroupName(group);
             putRequest();
-            Intent intent = new Intent(JoinStudyGroupCourses.this, MessageActivity.class);
+            Intent intent = new Intent(JoinStudyGroupCourses.this, StudyGroupFragment.class);
             startActivity(intent);
         });
 
