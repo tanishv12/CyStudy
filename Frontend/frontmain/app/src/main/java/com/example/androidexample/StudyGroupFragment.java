@@ -327,7 +327,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
 
         addGrp = findViewById(R.id.addGroup);
-        optionBtn = findViewById(R.id.optionButton);
+//        optionBtn = findViewById(R.id.optionButton);
 //        getButton = findViewById(R.id.getBUTTON);
         gresponse = findViewById(R.id.getresponse);
 //        postButton = findViewById(R.id.postButton);
@@ -338,13 +338,13 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //        connectButton = findViewById(R.id.userConnectButton);
 
 
-        optionBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                showForgotDialog(StudyGroupFragment.this);
-            }
-        });
+//        optionBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                showForgotDialog(StudyGroupFragment.this);
+//            }
+//        });
 
         addGrp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -619,19 +619,19 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                 startActivity(intent);
             }
         });
-
-
-        // Set a long-click listener on the CardView
-        cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Handle the long click event
-                showForgotDialog(StudyGroupFragment.this);
-
-                // Return true to indicate that you have handled the long click event
-                return true;
-            }
-        });
+//
+//
+//        // Set a long-click listener on the CardView
+//        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                // Handle the long click event
+//                showForgotDialog(StudyGroupFragment.this);
+//
+//                // Return true to indicate that you have handled the long click event
+//                return true;
+//            }
+//        });
 
         return cardView;
     }
