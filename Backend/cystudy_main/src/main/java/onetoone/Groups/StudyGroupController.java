@@ -124,15 +124,15 @@ public class StudyGroupController {
         return "Group name changed successfully";
     }
 
-    @PutMapping(path="/groups/update/addUser/{groupname}/{username}")
+    @PutMapping(path="/groups/addUser/{groupname}/{username}")
     String addUserToGroup(@PathVariable String groupname,@PathVariable String username){
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
         User user = userRepository.findByUserName(username);
         Course groupCourse = studyGroup.getCourse();
         if(studyGroup == null || user == null)
             return null;
-        for(Course course : user.getCourseSet()) {
-            if (course.getid() == groupCourse.getid()) {
+        for(StudyGroup group : groupCourse.getGroupSet()) {
+            if (group.getUserSet().contains(user)) {
                 return "Can't join multiple groups of same course";
             }
         }
@@ -150,19 +150,24 @@ public class StudyGroupController {
         if (user == null || studyGroup == null)
             return failure;
         studyGroup.removeUser(user);
+        user.removeGroup(studyGroup);
         studyGroupRepository.save(studyGroup);
+        userRepository.save(user);
         return success;
     }
 
 
     @Transactional
-    @DeleteMapping(path = "/groups/delete/{groupName}")
+    @DeleteMapping(path = "/groups/delete/{groupName}/end")
     String deleteGroup(@PathVariable String groupName){
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupName);
         if(studyGroup == null)
             return failure;
 //        studyGroupRepository.deleteStudyGroupByGroupName(groupName);
         try {
+            for(User u : studyGroup.getUserSet()){
+                u.removeGroup(studyGroup);
+            }
             studyGroupRepository.deleteById(studyGroup.getid());
         } catch (Exception e) {
             // Log the exception for debugging
