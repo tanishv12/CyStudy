@@ -101,6 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.Profile);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if(item.getItemId() == R.id.Home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 return true;
             } if (item.getItemId() == R.id.Classes) {
                 startActivity(new Intent(getApplicationContext(), ClassFragment.class));
