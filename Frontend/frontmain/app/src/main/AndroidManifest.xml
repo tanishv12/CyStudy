@@ -17,6 +17,12 @@
         tools:targetApi="31">
         <activity
             android:name=".NewCourseRegActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".GroupInfo_ManagerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GroupInformation"
             android:exported="false" />
         <activity
             android:name=".AddStudyGrp"
@@ -33,6 +39,7 @@
         <activity
             android:name=".AdminPanelActivity"
             android:exported="false"></activity>
+
         <activity
             android:name=".RatingReview"
             android:exported="false" />
@@ -62,7 +69,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>

@@ -102,16 +102,4 @@
         app:layout_constraintVertical_bias="0.113" />
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/optionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="12dp"
-        android:backgroundTint="@color/red"
-        android:src="@drawable/baseline_medium"
-        android:text="Options"
-        app:layout_constraintBottom_toTopOf="@+id/bottomnavbar"
-        app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

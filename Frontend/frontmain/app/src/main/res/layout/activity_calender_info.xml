@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <AutoCompleteTextView
+        android:id="@+id/setDay"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Set Day"
+        android:dropDownWidth="match_parent"
+        android:dropDownHeight="wrap_content">
+    </AutoCompleteTextView>
+    <EditText
+        android:id="@+id/setTime"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Set Time">
+    </EditText>
+    <EditText
+        android:id="@+id/setLocation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Location">
+    </EditText>
+    <AutoCompleteTextView
+        android:id="@+id/setDuration"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Duration Time"
+        android:completionThreshold="1"
+        android:dropDownWidth="match_parent"
+        android:dropDownHeight="wrap_content">
+    </AutoCompleteTextView>
+    <Button
+        android:id="@+id/buttonUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done" />
+</LinearLayout>

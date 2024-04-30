@@ -5,9 +5,6 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryVariant">@color/red</item>
-
-
     </style>
-
     <style name="Theme.AndroidExample" parent="Base.Theme.AndroidExample" />
 </resources>

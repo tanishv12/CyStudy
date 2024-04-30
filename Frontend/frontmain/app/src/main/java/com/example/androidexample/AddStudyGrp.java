@@ -108,6 +108,11 @@ public class AddStudyGrp extends AppCompatActivity {
                     count = 2;
                     numUsers.setText("" + count);
                 }
+                else if(count >= 10)
+                {
+                    count = 10;
+                    numUsers.setText("" + count);
+                }
                 numUsers.setText("" + count);
             }
         });

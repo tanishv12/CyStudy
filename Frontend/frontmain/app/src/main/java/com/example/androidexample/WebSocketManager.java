@@ -60,7 +60,8 @@ public class WebSocketManager {
      *
      * @param serverUrl The URL of the WebSocket server to connect to.
      */
-    public void connectWebSocket(String serverUrl) {
+    public void connectWebSocket(String serverUrl)
+    {
         try {
             URI serverUri = URI.create(serverUrl);
             webSocketClient = new MyWebSocketClient(serverUri);

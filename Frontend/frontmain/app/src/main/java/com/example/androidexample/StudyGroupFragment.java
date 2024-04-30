@@ -77,6 +77,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     private String mParam1;
     private String mParam2;
 
+    private String groupMaster;
+
     private StringBuilder names = new StringBuilder();
     private StringBuilder ratings = new StringBuilder();
 
@@ -94,7 +96,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     private EditText updateGrpText;
 
-    private Button studyGroupsToMessages;
 
     private FloatingActionButton optionBtn;
 
@@ -167,7 +168,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         buttonDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                optionGroupName = groupEditText.getText().toString();
+                optionUpdateGroupName = groupEditText.getText().toString();
                 // Handle button click
                 deleteRequest();
                 // Do something with the input
@@ -178,8 +179,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         buttonRat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                optionGroupName = groupEditText.getText().toString();
-                GroupNameSingleton.getInstance().setGroupName(optionGroupName);
+                optionUpdateGroupName = updateGrpName.getText().toString();
+                GroupNameSingleton.getInstance().setGroupName(optionUpdateGroupName);
                 // Handle button click
                 startActivity(new Intent(getApplicationContext(), RatingReview.class));
                 // Do something with the input
@@ -268,6 +269,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     public int convertDpToPixels(float dp, Context context)
     {
+
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
@@ -294,7 +296,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                         cardsContainer = findViewById(R.id.linearLayoutGroups);
                         groupName = groupName.toString();
 
-                        CardView cardView = createCard(groupName, rating);
+                        CardView cardView = createCard(groupName, rating, groupMaster);
 //                        GroupSingleton.getInstance().setGroupName(groupName);
                         cardsContainer.addView(cardView);
 //                        gresponse.setText(names);
@@ -325,7 +327,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
 
         addGrp = findViewById(R.id.addGroup);
-        optionBtn = findViewById(R.id.optionButton);
 //        getButton = findViewById(R.id.getBUTTON);
         gresponse = findViewById(R.id.getresponse);
 //        postButton = findViewById(R.id.postButton);
@@ -335,14 +336,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //        deleteBTN = findViewById(R.id.deleteGrpButton);
 //        connectButton = findViewById(R.id.userConnectButton);
 
-
-        optionBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                showForgotDialog(StudyGroupFragment.this);
-            }
-        });
 
         addGrp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -520,7 +513,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     }
 
 
-    private CardView createCard(String name, String rating) {
+    private CardView createCard(String name, String rating, String GroupMaster) {
         // Create a new CardView and set up its layout parameters
         String groupRate = name + "\n" + "Group Rating: "+ rating;
 
@@ -601,7 +594,6 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         cardView.addView(cardContentLayout);
 
 //        linearLayout.addView(groupNameView);
-
 //        linearLayout.addView(ratingView);
 
 
@@ -614,22 +606,23 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             {
                 Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
                 GroupSingleton.getInstance().setGroupName(name);
+                GroupMasterSingleton.getInstance().setGroupMaster(GroupMaster);
                 startActivity(intent);
             }
         });
-
-
-        // Set a long-click listener on the CardView
-        cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Handle the long click event
-                showForgotDialog(StudyGroupFragment.this);
-
-                // Return true to indicate that you have handled the long click event
-                return true;
-            }
-        });
+//
+//
+//        // Set a long-click listener on the CardView
+//        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                // Handle the long click event
+//                showForgotDialog(StudyGroupFragment.this);
+//
+//                // Return true to indicate that you have handled the long click event
+//                return true;
+//            }
+//        });
 
         return cardView;
     }
@@ -655,16 +648,18 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                                 cardsContainer = findViewById(R.id.linearLayoutGroups);
                                 // Access the value associated with the key "name"
+//                                JSONObject groupInfo = jsonObj.getJSONObject("group_id");
+                                groupMaster = jsonObj.getString("groupMaster");
+//                                Log.e("groupMaster","group MASTER: "+ groupMaster);
+                                Log.e("groupMaster","group MASTER: "+ groupMaster);
                                 rating = jsonObj.getString("avgRating");
                                 groupName = jsonObj.getString("groupName");
 //                                GroupSingleton.getInstance().setGroupName(name);
 //                                String groupRate = name + "\n" + "Group Rating: "+ rating;
 //
-                                CardView cardView = createCard(groupName, rating);
+                                CardView cardView = createCard(groupName, rating, groupMaster);
 //                                GroupSingleton.getInstance().setGroupName(groupName);
                                 cardsContainer.addView(cardView);
-
-
                             }
                         }
                         catch (JSONException err)

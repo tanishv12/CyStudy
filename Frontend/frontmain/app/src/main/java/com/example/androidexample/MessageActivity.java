@@ -26,6 +26,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +47,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     private static Button DeleteBUTTON;
     private static EditText UPDATEtext;
     private  static Button UPDATEmsgBtn;
+
+    private String groupmaster;
 
     private static TextView GroupHeading;
 
@@ -77,22 +82,51 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+        groupmaster = GroupMasterSingleton.getInstance().getGroupMaster();
 //        binding = ActivityChatBinding.inflate(getLayoutInflater());
 
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
         username = UsernameSingleton.getInstance().getUserName();
-
         GroupName = GroupSingleton.getInstance().getGroupName();
-        Log.e("group", "group: " + GroupName);
+
+
+        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName + "/" + "end";
+        String encodedPath = serverURL.replace(" ", "%20");
+        Log.e("url", "Server URL: " + encodedPath);
+        WebSocketManager.getInstance().connectWebSocket(encodedPath);
+
+
+
 
         GroupHeading = findViewById(R.id.groupHeading);
         GroupHeading.setText(GroupName);
-        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName;
-        WebSocketManager.getInstance().connectWebSocket(serverURL);
+
         getRequest();
 
 
         backButton = findViewById(R.id.imageBack);
+
+
+        GroupHeading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                WebSocketManager.getInstance().disconnectWebSocket();
+                Log.e("user heading", "user name heading: " + username);
+                Log.e("master", "group master heading: " + groupmaster);
+                if(username.compareTo(groupmaster) == 0)
+                {
+                    Intent intent = new Intent(MessageActivity.this, GroupInfo_ManagerActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(MessageActivity.this, GroupInformation.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

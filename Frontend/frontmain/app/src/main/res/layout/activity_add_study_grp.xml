@@ -79,6 +79,8 @@
         android:layout_height="41dp"
         android:background="#D3D3D3"
         android:hint="Enter Number of Users..."
+        android:clickable="true"
+        android:onClick="OnClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.176"
