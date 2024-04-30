@@ -165,6 +165,9 @@ public class StudyGroupController {
             return failure;
 //        studyGroupRepository.deleteStudyGroupByGroupName(groupName);
         try {
+            for(User u : studyGroup.getUserSet()){
+                u.removeGroup(studyGroup);
+            }
             studyGroupRepository.deleteById(studyGroup.getid());
         } catch (Exception e) {
             // Log the exception for debugging
