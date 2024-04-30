@@ -186,7 +186,7 @@ public class UserController {
         if (!(passwordEncoder.matches(oldPassword, user.getPassword()))) {
             return "Invalid password credentials";
         }
-        user.setPassword(newPassword);
+        user.setPassword(user.savePassword(newPassword));
         userRepository.save(user);
         return "User name changed successfully";
     }
