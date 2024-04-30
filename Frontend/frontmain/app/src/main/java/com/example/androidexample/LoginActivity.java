@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,15 +53,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 postRequest();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
             }
         });
         signupRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Change MainActivity.class to SignupActivity.class when done testing
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
             }
         });
@@ -131,24 +130,28 @@ public class LoginActivity extends AppCompatActivity {
             // etRequest should contain a JSON object string as your POST body
             // similar to what you would have in POSTMAN-body field
             // and the fields should match with the object structure of @RequestBody on sb
-            postBody = new JSONObject();
-            postBody.put("userName", loginUsername.getText().toString());
-            postBody.put("password", loginPassword.getText().toString());
             url += loginUsername.getText().toString() + "/" + loginPassword.getText().toString();
+            Log.e("link: ", url);
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(
+        StringRequest request = new StringRequest(
                 Request.Method.POST,
                 url,
-                postBody,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(String response) {
+                        Log.e("Username: ", loginUsername.getText().toString().trim());
 //                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        if(loginUsername.getText().toString().trim().equals("admin")){
+                            Intent intent = new Intent(LoginActivity.this, AdminPanelActivity.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -156,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
 //                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
 //                        signupRedirectText.setText(error.toString());
+                        Log.e("error: ", String.valueOf(error));
                     }
                 }
         ){
