@@ -124,6 +124,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
             }
         });
 
+
         meetingInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -223,6 +224,18 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         Log.e("group","groupNameSet" + groupNameSet);
 
         getRequest();
+
+        backToGrpChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(GroupInfo_ManagerActivity.this, MessageActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
         GroupHeadingName.setText(groupNameSet);
         optionsGrpBtn.setOnClickListener(new View.OnClickListener()
         {

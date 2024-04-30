@@ -23,6 +23,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -56,6 +57,50 @@ public class GroupInformation extends AppCompatActivity {
 
     private TextView members;
 
+    private void deleteRequest()
+    {
+        Log.e("grp name","group name " + groupNameSet);
+        Log.e("user name","user name " + user);
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/" + groupNameSet + "/" + user;
+        StringRequest request = new StringRequest(
+                Request.Method.DELETE,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
 
     private void optionsDialog(Context c)
     {
@@ -87,7 +132,9 @@ public class GroupInformation extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                dialog.dismiss();
+                deleteRequest();
+                Intent intent = new Intent(GroupInformation.this, StudyGroupFragment.class);
+                startActivity(intent);
             }
         });
 
@@ -149,6 +196,8 @@ public class GroupInformation extends AppCompatActivity {
         });
 
     }
+
+
 
     private void getRequest()
     {
