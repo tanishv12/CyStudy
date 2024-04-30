@@ -17,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -55,11 +57,43 @@ public class GroupInformation extends AppCompatActivity {
 
 //    private Button editGroupBtn;
     private Button leaveGroupBtn;
+
+    private Button rateGroupBtn;
+
+
     private Button doneButton;
+
 
     private TextView members;
 
+    private RatingBar rating;
 
+    private double rateNumber;
+
+    private void ratingDialog(Context c)
+    {
+        LayoutInflater inflater = LayoutInflater.from(c);
+        View dialogView = inflater.inflate(R.layout.rating_activity, null);
+        AlertDialog dialog = new AlertDialog.Builder(c)
+                .setTitle("Rate Group")
+                .setView(dialogView)
+                .setNegativeButton("Cancel", null)
+                .create();
+
+        rateGroupBtn = dialogView.findViewById(R.id.rateButton);
+        rating = dialogView.findViewById(R.id.ratingBar);
+        rateGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                String s = String.valueOf(rating.getRating());
+                rateNumber = Double.parseDouble(s);
+                postRating();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
     private void optionsDialog(Context c)
     {
         LayoutInflater inflater = LayoutInflater.from(c);
@@ -83,7 +117,7 @@ public class GroupInformation extends AppCompatActivity {
         dialog.create();
 
         leaveGroupBtn = dialogView.findViewById(R.id.leaveGroup);
-//        editGroupBtn = dialogView.findViewById(R.id.editGrpName);
+        rateGroupBtn = dialogView.findViewById(R.id.rateGroup);
         doneButton = dialogView.findViewById(R.id.doneBtn);
 
         leaveGroupBtn.setOnClickListener(new View.OnClickListener() {
@@ -95,14 +129,13 @@ public class GroupInformation extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        editGroupBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                dialog.dismiss();
-//            }
-//        });
+        rateGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                ratingDialog(GroupInformation.this);
+            }
+        });
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,6 +303,54 @@ public class GroupInformation extends AppCompatActivity {
 
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    private void postRating()
+    {
+        username = UsernameSingleton.getInstance().getUserName();
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/rating/post/" + groupNameSet + "/" + username + "/" + rateNumber;
+        Log.e("rating","rate"+ url);
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Toast.makeText(GroupInformation.this, response, Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
     private CardView createCard(String nameOfUser) {
