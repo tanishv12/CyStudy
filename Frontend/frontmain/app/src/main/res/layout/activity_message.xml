@@ -39,7 +39,6 @@
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="@font/gidugu"
-        android:onClick="onClick"
         android:textAlignment="center"
         android:layout_marginRight="45dp"
         android:textColor="@color/black"

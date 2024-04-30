@@ -126,8 +126,6 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
                 }
             }
         });
-
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
