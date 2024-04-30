@@ -48,7 +48,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     private static EditText UPDATEtext;
     private  static Button UPDATEmsgBtn;
 
-    private String groupMaster;
+    private String groupmaster;
 
     private static TextView GroupHeading;
 
@@ -82,6 +82,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+        groupmaster = GroupMasterSingleton.getInstance().getGroupMaster();
 //        binding = ActivityChatBinding.inflate(getLayoutInflater());
 
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
@@ -111,10 +112,18 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             public void onClick(View view)
             {
                 WebSocketManager.getInstance().disconnectWebSocket();
-
-                        Intent intent = new Intent(MessageActivity.this, GroupInfo_ManagerActivity.class);
-                        startActivity(intent);
-
+                Log.e("user heading", "user name heading: " + username);
+                Log.e("master", "group master heading: " + groupmaster);
+                if(username.compareTo(groupmaster) == 0)
+                {
+                    Intent intent = new Intent(MessageActivity.this, GroupInfo_ManagerActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(MessageActivity.this, GroupInformation.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -235,8 +244,6 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 //                                Log.e("user", "this is the user" + sentMessageUser);
 //                                allMessagesBuilder.append(sentMessageUser).append(": ").append(messages).append("\n");
                                 JSONObject groupInfo = jsonObj.getJSONObject("group_id");
-                                groupMaster = jsonObj.getString("groupMaster");
-                                Log.e("master", "group master: " + groupMaster);
                                 String currentGroup = groupInfo.getString("groupName");
                                 Log.e("currentGp", "group" + currentGroup);
                                 Log.e("GpName", "group" + GroupName);

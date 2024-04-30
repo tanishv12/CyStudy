@@ -296,7 +296,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
                         cardsContainer = findViewById(R.id.linearLayoutGroups);
                         groupName = groupName.toString();
 
-                        CardView cardView = createCard(groupName, rating);
+                        CardView cardView = createCard(groupName, rating, groupMaster);
 //                        GroupSingleton.getInstance().setGroupName(groupName);
                         cardsContainer.addView(cardView);
 //                        gresponse.setText(names);
@@ -522,7 +522,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
     }
 
 
-    private CardView createCard(String name, String rating) {
+    private CardView createCard(String name, String rating, String GroupMaster) {
         // Create a new CardView and set up its layout parameters
         String groupRate = name + "\n" + "Group Rating: "+ rating;
 
@@ -615,6 +615,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             {
                 Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
                 GroupSingleton.getInstance().setGroupName(name);
+                GroupMasterSingleton.getInstance().setGroupMaster(GroupMaster);
                 startActivity(intent);
             }
         });
@@ -665,7 +666,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //                                GroupSingleton.getInstance().setGroupName(name);
 //                                String groupRate = name + "\n" + "Group Rating: "+ rating;
 //
-                                CardView cardView = createCard(groupName, rating);
+                                CardView cardView = createCard(groupName, rating, groupMaster);
 //                                GroupSingleton.getInstance().setGroupName(groupName);
                                 cardsContainer.addView(cardView);
                             }
