@@ -100,22 +100,15 @@ public class ProfileActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
         bottomNavigationView.setSelectedItemId(R.id.Profile);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.Home)
-            {
+            if(item.getItemId() == R.id.Home) {
                 return true;
-            }
-            if(item.getItemId() == R.id.Classes)
-            {
+            } if (item.getItemId() == R.id.Classes) {
                 startActivity(new Intent(getApplicationContext(), ClassFragment.class));
                 return true;
-            }
-            if(item.getItemId() == R.id.StudyGroups)
-            {
+            } if (item.getItemId() == R.id.StudyGroups) {
                 startActivity(new Intent(getApplicationContext(), StudyGroupFragment.class));
                 return true;
-            }
-            if(item.getItemId() == R.id.Profile)
-            {
+            } if (item.getItemId() == R.id.Profile) {
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 return true;
             }

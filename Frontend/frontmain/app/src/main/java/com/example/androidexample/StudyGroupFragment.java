@@ -316,6 +316,9 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             } if (item.getItemId() == R.id.Classes) {
                 startActivity(new Intent(getApplicationContext(), ClassFragment.class));
                 return true;
+            } if (item.getItemId() == R.id.Profile) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                return true;
             }
             return false;
         });
