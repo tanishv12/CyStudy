@@ -39,10 +39,7 @@ public class JoinStudyGroupCourses extends AppCompatActivity
 
     private LinearLayout courseholder;
 
-
     private String user;
-    //ArrayList<String> users = new ArrayList<String>();
-//    private String users;
 
     private String groups;
 
@@ -79,7 +76,7 @@ public class JoinStudyGroupCourses extends AppCompatActivity
     private void getRequest()
     {
         Log.e("courseHeadddd","courseHead " + courseHead);
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/course/groups/" + courseHead;
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/course/groups/" + courseHead + "/";
         Log.e("the url","url " + url);
 
         // Request a string response from the provided URL.
