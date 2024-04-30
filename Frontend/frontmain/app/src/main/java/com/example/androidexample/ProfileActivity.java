@@ -3,6 +3,7 @@ package com.example.androidexample;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -34,7 +35,10 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     TextView name, email, username, password;
-    String nameValue, emailValue, usernameValue, passwordValue, typeCodeTemp, updatedName, updatedPassword;
+    //updatedName, updatedPassword used to hold updated values in the popup
+    String nameValue, emailValue, usernameValue, passwordValue, updatedName, updatedPassword;
+    //typeCodeTemp used to store the type of value being changed for putRequest
+    String typeCodeTemp;
     Button logout, updateButton;
 
     /**
@@ -130,11 +134,7 @@ public class ProfileActivity extends AppCompatActivity {
         EditText currentPasswordEditText = dialogView.findViewById(R.id.currentPasswordEditText);
         updateButton=dialogView.findViewById(R.id.updateButton);
 
-        // Find the LinearLayout inside the CardView
-        LinearLayout dialogLinearLayout = dialogView.findViewById(R.id.updateInfoLinear);
-
-        // Set the background color of the LinearLayout to transparent
-        dialogLinearLayout.setBackgroundColor(Color.TRANSPARENT);
+        updatedNameEditText.setHint("Enter new " + typeCodeTemp);
 
         // Create a dialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -159,10 +159,12 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 // Dismiss the dialog after processing the values
                 dialog.dismiss();
+                getRequest();
             }
         });
 
         // Show the dialog
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
@@ -173,22 +175,8 @@ public class ProfileActivity extends AppCompatActivity {
     {
         Log.d("DialogActions", "putRequest method called");
         String url = "http://coms-309-016.class.las.iastate.edu:8080/users/logout/" + usernameValue;
-        Log.e("url",url);
-        // Convert input to JSONObject
-        JSONObject putBody = null;
 
-        try
-        {
-            // etRequest should contain a JSON object string as your POST body
-            // similar to what you would have in POSTMAN-body field
-            // and the fields should match with the object structure of @RequestBody on sb
-            putBody = new JSONObject();
-        }
-        catch (Exception e)
-        {
-            Log.e("Catch Entered","wkerufhieuwhf");
-            e.printStackTrace();
-        }
+        JSONObject putBody = null;
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.PUT,
@@ -200,7 +188,6 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response)
                     {
                         Log.e("Response Entered",response.toString());
-
                     }
                 },
                 new Response.ErrorListener()
@@ -231,7 +218,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-        // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
@@ -243,8 +229,6 @@ public class ProfileActivity extends AppCompatActivity {
         String url;
         url = "http://coms-309-016.class.las.iastate.edu:8080/users/" + usernameValue;
 
-
-        // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -254,22 +238,22 @@ public class ProfileActivity extends AppCompatActivity {
                             String currentText;
 
                             nameValue=jsonObject.getString("name");
-                            currentText = name.getText().toString();
+                            currentText = "Name: ";
                             currentText+= nameValue;
                             name.setText(currentText);
 
                             emailValue=jsonObject.getString("emailId");
-                            currentText = email.getText().toString();
+                            currentText = "Email: ";
                             currentText+= emailValue;
                             email.setText(currentText);
 
                             usernameValue=jsonObject.getString("userName");
-                            currentText = username.getText().toString();
+                            currentText = "Username: ";
                             currentText+= usernameValue;
                             username.setText(currentText);
 
                             passwordValue=jsonObject.getString("password");
-                            currentText = password.getText().toString();
+                            currentText = "Password: ";
                             currentText+= "●●●●●●●●";
                             password.setText(currentText);
 
@@ -317,19 +301,6 @@ public class ProfileActivity extends AppCompatActivity {
     {
         Log.d("DialogActions", "putRequest method called");
         String url = "http://coms-309-016.class.las.iastate.edu:8080/users/"+tempType +"/" + value1 +"/"+ value2 +"/"+ value3;
-        // Convert input to JSONObject
-
-        try
-        {
-            // etRequest should contain a JSON object string as your POST body
-            // similar to what you would have in POSTMAN-body field
-            // and the fields should match with the object structure of @RequestBody on sb
-        }
-        catch (Exception e)
-        {
-            Log.e("Catch Entered","wkerufhieuwhf");
-            e.printStackTrace();
-        }
 
         StringRequest request = new StringRequest(
                 Request.Method.PUT,
@@ -379,7 +350,7 @@ public class ProfileActivity extends AppCompatActivity {
     {
         Log.d("DialogActions", "putRequest method called");
         String url = "http://coms-309-016.class.las.iastate.edu:8080/users/"+tempType +"/" + value1 +"/"+ value2 +"/"+ value3;
-        // Convert input to JSONObject
+
         StringRequest request = new StringRequest(
                 Request.Method.PUT,
                 url,
@@ -388,6 +359,9 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response)
                     {
+                        UsernameSingleton.getInstance().setUserName(value2);
+                        username.setText("Username: " + value2);
+                        usernameValue = value2;
                         Toast.makeText(ProfileActivity.this, response, Toast.LENGTH_SHORT).show();
                         Log.e("Response Entered",response);
 
@@ -421,7 +395,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-        // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
@@ -429,33 +402,18 @@ public class ProfileActivity extends AppCompatActivity {
     {
         Log.d("DialogActions", "putRequest method called");
         String url = "http://coms-309-016.class.las.iastate.edu:8080/users/"+tempType +"/" + value1 +"/"+ value2 +"/"+ value3;
-        // Convert input to JSONObject
-        JSONObject putBody = null;
 
-        try
-        {
-            // etRequest should contain a JSON object string as your POST body
-            // similar to what you would have in POSTMAN-body field
-            // and the fields should match with the object structure of @RequestBody on sb
-            putBody = new JSONObject();
-        }
-        catch (Exception e)
-        {
-            Log.e("Catch Entered","wkerufhieuwhf");
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest request = new JsonObjectRequest(
+        StringRequest request = new StringRequest(
                 Request.Method.PUT,
                 url,
-                putBody,
-                new Response.Listener<JSONObject>()
+                new Response.Listener<String>()
                 {
                     @Override
-                    public void onResponse(JSONObject response)
+                    public void onResponse(String response)
                     {
-
-                        Log.e("Response Entered",response.toString());
+                        Toast.makeText(ProfileActivity.this, response, Toast.LENGTH_SHORT).show();
+                        Log.e("Response Entered",response);
+                        passwordValue = value3;
 
                     }
                 },
@@ -487,11 +445,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-        // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
-
-
-
-
 }

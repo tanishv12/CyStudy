@@ -77,14 +77,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/lavender_border"
+                android:background="@drawable/lavender_border_grey"
                 android:drawableLeft="@drawable/baseline_email_24"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:text="Email: "
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:enabled="false" />
 
             <TextView
                 android:id="@+id/signup_username_textView"
@@ -121,7 +122,7 @@
                 android:id="@+id/logout_button"
                 android:textSize="18dp"
                 android:layout_marginTop="10dp"
-                app:cornerRadius="20dp"/>
+                app:cornerRadius="20dp" />
 
 
         </LinearLayout>

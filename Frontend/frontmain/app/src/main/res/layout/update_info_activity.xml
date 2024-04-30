@@ -3,18 +3,10 @@
     android:id="@+id/updateInfoLinear"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/negative_background"> <!-- Set a shape drawable as the background -->
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="20dp"
-        app:contentPadding="10dp"
-        android:background="@android:color/transparent"> <!-- Set transparent background for the CardView -->
+    android:layout_width="230dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/lavender_border"
+    android:padding="10dp"> <!-- Set a shape drawable as the background -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,13 +16,15 @@
                 android:id="@+id/updatedNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Updated Name" />
+                android:hint="Enter New Info" />
 
             <EditText
                 android:id="@+id/currentPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Password" />
+                android:hint="Enter Password"
+                android:inputType="textPassword"
+                />
 
             <Button
                 android:id="@+id/updateButton"
@@ -39,7 +33,4 @@
                 android:text="Update"/>
 
         </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
 </LinearLayout>
