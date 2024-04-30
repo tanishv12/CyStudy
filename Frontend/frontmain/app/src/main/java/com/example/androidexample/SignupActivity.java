@@ -89,7 +89,7 @@ public class SignupActivity extends AppCompatActivity {
         loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SignupActivity.this, AdminPanelActivity.class);
+                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -163,17 +163,8 @@ public class SignupActivity extends AppCompatActivity {
         String username = signupUsername.getText().toString().trim();
         String password = signupPassword.getText().toString().trim();
 
-
-        //Move all to Post Request on Response
         UsernameSingleton.getInstance().setUserName(name);
-
-
-
-//                Toast.makeText(SignupActivity.this, "Sign Up Complete", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-//                startActivity(intent);
         UsernameSingleton.getInstance().setUserName(username);
-
 
         // Convert input to JSONObject
         JSONObject postBody = null;
@@ -206,6 +197,8 @@ public class SignupActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }
                 },
                 new Response.ErrorListener() {
