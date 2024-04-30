@@ -3,11 +3,13 @@ package onetoone.Timing;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
 import onetoone.Groups.StudyGroup;
+import org.springframework.cglib.core.Local;
 
 
 import javax.xml.datatype.Duration;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name="timing")
@@ -16,7 +18,7 @@ public class Timing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private LocalTime startTime;
+    private String startTime;
     private int duration;
     private DayOfWeek day;
 
@@ -27,7 +29,7 @@ public class Timing {
     private StudyGroup studyGroup;
 
     public Timing(String startTime, int duration, DayOfWeek day, String location) {
-        this.startTime = createStartTime(startTime);
+        this.startTime = startTime;
         this.duration = duration;
         this.day = day;
         this.location = location;
@@ -39,7 +41,12 @@ public class Timing {
     }
 
     private LocalTime createStartTime(String startTime){
-        return null;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+
+        // Parse the string into a LocalTime object
+        LocalTime time = LocalTime.parse(startTime, formatter);
+        return time;
     }
 
     public Long getId() {
@@ -50,11 +57,11 @@ public class Timing {
         this.id = id;
     }
 
-    public LocalTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
@@ -89,6 +96,14 @@ public class Timing {
 
     public void setGroup(StudyGroup group) {
         this.studyGroup = group;
+    }
+
+    public String sendStartTime(LocalTime time) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+        String formattedTime = time.format(formatter);
+
+        return formattedTime;
     }
 }
 
