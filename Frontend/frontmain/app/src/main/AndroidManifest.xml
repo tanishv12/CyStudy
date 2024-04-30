@@ -19,6 +19,12 @@
             android:name=".WeekViewActivity"
             android:exported="false" />
         <activity
+            android:name=".CalendarViewHolder"
+            android:exported="false" />
+        <activity
+            android:name=".CalendarAdapter"
+            android:exported="false" />
+        <activity
             android:name=".NewCourseRegActivity"
             android:exported="false" />
         <activity
@@ -47,7 +53,7 @@
             android:exported="false" />
         <activity
             android:name=".AdminPanelActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".RatingReview"
             android:exported="false" />
@@ -77,7 +83,7 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>
