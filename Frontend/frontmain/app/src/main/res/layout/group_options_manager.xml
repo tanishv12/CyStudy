@@ -26,7 +26,7 @@
         android:layout_gravity="center"
         android:layout_width="365dp"
         android:layout_height="wrap_content"
-        android:text="Leave Group" />
+        android:text="Delete Group" />
 
     <Button
         android:id="@+id/editGrpName"
