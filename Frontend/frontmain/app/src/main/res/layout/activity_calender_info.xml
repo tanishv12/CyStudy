@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <AutoCompleteTextView
+    <EditText
         android:id="@+id/setDay"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Set Day"
-        android:dropDownWidth="match_parent"
-        android:dropDownHeight="wrap_content">
-    </AutoCompleteTextView>
+        android:hint="Set Date">
+    </EditText>
     <EditText
         android:id="@+id/setTime"
         android:layout_width="match_parent"

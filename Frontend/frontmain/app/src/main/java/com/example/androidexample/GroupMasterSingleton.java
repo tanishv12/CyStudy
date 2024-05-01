@@ -4,6 +4,7 @@ public class GroupMasterSingleton
 {
     private static GroupMasterSingleton instance;
     private String masterName;
+    private String master;
     private GroupMasterSingleton() {}
 
     public static synchronized GroupMasterSingleton getInstance()
@@ -23,4 +24,15 @@ public class GroupMasterSingleton
     {
         this.masterName = masterName;
     }
+
+
+    public String getCreateGrpMaster(){
+        return master;
+    }
+
+    public void setCreateGrpMaster(String master)
+    {
+        this.master = master;
+    }
+
 }

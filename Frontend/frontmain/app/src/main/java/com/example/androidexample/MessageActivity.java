@@ -69,6 +69,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 
     private static String GroupName;
 
+    private String CreateGroupMaster;
+
 
 
 
@@ -83,6 +85,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         groupmaster = GroupMasterSingleton.getInstance().getGroupMaster();
+        CreateGroupMaster = GroupMasterSingleton.getInstance().getCreateGrpMaster();
 //        binding = ActivityChatBinding.inflate(getLayoutInflater());
 
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
@@ -108,14 +111,20 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
             @Override
             public void onClick(View view)
             {
+
                 WebSocketManager.getInstance().disconnectWebSocket();
                 Log.e("user heading", "user name heading: " + username);
                 Log.e("master", "group master heading: " + groupmaster);
-                if(username.compareTo(groupmaster) == 0)
+                if(username.equals(CreateGroupMaster) || username.equals(groupmaster))
                 {
                     Intent intent = new Intent(MessageActivity.this, GroupInfo_ManagerActivity.class);
                     startActivity(intent);
                 }
+//                else if()
+//                {
+//                    Intent intent = new Intent(MessageActivity.this, GroupInfo_ManagerActivity.class);
+//                    startActivity(intent);
+//                }
                 else
                 {
                     Intent intent = new Intent(MessageActivity.this, GroupInformation.class);

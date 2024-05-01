@@ -46,7 +46,7 @@ public class AddStudyGrp extends AppCompatActivity {
     private EditText groupText;
     private static final String[] COURSES = new String[]
             {
-                    "COM S 227", "MATH 165", "MATH 166", "PHYS 200", "CHEM 100"
+                    "COMS 309", "MATH 165", "MATH 166", "PHYS 200", "CHEM 100"
             };
 
     @Override
@@ -77,6 +77,7 @@ public class AddStudyGrp extends AppCompatActivity {
             {
                 courseName = cName.getText().toString();
                 gName = groupText.getText().toString();
+                GroupMasterSingleton.getInstance().setCreateGrpMaster(user);
                 String userCount = numUsers.getText().toString();
                 if (courseName.isEmpty())
                 {
@@ -137,7 +138,8 @@ public class AddStudyGrp extends AppCompatActivity {
     }
     private void postRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/post/" + gName + "/" + user + "/" + courseName + "/" + count;
+        String base_url = "http://coms-309-016.class.las.iastate.edu:8080/groups/post/" + gName + "/" + user + "/" + courseName + "/" + count;
+        String url = base_url.replace(" ", "%20");
         StringRequest request = new StringRequest(
                 Request.Method.POST,
                 url,
@@ -163,8 +165,8 @@ public class AddStudyGrp extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
-                //                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                headers.put("Content-Type", "application/json");
                 return headers;
             }
 
