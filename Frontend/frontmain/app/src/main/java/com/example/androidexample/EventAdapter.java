@@ -15,8 +15,8 @@ import java.util.List;
 
 public class EventAdapter extends ArrayAdapter<Event>
 {
-    public EventAdapter(@NonNull Context context) {
-        super(context, 0, new ArrayList<>());
+    public EventAdapter() {
+        super(null, 0, new ArrayList<>());
     }
     public EventAdapter(@NonNull Context context, List<Event> events)
     {
