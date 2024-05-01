@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.content.ContextCompat;
@@ -34,6 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -518,7 +520,8 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 
     private CardView createCard(String name, String rating, String GroupMaster) {
         // Create a new CardView and set up its layout parameters
-        String groupRate = name + "\n" + "Group Rating: "+ rating;
+        String groupRate = name;
+//        + "\n" + "Group Rating: "+ rating;
 
 
         Log.e("group", "group name: " + name);
@@ -526,7 +529,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         CardView cardView = new CardView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                convertDpToPixels(100, this) // Adjust this value to make the height adequate for a square appearance
         );
         layoutParams.setMargins(
                 convertDpToPixels(16, this),
@@ -536,28 +539,43 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         );
         cardView.setLayoutParams(layoutParams);
 
+        cardView.setBackgroundResource(R.drawable.card_background);
         // Set the CardView's appearance
         cardView.setCardElevation(convertDpToPixels(4, this));
         cardView.setRadius(convertDpToPixels(4, this));
 
 
         LinearLayout cardContentLayout = new LinearLayout(this);
-        cardContentLayout.setOrientation(LinearLayout.HORIZONTAL);
+        cardContentLayout.setOrientation(LinearLayout.VERTICAL);
         cardContentLayout.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
-
+        cardContentLayout.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
         // Create a TextView for the group name
         TextView groupNameView = new TextView(this);
         groupNameView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                1f
+                ViewGroup.LayoutParams.WRAP_CONTENT
         ));
         groupNameView.setText(groupRate);
+        groupNameView.setGravity(Gravity.CENTER);
+        groupNameView.setTypeface(null, Typeface.BOLD);
         groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+        RatingBar ratingBar = new RatingBar(this);
+        ratingBar.setNumStars(5);
+        ratingBar.setRating(Float.parseFloat(rating));
+        ratingBar.setIsIndicator(true);
+        ratingBar.setScaleX(0.55f);
+        ratingBar.setScaleY(0.55f);
+        LinearLayout.LayoutParams ratingParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        ratingParams.gravity = Gravity.CENTER_HORIZONTAL;
+        ratingBar.setLayoutParams(ratingParams);
 
 //        Button entergroup = new Button(this);
 //        LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
@@ -592,9 +610,11 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         // Add the TextView and Button to the horizontal LinearLayout
         cardContentLayout.addView(groupNameView);
 //        cardContentLayout.addView(entergroup);
+        cardContentLayout.addView(ratingBar);
 
         // Add the horizontal LinearLayout to the CardView
         cardView.addView(cardContentLayout);
+
 
 //        linearLayout.addView(groupNameView);
 //        linearLayout.addView(ratingView);

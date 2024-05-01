@@ -3,6 +3,7 @@ package com.example.androidexample;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +70,7 @@ public class ClassFragment extends AppCompatActivity {
         CardView cardView = new CardView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                convertDpToPixels(60, this)
         );
         layoutParams.setMargins(
                 convertDpToPixels(16, this),
@@ -77,6 +79,7 @@ public class ClassFragment extends AppCompatActivity {
                 convertDpToPixels(8, this)
         );
         cardView.setLayoutParams(layoutParams);
+        cardView.setBackgroundResource(R.drawable.card_background);
 
         // Set the CardView's appearance
         cardView.setCardElevation(convertDpToPixels(4, this));
@@ -89,6 +92,7 @@ public class ClassFragment extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
+        cardContentLayout.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
 
 
         // Create a TextView for the group name
@@ -99,7 +103,9 @@ public class ClassFragment extends AppCompatActivity {
                 1f
         ));
 //        groupNameView.setTextColor(Color.parseColor("#FFFFFF"));
+        groupNameView.setGravity(Gravity.CENTER);
         groupNameView.setText(courseName);
+        groupNameView.setTypeface(null, Typeface.BOLD);
         Log.e("courseNameeee","coursenamee "+courseName);
         groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 

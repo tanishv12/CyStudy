@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -578,7 +579,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         CardView cardView = new CardView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                convertDpToPixels(70, this)
         );
         layoutParams.setMargins(
                 convertDpToPixels(16, this),
@@ -599,6 +600,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
+        cardView.setBackgroundResource(R.drawable.card_background);
 
         // Create a TextView for the group name
         TextView userNameView = new TextView(this);
@@ -610,13 +612,16 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
 
 
         userNameView.setText(nameOfUser);
+        userNameView.setTypeface(null, Typeface.BOLD);
         userNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         userNameView.setGravity(Gravity.LEFT);
 //        userNameView.setGravity(Gravity.CENTER);
         cardContentLayout.addView(userNameView);
         cardView.addView(cardContentLayout);
 
-        if(!username.equals(GroupMaster) || username.equals(CreateGroupMaster))
+        CreateGroupMaster = GroupMasterSingleton.getInstance().getCreateGrpMaster();
+        Log.e("Create Group","master " +CreateGroupMaster);
+        if(!username.equals(GroupMaster) && !username.equals(CreateGroupMaster))
         {
             Button removeButton = new Button(this);
             LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
@@ -639,8 +644,10 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
                 }
             });
         }
-
-
+        else
+        {
+            return cardView;
+        }
 
 //        cardView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -664,7 +671,6 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
 //                return true;
 //            }
 //        });
-
         return cardView;
     }
 

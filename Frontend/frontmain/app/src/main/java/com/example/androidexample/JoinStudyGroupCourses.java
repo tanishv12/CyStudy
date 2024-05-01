@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.hardware.usb.UsbRequest;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -159,7 +162,7 @@ public class JoinStudyGroupCourses extends AppCompatActivity
         CardView cardView = new CardView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                convertDpToPixels(70, this)
         );
         layoutParams.setMargins(
                 convertDpToPixels(16, this),
@@ -168,6 +171,7 @@ public class JoinStudyGroupCourses extends AppCompatActivity
                 convertDpToPixels(8, this)
         );
         cardView.setLayoutParams(layoutParams);
+        cardView.setBackgroundResource(R.drawable.card_background);
 
         // Set the CardView's appearance
         cardView.setCardElevation(convertDpToPixels(4, this));
@@ -181,6 +185,7 @@ public class JoinStudyGroupCourses extends AppCompatActivity
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
 
+
         // Create a TextView for the group name
         TextView groupNameView = new TextView(this);
         groupNameView.setLayoutParams(new LinearLayout.LayoutParams(
@@ -189,8 +194,10 @@ public class JoinStudyGroupCourses extends AppCompatActivity
                 1f
         ));
         groupNameView.setText(group);
+
         groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         groupNameView.setGravity(Gravity.CENTER_VERTICAL);
+        groupNameView.setTypeface(null, Typeface.BOLD);
 
         Button entergroup = new Button(this);
         LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
@@ -230,7 +237,17 @@ public class JoinStudyGroupCourses extends AppCompatActivity
                     @Override
                     public void onResponse(String response)
                     {
-
+                        if (response != null)
+                        {
+                            Toast.makeText(JoinStudyGroupCourses.this, response, Toast.LENGTH_SHORT).show();
+                            if(response.equals("Cannot join multiple groups of same course"))
+                            {
+                                finish();
+                            }
+                        }
+                        else {
+                            Toast.makeText(JoinStudyGroupCourses.this, "Response is empty", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 },
                 new Response.ErrorListener()
