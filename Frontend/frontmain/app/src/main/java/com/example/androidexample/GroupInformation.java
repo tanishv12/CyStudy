@@ -68,9 +68,13 @@ public class GroupInformation extends AppCompatActivity {
 
     private RatingBar rating;
 
+    private Boolean HasRated;
+
     private double rateNumber;
 
-    private int flag = 0;
+    private double newrateNumber;
+    private String s;
+
 
     private void ratingDialog(Context c)
     {
@@ -88,17 +92,22 @@ public class GroupInformation extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                flag += 1;
-                String s = String.valueOf(rating.getRating());
+//                s = String.valueOf(rating.getRating());
+//                rateNumber = Double.parseDouble(s);
+//                if(!HasRated)
+//                {
+                s = String.valueOf(rating.getRating());
                 rateNumber = Double.parseDouble(s);
-                if(flag == 1)
-                {
-                    postRating();
-                }
-                else
-                {
-                    updateRatingRequest();
-                }
+//                    Log.e("ratenumber","rating 1 "+rateNumber);
+                postRating();
+//                }
+//                else
+//                {
+//                    s = String.valueOf(rating.getRating());
+//                    newrateNumber = Double.parseDouble(s);
+//                    Log.e("ratenumber","rating 2 "+newrateNumber);
+//                    updateRatingRequest();
+//                }
 
                 dialog.dismiss();
             }
@@ -247,8 +256,6 @@ public class GroupInformation extends AppCompatActivity {
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
-
-
     private void getRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all/users/" + groupNameSet;
@@ -268,6 +275,7 @@ public class GroupInformation extends AppCompatActivity {
                                     JSONObject jsonObj = jsonArray.getJSONObject(i);
                                     user = jsonObj.getString("name");
 //                                  users.add(user);
+                                    HasRated = jsonObj.getBoolean("hasRated");
 
 //                                  String groupRate = name + "\n" + "Group Rating: "+ rating;
 //                                    users +=  user + "\n";
@@ -366,7 +374,7 @@ public class GroupInformation extends AppCompatActivity {
 
     private void updateRatingRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/updateRating/" + groupNameSet + "/" + username + "/" + rateNumber;
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/updateRating/" + groupNameSet + "/" + username + "/" + newrateNumber;
         StringRequest request = new StringRequest(
                 Request.Method.PUT,
                 url,

@@ -71,6 +71,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
     private String location;
 
     private String GroupMaster;
+    private String CreateGroupMaster;
     private Button saveBtn;
 
     private Button meetingInformation;
@@ -615,7 +616,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         cardContentLayout.addView(userNameView);
         cardView.addView(cardContentLayout);
 
-        if(!username.equals(GroupMaster))
+        if(!username.equals(GroupMaster) || username.equals(CreateGroupMaster))
         {
             Button removeButton = new Button(this);
             LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
