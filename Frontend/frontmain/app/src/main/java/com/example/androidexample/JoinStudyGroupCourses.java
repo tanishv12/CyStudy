@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +49,8 @@ public class JoinStudyGroupCourses extends AppCompatActivity
     private TextView courseHeader;
     private String courseHead;
 
-    private AppCompatImageView backButton, qrButton;
+    private AppCompatImageView backButton;
+    private FloatingActionButton qrButton;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

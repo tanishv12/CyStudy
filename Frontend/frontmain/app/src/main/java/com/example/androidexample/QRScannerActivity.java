@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -41,9 +42,9 @@ public class QRScannerActivity extends AppCompatActivity {
         scan_btn = findViewById(R.id.scanner);
         textView = findViewById(R.id.text);
         IntentIntegrator intentIntegrator = new IntentIntegrator(QRScannerActivity.this);
-        intentIntegrator.setOrientationLocked(true);
         intentIntegrator.setPrompt("Scan a QR Code");
         intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+        intentIntegrator.setOrientationLocked(true);
         intentIntegrator.initiateScan();
     }
 
@@ -73,8 +74,20 @@ public class QRScannerActivity extends AppCompatActivity {
                     public void onResponse(String response)
                     {
                         Log.e("Success response", "Success!");
-                        Intent intent = new Intent(QRScannerActivity.this, StudyGroupFragment.class);
-                        startActivity(intent);
+                        if(response.equals("successful!")){
+                            Intent intent = new Intent(QRScannerActivity.this, StudyGroupFragment.class);
+                            startActivity(intent);
+
+                            Toast.makeText(QRScannerActivity.this, "Success!", Toast.LENGTH_LONG).show();
+                            
+                        }
+                        else {
+                            Intent intent = new Intent(QRScannerActivity.this, JoinStudyGroupCourses.class);
+                            startActivity(intent);
+
+                            Toast.makeText(QRScannerActivity.this, response, Toast.LENGTH_LONG).show();
+
+                        }
                     }
                 },
                 new Response.ErrorListener()
@@ -84,8 +97,8 @@ public class QRScannerActivity extends AppCompatActivity {
                     {
                         Log.e("Error Response", error.toString());
                         Intent intent = new Intent(QRScannerActivity.this, JoinStudyGroupCourses.class);
-//                        startActivity(intent);
-//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                        Toast.makeText(QRScannerActivity.this, error.toString(), Toast.LENGTH_LONG).show();
 
                     }
                 }

@@ -93,16 +93,16 @@
         </ScrollView>
     </androidx.cardview.widget.CardView>
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/imageQRScan"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/addqr"
-        app:tint="@color/black"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/red"
+        android:clickable="true"
+        android:src="@android:drawable/ic_input_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
-    </androidx.appcompat.widget.AppCompatImageView>
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 </androidx.constraintlayout.widget.ConstraintLayout>
