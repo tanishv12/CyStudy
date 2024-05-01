@@ -3,7 +3,6 @@ import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import onetoone.Groups.StudyGroup;
-import onetoone.Resources.StudyResources;
 import onetoone.Users.User;
 
 import java.util.HashSet;
@@ -43,8 +42,7 @@ public class Course {
 //    private Set<StudyResources> studyResourcesSet;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.MERGE)
-    private List<StudyResources> studyResourceList;
+
 
     // =============================== Constructors ================================== //
 

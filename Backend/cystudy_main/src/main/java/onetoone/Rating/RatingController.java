@@ -163,6 +163,7 @@ public class RatingController {
         }
     }
 
+
     @GetMapping("/rating/lowestRatedGroups")
     public List<StudyGroup> getLowestRatedGroups() {
         List<StudyGroup> lowRatedGroups = new ArrayList<>();
