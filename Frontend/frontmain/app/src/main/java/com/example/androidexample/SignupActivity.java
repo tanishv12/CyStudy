@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -77,9 +78,7 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 postRequest();
-
             }
         });
         /**
@@ -157,39 +156,30 @@ public class SignupActivity extends AppCompatActivity {
      * of the users.
      */
     private void postRequest() {
-
         String name = signupName.getText().toString().trim();
         String email = signupEmail.getText().toString().trim();
         String username = signupUsername.getText().toString().trim();
         String password = signupPassword.getText().toString().trim();
 
-        UsernameSingleton.getInstance().setUserName(name);
-        UsernameSingleton.getInstance().setUserName(username);
-
-        // Convert input to JSONObject
-        JSONObject postBody = null;
-
-        if(validateCredentials() != true)
-        {
+        // Validate user input
+        if (!validateCredentials()) {
             Toast.makeText(SignupActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        try{
-            // etRequest should contain a JSON object string as your POST body
-            // similar to what you would have in POSTMAN-body field
-            // and the fields should match with the object structure of @RequestBody on sb
-            url = "http://coms-309-016.class.las.iastate.edu:8080/users/register";
-            postBody = new JSONObject();
+        // Create a JSON object for the request body
+        JSONObject postBody = new JSONObject();
+        try {
             postBody.put("name", name);
             postBody.put("emailId", email);
             postBody.put("userName", username);
             postBody.put("password", password);
             Log.e("body", postBody.toString());
-        } catch (Exception e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        // Create a request
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
@@ -197,46 +187,59 @@ public class SignupActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        String stringResponse;
+                        try {
+                            stringResponse = response.getString("message");
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        if(stringResponse.equals("User created successfully")){
+                            Toast.makeText(SignupActivity.this, stringResponse, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(SignupActivity.this, NewCourseRegActivity.class);
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(SignupActivity.this, stringResponse, Toast.LENGTH_SHORT).show();
+                        }
+                        Log.e("response: ", response.toString());
+                        // Registration successful, handle the response
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if (error.networkResponse != null && error.networkResponse.data != null) {
-                            try {
-                                String errorMessage = new String(error.networkResponse.data, "UTF-8");
-                                Toast.makeText(SignupActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
-                                Log.e("error: ", errorMessage);
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-                        }
+                        // Error occurred, handle the error
+                        Log.e("error: ", error.toString());
                     }
                 }
-        ){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
-                //                headers.put("Content-Type", "application/json");
-                return headers;
-            }
+        );
 
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                //                params.put("param1", "value1");
-                //                params.put("param2", "value2");
-                return params;
-            }
-        };
-
-        // Adding request to request queue
+        // Add the request to the Volley request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
+
+    private void handleResponse(JSONObject response) {
+        // Handle the server response when registration is successful
+        Intent intent = new Intent(SignupActivity.this, NewCourseRegActivity.class);
+        startActivity(intent);
+    }
+
+    private void handleError(VolleyError error) {
+        // Handle errors when registering the user
+        if (error.networkResponse != null && error.networkResponse.data != null) {
+            try {
+                // Parse the error message from the response body
+                String errorMessage = new String(error.networkResponse.data, "UTF-8");
+                Toast.makeText(SignupActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                Log.e("error: ", errorMessage);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Handle other types of errors (e.g., network error)
+            Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 }
