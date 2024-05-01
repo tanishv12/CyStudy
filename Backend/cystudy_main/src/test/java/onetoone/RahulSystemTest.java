@@ -158,7 +158,7 @@ public class RahulSystemTest {
     }
 
     @Test
-    public void updateRatingTest() {
+    public void postRatingTest() {
         // Send request and receive response
         Response response = RestAssured.given().
                 header("Content-Type", "text/plain").
@@ -264,7 +264,7 @@ public class RahulSystemTest {
                 header("charset", "utf-8").
                 body("").
                 when().
-                post("/updateRating/MATH 165 GROUP 1/sam123/3");
+                put("/updateRating/MATH 165 GROUP 1/sam123/3");
 
 
         // Check status code
@@ -307,14 +307,15 @@ public class RahulSystemTest {
 
         // Check response body for correct response
         String returnString = response.getBody().asString();
-		try {
-			JSONArray returnArr = new JSONArray(returnString);
-			JSONObject returnObj = returnArr.getJSONObject(returnArr.length() - 1);
-			assertEquals("User name changed successfully", returnObj.get("data"));
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+        try {
+            JSONArray returnArr = new JSONArray(returnString);
+            JSONObject returnObj = returnArr.getJSONObject(returnArr.length() - 1);
+            assertEquals("User name changed successfully", returnObj.get("data"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }
+
 

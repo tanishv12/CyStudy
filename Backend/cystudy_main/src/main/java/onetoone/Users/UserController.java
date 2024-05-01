@@ -68,20 +68,48 @@ public class UserController {
         return userRepository.findByUserName(userName);
     }
 
+//    @PostMapping(path = "/users/register")
+//    ResponseEntity<String> createUser(@Valid @RequestBody User user, BindingResult bindingResult){
+//        if (bindingResult.hasErrors()) {
+//            // If there are validation errors, return a custom response
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid email address. Please check your input.");
+//        }
+//        if (user == null)
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");;
+//        for(User prevUser: this.getAllUsers()){
+//            if(user.getEmailId().equals(prevUser.getEmailId())){
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email address already exists");
+//            }
+//            if((user.getUserName()).equals(prevUser.getUserName())){
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("UserName already exists");
+//            }
+//        }
+//        String encodedPassword = passwordEncoder.encode(user.getPassword());
+//        user.setPassword(encodedPassword);
+//        userRepository.save(user);
+//        // Generate session token (JWT) containing user ID
+////        String token = generateToken(user.getId());
+////
+////        // Return the token to the client
+////        return ResponseEntity.ok(token);
+//
+//        return ResponseEntity.ok("User created successfully");
+//    }
+
     @PostMapping(path = "/users/register")
-    ResponseEntity<String> createUser(@Valid @RequestBody User user, BindingResult bindingResult){
+    String createUser(@Valid @RequestBody User user, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             // If there are validation errors, return a custom response
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid email address. Please check your input.");
+            return "{\"message\": \"Invalid email address. Please check your input.\"}";
         }
         if (user == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid user credentials");;
+            return "{\"message\": \"Invalid user credentials\"}";
         for(User prevUser: this.getAllUsers()){
             if(user.getEmailId().equals(prevUser.getEmailId())){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email address already exists");
+                return "{\"message\": \"Email address already exists\"}";
             }
             if((user.getUserName()).equals(prevUser.getUserName())){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("UserName already exists");
+                return "{\"message\": \"UserName already exists\"}";
             }
         }
         String encodedPassword = passwordEncoder.encode(user.getPassword());
@@ -93,7 +121,7 @@ public class UserController {
 //        // Return the token to the client
 //        return ResponseEntity.ok(token);
 
-        return ResponseEntity.ok("User created successfully");
+        return"{\"message\": \"User created successfully\"}";
     }
 
 
