@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="back"
+            android:text="◄"
             android:textColor="#FFFFFF"
             android:background="@null"
             android:textStyle="bold"
@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="next"
+            android:text="►"
             android:textColor="#FFFFFF"
             android:background="@null"
             android:textStyle="bold"
@@ -128,18 +128,8 @@
         android:layout_height="60dp">
     </androidx.recyclerview.widget.RecyclerView>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Event"
-        android:textColor="#FFFFFF"
-        android:background="@null"
-        android:textStyle="bold"
-        android:onClick="newEventAction"
-        android:layout_gravity="center"
-        android:textSize="20sp"/>
-
     <ListView
+        android:layout_marginTop="20dp"
         android:id="@+id/eventListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"

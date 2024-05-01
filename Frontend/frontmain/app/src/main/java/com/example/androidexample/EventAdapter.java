@@ -35,13 +35,16 @@ public class EventAdapter extends ArrayAdapter<Event>
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.event_cell, parent, false);
 
-        TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);
+        TextView eventCellTV = convertView.findViewById(R.id.groupNameTV);
+        TextView eventDetailsTV = convertView.findViewById(R.id.eventDetailsTV);
 
         String startTime = CalendarUtils.formattedTime(event.getTime());
         String endTime = CalendarUtils.formattedTime(event.getTime().plusHours(event.getDuration()));
 
-        String eventTitle = event.getGroupName()+"\n"+event.getName() + " " + startTime + "-" + endTime;
+        String eventTitle = event.getGroupName();
+        String eventDetails = event.getName() + " " + startTime + "-" + endTime;
         eventCellTV.setText(eventTitle);
+        eventDetailsTV.setText(eventDetails);
         return convertView;
     }
 

@@ -165,73 +165,55 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         startActivity(new Intent(this, WeekViewActivity.class));
     }
 
-    private void getRequest()
-    {
+    private void getRequest() {
         String name = UsernameSingleton.getInstance().getUserName();
         String url = "http://coms-309-016.class.las.iastate.edu:8080/timings/user/" + name;
+
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response){
+                    public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-                            for(int i = 0; i < jsonArray.length(); i++) {
-                                // Get each JSONObject within the array
+                            Event.eventsList.clear(); // Clear the list before adding new events
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
-
                                 String location = jsonObj.getString("location");
-                                Log.e("location: ", location);
                                 LocalDate date = LocalDate.parse(jsonObj.getString("date"));
-                                Log.e("date: ", date.toString());
                                 LocalTime time = LocalTime.parse(jsonObj.getString("startTime"));
-                                Log.e("time: ", time.toString());
                                 int duration = jsonObj.getInt("duration");
-                                Log.e("duration: ", Integer.toString(duration));
                                 JSONObject groupObject = jsonObj.getJSONObject("group");
                                 String groupName = groupObject.getString("groupName");
 
                                 Event newEvent = new Event(location, groupName, date, time, duration);
                                 Event.eventsList.add(newEvent);
                             }
+                            setEventAdapter(); // Refresh the event adapter after updating the list
+                        } catch (JSONException err) {
+                            Log.e("Error", err.toString());
+                            // Handle JSON parsing error
                         }
-                        catch (JSONException err)
-                        {
-                            Log.d("Error", err.toString());
-                        }
-                        // Display the first 500 characters of the response string.
-                        // String response can be converted to JSONObject via
-                        // JSONObject object = new JSONObject(response);
-
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error", error.toString());
+                        // Handle Volley error (e.g., network failure)
                     }
-                }){
-
+                }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
-                //                headers.put("Content-Type", "application/json");
+                // Add any required headers
                 return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                //                params.put("param1", "value1");
-                //                params.put("param2", "value2");
-                return params;
             }
         };
 
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
+
 
 }
