@@ -71,7 +71,7 @@ public class StudyGroup {
    @JsonIgnore
    private List<Rating> ratingList;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "studyGroup", cascade = CascadeType.MERGE)
     @JsonIgnore
     private List<Timing> timingList;
 

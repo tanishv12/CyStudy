@@ -5,6 +5,8 @@ import onetoone.Groups.StudyGroupRepository;
 import onetoone.Messages.Message;
 import onetoone.Rating.Rating;
 import onetoone.Rating.RatingRepository;
+import onetoone.Timing.Timing;
+import onetoone.Timing.TimingRepository;
 import org.antlr.v4.runtime.misc.LogManager;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +20,7 @@ import onetoone.Users.UserRepository;
 import onetoone.Messages.MessageRepository;
 
 
+import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,7 +48,7 @@ class Main {
      * As mentioned in User.java just associating the Laptop object with the User will save it into the database because of the CascadeType
      */
     @Bean
-    CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository, RatingRepository ratingRepository) {
+    CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository, RatingRepository ratingRepository, TimingRepository timingRepository) {
         return args -> {
 
             User user1 = new User("John", "john123", "john@osomemail.com", "lol");
@@ -169,6 +172,8 @@ class Main {
 //            StudyGroup group30 = new StudyGroup("BIOL 211 Group3",course10,10);
 
 
+
+
 // Save study groups
             studyGroupRepository.save(group1);
             studyGroupRepository.save(group2);
@@ -202,6 +207,10 @@ class Main {
 //            studyGroupRepository.save(group30);
 //
 
+            //Timing
+            Timing timing = new Timing("4/30/2024","07:00 PM",2, DayOfWeek.TUESDAY,"Dungeons");
+            timing.setGroup(group1);
+            timingRepository.save(timing);
 
 
 
