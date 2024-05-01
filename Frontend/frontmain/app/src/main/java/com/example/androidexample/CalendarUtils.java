@@ -17,9 +17,8 @@ public class CalendarUtils
         return date.format(formatter);
     }
 
-    public static String formattedTime(LocalTime time)
-    {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
+    public static String formattedTime(LocalTime time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
         return time.format(formatter);
     }
 

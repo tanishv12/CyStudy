@@ -40,7 +40,7 @@ public class EventAdapter extends ArrayAdapter<Event>
         String startTime = CalendarUtils.formattedTime(event.getTime());
         String endTime = CalendarUtils.formattedTime(event.getTime().plusHours(event.getDuration()));
 
-        String eventTitle = event.getName() + " " + startTime + "-" + endTime;
+        String eventTitle = event.getGroupName()+"\n"+event.getName() + " " + startTime + "-" + endTime;
         eventCellTV.setText(eventTitle);
         return convertView;
     }

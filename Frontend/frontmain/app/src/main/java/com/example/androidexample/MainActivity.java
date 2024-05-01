@@ -188,8 +188,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                                 Log.e("time: ", time.toString());
                                 int duration = jsonObj.getInt("duration");
                                 Log.e("duration: ", Integer.toString(duration));
+                                JSONObject groupObject = jsonObj.getJSONObject("group");
+                                String groupName = groupObject.getString("groupName");
 
-                                Event newEvent = new Event(location, date, time, duration);
+                                Event newEvent = new Event(location, groupName, date, time, duration);
                                 Event.eventsList.add(newEvent);
                             }
                         }

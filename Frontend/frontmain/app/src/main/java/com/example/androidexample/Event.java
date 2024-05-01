@@ -25,18 +25,19 @@ public class Event
     }
 
 
-    private String name;
+    private String name, groupName;
     private LocalDate date;
     private LocalTime time;
     private int duration; // New field for duration
 
-    public Event(String name, LocalDate date, LocalTime time, int duration)
+    public Event(String name, String groupName, LocalDate date, LocalTime time, int duration)
     {
         Log.e("date: ", date.toString());
         this.name = name;
         this.date = date;
         this.time = time;
         this.duration = duration;
+        this.groupName = groupName;
     }
 
     public String getName()
@@ -72,4 +73,6 @@ public class Event
     public Integer getDuration() {return duration;}
 
     public void setDuration(int duration) {this.duration = duration;}
+
+    public String getGroupName(){return groupName;}
 }
