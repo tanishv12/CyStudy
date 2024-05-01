@@ -25,7 +25,7 @@
             android:textStyle="bold"
             android:layout_marginLeft="10dp"
             android:onClick="previousWeekAction"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/monthYearTV"
