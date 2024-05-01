@@ -58,11 +58,14 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
     private Button editGroupBtn;
 
     private String user;
+
+    private String username;
     private String users;
     private String newGroupName;
     private EditText enterEditGroup;
     private TextView GroupHeadingName;
 
+    private String GroupMaster;
     private Button saveBtn;
 
     private Button meetingInformation;
@@ -251,6 +254,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         GroupHeadingName = findViewById(R.id.GroupHeadInfo);
         backToGrpChat = findViewById(R.id.imageBackToGroup);
         optionsGrpBtn = findViewById(R.id.options);
+        GroupMaster = GroupMasterSingleton.getInstance().getGroupMaster();
 
         userContainer = findViewById(R.id.usersHolder);
 
@@ -343,6 +347,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
                             {
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                                 user = jsonObj.getString("name");
+                                username = jsonObj.getString("userName");
                                 Log.e("user","user name"+user);
 //                                  users.add(user);
 
@@ -352,7 +357,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
 //                                    members.setText(users);
 //                                GroupSingleton.getInstance().setGroupName(name);
 
-                                CardView cardView = createCard(user);
+                                CardView cardView = createCard(user, username);
 ////                                GroupSingleton.getInstance().setGroupName(groupName);
                                 userContainer.addView(cardView);
                             }
@@ -392,7 +397,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-    private CardView createCard(String nameOfUser) {
+    private CardView createCard(String nameOfUser, String username) {
         // Create a new CardView and set up its layout parameters
 //        String groupRate = users;
 //        Log.e("users", "user name: " + users);
@@ -430,12 +435,28 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 1f
         ));
+
+
         userNameView.setText(nameOfUser);
         userNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        userNameView.setGravity(Gravity.CENTER_VERTICAL);
-
+        userNameView.setGravity(Gravity.LEFT);
+//        userNameView.setGravity(Gravity.CENTER);
         cardContentLayout.addView(userNameView);
         cardView.addView(cardContentLayout);
+
+        if(!username.equals(GroupMaster))
+        {
+            Button removeButton = new Button(this);
+            LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            buttonLayoutParams.gravity = Gravity.END;
+            removeButton.setLayoutParams(buttonLayoutParams);
+            removeButton.setText("Remove");
+            cardContentLayout.addView(removeButton);
+        }
+
 
 
 //        cardView.setOnClickListener(new View.OnClickListener() {
