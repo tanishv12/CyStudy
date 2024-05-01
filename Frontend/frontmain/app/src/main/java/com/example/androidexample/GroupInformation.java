@@ -70,6 +70,8 @@ public class GroupInformation extends AppCompatActivity {
 
     private double rateNumber;
 
+    private int flag = 0;
+
     private void ratingDialog(Context c)
     {
         LayoutInflater inflater = LayoutInflater.from(c);
@@ -86,9 +88,18 @@ public class GroupInformation extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
+                flag += 1;
                 String s = String.valueOf(rating.getRating());
                 rateNumber = Double.parseDouble(s);
-                postRating();
+                if(flag == 1)
+                {
+                    postRating();
+                }
+                else
+                {
+                    updateRatingRequest();
+                }
+
                 dialog.dismiss();
             }
         });
@@ -352,6 +363,57 @@ public class GroupInformation extends AppCompatActivity {
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
+
+    private void updateRatingRequest()
+    {
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/updateRating/" + groupNameSet + "/" + username + "/" + rateNumber;
+        StringRequest request = new StringRequest(
+                Request.Method.PUT,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+
+                        Log.e("Response Entered",response.toString());
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+
+
 
     private CardView createCard(String nameOfUser) {
         // Create a new CardView and set up its layout parameters

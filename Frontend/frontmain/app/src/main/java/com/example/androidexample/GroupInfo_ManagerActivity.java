@@ -327,6 +327,55 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
+    private void removeUserRequest()
+    {
+        String groupLeave = groupNameSet;
+        String USER = UsernameSingleton.getInstance().getUser();
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/" + groupLeave + "/" + USER;
+        StringRequest request = new StringRequest(
+                Request.Method.DELETE,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+
+
+
+
     private void getRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all/users/" + groupNameSet;
@@ -460,11 +509,12 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view)
                 {
-
+                    UsernameSingleton.getInstance().setUser(username);
+                    removeUserRequest();
+                    Intent intent = new Intent(GroupInfo_ManagerActivity.this, GroupInfo_ManagerActivity.class);
+                    startActivity(intent);
                 }
             });
-
-
         }
 
 

@@ -95,9 +95,6 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
         Log.e("url", "Server URL: " + encodedPath);
         WebSocketManager.getInstance().connectWebSocket(encodedPath);
 
-
-
-
         GroupHeading = findViewById(R.id.groupHeading);
         GroupHeading.setText(GroupName);
 
