@@ -44,14 +44,14 @@ public class Timing {
 
     }
 
-    private LocalTime createStartTime(String startTime){
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
-
-        // Parse the string into a LocalTime object
-        LocalTime time = LocalTime.parse(startTime, formatter);
-        return time;
-    }
+//    private LocalTime createStartTime(String startTime){
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+//
+//        // Parse the string into a LocalTime object
+//        LocalTime time = LocalTime.parse(startTime, formatter);
+//        return time;
+//    }
 
     public Long getId() {
         return id;
@@ -110,12 +110,12 @@ public class Timing {
         this.studyGroup = group;
     }
 
-    public String sendStartTime(LocalTime time) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
-        String formattedTime = time.format(formatter);
-
-        return formattedTime;
-    }
+//    public String sendStartTime(LocalTime time) {
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+//        String formattedTime = time.format(formatter);
+//
+//        return formattedTime;
+//    }
 }
 
