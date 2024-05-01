@@ -6,5 +6,11 @@
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryVariant">@color/red</item>
     </style>
+    <style name="CustomRatingBar" parent="Base.Theme.AndroidExample">
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/black</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
+    </style>
     <style name="Theme.AndroidExample" parent="Base.Theme.AndroidExample" />
 </resources>
