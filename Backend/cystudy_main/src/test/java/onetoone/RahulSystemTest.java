@@ -132,5 +132,38 @@ public class RahulSystemTest {
 //		}
     }
 
+    @Test
+    public void UpdateUsernameTest() throws JSONException {
+
+        // Create a JSON object with the desired data
+//        JSONObject requestBody = new JSONObject();
+//        requestBody.put("courseCode", "311");
+//        requestBody.put("courseDepartment", "COM S");
+//        requestBody.put("courseName", "Intro to Desiging Algorithms");
+
+        // Send request and receive response
+        Response response = RestAssured.given().
+                header("Content-Type", "text/plain").
+                header("charset", "utf-8").
+                body("").
+                when().
+                put("/users/username/john123/nol123/beepboop");
+
+
+        // Check status code
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+
+        // Check response body for correct response
+        String returnString = response.getBody().asString();
+		try {
+			JSONArray returnArr = new JSONArray(returnString);
+			JSONObject returnObj = returnArr.getJSONObject(returnArr.length() - 1);
+			assertEquals("User name changed successfully", returnObj.get("data"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+    }
+
 }
 

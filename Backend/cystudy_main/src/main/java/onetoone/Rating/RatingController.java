@@ -142,6 +142,7 @@ public class RatingController {
         Rating rating1 = new Rating(user, studyGroup, rating);
         studyGroup.addRating(rating1);
         user.addRating(rating1);
+        user.setHasRated(true);
         ratingRepository.save(rating1);
         userRepository.save(user);
 //        studyGroupRepository.save(studyGroup);

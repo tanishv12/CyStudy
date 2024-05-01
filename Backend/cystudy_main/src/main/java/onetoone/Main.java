@@ -64,7 +64,7 @@ class Main {
             User user9 = new User("Jack","jack123","jack@somemail.com","lol");
             User user10 = new User("Ethan","ethan123","ethan@somemail.com","lol");
             User user11 = new User("monmon","monmon123","mon@somemail.com","lol");
-            User user12 = new User("dhoomi","dom123","dom@somemail.com","dappa");
+            User user12 = new User("dhoomi","dom123","dom@somemail.com","lol");
 
 
 // Save users
