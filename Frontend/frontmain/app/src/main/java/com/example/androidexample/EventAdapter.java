@@ -10,8 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class EventAdapter extends ArrayAdapter<Event>
 {
@@ -32,10 +35,22 @@ public class EventAdapter extends ArrayAdapter<Event>
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.event_cell, parent, false);
 
-        TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);
+        TextView eventCellTV = convertView.findViewById(R.id.groupNameTV);
+        TextView eventDetailsTV = convertView.findViewById(R.id.eventDetailsTV);
 
-        String eventTitle = event.getName() +" "+ CalendarUtils.formattedTime(event.getTime());
+        String startTime = CalendarUtils.formattedTime(event.getTime());
+        String endTime = CalendarUtils.formattedTime(event.getTime().plusHours(event.getDuration()));
+
+        String eventTitle = event.getGroupName();
+        String eventDetails = event.getName() + " " + startTime + "-" + endTime;
         eventCellTV.setText(eventTitle);
+        eventDetailsTV.setText(eventDetails);
         return convertView;
+    }
+
+    public static String formattedTime(LocalTime time) {
+        // Format the time without seconds and leading zeros
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH);
+        return time.format(formatter);
     }
 }

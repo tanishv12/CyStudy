@@ -17,13 +17,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 //import com.example.androidexample.databinding.ActivityMainBinding;
 import static com.example.androidexample.CalendarUtils.daysInMonthArray;
 import static com.example.androidexample.CalendarUtils.daysInWeekArray;
 import static com.example.androidexample.CalendarUtils.monthYearFromDate;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Home page for study group application.
@@ -49,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         CalendarUtils.selectedDate = LocalDate.now();
         initWidgets();
         setWeekView();
+
+        getRequest();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
         bottomNavigationView.setSelectedItemId(R.id.Home);
@@ -126,6 +141,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         setEventAdapter();
     }
 
+    /**
+     * Sets the events for the day when clicked
+     */
     private void setEventAdapter()
     {
         ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
@@ -133,6 +151,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         eventListView.setAdapter(eventAdapter);
     }
 
+    /**
+     * Starts
+     * @param view
+     */
     public void newEventAction(View view)
     {
         startActivity(new Intent(this, EventEditActivity.class));
@@ -142,5 +164,56 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     {
         startActivity(new Intent(this, WeekViewActivity.class));
     }
+
+    private void getRequest() {
+        String name = UsernameSingleton.getInstance().getUserName();
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/timings/user/" + name;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            Event.eventsList.clear(); // Clear the list before adding new events
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObj = jsonArray.getJSONObject(i);
+                                String location = jsonObj.getString("location");
+                                LocalDate date = LocalDate.parse(jsonObj.getString("date"));
+                                LocalTime time = LocalTime.parse(jsonObj.getString("startTime"));
+                                int duration = jsonObj.getInt("duration");
+                                JSONObject groupObject = jsonObj.getJSONObject("group");
+                                String groupName = groupObject.getString("groupName");
+
+                                Event newEvent = new Event(location, groupName, date, time, duration);
+                                Event.eventsList.add(newEvent);
+                            }
+                            setEventAdapter(); // Refresh the event adapter after updating the list
+                        } catch (JSONException err) {
+                            Log.e("Error", err.toString());
+                            // Handle JSON parsing error
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Error", error.toString());
+                        // Handle Volley error (e.g., network failure)
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                // Add any required headers
+                return headers;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
 
 }
