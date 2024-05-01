@@ -18,6 +18,8 @@ public class Timing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    private String date;
     private String startTime;
     private int duration;
     private DayOfWeek day;
@@ -28,7 +30,8 @@ public class Timing {
     @JoinColumn(name = "group_id")
     private StudyGroup studyGroup;
 
-    public Timing(String startTime, int duration, DayOfWeek day, String location) {
+    public Timing(String date, String startTime, int duration, DayOfWeek day, String location) {
+
         this.startTime = startTime;
         this.duration = duration;
         this.day = day;
@@ -55,6 +58,14 @@ public class Timing {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getStartTime() {

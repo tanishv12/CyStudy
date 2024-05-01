@@ -133,7 +133,7 @@ public class UserController {
             }
             dbUser.setIfActive(true);
             userRepository.save(dbUser);
-            return ResponseEntity.ok("ADMIN: Login successful");
+            return ResponseEntity.ok("ADMIN:                                        Login successful");
 
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found");
