@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -157,9 +158,17 @@ public class LoginActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-//                        signupRedirectText.setText(error.toString());
-                        Log.e("error: ", String.valueOf(error));
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            try {
+                                String errorMessage = new String(error.networkResponse.data, "UTF-8");
+                                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                                Log.e("error: ", errorMessage);
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
         ){

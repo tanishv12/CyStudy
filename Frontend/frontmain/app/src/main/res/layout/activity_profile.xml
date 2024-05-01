@@ -116,9 +116,18 @@
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:text="Log out"
                 android:id="@+id/logout_button"
+                android:textSize="18dp"
+                android:layout_marginTop="10dp"
+                app:cornerRadius="20dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Delete Account"
+                android:id="@+id/delete_account_button"
                 android:textSize="18dp"
                 android:layout_marginTop="10dp"
                 app:cornerRadius="20dp" />

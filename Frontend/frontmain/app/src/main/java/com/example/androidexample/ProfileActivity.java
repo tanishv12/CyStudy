@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -39,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     String nameValue, emailValue, usernameValue, passwordValue, updatedName, updatedPassword;
     //typeCodeTemp used to store the type of value being changed for putRequest
     String typeCodeTemp;
-    Button logout, updateButton;
+    Button logout, updateButton, deleteAccountButton;
 
     /**
      * Creates home page UI
@@ -60,6 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
         password=findViewById(R.id.signup_password_textView);
 
         logout=findViewById(R.id.logout_button);
+        deleteAccountButton = findViewById(R.id.delete_account_button);
 
         getRequest();
 
@@ -96,6 +98,33 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        // Define the resetButtonRunnable
+        Runnable resetButtonRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // Reset the button text back to "Delete Account"
+                deleteAccountButton.setText("Delete Account");
+            }
+        };
+
+        deleteAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (deleteAccountButton.getText().toString().equals("Are you sure?")) {
+                    // Run deleteRequest() if the button text is "Are you sure?"
+                    deleteRequest();
+                    Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Change the button text to "Are you sure?"
+                    deleteAccountButton.setText("Are you sure?");
+
+                    // Post a delayed task to reset the button text after 5 seconds
+                    handler.postDelayed(resetButtonRunnable, 5000);
+                }
+            }
+        });
+
         //Navigation Bar Code Start
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavbar);
         bottomNavigationView.setSelectedItemId(R.id.Profile);
@@ -118,6 +147,12 @@ public class ProfileActivity extends AppCompatActivity {
         //Navigation Bar Code End
 
     }
+
+    // Define a flag to track button state
+    private boolean isDeleteClicked = false;
+
+    // Define a Handler object
+    private Handler handler = new Handler();
     // Method to show the custom dialog
     private void showCustomDialog() {
         // Inflate the custom dialog layout
@@ -439,6 +474,54 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+    private void deleteRequest()
+    {
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/users/delete/";
+        url += usernameValue;
+
+        StringRequest request = new StringRequest(
+                Request.Method.DELETE,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        Log.e("Response Entered",response);
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+                        Toast.makeText(ProfileActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 }
