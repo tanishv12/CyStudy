@@ -26,7 +26,7 @@ public class TimingController {
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
-    @GetMapping(path="/timings/group/{groupName}")
+    @GetMapping(path="/timings/group/{groupName}/end")
     List<Timing> getTimingByGroup(@PathVariable String groupName){
         StudyGroup studyGroup = groupRepository.findStudyGroupByGroupName(groupName);
         if(groupName == null){

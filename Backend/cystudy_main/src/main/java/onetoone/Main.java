@@ -215,6 +215,7 @@ class Main {
             //Timing
             Timing timing = new Timing(date,time,2, day,"Dungeons");
             timing.setGroup(group1);
+            group1.getTimingList().add(timing);
             timingRepository.save(timing);
 
 
@@ -234,6 +235,7 @@ class Main {
 
 // Create ratings
             Rating rating1 = new Rating(user1, group1, 2);
+
 //            Rating rating2 = new Rating(user1, group2, 1.5);
 //            Rating rating3 = new Rating(user2, group1, 2);
 //            Rating rating4 = new Rating(user2, group2, 1.5);
