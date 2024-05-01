@@ -1,5 +1,8 @@
 package com.example.androidexample;
 
+import android.util.Log;
+
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -25,12 +28,15 @@ public class Event
     private String name;
     private LocalDate date;
     private LocalTime time;
+    private int duration; // New field for duration
 
-    public Event(String name, LocalDate date, LocalTime time)
+    public Event(String name, LocalDate date, LocalTime time, int duration)
     {
+        Log.e("date: ", date.toString());
         this.name = name;
         this.date = date;
         this.time = time;
+        this.duration = duration;
     }
 
     public String getName()
@@ -62,4 +68,8 @@ public class Event
     {
         this.time = time;
     }
+
+    public Integer getDuration() {return duration;}
+
+    public void setDuration(int duration) {this.duration = duration;}
 }
