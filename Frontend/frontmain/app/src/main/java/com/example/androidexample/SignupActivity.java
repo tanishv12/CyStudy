@@ -240,6 +240,4 @@ public class SignupActivity extends AppCompatActivity {
             Toast.makeText(SignupActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }
