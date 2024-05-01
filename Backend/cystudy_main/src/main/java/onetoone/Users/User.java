@@ -20,11 +20,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 
+ *
  * @author Rahul Sudev
  * @author Saeshu Karthika
- * 
- */ 
+ *
+ */
 
 @Entity
 @Table(name = "USER")
@@ -227,3 +227,4 @@ public class User {
 
 
 }
+

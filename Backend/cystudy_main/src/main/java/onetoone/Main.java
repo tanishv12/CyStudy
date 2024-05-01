@@ -86,7 +86,7 @@ class Main {
             Course course1 = new Course("Calculus 1", "MATH", 165);
             Course course2 = new Course("Calculus 2","MATH",166);
             Course course3 = new Course("Software Development Practices","COMS",309);
-            Course course4 = new Course("Introduction to Design and Analysis of algorithms","COM S",311);
+            Course course4 = new Course("Introduction to Design and Analysis of algorithms","COMS",311);
             Course course5 = new Course("Principles of Microeconomics","ECON",101);
             Course course6 = new Course("Economics of Discrimination","ECON",321);
             Course course7 = new Course("Intro to music listening","MUSIC",102);
@@ -246,7 +246,7 @@ class Main {
             
 
 //Create ratings
-//            Rating rating1 = new Rating(user1, group1, 2);
+//            Rating rating1 = new Rating(user2, group1, 2);
 //            group1.addRating(rating1);
 //            double avg = (group1.getAvgRating() + 2)/ group1.getRatingList().size();
 //            group1.setAvgRating(avg);

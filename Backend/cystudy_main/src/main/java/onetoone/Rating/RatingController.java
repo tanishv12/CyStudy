@@ -65,7 +65,7 @@ public class RatingController {
         if(studyGroup == null){
             return 0;
         }
-       return studyGroup.getAvgRating();
+        return studyGroup.getAvgRating();
     }
 
 
@@ -180,3 +180,4 @@ public class RatingController {
         return lowRatedGroups;
     }
 }
+

@@ -47,6 +47,7 @@ public class Rating {
         this.user = user;
         this.studyGroup = studyGroup;
         this.rating = rating;
+        user.setHasRated(true);
     }
 
     public Rating() {
@@ -92,6 +93,6 @@ public class Rating {
 
     public void setRating(double rating) {
         this.rating = rating;
-         }
     }
+}
 

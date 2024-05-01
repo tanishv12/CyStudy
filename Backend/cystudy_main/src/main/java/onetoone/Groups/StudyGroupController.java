@@ -83,6 +83,8 @@ public class StudyGroupController {
     String createGroup(@PathVariable String group_name, @PathVariable String username,@PathVariable String courseName,@PathVariable int groupCapacity) {
         Course course = courseRepository.findCourseByCourseName(courseName);
         User user = userRepository.findByUserName(username);
+        System.out.println(username);
+        System.out.println(user);
         if (group_name == null) {
             return failure;
         }
@@ -138,6 +140,9 @@ public class StudyGroupController {
         Course groupCourse = studyGroup.getCourse();
         if(studyGroup == null || user == null)
             return null;
+        if(!(user.getCourseSet().contains(studyGroup.getCourse()))){
+            return "You are not in this course";
+        }
         for(StudyGroup group : groupCourse.getGroupSet()) {
             if (group.getUserSet().contains(user)) {
                 return "Can't join multiple groups of same course";
