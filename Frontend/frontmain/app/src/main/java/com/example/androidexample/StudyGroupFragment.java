@@ -302,6 +302,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
 //                        GroupSingleton.getInstance().setGroupName(groupName);
                         cardsContainer.addView(cardView);
 //                        gresponse.setText(names);
+                        Log.e("name of the user", user != null ? user : "User is null");
                     }
                 }
         );

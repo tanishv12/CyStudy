@@ -198,11 +198,13 @@ public class SignupActivity extends AppCompatActivity {
                             Toast.makeText(SignupActivity.this, stringResponse, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignupActivity.this, NewCourseRegActivity.class);
                             startActivity(intent);
+                            UsernameSingleton.getInstance().setUserName(username);
                         }
                         else{
                             Toast.makeText(SignupActivity.this, stringResponse, Toast.LENGTH_SHORT).show();
                         }
                         Log.e("response: ", response.toString());
+
                         // Registration successful, handle the response
                     }
                 },
@@ -223,6 +225,7 @@ public class SignupActivity extends AppCompatActivity {
         // Handle the server response when registration is successful
         Intent intent = new Intent(SignupActivity.this, NewCourseRegActivity.class);
         startActivity(intent);
+UsernameSingleton.getInstance().setUserName(signupUsername.getText().toString().trim());
     }
 
     private void handleError(VolleyError error) {

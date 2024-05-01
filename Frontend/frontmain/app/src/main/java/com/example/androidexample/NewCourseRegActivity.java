@@ -135,6 +135,7 @@ public class NewCourseRegActivity extends AppCompatActivity{
                             // Get the courseId from the tag
                             Integer courseId = (Integer) cardView.getTag(R.id.course_id_tag);
                             // Call postRequest with the courseId
+                            Log.e("name of the user", user != null ? user : "User is null");
                             postRequest(user, courseId);
                         }
                     }
