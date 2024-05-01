@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/olive"
     tools:context=".WeekViewActivity">
 
     <LinearLayout
@@ -19,8 +20,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="back"
-            android:textColor="#0000FF"
+            android:text="Back"
+            android:textColor="#FFFFFF"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="previousWeekAction"
@@ -40,8 +41,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="forw"
-            android:textColor="#0000FF"
+            android:text="Next"
+            android:textColor="#FFFFFF"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="nextWeekAction"
@@ -131,7 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Event"
-        android:textColor="#0000FF"
+        android:textColor="#FFFFFF"
         android:background="@null"
         android:textStyle="bold"
         android:onClick="newEventAction"

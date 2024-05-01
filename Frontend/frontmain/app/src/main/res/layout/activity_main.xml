@@ -15,6 +15,18 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp">
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="back"
+            android:textColor="#FFFFFF"
+            android:background="@null"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:onClick="previousWeekAction"
+            android:textSize="20sp"/>
+
         <TextView
             android:id="@+id/monthYearTV"
             android:layout_width="0dp"
@@ -24,6 +36,18 @@
             android:textSize="20sp"
             android:textAlignment="center"
             android:textColor="@color/black"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="next"
+            android:textColor="#FFFFFF"
+            android:background="@null"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:onClick="nextWeekAction"
+            android:textSize="20sp"/>
 
     </LinearLayout>
 
@@ -101,12 +125,29 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="60dp">
     </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Event"
+        android:textColor="#FFFFFF"
+        android:background="@null"
+        android:textStyle="bold"
+        android:onClick="newEventAction"
+        android:layout_gravity="center"
+        android:textSize="20sp"/>
+
+    <ListView
+        android:id="@+id/eventListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomnavbar"
             android:layout_width="368dp"
@@ -123,8 +164,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintTop_toTopOf="parent">
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>
