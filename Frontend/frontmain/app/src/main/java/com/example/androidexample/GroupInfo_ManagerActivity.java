@@ -27,6 +27,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -57,8 +58,15 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
     private Button editGroupBtn;
 
     private String user;
+
+    private String username;
     private String users;
+    private String newGroupName;
+    private EditText enterEditGroup;
     private TextView GroupHeadingName;
+
+    private String GroupMaster;
+    private Button saveBtn;
 
     private Button meetingInformation;
 
@@ -82,6 +90,33 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
     private Button updateButton;
 
     private int hours,minutes;
+
+    private void editGroupNameDialog(Context c)
+    {
+        LayoutInflater inflater = LayoutInflater.from(c);
+        View dialogView = inflater.inflate(R.layout.activity_edit_groupname, null);
+        AlertDialog dialog = new AlertDialog.Builder(c)
+                .setTitle("Edit Group Name")
+                .setView(dialogView)
+                .setNegativeButton("Cancel", null)
+                .create();
+
+        enterEditGroup = dialogView.findViewById(R.id.changeGrpName);
+//        enterEditGroup.setText(groupNameSet);
+        saveBtn = dialogView.findViewById(R.id.buttonSave);
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                newGroupName = String.valueOf(enterEditGroup.getText());
+                putRequest();
+                GroupHeadingName.setText(newGroupName);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
 
 
@@ -114,7 +149,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                dialog.dismiss();
+                editGroupNameDialog(GroupInfo_ManagerActivity.this);
             }
         });
 
@@ -219,6 +254,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         GroupHeadingName = findViewById(R.id.GroupHeadInfo);
         backToGrpChat = findViewById(R.id.imageBackToGroup);
         optionsGrpBtn = findViewById(R.id.options);
+        GroupMaster = GroupMasterSingleton.getInstance().getGroupMaster();
 
         userContainer = findViewById(R.id.usersHolder);
 
@@ -236,8 +272,6 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
             }
         });
 
-
-
         GroupHeadingName.setText(groupNameSet);
         optionsGrpBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -248,9 +282,6 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 
     private void deleteGroupRequest()
     {
@@ -296,6 +327,55 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
+    private void removeUserRequest()
+    {
+        String groupLeave = groupNameSet;
+        String USER = UsernameSingleton.getInstance().getUser();
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/delete/" + groupLeave + "/" + USER;
+        StringRequest request = new StringRequest(
+                Request.Method.DELETE,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+
+
+
+
     private void getRequest()
     {
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all/users/" + groupNameSet;
@@ -316,6 +396,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
                             {
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                                 user = jsonObj.getString("name");
+                                username = jsonObj.getString("userName");
                                 Log.e("user","user name"+user);
 //                                  users.add(user);
 
@@ -325,7 +406,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
 //                                    members.setText(users);
 //                                GroupSingleton.getInstance().setGroupName(name);
 
-                                CardView cardView = createCard(user);
+                                CardView cardView = createCard(user, username);
 ////                                GroupSingleton.getInstance().setGroupName(groupName);
                                 userContainer.addView(cardView);
                             }
@@ -365,7 +446,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-    private CardView createCard(String nameOfUser) {
+    private CardView createCard(String nameOfUser, String username) {
         // Create a new CardView and set up its layout parameters
 //        String groupRate = users;
 //        Log.e("users", "user name: " + users);
@@ -403,12 +484,39 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 1f
         ));
+
+
         userNameView.setText(nameOfUser);
         userNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        userNameView.setGravity(Gravity.CENTER_VERTICAL);
-
+        userNameView.setGravity(Gravity.LEFT);
+//        userNameView.setGravity(Gravity.CENTER);
         cardContentLayout.addView(userNameView);
         cardView.addView(cardContentLayout);
+
+        if(!username.equals(GroupMaster))
+        {
+            Button removeButton = new Button(this);
+            LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            buttonLayoutParams.gravity = Gravity.END;
+            removeButton.setLayoutParams(buttonLayoutParams);
+            removeButton.setText("Remove");
+            cardContentLayout.addView(removeButton);
+
+            removeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+                    UsernameSingleton.getInstance().setUser(username);
+                    removeUserRequest();
+                    Intent intent = new Intent(GroupInfo_ManagerActivity.this, GroupInfo_ManagerActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
 
 
 //        cardView.setOnClickListener(new View.OnClickListener() {
@@ -435,6 +543,54 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
 //        });
 
         return cardView;
+    }
+
+    private void putRequest()
+    {
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/update/" + groupNameSet + "/" + newGroupName;
+        StringRequest request = new StringRequest(
+                Request.Method.PUT,
+                url,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response)
+                    {
+
+                        Log.e("Response Entered",response.toString());
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
     private int convertDpToPixels(float dp, Context context)
