@@ -24,18 +24,26 @@
 <!--        app:layout_constraintTop_toTopOf="parent"-->
 <!--        app:tint="@color/red"></androidx.appcompat.widget.AppCompatImageView>-->
 
+    <ScrollView
+        android:layout_width="361dp"
+        android:layout_height="389dp"
+        app:layout_constraintBottom_toBottomOf="@+id/getresponse"
+        app:layout_constraintEnd_toEndOf="@+id/getresponse"
+        app:layout_constraintStart_toStartOf="@+id/getresponse"
+        app:layout_constraintTop_toTopOf="@+id/getresponse">
 
-    <LinearLayout
-        android:id="@+id/linearLayoutGroups"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/studyHead"
-        app:layout_constraintBottom_toTopOf="@id/bottomnavbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <!-- Cards will be added programmatically here -->
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayoutGroups"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/bottomnavbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/studyHead">
+            <!-- Cards will be added programmatically here -->
+        </LinearLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/studyHead"

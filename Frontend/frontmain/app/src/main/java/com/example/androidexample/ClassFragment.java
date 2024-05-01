@@ -3,6 +3,7 @@ package com.example.androidexample;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -104,6 +105,7 @@ public class ClassFragment extends AppCompatActivity {
 //        groupNameView.setTextColor(Color.parseColor("#FFFFFF"));
         groupNameView.setGravity(Gravity.CENTER);
         groupNameView.setText(courseName);
+        groupNameView.setTypeface(null, Typeface.BOLD);
         Log.e("courseNameeee","coursenamee "+courseName);
         groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 

@@ -37,6 +37,7 @@ public class AddStudyGrp extends AppCompatActivity {
     private String gName;
 
     private String user;
+    private String postResponse;
 
     private String courseName;
 
@@ -96,10 +97,15 @@ public class AddStudyGrp extends AppCompatActivity {
                 {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("groupName", gName);//Essentially should be what the user gives
-                    setResult(Activity.RESULT_OK, returnIntent);
+
                     Log.e("groupName", "group: " + gName);
                     postRequest();
-                    finish();
+                    try {
+                        Toast.makeText(AddStudyGrp.this, postResponse, Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Log.e("ToastError", "Error showing toast", e);
+                    }
+//                    finish();
                 }
             }
         });
@@ -148,8 +154,20 @@ public class AddStudyGrp extends AppCompatActivity {
                     @Override
                     public void onResponse(String response)
                     {
-                        Log.e("Response Entered",response.toString());
-
+                        if (response != null)
+                        {
+                            Toast.makeText(AddStudyGrp.this, response, Toast.LENGTH_SHORT).show();
+                            if(response.equals("Group created successfully!"))
+                            {
+                                Intent returnIntent = new Intent();
+                                returnIntent.putExtra("groupName", gName);//Essentially should be what the user gives
+                                setResult(Activity.RESULT_OK, returnIntent);
+                                finish();
+                            }
+                        }
+                        else {
+                            Toast.makeText(AddStudyGrp.this, "Response is empty", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 },
                 new Response.ErrorListener()

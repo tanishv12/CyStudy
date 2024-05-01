@@ -561,7 +561,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
         ));
         groupNameView.setText(groupRate);
         groupNameView.setGravity(Gravity.CENTER);
-
+        groupNameView.setTypeface(null, Typeface.BOLD);
         groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
         RatingBar ratingBar = new RatingBar(this);

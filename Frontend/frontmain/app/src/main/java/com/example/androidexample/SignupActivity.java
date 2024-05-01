@@ -183,6 +183,7 @@ public class SignupActivity extends AppCompatActivity {
             postBody = new JSONObject();
             postBody.put("name", name);
             postBody.put("emailId", email);
+            postBody.put("emailId", email);
             postBody.put("userName", username);
             postBody.put("password", password);
             Log.e("body", postBody.toString());

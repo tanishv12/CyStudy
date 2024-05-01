@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -432,7 +433,7 @@ public class GroupInformation extends AppCompatActivity {
         CardView cardView = new CardView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                convertDpToPixels(70, this)
+                convertDpToPixels(50, this)
         );
         layoutParams.setMargins(
                 convertDpToPixels(16, this),
@@ -463,6 +464,7 @@ public class GroupInformation extends AppCompatActivity {
                 1f
         ));
         userNameView.setText(nameOfUser);
+        userNameView.setTypeface(null, Typeface.BOLD);
         userNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         userNameView.setGravity(Gravity.CENTER_VERTICAL);
 
