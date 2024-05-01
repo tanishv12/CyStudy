@@ -58,6 +58,8 @@ class Main {
             User user8 = new User("Shaun","shaun123","shaun@somemail.com","lol");
             User user9 = new User("Jack","jack123","jack@somemail.com","lol");
             User user10 = new User("Ethan","ethan123","ethan@somemail.com","lol");
+            User user11 = new User("monmon","monmon123","mon@somemail.com","lol");
+            User user12 = new User("dhoomi","dom123","dom@somemail.com","dappa");
 
 
 // Save users
@@ -71,6 +73,8 @@ class Main {
             userRepository.save(user8);
             userRepository.save(user9);
             userRepository.save(user10);
+            userRepository.save(user11);
+            userRepository.save(user12);
 
 
 // Create course
@@ -88,12 +92,18 @@ class Main {
 // Add users to the course
             course1.addUser(user1);
             user1.addCourse(course1);
+            course1.addUser(user11);
+            user11.addCourse(course1);
+            course1.addUser(user12);
+            user12.addCourse(course1);
             course2.addUser(user1);
             user1.addCourse(course2);
             course3.addUser(user1);
             user1.addCourse(course3);
 
             userRepository.save(user1);
+            userRepository.save(user11);
+            userRepository.save(user12);
 
 // Save the course
             courseRepository.save(course1);
@@ -112,6 +122,8 @@ class Main {
             //Study groups for course1
             StudyGroup group1 = new StudyGroup("MATH 165 GROUP 1",course1,"john123",5);
             group1.addUser(user1);
+            group1.addUser(user11);
+            group1.addUser(user12);
             StudyGroup group2 = new StudyGroup("MATH 165 GROUP 2",course1,"sam123",5);
             group2.addUser(user2);
             StudyGroup group3 = new StudyGroup("MATH 165 GROUP 3",course1,"rahul123",5);
@@ -219,13 +231,17 @@ class Main {
             
 
 // Create ratings
-            Rating rating1 = new Rating(user1, group1, 2);
+//            Rating rating1 = new Rating(user1, group1, 2);
+//            group1.addRating(rating1);
+//            double avg = (group1.getAvgRating() + 2)/ group1.getRatingList().size();
+//            group1.setAvgRating(avg);
+//            studyGroupRepository.save(group1);
 //            Rating rating2 = new Rating(user1, group2, 1.5);
 //            Rating rating3 = new Rating(user2, group1, 2);
 //            Rating rating4 = new Rating(user2, group2, 1.5);
 //
 //// Save ratings
-            ratingRepository.save(rating1);
+//            ratingRepository.save(rating1);
 //            ratingRepository.save(rating2);
 //            ratingRepository.save(rating3);
 //            ratingRepository.save(rating4);

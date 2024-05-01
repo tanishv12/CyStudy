@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,9 +58,10 @@ public class RatingController {
         }
     }
 
-    @GetMapping(path = "/rating/average/{groupname}")
-    double averageRatingByGroup(String groupname){
+    @GetMapping(path = "/rating/average/{groupname}/end")
+    double averageRatingByGroup(@PathVariable String groupname){
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        System.out.println(groupname);
         if(studyGroup == null){
             return 0;
         }
@@ -71,6 +73,7 @@ public class RatingController {
     String updateRating(@PathVariable String groupname,@PathVariable String username, @PathVariable double new_rating) {
         StudyGroup group = studyGroupRepository.findStudyGroupByGroupName(groupname);
         User user = userRepository.findByUserName(username);
+        DecimalFormat df = new DecimalFormat("#.##");
         ;
         Rating rating = null;
         for (Rating r : group.getRatingList()) {
@@ -81,8 +84,19 @@ public class RatingController {
                 }
             }
         }
+        if(rating == null){
+            return failure;
+        }
         rating.setRating(new_rating);
         ratingRepository.save(rating);
+        double sum = 0;
+        for (Rating rating2 : group.getRatingList()) {
+            sum = sum + rating2.getRating();
+        }
+        double avg = sum / group.getRatingList().size();
+
+        group.setAvgRating(Double.parseDouble(df.format(avg)));
+        studyGroupRepository.save(group);
         return success;
     }
 
@@ -110,6 +124,7 @@ public class RatingController {
 
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
         User user = userRepository.findByUserName(username);
+        DecimalFormat df = new DecimalFormat("#.##");
         if(studyGroup.getUserSet().contains(user)) {
             for (Rating r : studyGroup.getRatingList()) {
                 if (user.equals(r.getUser())) {
@@ -129,13 +144,13 @@ public class RatingController {
         user.addRating(rating1);
         ratingRepository.save(rating1);
         userRepository.save(user);
-        studyGroupRepository.save(studyGroup);
+//        studyGroupRepository.save(studyGroup);
         double sum = 0;
         for (Rating rating2 : studyGroup.getRatingList()) {
             sum = sum + rating2.getRating();
         }
         double avg = sum / studyGroup.getRatingList().size();
-        studyGroup.setAvgRating(avg);
+        studyGroup.setAvgRating(Double.parseDouble(df.format(avg)));
         studyGroupRepository.save(studyGroup);
         return success;
 
