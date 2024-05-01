@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -38,7 +39,9 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,18 +68,18 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
     private EditText enterEditGroup;
     private TextView GroupHeadingName;
 
+    private String location;
+
     private String GroupMaster;
     private Button saveBtn;
 
     private Button meetingInformation;
 
+
+
     private Button leaveGroupBtn;
     private Button doneButton;
 
-    private static final String[] Days = new String[]
-            {
-                    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
-            };
 
     private static final String[] Duration = new String[]
             {
@@ -84,12 +87,202 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
             };
 
 
-    private AutoCompleteTextView enterDay;
+    private EditText enterDate;
     private EditText enterTime;
     private AutoCompleteTextView enterDuration;
     private Button updateButton;
 
+    private int durationTime;
+
+
+    private LocalTime time;
+    private LocalDate selectedDate;
+
+    private EditText SetLocation;
+
     private int hours,minutes;
+
+
+    private void showDatePicker() {
+        // Get current date
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Create and show DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                (view, year1, monthOfYear, dayOfMonth) -> {
+                    // Create LocalDate from the selected date
+                    selectedDate = LocalDate.of(year1, monthOfYear + 1, dayOfMonth);
+                    // Optionally, format LocalDate to display it
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String formattedDate = selectedDate.format(formatter);
+
+                    // Set the formatted date to TextView
+                    enterDate.setText(formattedDate);
+                }, year, month, day);
+
+        datePickerDialog.show();
+    }
+
+    private void meetinginformation(Context c)
+    {
+        LayoutInflater inflater = LayoutInflater.from(c);
+        View dialogView2 = inflater.inflate(R.layout.activity_calender_info, null);
+        AlertDialog dialog = new AlertDialog.Builder(c)
+                .setTitle("Set Calender Meeting")
+                .setView(dialogView2)
+                .setNegativeButton("Cancel", null)
+                .create();
+
+        enterDate = dialogView2.findViewById(R.id.setDay);
+        enterTime = dialogView2.findViewById(R.id.setTime);
+        enterDuration = dialogView2.findViewById(R.id.setDuration);
+        SetLocation = dialogView2.findViewById(R.id.setLocation);
+
+        Log.e("duration time","time int"+durationTime);
+
+
+        updateButton = dialogView2.findViewById(R.id.buttonUpdate);
+//        updateGrpName.setText(groupname);
+
+
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_dropdown_item_1line, Days);
+//        AutoCompleteTextView textView = (AutoCompleteTextView)
+//                enterDay;
+//        textView.setAdapter(adapter);
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, Duration);
+        AutoCompleteTextView textView2 = (AutoCompleteTextView)
+                enterDuration;
+        textView2.setAdapter(adapter2);
+
+
+        enterDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                showDatePicker();
+            }
+        });
+
+
+
+        enterTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        GroupInfo_ManagerActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                hours = hourOfDay;
+                                minutes = minute;
+
+                                time = LocalTime.of(hours,minutes);
+                                Log.e("time","local time"+ time);
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                                String formattedTime = time.format(formatter);
+//                                Log.e("time","local time"+ formattedTime);
+                                enterTime.setText(formattedTime);
+                            }
+                        }, 12, 0, false
+                );
+                timePickerDialog.updateTime(hours, minutes);
+                timePickerDialog.show();
+            }
+        });
+
+
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                location = SetLocation.getText().toString();
+                String dur = enterDuration.getText().toString();
+                String dura = dur.replace(" hour", "");
+                durationTime = Integer.parseInt(dura);
+                postMeetingTimes();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void postMeetingTimes()
+    {
+        String base_url = "http://coms-309-016.class.las.iastate.edu:8080/timings/post/" + groupNameSet + "/end";
+        String url = base_url.replace(" ", "%20");
+        JSONObject postBody = null;
+        try
+        {
+            Log.e("duration","timeeee "+durationTime);
+            // etRequest should contain a JSON object string as your POST body
+            // similar to what you would have in POSTMAN-body field
+            // and the fields should match with the object structure of @RequestBody on sb
+            postBody = new JSONObject();
+            postBody.put("date", selectedDate);
+            postBody.put("startTime", time);
+            postBody.put("duration", durationTime);
+            postBody.put("day", selectedDate.getDayOfWeek());
+            postBody.put("location", location);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                postBody,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        Log.e("Response Entered",response.toString());
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("Error Response", error.toString());
+//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
+    }
+
+
+
 
     private void editGroupNameDialog(Context c)
     {
@@ -173,77 +366,6 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void meetinginformation(Context c)
-    {
-        LayoutInflater inflater = LayoutInflater.from(c);
-        View dialogView2 = inflater.inflate(R.layout.activity_calender_info, null);
-        AlertDialog dialog = new AlertDialog.Builder(c)
-                .setTitle("Set Calender Meeting")
-                .setView(dialogView2)
-                .setNegativeButton("Cancel", null)
-                .create();
-
-        enterDay = dialogView2.findViewById(R.id.setDay);
-        enterTime = dialogView2.findViewById(R.id.setTime);
-        enterDuration = dialogView2.findViewById(R.id.setDuration);
-        updateButton = dialogView2.findViewById(R.id.buttonUpdate);
-//        updateGrpName.setText(groupname);
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, Days);
-        AutoCompleteTextView textView = (AutoCompleteTextView)
-                enterDay;
-        textView.setAdapter(adapter);
-
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, Duration);
-        AutoCompleteTextView textView2 = (AutoCompleteTextView)
-                enterDuration;
-        textView2.setAdapter(adapter2);
-
-
-
-
-
-        enterTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        GroupInfo_ManagerActivity.this,
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                hours = hourOfDay;
-                                minutes = minute;
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.set(0,0,0,hours,minutes);
-
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa");
-                                String formattedTime = simpleDateFormat.format(calendar.getTime());
-                                Log.e("time","local time"+ formattedTime);
-                                enterTime.setText(formattedTime);
-                            }
-                        }, 12, 0, false
-                );
-                timePickerDialog.updateTime(hours, minutes);
-                timePickerDialog.show();
-            }
-        });
-
-
-
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -282,7 +404,6 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
             }
         });
     }
-
     private void deleteGroupRequest()
     {
         String groupLeave = groupNameSet;
@@ -397,6 +518,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
                                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                                 user = jsonObj.getString("name");
                                 username = jsonObj.getString("userName");
+                                int groupId = jsonObj.getInt("id");
                                 Log.e("user","user name"+user);
 //                                  users.add(user);
 

@@ -98,7 +98,7 @@ public class ClassFragment extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 1f
         ));
-        groupNameView.setTextColor(Color.parseColor("#FFFFFF"));
+//        groupNameView.setTextColor(Color.parseColor("#FFFFFF"));
         groupNameView.setText(courseName);
         Log.e("courseNameeee","coursenamee "+courseName);
         groupNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
