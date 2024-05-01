@@ -47,7 +47,7 @@ public class AddStudyGrp extends AppCompatActivity {
     private EditText groupText;
     private static final String[] COURSES = new String[]
             {
-                    "COMS 309", "MATH 165", "MATH 166", "PHYS 200", "CHEM 100"
+                    "COMS 309", "MATH 165", "MATH 166", "COMS 311", "ECON 101", "ECON 321", "MUSIC 102", "PHYS 231", "CHEM 177", "BIOL 211"
             };
 
     @Override
