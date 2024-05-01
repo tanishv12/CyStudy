@@ -197,7 +197,7 @@ public class SignupActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                        Intent intent = new Intent(SignupActivity.this, NewCourseRegActivity.class);
                         startActivity(intent);
                     }
                 },

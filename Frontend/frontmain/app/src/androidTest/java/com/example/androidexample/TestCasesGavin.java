@@ -1,5 +1,6 @@
 package com.example.androidexample;
 
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -8,9 +9,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -19,98 +24,74 @@ import static org.junit.Assert.assertTrue;
 public class TestCasesGavin {
 
     @Rule
-    public ActivityScenarioRule<AddStudyGrp> activityScenarioRule = new ActivityScenarioRule<>(AddStudyGrp.class);
+    public ActivityScenarioRule<LoginActivity> activityScenarioRule = new ActivityScenarioRule<>(LoginActivity.class);
 
-
+    /**
+     * This test confirms the login sequence is functional and does not allow
+     * entry given a wrong password. Confirms with given user account. When in the
+     * activity, ensures all toolbar buttons are functional.
+     * @throws InterruptedException
+     */
     @Test
     public void testValidInput() throws InterruptedException {
-        String courseName = "MATH 166";
-        String groupName = "Calculus Crew";
-        String numUsers = "3";
+        String userName = "john123";
+        String wrongPassword = "lol1";
+        String Password= "lol";
 
         // Enter data and click create group
-        enterGroupDetails(courseName, groupName, numUsers);
-        onView(ViewMatchers.withId(R.id.createGroup)).perform(click());
+        enterLoginDetails(userName, wrongPassword);
+        onView(ViewMatchers.withId(R.id.login_button)).perform(click());
 
-//         Verify no errors
-//        verifyNoErrors(courseName, groupName, numUsers);
+        //check if display is still the same
+        onView(ViewMatchers.withId(R.id.signupRedirectText)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testEmptyCourseName() throws InterruptedException {
-        String cName = "";
-        String groupName = "Calculus Crew";
-        String numUsers = "3";
-        Boolean courseNameError = false;
-        Boolean groupNameError = false;
-        Boolean userCountError = false;
+    public void testLogout() throws InterruptedException {
+        String userName = "john123";
+        String password = "lol";
+        enterLoginDetails(userName, password);
 
-        if (cName.isEmpty()) {
-            courseNameError = true;
-        }
+        onView(ViewMatchers.withId(R.id.login_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.Profile)).perform(click());
 
-        if (groupName.isEmpty()) {
-            groupNameError = true;
-        }
+        //Make sure profile screen is displayed
+        onView(ViewMatchers.withId(R.id.profile_image)).check(matches(isDisplayed()));
 
-        if (numUsers.isEmpty()) {
-            userCountError = true;
-        }
+        //Logout
+        onView(ViewMatchers.withId(R.id.logout_button)).perform(click());
 
-        // Assert that course name error is set and others are not
-        assertTrue(courseNameError);
-        assertFalse(groupNameError);
-        assertFalse(userCountError);
-
-
-        enterGroupDetails(cName, groupName, numUsers);
-        onView(ViewMatchers.withId(R.id.createGroup)).perform(click());
+        //Make sure back on login page
+        onView(ViewMatchers.withId(R.id.signupRedirectText)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testEmptyGroupName() throws InterruptedException {
-        String cName = "COM S 127";
-        String groupName = "";
-        String numUsers = "3";
-        Boolean courseNameError = false;
-        Boolean groupNameError = false;
-        Boolean userCountError = false;
-
-        if (cName.isEmpty()) {
-            courseNameError = true;
-        }
-
-        if (groupName.isEmpty()) {
-            groupNameError = true;
-        }
-
-        if (numUsers.isEmpty()) {
-            userCountError = true;
-        }
-
-        // Assert that course name error is set and others are not
-        assertFalse(courseNameError);
-        assertTrue(groupNameError);
-        assertFalse(userCountError);
-
-        enterGroupDetails(cName, groupName, numUsers);
-        onView(ViewMatchers.withId(R.id.createGroup)).perform(click());
+    public void navBarTest() throws InterruptedException {
+        String userName = "john123";
+        String password = "lol";
+        enterLoginDetails(userName, password);
+        Thread.sleep(100);
+        onView(ViewMatchers.withId(R.id.login_button)).perform(click());
+        Thread.sleep(100);
+        onView(ViewMatchers.withId(R.id.Profile)).perform(click());
+        Thread.sleep(100);
+        onView(ViewMatchers.withId(R.id.StudyGroups)).perform(click());
+        Thread.sleep(100);
+        onView(ViewMatchers.withId(R.id.Classes)).perform(click());
+        Thread.sleep(100);
+        onView(ViewMatchers.withId(R.id.Home)).perform(click());
+        Thread.sleep(100);
+        onView(ViewMatchers.withId(R.id.monthYearTV)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void testPostGroup() throws InterruptedException {
-        String courseName = "COM S 227";
-        String groupName = "Computer Science Group";
-        String members = "4";
-
-
-
-        enterGroupDetails(courseName, groupName, members);
-        onView(ViewMatchers.withId(R.id.createGroup)).perform(click());
+    public void userRegistrationTest() throws InterruptedException {
+        String userName = "john123";
+        String password = "lol";
+        enterLoginDetails(userName, password);
+        onView(ViewMatchers.withId(R.id.login_button)).perform(click());
+        onView(ViewMatchers.withId(R.id.StudyGroups)).perform(click());
     }
-
-
-
 
 
 //
@@ -126,15 +107,13 @@ public class TestCasesGavin {
 //        // Verify error message (replace with actual message)
 //        onView(ViewMatchers.withId(R.id.groupName)).check(matches(ViewMatchers.withText("Group Name cannot be empty")));
 //    }
-
-
-
-
-    private void enterGroupDetails(String courseName, String groupName, String numUsers) throws InterruptedException {
-        onView(ViewMatchers.withId(R.id.courseName)).perform(typeText(courseName));
+    private void enterLoginDetails(String username, String password) throws InterruptedException {
+        onView(ViewMatchers.withId(R.id.login_username)).perform(typeText(username));
         Thread.sleep(100);
-        onView(ViewMatchers.withId(R.id.groupName)).perform(typeText(groupName));
-        onView(ViewMatchers.withId(R.id.numberofmembers)).perform(typeText(numUsers));
+        onView(ViewMatchers.withId(R.id.login_password)).perform(typeText(password));
+        Thread.sleep(100);
+        onView(ViewMatchers.withId(R.id.login_password)).perform(ViewActions.closeSoftKeyboard());
+
     }
 
 //    private void verifyNoErrors(String cName, String groupText, String numUsers) throws InterruptedException {
