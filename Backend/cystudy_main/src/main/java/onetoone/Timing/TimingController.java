@@ -26,7 +26,7 @@ public class TimingController {
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
-    @GetMapping(path="/timings/group/{groupName}/end")
+    @GetMapping(path="/timings/group/{groupName}")
     List<Timing> getTimingByGroup(@PathVariable String groupName){
         StudyGroup studyGroup = groupRepository.findStudyGroupByGroupName(groupName);
         if(groupName == null){
@@ -53,7 +53,7 @@ public class TimingController {
 
 //    @PostMapping(path="/timings/post")
 //    String add
-    @PostMapping(path="/timings/post/{groupName}")
+    @PostMapping(path="/timings/post/{groupName}/end")
     ResponseEntity<String> addTimingToGroup(@RequestBody Timing timing, @PathVariable String groupName){
         StudyGroup group = groupRepository.findStudyGroupByGroupName(groupName);
         if(group == null){
