@@ -42,6 +42,8 @@ public class User {
     private String emailId;
     private boolean ifActive;
 
+    private boolean isAdmin;
+
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet" )
     @JsonIgnore
     private Set<Course> courseSet;
@@ -60,6 +62,8 @@ public class User {
     private Set<Rating> ratingSet;
 
 
+
+
     // =============================== Constructors ================================== //
 
     public User(String name, String userName, String emailId, String password) {
@@ -68,6 +72,7 @@ public class User {
         this.userName = userName;
         this.emailId = emailId;
         this.ifActive = false;
+        this.isAdmin = false;
         this.courseSet = new HashSet<Course>();
         this.groupSet = new HashSet<StudyGroup>();
         this.messageSet = new HashSet<Message>();
@@ -78,6 +83,14 @@ public class User {
     }
 
     // =============================== Getters and Setters for each field ================================== //
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
 
     public String savePassword(String password){
         return encoder().encode(password);

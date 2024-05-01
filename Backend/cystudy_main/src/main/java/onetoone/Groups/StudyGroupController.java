@@ -91,7 +91,11 @@ public class StudyGroupController {
         }
         for(Course course1 : user.getCourseSet()){
             if(course.getid()==course1.getid()){
-                return "Cannot join multiple groups of same course";
+                for(StudyGroup group: course1.getGroupSet()){
+                    if(group.getUserSet().contains(user)){
+                        return "Cannot join multiple groups of same course";
+                    }
+                }
             }
         }
         for (StudyGroup group : studyGroupRepository.findAll()) {

@@ -126,9 +126,15 @@ public class UserController {
             if (!(passwordEncoder.matches(password, dbUser.getPassword()))) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password credentials");
             }
+            if(!dbUser.isAdmin()){
+                dbUser.setIfActive(true);
+                userRepository.save(dbUser);
+                return ResponseEntity.ok("Login successful");
+            }
             dbUser.setIfActive(true);
             userRepository.save(dbUser);
-            return ResponseEntity.ok("Login successful");
+            return ResponseEntity.ok("ADMIN:                                        Login successful");
+
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found");
     }
