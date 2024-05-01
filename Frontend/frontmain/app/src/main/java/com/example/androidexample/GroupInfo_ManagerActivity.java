@@ -141,17 +141,17 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
     private void meetinginformation(Context c)
     {
         LayoutInflater inflater = LayoutInflater.from(c);
-        View dialogView = inflater.inflate(R.layout.activity_calender_info, null);
+        View dialogView2 = inflater.inflate(R.layout.activity_calender_info, null);
         AlertDialog dialog = new AlertDialog.Builder(c)
                 .setTitle("Set Calender Meeting")
-                .setView(dialogView)
+                .setView(dialogView2)
                 .setNegativeButton("Cancel", null)
                 .create();
 
-        enterDay = dialogView.findViewById(R.id.setDay);
-        enterTime = dialogView.findViewById(R.id.setTime);
-        enterDuration = dialogView.findViewById(R.id.setDuration);
-        updateButton = dialogView.findViewById(R.id.buttonUpdate);
+        enterDay = dialogView2.findViewById(R.id.setDay);
+        enterTime = dialogView2.findViewById(R.id.setTime);
+        enterDuration = dialogView2.findViewById(R.id.setDuration);
+        updateButton = dialogView2.findViewById(R.id.buttonUpdate);
 //        updateGrpName.setText(groupname);
 
 
