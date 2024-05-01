@@ -246,7 +246,7 @@ class Main {
             
 
 //Create ratings
-//            Rating rating1 = new Rating(user1, group1, 2);
+            Rating rating1 = new Rating(user2, group1, 5);
 //            group1.addRating(rating1);
 //            double avg = (group1.getAvgRating() + 2)/ group1.getRatingList().size();
 //            group1.setAvgRating(avg);

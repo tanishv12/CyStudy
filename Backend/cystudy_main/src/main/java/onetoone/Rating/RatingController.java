@@ -125,36 +125,44 @@ public class RatingController {
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
         User user = userRepository.findByUserName(username);
         DecimalFormat df = new DecimalFormat("#.##");
-        if(studyGroup.getUserSet().contains(user)) {
-            for (Rating r : studyGroup.getRatingList()) {
-                if (user.equals(r.getUser())) {
-                    return "You have already rated group";
-                }
-            }
-        }
-        else {
-            return failure;
-        }
+//        if(studyGroup.getUserSet().contains(user)) {
+//            for (Rating r : studyGroup.getRatingList()) {
+//                if (user.equals(r.getUser())) {
+//                    return "You have already rated group";
+//                }
+//            }
+//        }
+//        else {
+//            return failure;
+//        }
         if(user.getUserName().equals(studyGroup.getGroupMaster())){
             return"Group Master cannot rate group";
         }
 
-        Rating rating1 = new Rating(user, studyGroup, rating);
-        studyGroup.addRating(rating1);
-        user.addRating(rating1);
-        ratingRepository.save(rating1);
-        userRepository.save(user);
-//        studyGroupRepository.save(studyGroup);
-        double sum = 0;
-        for (Rating rating2 : studyGroup.getRatingList()) {
-            sum = sum + rating2.getRating();
+        if(user.isHasRated()){
+            updateRating(groupname,username,rating);
+            return "Updated Rating!";
         }
-        double avg = sum / studyGroup.getRatingList().size();
-        studyGroup.setAvgRating(Double.parseDouble(df.format(avg)));
-        studyGroupRepository.save(studyGroup);
-        return success;
+        else {
 
+            Rating rating1 = new Rating(user, studyGroup, rating);
+            studyGroup.addRating(rating1);
+            user.addRating(rating1);
+            user.setHasRated(true);
+            ratingRepository.save(rating1);
+            userRepository.save(user);
+//        studyGroupRepository.save(studyGroup);
+            double sum = 0;
+            for (Rating rating2 : studyGroup.getRatingList()) {
+                sum = sum + rating2.getRating();
+            }
+            double avg = sum / studyGroup.getRatingList().size();
+            studyGroup.setAvgRating(Double.parseDouble(df.format(avg)));
+            studyGroupRepository.save(studyGroup);
+            return "Group Rated!";
+        }
     }
+
 
     @GetMapping("/rating/lowestRatedGroups")
     public List<StudyGroup> getLowestRatedGroups() {

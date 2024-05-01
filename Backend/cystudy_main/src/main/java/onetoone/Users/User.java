@@ -20,11 +20,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 
+ *
  * @author Rahul Sudev
  * @author Saeshu Karthika
- * 
- */ 
+ *
+ */
 
 @Entity
 @Table(name = "USER")
@@ -35,6 +35,8 @@ public class User {
     private long id;
     private String name;
     private String password;
+
+    private boolean hasRated;
 
     @Column(unique = true)
     private String userName;
@@ -63,8 +65,7 @@ public class User {
 
 
 
-
-    // =============================== Constructors ================================== //
+// =============================== Constructors ================================== //
 
     public User(String name, String userName, String emailId, String password) {
         this.name = name;
@@ -77,6 +78,7 @@ public class User {
         this.groupSet = new HashSet<StudyGroup>();
         this.messageSet = new HashSet<Message>();
         this.ratingSet = new HashSet<Rating>();
+        hasRated = false;
     }
 
     public User() {
@@ -207,6 +209,14 @@ public class User {
 
     public void addGroup(StudyGroup group){groupSet.add(group);}
     public void removeGroup(StudyGroup group){groupSet.remove(group);
+    }
+
+    public boolean isHasRated() {
+        return hasRated;
+    }
+
+    public void setHasRated(boolean hasRated) {
+        this.hasRated = hasRated;
     }
 
     @Bean

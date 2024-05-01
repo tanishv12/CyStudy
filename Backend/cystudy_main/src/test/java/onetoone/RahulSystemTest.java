@@ -2,6 +2,7 @@ package onetoone;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import onetoone.Rating.Rating;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -106,6 +107,79 @@ public class RahulSystemTest {
             e.printStackTrace();
         }
     }
+
+    //
+    @Test
+    public void avgRatingTest() {
+        // Send request and receive response
+        Response response = RestAssured.given().
+                header("Content-Type", "text/plain").
+                header("charset", "utf-8").
+                body("").
+                when().
+                get("rating/average/MATH 165 GROUP 1/end");
+
+
+        // Check status code
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+
+        // Check response body for correct response
+        String returnString = response.getBody().asString();
+        try {
+            JSONArray returnArr = new JSONArray(returnString);
+            JSONObject returnObj = returnArr.getJSONObject(returnArr.length() - 1);
+            assertEquals(0, returnObj.get("data"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void updateRatingTest() {
+        // Send request and receive response
+        Response response = RestAssured.given().
+                header("Content-Type", "text/plain").
+                header("charset", "utf-8").
+                body("").
+                when().
+                post("/rating/post/MATH 165 GROUP 1/sam123/4");
+
+
+        // Check status code
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+
+        // Check response body for correct response
+        String returnString = response.getBody().asString();
+        try {
+            JSONArray returnArr = new JSONArray(returnString);
+            JSONObject returnObj = returnArr.getJSONObject(returnArr.length() - 1);
+            assertEquals("Updated Rating!", returnObj.get("data"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+//    @Test
+//    public void userGroupRatingTest() {
+//        // Send request and receive response
+//        Response response = RestAssured.given().
+//                header("Content-Type", "text/plain").
+//                header("charset", "utf-8").
+//                body("").
+//                when().
+//                get("/rating/1/1");
+//
+//
+//        // Check status code
+//        int statusCode = response.getStatusCode();
+//        assertEquals(200, statusCode);
+//
+//        // Check response body for correct response
+//        String returnString = response.getBody().asString();
+//        assertEquals("User is not in group", returnString );
+//    }
+
     @Test
     public void GroupAddTest() {
         // Send request and receive response
