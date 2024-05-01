@@ -215,16 +215,17 @@ class Main {
             studyGroupRepository.save(group1);
             studyGroupRepository.save(group2);
 
+
             
 
 // Create ratings
-//            Rating rating1 = new Rating(user1, group1, 2);
+            Rating rating1 = new Rating(user1, group1, 2);
 //            Rating rating2 = new Rating(user1, group2, 1.5);
 //            Rating rating3 = new Rating(user2, group1, 2);
 //            Rating rating4 = new Rating(user2, group2, 1.5);
 //
 //// Save ratings
-//            ratingRepository.save(rating1);
+            ratingRepository.save(rating1);
 //            ratingRepository.save(rating2);
 //            ratingRepository.save(rating3);
 //            ratingRepository.save(rating4);

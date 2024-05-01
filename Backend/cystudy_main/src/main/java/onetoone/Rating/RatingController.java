@@ -66,12 +66,23 @@ public class RatingController {
        return studyGroup.getAvgRating();
     }
 
-    @PutMapping(path = "/update/rating/{new_rating}")
-    String updateRating(@RequestBody Rating rating, @PathVariable double new_rating){
-        if(rating == null) {
-            return failure;
+
+    @PutMapping(path = "/updateRating/{groupname}/{username}/{new_rating}")
+    String updateRating(@PathVariable String groupname,@PathVariable String username, @PathVariable double new_rating) {
+        StudyGroup group = studyGroupRepository.findStudyGroupByGroupName(groupname);
+        User user = userRepository.findByUserName(username);
+        ;
+        Rating rating = null;
+        for (Rating r : group.getRatingList()) {
+            for (Rating r2 : user.getRatingSet()) {
+                if (r.equals(r2)) {
+                    rating = r;
+                    break;
+                }
+            }
         }
-            rating.setRating(new_rating);
+        rating.setRating(new_rating);
+        ratingRepository.save(rating);
         return success;
     }
 
