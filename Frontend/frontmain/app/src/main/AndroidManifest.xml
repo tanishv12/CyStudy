@@ -16,22 +16,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Event"
-            android:exported="false" />
-        <activity
             android:name=".EventEditActivity"
             android:exported="false" />
         <activity
-            android:name=".CalendarUtils"
-            android:exported="false" />
-        <activity
             android:name=".WeekViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CalendarViewHolder"
-            android:exported="false" />
-        <activity
-            android:name=".CalendarAdapter"
             android:exported="false" />
         <activity
             android:name=".NewCourseRegActivity"
