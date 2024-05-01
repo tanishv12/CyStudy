@@ -455,6 +455,16 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
             removeButton.setLayoutParams(buttonLayoutParams);
             removeButton.setText("Remove");
             cardContentLayout.addView(removeButton);
+
+            removeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view)
+                {
+
+                }
+            });
+
+
         }
 
 
