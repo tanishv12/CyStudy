@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
@@ -33,7 +34,11 @@ public class AddStudyGrp extends AppCompatActivity {
     private ImageButton increaseUser;
     private ImageButton decreaseUser;
 
+    private String gName;
+
     private String user;
+
+    private String courseName;
 
     private AutoCompleteTextView cName;
     private Button createGrp;
@@ -70,8 +75,8 @@ public class AddStudyGrp extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                String courseName = cName.getText().toString();
-                String gName = groupText.getText().toString();
+                courseName = cName.getText().toString();
+                gName = groupText.getText().toString();
                 String userCount = numUsers.getText().toString();
                 if (courseName.isEmpty())
                 {
@@ -132,36 +137,14 @@ public class AddStudyGrp extends AppCompatActivity {
     }
     private void postRequest()
     {
-        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/post";
-        // Convert input to JSONObject
-        JSONObject postBody = null;
-
-        try
-        {
-            Log.e("Try Entered","oisafuhgiureshg");
-            // etRequest should contain a JSON object string as your POST body
-            // similar to what you would have in POSTMAN-body field
-            // and the fields should match with the object structure of @RequestBody on sb
-            postBody = new JSONObject();
-            Log.e("JSON Created","Json was created bla bla");
-            postBody.put("studyGroup", groupText.getText().toString());
-            url += "/" + groupText.getText().toString() +  "/" + user;
-////                    + "/" + loginPassword.getText().toString();
-        }
-        catch (Exception e)
-        {
-            Log.e("Catch Entered","wkerufhieuwhf");
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest request = new JsonObjectRequest(
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/post/" + gName + "/" + user + "/" + courseName + "/" + count;
+        StringRequest request = new StringRequest(
                 Request.Method.POST,
                 url,
-                postBody,
-                new Response.Listener<JSONObject>()
+                new Response.Listener<String>()
                 {
                     @Override
-                    public void onResponse(JSONObject response)
+                    public void onResponse(String response)
                     {
                         Log.e("Response Entered",response.toString());
 
@@ -173,7 +156,6 @@ public class AddStudyGrp extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error)
                     {
                         Log.e("Error Response", error.toString());
-//                        Toast.makeText(StudyGroupFragment.this, error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -194,7 +176,6 @@ public class AddStudyGrp extends AppCompatActivity {
                 return params;
             }
         };
-
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
