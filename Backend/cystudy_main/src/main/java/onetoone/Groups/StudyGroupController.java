@@ -137,22 +137,33 @@ public class StudyGroupController {
     String addUserToGroup(@PathVariable String groupname,@PathVariable String username){
         StudyGroup studyGroup = studyGroupRepository.findStudyGroupByGroupName(groupname);
         User user = userRepository.findByUserName(username);
+        Course course = studyGroup.getCourse();
         Course groupCourse = studyGroup.getCourse();
         if(studyGroup == null || user == null)
             return null;
         if(!(user.getCourseSet().contains(studyGroup.getCourse()))){
             return "You are not in this course";
         }
-        for(StudyGroup group : groupCourse.getGroupSet()) {
-            if (group.getUserSet().contains(user)) {
-                return "Can't join multiple groups of same course";
+//        for(StudyGroup group : groupCourse.getGroupSet()) {
+//            if (group.getUserSet().contains(user)) {
+//                return "Can't join multiple groups of same course";
+//            }
+//        }
+        for(Course course1 : user.getCourseSet()){
+            if(course.getid()==course1.getid()){
+                for(StudyGroup group: course1.getGroupSet()){
+                    if(group.getUserSet().contains(user)){
+                        return "Cannot join multiple groups of same course";
+                    }
+                }
             }
         }
+
         studyGroup.addUser(user);
         user.addStudyGroup(studyGroup);
         studyGroupRepository.save(studyGroup);
         userRepository.save(user);
-        return "successful!";
+        return "Successfuly joined group!";
     }
 
     @DeleteMapping(path ="/groups/delete/{groupname}/{username}")

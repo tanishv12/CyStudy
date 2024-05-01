@@ -233,10 +233,10 @@ class Main {
 
 
 // Add users to study groups
-            group1.addUser(user1);
-            group1.addUser(user2);
-            group2.addUser(user1);
-            group2.addUser(user2);
+//            group1.addUser(user1);
+//            group1.addUser(user2);
+//            group2.addUser(user1);
+//            group2.addUser(user2);
 
 // Save the study groups after adding users
             studyGroupRepository.save(group1);

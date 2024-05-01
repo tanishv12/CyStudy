@@ -98,8 +98,8 @@ public class ChatSocket {
 					//sendMessageToPArticularUser(username, "Welcome to "+groupName+" " + username);
 
 					// broadcast that new user joined
-					String message = "Student:" + username + " has Joined the " + groupName;
-					broadcast(message, groupName);
+//					String message = "Student:" + username + " has Joined the " + groupName;
+//					broadcast(message, groupName);
 
 				}
 			}
@@ -154,7 +154,7 @@ public class ChatSocket {
 		throwable.printStackTrace();
 	}
 
-	
+
 
 
 	private void broadcast(String message, String groupName) {
