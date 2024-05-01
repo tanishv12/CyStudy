@@ -9,6 +9,8 @@ public class UsernameSingleton {
     private static UsernameSingleton instance;
     private String userName;
 
+    private String user;
+
     // Private constructor to prevent instantiation
     private UsernameSingleton() {}
 
@@ -31,4 +33,15 @@ public class UsernameSingleton {
     {
         this.userName = userName;
     }
+
+    public String getUser()
+    {
+        return user;
+    }
+
+    public void setUser(String user)
+    {
+        this.user = user;
+    }
+
 }

@@ -5,6 +5,8 @@ import onetoone.Groups.StudyGroupRepository;
 import onetoone.Messages.Message;
 import onetoone.Rating.Rating;
 import onetoone.Rating.RatingRepository;
+import onetoone.Timing.Timing;
+import onetoone.Timing.TimingRepository;
 import org.antlr.v4.runtime.misc.LogManager;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +20,9 @@ import onetoone.Users.UserRepository;
 import onetoone.Messages.MessageRepository;
 
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,7 +50,7 @@ class Main {
      * As mentioned in User.java just associating the Laptop object with the User will save it into the database because of the CascadeType
      */
     @Bean
-    CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository, RatingRepository ratingRepository) {
+    CommandLineRunner initUser(UserRepository userRepository, CourseRepository courseRepository, MessageRepository messageRepository, StudyGroupRepository studyGroupRepository, RatingRepository ratingRepository, TimingRepository timingRepository) {
         return args -> {
 
             User user1 = new User("John", "john123", "john@osomemail.com", "lol");
@@ -181,6 +186,8 @@ class Main {
 //            StudyGroup group30 = new StudyGroup("BIOL 211 Group3",course10,10);
 
 
+
+
 // Save study groups
             studyGroupRepository.save(group1);
             studyGroupRepository.save(group2);
@@ -214,6 +221,13 @@ class Main {
 //            studyGroupRepository.save(group30);
 //
 
+            LocalDate date = LocalDate.parse("2024-04-30");
+            LocalTime time = LocalTime.parse("19:00:00");
+            DayOfWeek day = date.getDayOfWeek();
+            //Timing
+            Timing timing = new Timing(date,time,2, day,"Dungeons");
+            timing.setGroup(group1);
+            timingRepository.save(timing);
 
 
 

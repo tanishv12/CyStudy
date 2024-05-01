@@ -8,6 +8,7 @@ import org.springframework.cglib.core.Local;
 
 import javax.xml.datatype.Duration;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -19,19 +20,19 @@ public class Timing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String date;
-    private String startTime;
+    private LocalDate date;
+    private LocalTime startTime;
     private int duration;
     private DayOfWeek day;
 
     private String location;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "group_id")
     private StudyGroup studyGroup;
 
-    public Timing(String date, String startTime, int duration, DayOfWeek day, String location) {
-
+    public Timing(LocalDate date, LocalTime startTime, int duration, DayOfWeek day, String location) {
+        this.date = date;
         this.startTime = startTime;
         this.duration = duration;
         this.day = day;
@@ -60,19 +61,19 @@ public class Timing {
         this.id = id;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 

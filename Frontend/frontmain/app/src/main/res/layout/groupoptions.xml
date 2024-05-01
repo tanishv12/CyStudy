@@ -21,6 +21,13 @@
         android:text="Leave Group" />
 
     <Button
+        android:id="@+id/rateGroup"
+        android:layout_gravity="center"
+        android:layout_width="365dp"
+        android:layout_height="wrap_content"
+        android:text="Rate Group" />
+
+    <Button
         android:id="@+id/doneBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

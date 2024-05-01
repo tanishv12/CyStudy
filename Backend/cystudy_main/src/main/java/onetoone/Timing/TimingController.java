@@ -51,6 +51,8 @@ public class TimingController {
 
     }
 
+//    @PostMapping(path="/timings/post")
+//    String add
     @PostMapping(path="/timings/post/{groupName}")
     ResponseEntity<String> addTimingToGroup(@RequestBody Timing timing, @PathVariable String groupName){
         StudyGroup group = groupRepository.findStudyGroupByGroupName(groupName);
