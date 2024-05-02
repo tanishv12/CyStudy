@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -56,6 +57,8 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
 
     private LinearLayout calenderInfo;
 
+    private Boolean groupMaster = false;
+
     private String groupNameSet;
 
     private LinearLayout userContainer;
@@ -69,10 +72,11 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
     private EditText enterEditGroup;
     private TextView GroupHeadingName;
 
+
     private String location;
 
-    private String GroupMaster;
-    private String CreateGroupMaster;
+//    private String GroupMaster;
+//    private String CreateGroupMaster;
     private Button saveBtn;
 
     private Button meetingInformation;
@@ -378,7 +382,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         GroupHeadingName = findViewById(R.id.GroupHeadInfo);
         backToGrpChat = findViewById(R.id.imageBackToGroup);
         optionsGrpBtn = findViewById(R.id.options);
-        GroupMaster = GroupMasterSingleton.getInstance().getGroupMaster();
+//        GroupMaster = GroupMasterSingleton.getInstance().getGroupMaster();
 
         userContainer = findViewById(R.id.usersHolder);
 
@@ -496,6 +500,66 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
     }
 
 
+    private void getGroupMaster(String userNAME)
+    {
+
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groupMasterCheck/" + groupNameSet + "/" + userNAME;
+        url = url.replace(" ", "%20");
+        Log.e("get url","this is the url " + url);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        if(response != null && !response.isEmpty())
+                        {
+                            Log.e("whaat is the response","true of falseeee " + response);
+                            if(("true").equals(response))
+                            {
+                                groupMaster = true;
+                                Log.e("master in true","group master" + groupMaster);
+                            }
+                            else if(("false").equals(response))
+                            {
+                                groupMaster = false;
+                                Log.e("master in false","group master" + groupMaster);
+                            }
+                            else
+                            {
+                                Toast.makeText(GroupInfo_ManagerActivity.this, "Response is empty or null", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.e("error","error response "+ error);
+                    }
+                }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+//        return groupMaster;
+    }
 
 
 
@@ -619,9 +683,9 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         cardContentLayout.addView(userNameView);
         cardView.addView(cardContentLayout);
 
-        CreateGroupMaster = GroupMasterSingleton.getInstance().getCreateGrpMaster();
-        Log.e("Create Group","master " +CreateGroupMaster);
-        if(!username.equals(GroupMaster) && !username.equals(CreateGroupMaster))
+
+
+        if(!groupMaster)
         {
             Button removeButton = new Button(this);
             LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(

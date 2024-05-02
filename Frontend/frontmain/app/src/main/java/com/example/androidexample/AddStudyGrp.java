@@ -78,7 +78,7 @@ public class AddStudyGrp extends AppCompatActivity {
             {
                 courseName = cName.getText().toString();
                 gName = groupText.getText().toString();
-                GroupMasterSingleton.getInstance().setCreateGrpMaster(user);
+//                GroupMasterSingleton.getInstance().setCreateGrpMaster(user);
                 String userCount = numUsers.getText().toString();
                 if (courseName.isEmpty())
                 {

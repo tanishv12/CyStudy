@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,9 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +45,6 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     private static Button DeleteBUTTON;
     private static EditText UPDATEtext;
     private  static Button UPDATEmsgBtn;
-
-    private String groupmaster;
 
     private static TextView GroupHeading;
 
@@ -69,8 +65,6 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 
     private static String GroupName;
 
-    private String CreateGroupMaster;
-
 
 
 
@@ -84,54 +78,36 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
-        groupmaster = GroupMasterSingleton.getInstance().getGroupMaster();
-        CreateGroupMaster = GroupMasterSingleton.getInstance().getCreateGrpMaster();
 //        binding = ActivityChatBinding.inflate(getLayoutInflater());
 
         WebSocketManager.getInstance().setWebSocketListener(MessageActivity.this);
         username = UsernameSingleton.getInstance().getUserName();
+
         GroupName = GroupSingleton.getInstance().getGroupName();
-
-
-        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName + "/" + "end";
-        String encodedPath = serverURL.replace(" ", "%20");
-        Log.e("url", "Server URL: " + encodedPath);
-        WebSocketManager.getInstance().connectWebSocket(encodedPath);
+        Log.e("group", "group: " + GroupName);
 
         GroupHeading = findViewById(R.id.groupHeading);
         GroupHeading.setText(GroupName);
-
+        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName;
+        WebSocketManager.getInstance().connectWebSocket(serverURL);
         getRequest();
 
-
-        backButton = findViewById(R.id.imageBack);
 
 
         GroupHeading.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-
                 WebSocketManager.getInstance().disconnectWebSocket();
-                Log.e("user heading", "user name heading: " + username);
-                Log.e("master", "group master heading: " + groupmaster);
-                if(username.equals(CreateGroupMaster) || username.equals(groupmaster))
-                {
-                    Intent intent = new Intent(MessageActivity.this, GroupInfo_ManagerActivity.class);
-                    startActivity(intent);
-                }
-//                else if()
-//                {
-//                    Intent intent = new Intent(MessageActivity.this, GroupInfo_ManagerActivity.class);
-//                    startActivity(intent);
-//                }
-                else
-                {
-                    Intent intent = new Intent(MessageActivity.this, GroupInformation.class);
-                    startActivity(intent);
-                }
+                getGroupMaster();
             }
         });
+
+
+
+
+        backButton = findViewById(R.id.imageBack);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -369,6 +345,65 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     }
 
 
+    private void getGroupMaster()
+    {
+
+        String url = "http://coms-309-016.class.las.iastate.edu:8080/groupMasterCheck/" + GroupName + "/" + username;
+        url = url.replace(" ", "%20");
+        Log.e("the url","url " + url);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response)
+                    {
+                        if(response.equals("true"))
+                        {
+                            Intent intent = new Intent(MessageActivity.this,GroupInfo_ManagerActivity.class);
+                            startActivity(intent);
+                        }
+                        else if(response.equals("false"))
+                        {
+                            Intent intent = new Intent(MessageActivity.this,GroupInformation.class);
+                            startActivity(intent);
+                        }
+                        else
+                        {
+                            Log.e("error","error response "+response);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+
+                    }
+                }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //                headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
+                //                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                //                params.put("param1", "value1");
+                //                params.put("param2", "value2");
+                return params;
+            }
+        };
+
+        // Adding request to request queue
+        VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+
+
     /**
      * This function works as a DELETE request communicating with the backend to delete
      * messages sent.
@@ -541,6 +576,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 //            AllMessages.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
         });
     }
+
     @Override
     public void onWebSocketError(Exception ex) {
 

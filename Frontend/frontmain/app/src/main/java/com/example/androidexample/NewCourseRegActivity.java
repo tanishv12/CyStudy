@@ -356,7 +356,7 @@ public class NewCourseRegActivity extends AppCompatActivity{
                     public void onResponse(JSONObject response)
                     {
                         Log.e("Response Entered",response.toString());
-                        Toast.makeText(NewCourseRegActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(NewCourseRegActivity.this, "Success!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(NewCourseRegActivity.this, MainActivity.class);
                         startActivity(intent);
 

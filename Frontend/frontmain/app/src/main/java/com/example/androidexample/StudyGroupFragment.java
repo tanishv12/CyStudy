@@ -629,7 +629,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
             {
                 Intent intent = new Intent(StudyGroupFragment.this, MessageActivity.class);
                 GroupSingleton.getInstance().setGroupName(name);
-                GroupMasterSingleton.getInstance().setGroupMaster(GroupMaster);
+//                GroupMasterSingleton.getInstance().setGroupMaster(GroupMaster);
                 startActivity(intent);
             }
         });
