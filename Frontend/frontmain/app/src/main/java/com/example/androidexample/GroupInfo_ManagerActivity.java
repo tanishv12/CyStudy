@@ -81,6 +81,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
 
     private Button meetingInformation;
 
+    private String gm = MessageActivity.groupMaster;
 
 
     private Button leaveGroupBtn;
@@ -381,7 +382,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
         optionsGrpBtn = findViewById(R.id.options);
         GroupHeadingName = findViewById(R.id.GroupHeadInfo);
         backToGrpChat = findViewById(R.id.imageBackToGroup);
-        optionsGrpBtn = findViewById(R.id.options);
+//        optionsGrpBtn = findViewById(R.id.options);
 //        GroupMaster = GroupMasterSingleton.getInstance().getGroupMaster();
 
         userContainer = findViewById(R.id.usersHolder);
@@ -685,7 +686,7 @@ public class GroupInfo_ManagerActivity extends AppCompatActivity {
 
 
 
-        if(!groupMaster)
+        if(!(username.equals(gm)))
         {
             Button removeButton = new Button(this);
             LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(

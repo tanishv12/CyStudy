@@ -65,6 +65,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 
     private static String GroupName;
 
+    public static String groupMaster;
+
 
 
 
@@ -88,7 +90,8 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
 
         GroupHeading = findViewById(R.id.groupHeading);
         GroupHeading.setText(GroupName);
-        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName;
+        serverURL = "ws://coms-309-016.class.las.iastate.edu:8080/chat/" + username + "/" + GroupName+"/end";
+        serverURL = serverURL.replace(" ","%20");
         WebSocketManager.getInstance().connectWebSocket(serverURL);
         getRequest();
 
@@ -360,6 +363,7 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
                         if(response.equals("true"))
                         {
                             Intent intent = new Intent(MessageActivity.this,GroupInfo_ManagerActivity.class);
+                            groupMaster = username;
                             startActivity(intent);
                         }
                         else if(response.equals("false"))
@@ -580,5 +584,9 @@ public class MessageActivity extends AppCompatActivity implements WebSocketListe
     @Override
     public void onWebSocketError(Exception ex) {
 
+    }
+
+    public String getGroupMasterToClass(){
+        return groupMaster;
     }
 }
