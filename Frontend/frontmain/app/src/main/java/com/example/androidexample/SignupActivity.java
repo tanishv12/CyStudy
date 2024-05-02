@@ -180,6 +180,7 @@ public class SignupActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
         // Create a request
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
