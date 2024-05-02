@@ -78,6 +78,7 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 postRequest();
             }
         });
@@ -197,6 +198,7 @@ public class SignupActivity extends AppCompatActivity {
                         if(stringResponse.equals("User created successfully")){
                             Toast.makeText(SignupActivity.this, stringResponse, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SignupActivity.this, NewCourseRegActivity.class);
+                            UsernameSingleton.getInstance().setUserName(username);
                             startActivity(intent);
                         }
                         else{

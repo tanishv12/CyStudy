@@ -95,17 +95,11 @@ public class AddStudyGrp extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("groupName", gName);//Essentially should be what the user gives
-
-                    Log.e("groupName", "group: " + gName);
                     postRequest();
-                    try {
-                        Toast.makeText(AddStudyGrp.this, postResponse, Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        Log.e("ToastError", "Error showing toast", e);
-                    }
-//                    finish();
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("groupName", gName);
+                    Intent intent = new Intent(AddStudyGrp.this,StudyGroupFragment.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -152,21 +146,22 @@ public class AddStudyGrp extends AppCompatActivity {
                 new Response.Listener<String>()
                 {
                     @Override
-                    public void onResponse(String response)
-                    {
-                        if (response != null)
+                    public void onResponse(String response) {
+                        postResponse = response;
+                        if (response != null && !response.isEmpty())
                         {
-                            Toast.makeText(AddStudyGrp.this, response, Toast.LENGTH_SHORT).show();
-                            if(response.equals("Group created successfully!"))
+                            Toast.makeText(AddStudyGrp.this, postResponse, Toast.LENGTH_SHORT).show();
+                            if ("Group created successfully!".equals(response))
                             {
                                 Intent returnIntent = new Intent();
-                                returnIntent.putExtra("groupName", gName);//Essentially should be what the user gives
+                                returnIntent.putExtra("groupName", gName);
                                 setResult(Activity.RESULT_OK, returnIntent);
                                 finish();
                             }
                         }
-                        else {
-                            Toast.makeText(AddStudyGrp.this, "Response is empty", Toast.LENGTH_SHORT).show();
+                        else
+                        {
+                            Toast.makeText(AddStudyGrp.this, "Response is empty or null", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },

@@ -655,6 +655,7 @@ public class StudyGroupFragment extends AppCompatActivity implements WebSocketLi
      */
     private void getRequest()
     {
+        Log.e("user","user name "+user);
         String url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all";
         url = "http://coms-309-016.class.las.iastate.edu:8080/groups/all" + "/" + user;
 
