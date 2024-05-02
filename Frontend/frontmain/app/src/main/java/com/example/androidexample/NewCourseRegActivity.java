@@ -2,10 +2,12 @@ package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -135,6 +137,7 @@ public class NewCourseRegActivity extends AppCompatActivity{
                             // Get the courseId from the tag
                             Integer courseId = (Integer) cardView.getTag(R.id.course_id_tag);
                             // Call postRequest with the courseId
+                            Log.e("name of the user", user != null ? user : "User is null");
                             postRequest(user, courseId);
                         }
                     }
@@ -171,29 +174,34 @@ public class NewCourseRegActivity extends AppCompatActivity{
                 convertDpToPixels(8, this)
         );
         cardView.setLayoutParams(layoutParams);
-
         // Set background color initially
         cardView.setBackgroundColor(getResources().getColor(android.R.color.white)); // or any other color you prefer
+        // Get the drawable resource
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.rounded_background);
+
+        // Set the drawable as the background of the CardView
+        cardView.setBackground(drawable);
 
         // Set OnClickListener
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get the current background color
-                int currentColor = ((ColorDrawable) cardView.getBackground()).getColor();
+                // Get the current selected state of the CardView
+                boolean isSelected = cardView.isSelected();
 
-                // Toggle background color between white and blue
-                if (currentColor == getResources().getColor(android.R.color.white)) {
-                    cardView.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-                    // Set clicked value to true
-                    cardView.setTag(R.id.if_selected_tag, true);
-                } else {
-                    cardView.setBackgroundColor(getResources().getColor(android.R.color.white));
-                    // Set clicked value to false
-                    cardView.setTag(R.id.if_selected_tag, false);
-                }
+                // Toggle the selected state of the CardView
+                cardView.setSelected(!isSelected);
+
+                // Update background color based on selected state
+//                int backgroundColor = isSelected ? getResources().getColor(android.R.color.white)
+//                        : getResources().getColor(android.R.color.holo_blue_light);
+//                cardView.setBackgroundColor(backgroundColor);
+
+                // Set clicked value to the opposite of the previous selected state
+                cardView.setTag(R.id.if_selected_tag, !isSelected);
             }
         });
+
 
         cardView.setCardElevation(convertDpToPixels(4, this));
         cardView.setRadius(convertDpToPixels(4, this));
@@ -213,6 +221,7 @@ public class NewCourseRegActivity extends AppCompatActivity{
         ));
         courseNameView.setText(courseNameCombined);
         courseNameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        courseNameView.setPadding(10,10,10,10);
 
         cardContentLayout.addView(courseNameView);
         cardView.addView(cardContentLayout);
